@@ -1,0 +1,33 @@
+<jsr-stompbox>
+  <div class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        class="tone"
+        label="TONE"
+        [value]="effect.tone$ | async"
+        (valueChanged)="effect.tone = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        class="dist"
+        label="DIST"
+        [value]="effect.distortion$ | async"
+        (valueChanged)="effect.distortion = $event"></jsr-knob>
+      <jsr-knob
+        small
+        class="level"
+        label="LEVEL"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"></jsr-knob>
+    </div>
+
+    <jsr-large-switch
+      class="switch"
+      name="Classic Dist"
+      model="JDS-1"
+      (switch)="effect.toggleBypass()"></jsr-large-switch>
+  </div>
+</jsr-stompbox>

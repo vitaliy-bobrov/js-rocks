@@ -1,0 +1,116 @@
+:host {
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+
+  &[light] {
+    color: white;
+  }
+
+  &[small] {
+    label {
+      font-size: 14px;
+    }
+
+    .knob {
+      height: 3em;
+      width: 3em;
+      left: -1.5em;
+      top: .1em;
+
+      &:after {
+        width: 2em;
+        height: 2em;
+      }
+    }
+  }
+
+  &[dots] {
+    .dot {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+
+      &:before,
+      &:after {
+        content: '';
+        top: 3.2em;
+      }
+
+      &:before {
+        left: -.2em;
+      }
+
+      &:after {
+        right: -.2em;
+      }
+    }
+
+    .dot:before,
+    .dot:after,
+    .center-dot {
+        width: .5em;
+        height: .5em;
+        position: absolute;
+        border-radius: 50%;
+        background-color: var(--stompbox-label);
+      }
+
+    .center-dot {
+      top: -.8em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  label {
+    color: var(--stompbox-label);
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .knob {
+    position: relative;
+    background: #222;
+    height: 3.5em;
+    width: 3.5em;
+    left: -1.75em;
+    top: .125em;
+    margin: 0 auto 8px;
+    transform: translateX(50%);
+    border-radius: 50%;
+    box-shadow: 4px 6px 8px rgba(0, 0, 0, .5);
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+    }
+
+    &:before {
+      width: .125em;
+      height: 50%;
+      transform-origin: bottom;
+      transform: rotate(var(--knob-angle, 0deg));
+      transition: transform .1s linear;
+      top: 0;
+      left: 50%;
+      border-top-left-radius: .125em;
+      border-top-right-radius: .125em;
+      margin-left: -0.06em;
+      background: #fff;
+    }
+
+    &:after {
+      width: 2.5em;
+      height: 2.5em;
+      border-radius: 50%;
+      left: .5em;
+      top: .5em;
+      background: #999;
+      background-image: -webkit-radial-gradient( 50% 0%, 8% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%), -webkit-radial-gradient( 50% 100%, 12% 50%, hsla(0,0%,100%,.6) 0%, hsla(0,0%,100%,0) 100%), -webkit-radial-gradient( 0% 50%, 50% 7%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%), -webkit-radial-gradient( 100% 50%, 50% 5%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%), -webkit-repeating-radial-gradient( 50% 50%, 100% 100%, hsla(0,0%, 0%,0) 0%, hsla(0,0%, 0%,0) 3%, hsla(0,0%, 0%,.1) 3.5%), -webkit-repeating-radial-gradient( 50% 50%, 100% 100%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 6%, hsla(0,0%,100%,.1) 7.5%), -webkit-repeating-radial-gradient( 50% 50%, 100% 100%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 1.2%, hsla(0,0%,100%,.2) 2.2%), -webkit-radial-gradient( 50% 50%, 200% 50%, hsla(0,0%,90%,1) 5%, hsla(0,0%,85%,1) 30%, hsla(0,0%,60%,1) 100%);
+    }
+  }
+}

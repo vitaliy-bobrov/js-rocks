@@ -1,0 +1,67 @@
+import { BehaviorSubject } from 'rxjs';
+
+export abstract class Effect {
+  private activeSub$ = new BehaviorSubject<boolean>(false);
+  private isBypassEnabled = true;
+  protected processor: AudioNode[] = [];
+  input: GainNode;
+  output: GainNode;
+  active$ = this.activeSub$.asObservable();
+
+  static connectInOrder(effects: Effect[]) {
+    for (let i = effects.length - 1; i > 0; --i) {
+      effects[i - 1].connect(effects[i]);
+    }
+  }
+
+  static disconnectInOrder(effects: Effect[]) {
+    for (const effect of effects) {
+      effect.disconnect();
+    }
+  }
+
+  constructor(context: AudioContext) {
+    this.input = context.createGain();
+    this.output = context.createGain();
+    this.activeSub$.next(false);
+  }
+
+  toggleBypass() {
+    this.isBypassEnabled = !this.isBypassEnabled;
+
+    if (this.isBypassEnabled) {
+      if (this.processor.length) {
+        this.processor[this.processor.length - 1].disconnect();
+      }
+
+      this.input.disconnect();
+      this.input.connect(this.output);
+    } else {
+      this.input.disconnect();
+      this.input.connect(this.processor[0]);
+      this.processor[this.processor.length - 1].connect(this.output);
+    }
+
+    this.activeSub$.next(!this.isBypassEnabled);
+  }
+
+  connect(effect: Effect) {
+    this.output.connect(effect.input);
+  }
+
+  disconnect() {
+    this.output.disconnect();
+  }
+
+  dispose() {
+    this.disconnect();
+
+    for (const node of this.processor) {
+      node.disconnect();
+    }
+
+    this.processor = [];
+    this.isBypassEnabled = false;
+    this.activeSub$.complete();
+  }
+}

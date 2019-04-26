@@ -17,6 +17,9 @@
     "lib": [
       "es2018",
       "dom"
-    ]
-  }
+    ],
+    "paths": {
+      "@audio/*": ["src/app/audio/*"],
+    }
+  },
 }

@@ -1,0 +1,45 @@
+<div class="plate">
+  <jsr-knob
+    dots
+    class="master"
+    label="VOLUME"
+    [value]="masterVolume$ | async"
+    (valueChanged)="updateMasterVolume($event)">
+  </jsr-knob>
+
+  <section class="eq">
+    <jsr-knob
+      dots
+      class="bass"
+      label="BASS"
+      [value]="effect.bass$ | async"
+      (valueChanged)="effect.bass = $event">
+    </jsr-knob>
+
+    <jsr-knob
+      dots
+      class="mid"
+      label="MID"
+      [value]="effect.mid$ | async"
+      (valueChanged)="effect.mid = $event">
+    </jsr-knob>
+
+    <jsr-knob
+      dots
+      class="treble"
+      label="TREBLE"
+      [value]="effect.mid$ | async"
+      (valueChanged)="effect.mid = $event">
+    </jsr-knob>
+  </section>
+
+  <div class="switch">
+    <jsr-led [active]="effect.active$ | async"></jsr-led>
+    <button
+      class="switch-button"
+      [class.active]="effect.active$ | async"
+      (click)="effect.toggleBypass()">
+      |
+    </button>
+  </div>
+</div>

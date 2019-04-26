@@ -1,0 +1,19 @@
+:host {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+
+  .line-toggle {
+    margin: 24px;
+  }
+
+  .pedal-board {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 16px 0;
+  }
+
+  .pedal + .pedal {
+    margin-left: 48px;
+  }
+}

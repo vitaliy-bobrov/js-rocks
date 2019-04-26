@@ -1,0 +1,50 @@
+:host {
+  --stompbox-bg: #115990;
+  --stompbox-label: #fbbe21;
+  display: block;
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'switch';
+    grid-template-rows: 1fr 65%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas: '.     label    .'
+                         'level led   gain'
+                         'level .     gain'
+                         'level tone  gain';
+    text-align: center;
+    padding: 0 6px;
+  }
+
+  .led-label {
+    grid-area: label;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 3px 0 0;
+  }
+
+  jsr-led {
+    grid-area: led;
+    justify-self: center;
+  }
+
+  .tone {
+    grid-area: tone;
+  }
+
+  .dist {
+    grid-area: gain;
+  }
+
+  .level {
+    grid-area: level;
+  }
+
+  .switch {
+    grid-area: switch;
+  }
+}

@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+
+:root {
+  --stompbox-bg: #fff;
+  --stompbox-led: #ba2424;
+  --stompbox-label: #000;
+}
+
+html, body {
+  height: 100%;
+  background-color: #303030;
+}
+
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.visually-hidden {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}

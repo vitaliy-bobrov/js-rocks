@@ -1,0 +1,26 @@
+<label>
+  <ng-container *ngIf="labelPosition === 'top'">
+    {{label}}
+  </ng-container>
+
+  <div class="knob">
+    <div class="dot">
+      <div class="center-dot"></div>
+    </div>
+  </div>
+
+  <input
+    #control
+    class="visually-hidden"
+    type="range"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [value]="value"
+    (change)="onValueChange($event)">
+
+  <ng-container *ngIf="labelPosition === 'bottom'">
+    {{label}}
+  </ng-container>
+</label>
+
