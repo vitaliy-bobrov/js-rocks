@@ -3,12 +3,6 @@
     {{label}}
   </ng-container>
 
-  <div class="knob">
-    <div class="dot">
-      <div class="center-dot"></div>
-    </div>
-  </div>
-
   <input
     #control
     class="visually-hidden"
@@ -18,6 +12,13 @@
     [step]="step"
     [value]="value"
     (change)="onValueChange($event)">
+
+  <div class="knob">
+    <div class="knob-focus"></div>
+    <div class="dot">
+      <div class="center-dot"></div>
+    </div>
+  </div>
 
   <ng-container *ngIf="labelPosition === 'bottom'">
     {{label}}

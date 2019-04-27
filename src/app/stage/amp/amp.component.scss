@@ -60,6 +60,7 @@
       color: hsla(0,0%,20%,1);
       font-weight: 700;
       font-size: 20px;
+      position: relative;
       text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
       box-shadow: inset hsla(0,0%,15%, 1) 0 0 0 2px, inset hsla(0,0%,15%, .8) 0 -1px 5px 2px, inset hsla(0,0%,0%, .25) 0 -1px 0 3px, inset hsla(0,0%,100%,.7) 0 2px 1px 3px,hsla(0,0%, 0%,.15) 0 -5px 6px 4px, hsla(0,0%,100%,.5) 0 5px 6px 4px;
       background-image: -webkit-repeating-linear-gradient(top,
@@ -70,6 +71,19 @@
       hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .15) 2.2%),
     linear-gradient(180deg,
       hsl(0, 0%, 78%) 0%, hsl(0, 0%, 90%) 47%, hsl(0, 0%, 78%) 53%, hsl(0, 0%, 70%) 100%);
+
+      &:focus {
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: .5em;
+          box-shadow: 0 0 6px #f44336;
+        }
+      }
     }
   }
 }

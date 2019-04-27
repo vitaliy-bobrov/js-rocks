@@ -21,7 +21,17 @@
     position: relative;
 
     &:focus {
-      outline: 0;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: .5em;
+        z-index: -1;
+        box-shadow: 0 0 6px #f44336;
+      }
     }
   }
 
