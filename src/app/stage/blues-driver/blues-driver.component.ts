@@ -21,7 +21,8 @@ export class BluesDriverComponent implements OnInit, OnDestroy {
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, this.defaults, 'blues');
+    this.effect = new Distortion(this.manager.context, this.defaults, 'blues')
+      .withPreFilter(this.manager.context);
     this.manager.addEffect(this.effect);
   }
 

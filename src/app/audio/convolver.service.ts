@@ -7,11 +7,16 @@ export class ConvolverService {
 
   constructor(private http: HttpClient) {}
 
-  loadIR(context: AudioContext, convolver: ConvolverNode, irFile: string) {
+  loadIR(context: AudioContext, irFile: string): ConvolverNode {
+    const convolver = context.createConvolver();
     const url = `${this.irPath}/${irFile}`;
 
-    return this.http.get(url, {responseType: 'arraybuffer'}).subscribe(res => {
-      context.decodeAudioData(res, buffer => convolver.buffer = buffer);
+    this.http.get(url, {responseType: 'arraybuffer'}).subscribe(res => {
+      context.decodeAudioData(res, buffer => {
+        convolver.buffer = buffer;
+      });
     });
+
+    return convolver;
   }
 }

@@ -33,7 +33,8 @@ export class AudioContextManager {
 
   async plugLineIn() {
     try {
-      const stream = await navigator.mediaDevices
+      if (!this.lineInSource) {
+        const stream = await navigator.mediaDevices
         .getUserMedia({
           audio: {
             echoCancellation: false,
@@ -43,7 +44,8 @@ export class AudioContextManager {
             googHighpassFilter: false,
           } as MediaStreamConstraints['audio']
         });
-      this.lineInSource = this.context.createMediaStreamSource(stream);
+        this.lineInSource = this.context.createMediaStreamSource(stream);
+      }
       this.connectInOrder();
     } catch (err) {
       console.error(err);

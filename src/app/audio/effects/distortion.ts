@@ -26,20 +26,16 @@ export class Distortion extends Effect {
   constructor(
     context: AudioContext,
     private defaults: DistortionSettings,
-    private curveType: CurveType = 'primitive'
+    private curveType: CurveType = 'classic'
   ) {
     super(context);
 
-    this.preFilter = context.createBiquadFilter();
-    this.preFilter.type = 'highpass';
-    this.preFilter.frequency.value = 280;
     this.waveSharper = context.createWaveShaper();
     this.toneNode = context.createBiquadFilter();
     this.toneNode.type = 'lowpass';
     this.levelNode = context.createGain();
 
     this.processor = [
-      this.preFilter,
       this.waveSharper,
       this.toneNode,
       this.levelNode
@@ -54,7 +50,25 @@ export class Distortion extends Effect {
     this.input.connect(this.output);
   }
 
-  // Investigate affect.
+  withPreFilter(context: AudioContext) {
+    this.preFilter = context.createBiquadFilter();
+    this.preFilter.type = 'highpass';
+    this.preFilter.frequency.value = 280;
+
+    this.toggleBypass();
+
+    this.processor = [
+      this.preFilter,
+      ...this.processor
+    ];
+
+    this.preFilter.connect(this.processor[1]);
+
+    this.toggleBypass();
+
+    return this;
+  }
+
   set oversample(value: OverSampleType) {
     this.waveSharper.oversample = value;
   }

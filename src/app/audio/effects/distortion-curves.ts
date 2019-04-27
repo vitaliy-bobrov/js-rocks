@@ -1,16 +1,11 @@
 export const curves = {
-  primitive(amount: number, curve: Float32Array, n: number) {
-    const k = amount * 100;
-    const deg = Math.PI / 180;
+  classic(amount: number, curve: Float32Array, n: number) {
+    const k = amount * 200;
 
     for (let i = 0, x: number; i <= n; ++i) {
       x = i * 2 / n - 1;
-      if (Math.abs(x) < 0.001) {
-        // should output 0 when input is 0.
-        curve[i] = 0;
-      } else {
-        curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-      }
+
+      curve[i] = (Math.PI + k) * x / (Math.PI + k * Math.abs(x));
     }
   },
   blues(amount: number, curve: Float32Array, n: number) {
@@ -44,7 +39,7 @@ export const curves = {
 
     for (let i = 0, x, y; i < n; ++i) {
       x = i * 2 / n - 1;
-      y = x < 0 ? -Math.pow(Math.abs(x), k + 0.04) : Math.pow(x, k);
+      y = x < 0 ? - Math.pow(Math.abs(x), k + 0.04) : Math.pow(x, k);
       curve[i] = Math.tanh(y * 2);
     }
   },
@@ -118,5 +113,5 @@ export const curves = {
 // }
 }
 
-export type CurveType = 'primitive' | 'blues' | 'sunshine' | 'tuna1' |
+export type CurveType = 'classic' | 'blues' | 'sunshine' | 'tuna1' |
   'sustained' | 'tuna4' | 'tuna5' | 'tuna6';

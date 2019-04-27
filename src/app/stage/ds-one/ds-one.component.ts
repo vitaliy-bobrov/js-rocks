@@ -21,7 +21,8 @@ export class DsOneComponent implements OnInit, OnDestroy {
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, this.defaults, 'sustained');
+    this.effect = new Distortion(this.manager.context, this.defaults, 'sunshine')
+      .withPreFilter(this.manager.context);
     this.manager.addEffect(this.effect);
   }
 

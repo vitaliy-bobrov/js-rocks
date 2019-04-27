@@ -2,12 +2,24 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
+  grid-template-areas: 'button cabinet'
+                       'sidebar pedalboard';
 
   .line-toggle {
+    grid-area: button;
     margin: 24px;
   }
 
+  jsr-amp {
+    grid-area: cabinet;
+  }
+
+  .sidebar {
+    grid-area: sidebar;
+  }
+
   .pedal-board {
+    grid-area: pedalboard;
     display: flex;
     flex-wrap: nowrap;
     padding: 16px 0;
