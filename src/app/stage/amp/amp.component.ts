@@ -61,7 +61,7 @@ export class AmpComponent implements OnInit, OnDestroy {
       this.manager.context, convolver,
       this.selectedModel.gain,
       this.selectedModel.model);
-    this.manager.addEffect(this.effect);
+    this.manager.addEffect(this.effect, true);
   }
 
   ngOnDestroy() {

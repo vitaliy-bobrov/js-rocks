@@ -18,10 +18,11 @@ export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<D
   params: DistortionSettings = {
     level: 0.5,
     distortion: 0.4,
-    tone: 0.2
+    tone: 0.2,
+    active: false
   };
 
-  constructor(private manager: AudioContextManager) { }
+  constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
     this.effect = new Distortion(this.manager.context, this.params, 'blues', 'jbd-2')

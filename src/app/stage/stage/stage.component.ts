@@ -29,24 +29,26 @@ export class StageComponent implements OnInit {
   config = {
     cabinet: {
       model: 'MegaStorm',
-      volume: 1,
-      bass: 0.5,
-      mid: 0.5,
-      treble: 0.5,
-      active: true
+      params: {
+        volume: 1,
+        bass: 0.5,
+        mid: 0.5,
+        treble: 0.5,
+        active: true
+      },
     },
     pedals: [
       {
         model: 'jod-3'
       },
       {
-        model: 'jbd-2'
+        model: 'jbd-2',
       },
       {
         model: 'jds-1'
       }
     ]
-  }
+  };
   isLinePlugged = false;
   pedals: Pedal[];
 

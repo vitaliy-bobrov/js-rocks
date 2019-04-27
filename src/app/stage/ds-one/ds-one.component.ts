@@ -18,7 +18,8 @@ export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<Distort
   params: DistortionSettings = {
     level: 0.5,
     distortion: 0.6,
-    tone: 0.4
+    tone: 0.4,
+    active: false
   };
 
   constructor(private manager: AudioContextManager) {}

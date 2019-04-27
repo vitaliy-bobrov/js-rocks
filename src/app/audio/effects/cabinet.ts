@@ -1,4 +1,4 @@
-import { Effect } from './effect';
+import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, mapToMinMax } from '../../utils';
 import { BehaviorSubject } from 'rxjs';
 
@@ -107,5 +107,18 @@ export class Cabinet extends Effect {
     this.bassSub$.complete();
     this.midSub$.complete();
     this.trebleSub$.complete();
+  }
+
+  takeSnapshot(): EffectInfo {
+    const snapshot = super.takeSnapshot();
+
+    snapshot.params = {
+      ...snapshot.params,
+      bass: this.bassSub$.value,
+      mid: this.midSub$.value,
+      treble: this.trebleSub$.value
+    };
+
+    return snapshot;
   }
 }

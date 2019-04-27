@@ -1,4 +1,4 @@
-import { Effect } from './effect';
+import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
 import { curves, CurveType } from './distortion-curves';
 import { BehaviorSubject } from 'rxjs';
@@ -7,6 +7,7 @@ export interface DistortionSettings {
   level: number;
   distortion: number;
   tone: number;
+  active: boolean;
 }
 
 export class Distortion extends Effect {
@@ -95,6 +96,19 @@ export class Distortion extends Effect {
     this.levelSub$.complete();
     this.distortionSub$.complete();
     this.toneSub$.complete();
+  }
+
+  takeSnapshot(): EffectInfo {
+    const snapshot = super.takeSnapshot();
+
+    snapshot.params = {
+      ...snapshot.params,
+      distortion: this.distortionSub$.value,
+      tone: this.toneSub$.value,
+      level: this.levelSub$.value
+    };
+
+    return snapshot;
   }
 
   private _makeDistortionCurve(amount: number): Float32Array {

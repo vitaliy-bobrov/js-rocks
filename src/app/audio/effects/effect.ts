@@ -1,5 +1,10 @@
 import { BehaviorSubject } from 'rxjs';
 
+export interface EffectInfo {
+  model: string;
+  params: any;
+}
+
 export abstract class Effect {
   private activeSub$ = new BehaviorSubject<boolean>(false);
   private isBypassEnabled = true;
@@ -17,6 +22,12 @@ export abstract class Effect {
   static disconnectInOrder(effects: Effect[]) {
     for (const effect of effects) {
       effect.disconnect();
+    }
+  }
+
+  set active(value: boolean) {
+    if (this.isBypassEnabled !== !value) {
+      this.toggleBypass();
     }
   }
 
@@ -63,5 +74,14 @@ export abstract class Effect {
     this.processor = [];
     this.isBypassEnabled = false;
     this.activeSub$.complete();
+  }
+
+  takeSnapshot(): EffectInfo {
+    return {
+      model: this.model,
+      params: {
+        active: this.activeSub$.value
+      }
+    };
   }
 }

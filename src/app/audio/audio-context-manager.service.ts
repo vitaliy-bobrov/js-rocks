@@ -57,8 +57,13 @@ export class AudioContextManager {
     this.disconnectAll();
   }
 
-  addEffect(effect: Effect) {
-    this.effects.push(effect);
+  addEffect(effect: Effect, post = false) {
+    if (post) {
+      this.effects.push(effect);
+    } else {
+      this.effects.splice(-1, 0, effect);
+    }
+
 
     if (!this.lineInSource) {
       return;
@@ -110,5 +115,26 @@ export class AudioContextManager {
     }
 
     Effect.disconnectInOrder(this.effects);
+  }
+
+  takeSnapshot() {
+    if (!this.effects.length) {
+      return;
+    }
+
+    const cabinet = this.effects[this.effects.length - 1].takeSnapshot();
+    cabinet.params.volume = this.masterSub$.value;
+
+    const snapshot = {
+      cabinet,
+      pedals: []
+    };
+
+    for (let i = 0; i < this.effects.length - 1; i++) {
+      const effectParams = this.effects[i].takeSnapshot();
+      snapshot.pedals.push(effectParams);
+    }
+
+    return snapshot;
   }
 }
