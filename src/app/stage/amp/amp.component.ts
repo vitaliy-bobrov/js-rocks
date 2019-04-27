@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Input, SimpleChanges } from '@angular/core';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { Cabinet } from '@audio/effects/cabinet';
 import { ConvolverService } from '@audio/convolver.service';
@@ -9,13 +9,24 @@ interface CabinetModel {
   gain: number;
 }
 
+interface CabinetConfig {
+  model: string;
+  params: {
+    volume: number;
+    bass: number;
+    mid: number;
+    treble: number;
+    active: boolean;
+  };
+}
+
 @Component({
   selector: 'jsr-amp',
   templateUrl: './amp.component.html',
   styleUrls: ['./amp.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AmpComponent implements OnInit, OnDestroy {
+export class AmpComponent implements OnInit, OnDestroy, OnChanges {
   effect: Cabinet;
   masterVolume$ = this.manager.master$;
 
@@ -46,8 +57,11 @@ export class AmpComponent implements OnInit, OnDestroy {
       gain: 6
     }
   ];
+  defaultCabinet = this.cabinets[4];
+  selectedModel = this.defaultCabinet;
 
-  selectedModel = this.cabinets[4];
+  @Input()
+  config: CabinetConfig;
 
   constructor(
     private manager: AudioContextManager,
@@ -62,11 +76,21 @@ export class AmpComponent implements OnInit, OnDestroy {
       this.selectedModel.gain,
       this.selectedModel.model);
     this.manager.addEffect(this.effect, true);
+
+    if (this.config) {
+      this.setupConfig();
+    }
   }
 
   ngOnDestroy() {
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('config' in changes && !changes.config.isFirstChange) {
+      this.setupConfig();
+    }
   }
 
   updateMasterVolume(value: number) {
@@ -79,4 +103,24 @@ export class AmpComponent implements OnInit, OnDestroy {
       .loadIR(this.manager.context, this.selectedModel.path);
     this.effect.updateConvolver(convolver, this.selectedModel.gain, this.selectedModel.model);
   }
+
+  private setupConfig() {
+    this.selectedModel = this.cabinets
+      .find(cabinet => cabinet.model === this.config.model) || this.defaultCabinet;
+
+    this.selectCabinet(this.selectedModel);
+
+    this.effect.bass = this.config.params.bass;
+    this.effect.mid = this.config.params.mid;
+    this.effect.treble = this.config.params.treble;
+
+    this.updateMasterVolume(this.config.params.volume);
+
+    if (typeof this.config.params.active !== 'undefined'
+      && this.config.params.active !== this.effect.active) {
+      this.effect.toggleBypass();
+    }
+  }
+
+
 }
