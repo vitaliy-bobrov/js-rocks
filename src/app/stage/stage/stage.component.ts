@@ -39,13 +39,22 @@ export class StageComponent implements OnInit {
     },
     pedals: [
       {
-        model: 'jod-3'
+        model: 'jod-3',
+        params: {
+          active: false
+        }
       },
       {
         model: 'jbd-2',
+        params: {
+          active: false
+        }
       },
       {
-        model: 'jds-1'
+        model: 'jds-1',
+        params: {
+          active: false
+        }
       }
     ]
   };
