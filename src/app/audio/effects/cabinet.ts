@@ -23,20 +23,20 @@ export class Cabinet extends Effect {
   treble$ = this.trebleSub$.asObservable();
 
   set bass(value: number) {
-    const bass = clamp(-30, 20, value);
-    this.bassSub$.next(value);
+    const bass = clamp(0, 1, value);
+    this.bassSub$.next(bass);
     this.bassNode.gain.setValueAtTime(bass * (20 + 30) - 30, 0);
   }
 
   set mid(value: number) {
-    const mid = clamp(-40, 10, value);
-    this.midSub$.next(value);
+    const mid = clamp(0, 1, value);
+    this.midSub$.next(mid);
     this.midNode.gain.setValueAtTime(mid * (10 + 40) - 40, 0);
   }
 
   set treble(value: number) {
-    const treble = clamp(-40, 10, value);
-    this.trebleSub$.next(value);
+    const treble = clamp(0, 1, value);
+    this.trebleSub$.next(treble);
     this.trebleNode.gain.setValueAtTime(treble * (10 + 40) - 40, 0);
   }
 
