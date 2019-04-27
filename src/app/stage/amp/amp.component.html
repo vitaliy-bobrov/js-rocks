@@ -1,6 +1,21 @@
 <div class="plate">
   <div class="inputs">
     <h2 class="model">{{selectedModel.model}}</h2>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let cabinet of cabinets"
+          (click)="selectCabinet(cabinet)">
+          <mat-icon>
+            {{selectedModel === cabinet ?'radio_button_checked' : 'radio_button_unchecked'}}
+          </mat-icon>
+          <span>{{cabinet.model}}</span>
+        </button>
+      </mat-menu>
   </div>
   <jsr-knob
     dots

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { StageRoutingModule } from './stage-routing.module';
 import { StageComponent } from './stage/stage.component';
@@ -30,6 +31,7 @@ import { AmpComponent } from './amp/amp.component';
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
     StageRoutingModule
   ]
 })

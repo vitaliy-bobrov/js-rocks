@@ -3,6 +3,12 @@ import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { Cabinet } from '@audio/effects/cabinet';
 import { ConvolverService } from '@audio/convolver.service';
 
+interface CabinetModel {
+  model: string;
+  path: string;
+  gain: number;
+}
+
 @Component({
   selector: 'jsr-amp',
   templateUrl: './amp.component.html',
@@ -13,7 +19,7 @@ export class AmpComponent implements OnInit, OnDestroy {
   effect: Cabinet;
   masterVolume$ = this.manager.master$;
 
-  private cabinets = [
+  cabinets: CabinetModel[] = [
     {
       model: 'Celesticco',
       path: 'cenzo_celestion_v30_mix.wav',
@@ -25,11 +31,6 @@ export class AmpComponent implements OnInit, OnDestroy {
       gain: 15
     },
     {
-      model: 'Vitallica',
-      path: 'mesa_trad_4x12_v30_sm57.wav',
-      gain: 18
-    },
-    {
       model: 'MegaStorm',
       path: 'mesa_oversized_v30_edge_sneap_1.wav',
       gain: 15
@@ -37,8 +38,13 @@ export class AmpComponent implements OnInit, OnDestroy {
     {
       model: 'Yellow Submarine',
       path: 'yellow.ogg',
-      gain: 22
+      gain: 24
     },
+    {
+      model: 'Captain 1960',
+      path: 'Marshall1960A-G12Ms-SM57-Cone-0.5in.wav',
+      gain: 6
+    }
   ];
 
   selectedModel = this.cabinets[4];
@@ -49,7 +55,8 @@ export class AmpComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const convolver = this.convolverService.loadIR(this.manager.context, this.selectedModel.path);
+    const convolver = this.convolverService
+      .loadIR(this.manager.context, this.selectedModel.path);
     this.effect = new Cabinet(this.manager.context, convolver, this.selectedModel.gain);
     this.manager.addEffect(this.effect);
   }
@@ -60,5 +67,12 @@ export class AmpComponent implements OnInit, OnDestroy {
 
   updateMasterVolume(value: number) {
     this.manager.master = value;
+  }
+
+  selectCabinet(cabinet: CabinetModel) {
+    this.selectedModel = cabinet;
+    const convolver = this.convolverService
+      .loadIR(this.manager.context, this.selectedModel.path);
+    this.effect.updateConvolver(convolver, this.selectedModel.gain);
   }
 }
