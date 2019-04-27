@@ -14,7 +14,7 @@ export class BluesDriverComponent implements OnInit, OnDestroy {
   defaults: DistortionSettings = {
     level: 0.5,
     distortion: 0.4,
-    tone: 0.3,
+    tone: 0.2,
     oversample: '4x'
   };
 

@@ -15,6 +15,14 @@ export function connectNodes(nodes: AudioNode[]) {
   }
 }
 
+export function mapToMinMax(value, min, max) {
+  return value * (max - min) + min;
+}
+
+export function expScale(value) {
+  return Math.pow(Math.abs(value), 2);
+}
+
 export function gainFadeInConnect(options: FadeInOptions) {
   const value = options.value || options.target.gain.value;
   options.target.gain.value = 0;

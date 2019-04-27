@@ -1,5 +1,5 @@
 import { Effect } from './effect';
-import { connectNodes, clamp } from '../../utils';
+import { connectNodes, clamp, mapToMinMax } from '../../utils';
 import { BehaviorSubject } from 'rxjs';
 
 export class Cabinet extends Effect {
@@ -25,19 +25,22 @@ export class Cabinet extends Effect {
   set bass(value: number) {
     const bass = clamp(0, 1, value);
     this.bassSub$.next(bass);
-    this.bassNode.gain.setValueAtTime(bass * (20 + 30) - 30, 0);
+    const bassGain = mapToMinMax(bass, -30, 20);
+    this.bassNode.gain.setValueAtTime(bassGain, 0);
   }
 
   set mid(value: number) {
     const mid = clamp(0, 1, value);
     this.midSub$.next(mid);
-    this.midNode.gain.setValueAtTime(mid * (10 + 40) - 40, 0);
+    const midGain = mapToMinMax(mid, -40, 10);
+    this.midNode.gain.setValueAtTime(midGain, 0);
   }
 
   set treble(value: number) {
     const treble = clamp(0, 1, value);
     this.trebleSub$.next(treble);
-    this.trebleNode.gain.setValueAtTime(treble * (10 + 40) - 40, 0);
+    const trebleGain = mapToMinMax(treble, -40, 10);
+    this.trebleNode.gain.setValueAtTime(trebleGain, 0);
   }
 
   constructor(

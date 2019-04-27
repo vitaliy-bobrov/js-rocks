@@ -1,5 +1,5 @@
 import { Effect } from './effect';
-import { clamp, connectNodes } from '../../utils';
+import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
 import { curves, CurveType } from './distortion-curves';
 import { BehaviorSubject } from 'rxjs';
 
@@ -82,7 +82,8 @@ export class Distortion extends Effect {
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
-    this.toneNode.frequency.setValueAtTime(tone * (22050 - 200) + 200, 0);
+    const frequency = mapToMinMax(expScale(tone), 200, 22050);
+    this.toneNode.frequency.setValueAtTime(frequency, 0);
   }
 
   set level(value: number) {

@@ -14,7 +14,7 @@ export class OverdriveComponent implements OnInit, OnDestroy {
   defaults: DistortionSettings = {
     level: 0.75,
     distortion: 0.85,
-    tone: 0.45,
+    tone: 0.35,
     oversample: '2x'
   };
 
