@@ -1,6 +1,6 @@
 export const curves = {
   classic(amount: number, curve: Float32Array, n: number) {
-    const k = amount * 200;
+    const k = amount * 150 + 50;
 
     for (let i = 0, x: number; i <= n; ++i) {
       x = i * 2 / n - 1;
@@ -25,8 +25,8 @@ export const curves = {
       curve[i] =  Math.tanh(Math.PI * y * k * 0.5) * Math.cos(0.5 * y);
     }
   },
-  tuna1(amount: number, curve: Float32Array, n: number) {
-    amount = Math.min(amount, 0.9999);
+  driver(amount: number, curve: Float32Array, n: number) {
+    amount = Math.min(amount, 0.9);
     const k = 2 * amount / (1 - amount);
 
     for (let i = 0, x; i < n; ++i) {
@@ -113,5 +113,5 @@ export const curves = {
 // }
 }
 
-export type CurveType = 'classic' | 'blues' | 'sunshine' | 'tuna1' |
+export type CurveType = 'classic' | 'blues' | 'sunshine' | 'driver' |
   'sustained' | 'tuna4' | 'tuna5' | 'tuna6';

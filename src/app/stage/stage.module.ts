@@ -14,6 +14,7 @@ import { KnobComponent } from './knob/knob.component';
 import { LargeSwitchComponent } from './large-switch/large-switch.component';
 import { BluesDriverComponent } from './blues-driver/blues-driver.component';
 import { AmpComponent } from './amp/amp.component';
+import { OverdriveComponent } from './overdrive/overdrive.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AmpComponent } from './amp/amp.component';
     KnobComponent,
     LargeSwitchComponent,
     BluesDriverComponent,
-    AmpComponent
+    AmpComponent,
+    OverdriveComponent
   ],
   imports: [
     AudioModule,

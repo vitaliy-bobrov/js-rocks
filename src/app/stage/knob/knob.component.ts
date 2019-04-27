@@ -64,7 +64,7 @@ export class KnobComponent implements OnInit {
 
   _updateKnobPointer(value: number) {
     const percent = value * (this.max - this.min) + this.min;
-    const deg = 270 * percent - 135;
+    const deg = Math.round(270 * percent - 135);
 
     this.element.nativeElement.style.setProperty('--knob-angle', `${deg}deg`);
   }
