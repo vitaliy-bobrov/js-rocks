@@ -9,28 +9,28 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./blues-driver.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent {
+export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
   @HostBinding('class.pedal')
   pedalClass = true;
 
   effect: Distortion;
 
-  defaults: DistortionSettings = {
+  params: DistortionSettings = {
     level: 0.5,
     distortion: 0.4,
-    tone: 0.2,
-    oversample: '4x'
+    tone: 0.2
   };
 
-  constructor(private manager: AudioContextManager) {}
+  constructor(private manager: AudioContextManager) { }
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, this.defaults, 'blues')
+    this.effect = new Distortion(this.manager.context, this.params, 'blues', 'jbd-2')
       .withPreFilter(this.manager.context);
     this.manager.addEffect(this.effect);
   }
 
   ngOnDestroy() {
+    this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }
 }

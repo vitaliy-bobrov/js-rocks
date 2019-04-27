@@ -65,12 +65,12 @@
     text-align: right;
     margin: 0;
     padding: 0 12px 4px;
+    text-transform: uppercase;
   }
 
   .name {
     grid-area: label;
     font-size: 22px;
-    text-transform: uppercase;
   }
 
   .model {

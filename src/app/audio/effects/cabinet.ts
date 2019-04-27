@@ -46,9 +46,10 @@ export class Cabinet extends Effect {
   constructor(
     context: AudioContext,
     convolver: ConvolverNode,
-    gain: number
+    gain: number,
+    model: string
   ) {
-    super(context);
+    super(context, model);
 
     this.convolver = convolver;
 
@@ -84,7 +85,8 @@ export class Cabinet extends Effect {
     this.input.connect(this.output);
   }
 
-  updateConvolver(convolver: ConvolverNode, gain: number) {
+  updateConvolver(convolver: ConvolverNode, gain: number, model: string) {
+    this.model = model;
     this.convolver.disconnect();
     this.convolver.buffer = null;
     this.convolver = null;

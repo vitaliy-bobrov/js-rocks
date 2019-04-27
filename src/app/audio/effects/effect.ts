@@ -20,7 +20,7 @@ export abstract class Effect {
     }
   }
 
-  constructor(context: AudioContext) {
+  constructor(context: AudioContext, public model: string) {
     this.input = context.createGain();
     this.output = context.createGain();
     this.activeSub$.next(false);

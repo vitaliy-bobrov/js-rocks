@@ -7,7 +7,6 @@ export interface DistortionSettings {
   level: number;
   distortion: number;
   tone: number;
-  oversample: OverSampleType;
 }
 
 export class Distortion extends Effect {
@@ -26,11 +25,13 @@ export class Distortion extends Effect {
   constructor(
     context: AudioContext,
     private defaults: DistortionSettings,
-    private curveType: CurveType = 'classic'
+    private curveType: CurveType = 'classic',
+    model: string
   ) {
-    super(context);
+    super(context, model);
 
     this.waveSharper = context.createWaveShaper();
+    this.waveSharper.oversample = '4x';
     this.toneNode = context.createBiquadFilter();
     this.toneNode.type = 'lowpass';
     this.levelNode = context.createGain();
@@ -67,10 +68,6 @@ export class Distortion extends Effect {
     this.toggleBypass();
 
     return this;
-  }
-
-  set oversample(value: OverSampleType) {
-    this.waveSharper.oversample = value;
   }
 
   set distortion(value: number) {

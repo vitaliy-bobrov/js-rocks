@@ -8,10 +8,16 @@ import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Effect } from '@audio/effects/effect';
 import { PedalBoardDirective } from '../pedalboard/pedalboard.directive';
-import { Pedal } from '../pedal.interface';
+import { Pedal, PedalComponent } from '../pedal.interface';
 import { BluesDriverComponent } from '../blues-driver/blues-driver.component';
 import { OverdriveComponent } from '../overdrive/overdrive.component';
 import { DsOneComponent } from '../ds-one/ds-one.component';
+
+const componentMapping = {
+  'jds-1': DsOneComponent,
+  'jbd-2': BluesDriverComponent,
+  'jod-3': OverdriveComponent
+};
 
 @Component({
   selector: 'jsr-stage',
@@ -20,6 +26,27 @@ import { DsOneComponent } from '../ds-one/ds-one.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StageComponent implements OnInit {
+  config = {
+    cabinet: {
+      model: 'MegaStorm',
+      volume: 1,
+      bass: 0.5,
+      mid: 0.5,
+      treble: 0.5,
+      active: true
+    },
+    pedals: [
+      {
+        model: 'jod-3'
+      },
+      {
+        model: 'jbd-2'
+      },
+      {
+        model: 'jds-1'
+      }
+    ]
+  }
   isLinePlugged = false;
   pedals: Pedal[];
 
@@ -31,11 +58,8 @@ export class StageComponent implements OnInit {
     private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    this.pedals = [
-      new Pedal(BluesDriverComponent),
-      new Pedal(OverdriveComponent),
-      new Pedal(DsOneComponent)
-    ];
+    this.pedals = this.config.pedals
+      .map(item =>  new Pedal(componentMapping[item.model], item.params));
 
     this.loadPedals();
   }
@@ -61,7 +85,10 @@ export class StageComponent implements OnInit {
     for (const pedal of this.pedals) {
       const componentFactory = this.componentFactoryResolver
         .resolveComponentFactory(pedal.component);
-      viewContainerRef.createComponent(componentFactory);
+      const componentRef = viewContainerRef.createComponent(componentFactory);
+      if (pedal.params) {
+        (componentRef.instance as PedalComponent<any>).params = pedal.params;
+      }
     }
   }
 }

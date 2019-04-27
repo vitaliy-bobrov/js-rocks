@@ -57,11 +57,15 @@ export class AmpComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const convolver = this.convolverService
       .loadIR(this.manager.context, this.selectedModel.path);
-    this.effect = new Cabinet(this.manager.context, convolver, this.selectedModel.gain);
+    this.effect = new Cabinet(
+      this.manager.context, convolver,
+      this.selectedModel.gain,
+      this.selectedModel.model);
     this.manager.addEffect(this.effect);
   }
 
   ngOnDestroy() {
+    this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }
 
@@ -73,6 +77,6 @@ export class AmpComponent implements OnInit, OnDestroy {
     this.selectedModel = cabinet;
     const convolver = this.convolverService
       .loadIR(this.manager.context, this.selectedModel.path);
-    this.effect.updateConvolver(convolver, this.selectedModel.gain);
+    this.effect.updateConvolver(convolver, this.selectedModel.gain, this.selectedModel.model);
   }
 }

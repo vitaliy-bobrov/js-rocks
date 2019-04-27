@@ -9,28 +9,28 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./ds-one.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DsOneComponent implements OnInit, OnDestroy, PedalComponent {
+export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
   @HostBinding('class.pedal')
   pedalClass = true;
 
   effect: Distortion;
 
-  defaults: DistortionSettings = {
+  params: DistortionSettings = {
     level: 0.5,
     distortion: 0.6,
-    tone: 0.4,
-    oversample: '4x'
+    tone: 0.4
   };
 
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, this.defaults, 'sunshine')
+    this.effect = new Distortion(this.manager.context, this.params, 'sunshine', 'jds-1')
       .withPreFilter(this.manager.context);
     this.manager.addEffect(this.effect);
   }
 
   ngOnDestroy() {
+    this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }
 }
