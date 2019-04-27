@@ -25,7 +25,11 @@
     padding: 16px 0;
   }
 
-  .pedal + .pedal {
-    margin-left: 48px;
+  .pedal-placeholder {
+    width: 200px;
+    height: 326px;
+    background-color: rgba(#69f0ae, .5);
+    border: 1px solid #69f0ae;
+    border-radius: .5em;
   }
 }

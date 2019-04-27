@@ -3,6 +3,13 @@
   --stompbox-label: #fbbe21;
   display: block;
 
+  & + .pedal,
+  .pedal + &,
+  & + .pedal-placeholder,
+  .pedal-placeholder + & {
+    margin-left: 48px;
+  }
+
   .pedal-layout {
     display: grid;
     grid-template-areas: 'controls' 'switch';

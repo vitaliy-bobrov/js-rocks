@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Effect } from './effects/effect';
 import { clamp, gainFadeInConnect } from '../utils';
 import { BehaviorSubject } from 'rxjs';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Injectable()
 export class AudioContextManager {
@@ -83,20 +84,30 @@ export class AudioContextManager {
     this.connectInOrder();
   }
 
+  moveEffect(previousIndex: number, currentIndex: number) {
+    this.disconnectAll();
+    moveItemInArray(this.effects, previousIndex, currentIndex);
+    this.connectInOrder();
+  }
+
   connectInOrder() {
     if (this.effects.length) {
-      this.lineInSource.connect(this.effects[0].input);
+      if (this.lineInSource) {
+        this.lineInSource.connect(this.effects[0].input);
+      }
 
       Effect.connectInOrder(this.effects);
 
       this.effects[this.effects.length - 1].output.connect(this.masterGain);
-    } else {
+    } else if (this.lineInSource) {
       this.lineInSource.connect(this.masterGain);
     }
   }
 
   disconnectAll() {
-    this.lineInSource.disconnect();
+    if (this.lineInSource) {
+      this.lineInSource.disconnect();
+    }
 
     Effect.disconnectInOrder(this.effects);
   }

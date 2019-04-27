@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, HostBinding } from '@angular/core';
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
+import { PedalComponent } from '../pedal.interface';
 
 @Component({
   selector: 'jsr-ds-one',
@@ -8,7 +9,10 @@ import { AudioContextManager } from '@audio/audio-context-manager.service';
   styleUrls: ['./ds-one.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DsOneComponent implements OnInit, OnDestroy {
+export class DsOneComponent implements OnInit, OnDestroy, PedalComponent {
+  @HostBinding('class.pedal')
+  pedalClass = true;
+
   effect: Distortion;
 
   defaults: DistortionSettings = {

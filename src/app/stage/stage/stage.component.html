@@ -8,10 +8,16 @@
 
 <aside class="sidebar"></aside>
 
-<section class="pedal-board">
-  <jsr-ds-one class="pedal"></jsr-ds-one>
-  <jsr-blues-driver class="pedal"></jsr-blues-driver>
-  <jsr-overdrive class="pedal"></jsr-overdrive>
+<section
+    class="pedal-board"
+    cdkDropList
+    cdkDropListLockAxis="x"
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="dropPedal($event)">
+  <ng-template jsrPedalBoard></ng-template>
+  <!-- <jsr-ds-one class="pedal" cdkDrag>
+    <div class="pedal-placeholder" *cdkDragPlaceholder></div>
+  </jsr-ds-one> -->
 </section>
 
 <jsr-amp></jsr-amp>
