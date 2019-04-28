@@ -66,16 +66,11 @@ export class AudioContextManager {
       this.effects.splice(-1, 0, effect);
     }
 
-
-    if (!this.lineInSource) {
-      return;
-    }
-
-    if (this.effects.length > 1) {
+    if (this.effects.length) {
       const last = this.effects[this.effects.length - 1];
       last.output.disconnect();
       last.connect(effect);
-    } else {
+    } else if (this.lineInSource) {
       this.lineInSource.disconnect();
       this.lineInSource.connect(effect.input);
     }
