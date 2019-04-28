@@ -1,4 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+  Input,
+  SimpleChanges,
+  OnChanges } from '@angular/core';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { Cabinet } from '@audio/effects/cabinet';
 import { ConvolverService } from '@audio/convolver.service';
