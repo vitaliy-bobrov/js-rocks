@@ -1,6 +1,57 @@
+<jsr-page-actions>
+  <mat-menu #appMenu="matMenu">
+    <button
+      type="button"
+      mat-menu-item
+      (click)="blankPreset()">Default</button>
+    <button
+      type="button"
+      mat-menu-item
+      *ngFor="let preset of presets"
+      (click)="activatePreset(preset.id)">{{preset.name}}</button>
+  </mat-menu>
+
+  <button
+    type="button"
+    mat-icon-button
+    matTooltip="Presets"
+    [matMenuTriggerFor]="appMenu">
+    <mat-icon>list</mat-icon>
+  </button>
+
+  <button
+    type="button"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="New preset"
+    (click)="blankPreset()">
+      <mat-icon>insert_drive_file</mat-icon>
+  </button>
+
+  <button
+    type="button"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="Save preset"
+    (click)="requestSavePreset()">
+      <mat-icon>save</mat-icon>
+  </button>
+
+  <button
+    type="button"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="Delete preset"
+    (click)="deletePreset()">
+      <mat-icon>delete</mat-icon>
+  </button>
+</jsr-page-actions>
+
 <button
+  type="button"
   class="line-toggle"
   mat-fab
+  [matTooltip]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
   [color]="isLinePlugged ? 'accent' : 'warn'"
   (click)="toggleLineConnection()">
   <mat-icon aria-label="Connect line source">settings_input_svideo</mat-icon>
@@ -8,7 +59,22 @@
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>
 
-<aside class="sidebar"></aside>
+<mat-menu #pedalBoardMenu="matMenu">
+  <button
+    type="button"
+    mat-menu-item
+    *ngFor="let pedal of availablePedals"
+    (click)="addPedal(pedal.id)">{{pedal.name}}</button>
+</mat-menu>
+
+<button
+  type="button"
+  class="add-button"
+  mat-flat-button
+  color="accent"
+  [matMenuTriggerFor]="pedalBoardMenu">
+  <mat-icon>add</mat-icon> Add effect
+</button>
 
 <section
     class="pedal-board"
@@ -16,6 +82,7 @@
     cdkDropListLockAxis="x"
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="dropPedal($event)">
+
   <ng-template jsrPedalBoard></ng-template>
   <!-- <jsr-ds-one class="pedal" cdkDrag>
     <div class="pedal-placeholder" *cdkDragPlaceholder></div>

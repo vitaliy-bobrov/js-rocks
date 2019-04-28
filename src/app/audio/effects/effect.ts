@@ -2,7 +2,9 @@ import { BehaviorSubject } from 'rxjs';
 
 export interface EffectInfo {
   model: string;
-  params: any;
+  params: {
+    active: boolean;
+  };
 }
 
 export abstract class Effect {

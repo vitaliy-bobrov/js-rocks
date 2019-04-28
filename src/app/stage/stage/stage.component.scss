@@ -1,28 +1,40 @@
 :host {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto;
   grid-template-rows: auto 1fr;
-  grid-template-areas: 'button cabinet'
-                       'sidebar pedalboard';
+  grid-template-areas: 'cabinet   '
+                       'add       '
+                       'pedalboard';
 
   .line-toggle {
-    grid-area: button;
-    margin: 24px;
+    position: fixed;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
   }
 
   jsr-amp {
     grid-area: cabinet;
   }
 
-  .sidebar {
-    grid-area: sidebar;
+  .add-button {
+    grid-area: add;
+    justify-self: center;
+    margin-top: 24px;
   }
 
   .pedal-board {
     grid-area: pedalboard;
     display: flex;
-    flex-wrap: nowrap;
-    padding: 16px 0;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+  }
+
+  .pedal + .pedal,
+  .pedal + .pedal-placeholder,
+  .pedal-placeholder + .pedal {
+    margin-left: 48px;
   }
 
   .pedal-placeholder {

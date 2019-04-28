@@ -2,21 +2,28 @@
   <div class="inputs">
     <h2 class="model">{{effect.model}}</h2>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
+    <button
+      type="button"
+      mat-icon-button
+      matTooltip="Select cabinet model"
+      [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button
+        type="button"
+        mat-menu-item
+        *ngFor="let cabinet of cabinets"
+        (click)="selectCabinet(cabinet)">
+        <mat-icon>
+          {{selectedModel === cabinet ? 'radio_button_checked' : 'radio_button_unchecked'}}
+        </mat-icon>
+        <span>{{cabinet.model}}</span>
       </button>
-      <mat-menu #menu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let cabinet of cabinets"
-          (click)="selectCabinet(cabinet)">
-          <mat-icon>
-            {{selectedModel === cabinet ?'radio_button_checked' : 'radio_button_unchecked'}}
-          </mat-icon>
-          <span>{{cabinet.model}}</span>
-        </button>
-      </mat-menu>
+    </mat-menu>
   </div>
+
   <jsr-knob
     dots
     class="master"
@@ -54,6 +61,7 @@
   <div class="switch">
     <jsr-led [active]="effect.active$ | async"></jsr-led>
     <button
+      type="button"
       class="switch-button"
       [class.active]="effect.active$ | async"
       (click)="effect.toggleBypass()">

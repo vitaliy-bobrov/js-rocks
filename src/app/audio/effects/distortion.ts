@@ -10,6 +10,10 @@ export interface DistortionSettings {
   active: boolean;
 }
 
+export interface DistortionInfo extends EffectInfo {
+  params: DistortionSettings;
+}
+
 export class Distortion extends Effect {
   private levelSub$ = new BehaviorSubject<number>(0);
   private distortionSub$ = new BehaviorSubject<number>(0);
@@ -98,8 +102,8 @@ export class Distortion extends Effect {
     this.toneSub$.complete();
   }
 
-  takeSnapshot(): EffectInfo {
-    const snapshot = super.takeSnapshot();
+  takeSnapshot(): DistortionInfo {
+    const snapshot = super.takeSnapshot() as DistortionInfo;
 
     snapshot.params = {
       ...snapshot.params,

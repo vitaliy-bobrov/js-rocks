@@ -1,7 +1,8 @@
-import { Type } from '@angular/core';
+import { Type, EventEmitter } from '@angular/core';
 
 export interface PedalComponent<T> {
   params: T;
+  remove: EventEmitter<void>;
 }
 
 export class Pedal {

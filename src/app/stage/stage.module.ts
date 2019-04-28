@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { StageRoutingModule } from './stage-routing.module';
@@ -17,6 +22,8 @@ import { BluesDriverComponent } from './blues-driver/blues-driver.component';
 import { AmpComponent } from './amp/amp.component';
 import { OverdriveComponent } from './overdrive/overdrive.component';
 import { PedalBoardDirective } from './pedalboard/pedalboard.directive';
+import { SharedModule } from '../shared/shared.module';
+import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,19 +37,27 @@ import { PedalBoardDirective } from './pedalboard/pedalboard.directive';
     AmpComponent,
     OverdriveComponent,
     PedalBoardDirective,
+    PresetNameDialogComponent
   ],
   entryComponents: [
+    PresetNameDialogComponent,
     DsOneComponent,
     BluesDriverComponent,
     OverdriveComponent,
   ],
   imports: [
+    A11yModule,
     AudioModule,
+    SharedModule,
     CommonModule,
     DragDropModule,
+    FormsModule,
     MatButtonModule,
+    MatDialogModule,
     MatIconModule,
+    MatInputModule,
     MatMenuModule,
+    MatTooltipModule,
     StageRoutingModule
   ]
 })

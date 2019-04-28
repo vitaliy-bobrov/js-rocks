@@ -1,4 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, HostBinding } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+  Output,
+  EventEmitter } from '@angular/core';
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
@@ -10,8 +16,8 @@ import { PedalComponent } from '../pedal.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
-  @HostBinding('class.pedal')
-  pedalClass = true;
+  @Output()
+  remove = new EventEmitter<void>();
 
   effect: Distortion;
 

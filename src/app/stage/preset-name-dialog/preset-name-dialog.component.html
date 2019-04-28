@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>New preset</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Preset name"
+      cdkFocusInitial
+      [(ngModel)]="data.name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button
+    type="button"
+    mat-raised-button
+    color="warn"
+    (click)="onCancel()">Cancel</button>
+  <button
+    type="button"
+    mat-raised-button
+    color="accent"
+    [mat-dialog-close]="data.name">Save</button>
+</div>

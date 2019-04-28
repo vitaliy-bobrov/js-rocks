@@ -95,7 +95,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('config' in changes && !changes.config.isFirstChange) {
+    if ('config' in changes && !changes.config.firstChange) {
       this.setupConfig();
     }
   }

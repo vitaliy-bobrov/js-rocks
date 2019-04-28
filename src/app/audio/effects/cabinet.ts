@@ -2,6 +2,16 @@ import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, mapToMinMax } from '../../utils';
 import { BehaviorSubject } from 'rxjs';
 
+export interface CabinetInfo extends EffectInfo {
+  params: {
+    bass: number;
+    mid: number;
+    treble: number;
+    volume: number;
+    active: boolean;
+  };
+}
+
 export class Cabinet extends Effect {
   private makeUpGain: GainNode;
   private convolver: ConvolverNode;
@@ -12,7 +22,7 @@ export class Cabinet extends Effect {
   private midNode: BiquadFilterNode;
   private trebleNode: BiquadFilterNode;
 
-  private defaults = {
+  private defaults: Partial<CabinetInfo['params']> = {
     bass: 0.5,
     mid: 0.5,
     treble: 0.5
@@ -109,8 +119,8 @@ export class Cabinet extends Effect {
     this.trebleSub$.complete();
   }
 
-  takeSnapshot(): EffectInfo {
-    const snapshot = super.takeSnapshot();
+  takeSnapshot(): CabinetInfo {
+    const snapshot = super.takeSnapshot() as CabinetInfo;
 
     snapshot.params = {
       ...snapshot.params,

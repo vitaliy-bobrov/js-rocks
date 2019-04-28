@@ -30,5 +30,13 @@
       [model]="effect.model"
       (switch)="effect.toggleBypass()"></jsr-large-switch>
   </div>
+
+  <button
+    type="button"
+    class="remove"
+    mat-mini-fab
+    color="warn"
+    (click)="remove.emit()">
+    <mat-icon aria-label="Remove effect">close</mat-icon>
+  </button>
 </jsr-stompbox>
-<ng-content></ng-content>

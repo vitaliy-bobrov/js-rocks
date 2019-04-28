@@ -3,6 +3,8 @@ import { Effect } from './effects/effect';
 import { clamp, gainFadeInConnect } from '../utils';
 import { BehaviorSubject } from 'rxjs';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { Preset } from './preset-manager.service';
+import { CabinetInfo } from './effects/cabinet';
 
 @Injectable()
 export class AudioContextManager {
@@ -117,12 +119,12 @@ export class AudioContextManager {
     Effect.disconnectInOrder(this.effects);
   }
 
-  takeSnapshot() {
+  takeSnapshot(): Preset {
     if (!this.effects.length) {
       return;
     }
 
-    const cabinet = this.effects[this.effects.length - 1].takeSnapshot();
+    const cabinet = this.effects[this.effects.length - 1].takeSnapshot() as CabinetInfo;
     cabinet.params.volume = this.masterSub$.value;
 
     const snapshot = {
