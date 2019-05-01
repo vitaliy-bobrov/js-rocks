@@ -73,7 +73,7 @@ export class AudioContextManager {
 
   removeEffect(effect: Effect) {
     this.disconnectAll();
-    this.effects = this.effects.filter(eff => eff === effect);
+    this.effects = this.effects.filter(eff => eff !== effect);
     this.connectInOrder();
   }
 
