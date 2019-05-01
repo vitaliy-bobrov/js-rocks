@@ -85,7 +85,7 @@ export class Distortion extends Effect {
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
-    const frequency = mapToMinMax(expScale(tone), 500, this.sampleRate / 2);
+    const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
     this.toneNode.frequency.setValueAtTime(frequency, 0);
   }
 
@@ -98,6 +98,10 @@ export class Distortion extends Effect {
   dispose() {
     super.dispose();
 
+    this.preFilter = null;
+    this.waveSharper = null;
+    this.toneNode = null;
+    this.levelNode = null;
     this.levelSub$.complete();
     this.distortionSub$.complete();
     this.toneSub$.complete();

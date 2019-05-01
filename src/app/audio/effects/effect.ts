@@ -76,6 +76,8 @@ export abstract class Effect {
     }
 
     this.processor = [];
+    this.input = null;
+    this.output = null;
     this.isBypassEnabled = false;
     this.activeSub$.complete();
   }
