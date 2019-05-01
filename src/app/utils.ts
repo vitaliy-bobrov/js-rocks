@@ -34,3 +34,7 @@ export function gainFadeInConnect(options: FadeInOptions) {
   options.target.gain.setTargetAtTime(value, options.time, 0.01);
 }
 
+export function toMs(value: number) {
+  return value > 0 ? value / 1000 : 0;
+}
+
