@@ -116,6 +116,11 @@ export class Cabinet extends Effect {
   dispose() {
     super.dispose();
 
+    this.convolver = null;
+    this.makeUpGain = null;
+    this.bassNode = null;
+    this.midNode = null;
+    this.trebleNode = null;
     this.bassSub$.complete();
     this.midSub$.complete();
     this.trebleSub$.complete();
