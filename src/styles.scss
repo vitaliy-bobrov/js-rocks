@@ -29,8 +29,7 @@ button {
   margin: -1px;
 }
 
-.pedal + .pedal,
-.pedal + .pedal-placeholder,
-.pedal-placeholder + .pedal {
-  margin-left: 48px;
+.pedal,
+.pedal-placeholder {
+  margin: 0 24px 24px;
 }
