@@ -1,0 +1,62 @@
+:host {
+  display: grid;
+  grid-auto-rows: 1fr;
+  align-items: center;
+  text-align: left;
+  touch-action: pan-x pan-y;
+  position: relative;
+  padding: 8px 0;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    top: 8px;
+    right: 4px;
+    bottom: 8px;
+    background-color: rgba(#000, .84);
+  }
+
+  .knob {
+    width: 8px;
+    height: 16px;
+    background: repeating-linear-gradient(0deg, transparent, transparent 5px, black 6px), linear-gradient(0deg, #464646 0%, #5a5a5a 14%, #141414 15%, #141414 50%, #5a5a5a 84%, #141414 85%, #1e1e1e 100%);
+    box-shadow: 0 0.25rem 0.5rem 0 rgba(#000, .5);
+    position: absolute;
+    right: 1px;
+    top: -2px;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 45%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(#fff, .75);
+    }
+  }
+
+  .label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 8px;
+    color: var(--stompbox-label);
+    padding-right: 12px;
+    position: relative;
+
+    &:after {
+      content: '';
+      width: 6px;
+      height: 1px;
+      background-color: rgba(#000, .84);
+      position: absolute;
+      top: 50%;
+      right: 10px;
+    }
+  }
+
+  input:focus ~ .knob {
+    box-shadow: 0 0 6px #f44336;
+  }
+}

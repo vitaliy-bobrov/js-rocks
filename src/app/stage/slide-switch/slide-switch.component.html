@@ -1,0 +1,15 @@
+<label
+  class="label"
+  #control
+  *ngFor="let option of options">
+  {{option.label}}
+
+  <input
+    class="visually-hidden"
+    type="radio"
+    [name]="group"
+    [value]="option.value"
+    [checked]="option.value === value">
+
+    <div *ngIf="option.value === value" class="knob"></div>
+</label>
