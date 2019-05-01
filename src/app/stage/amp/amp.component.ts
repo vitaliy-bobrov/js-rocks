@@ -14,6 +14,7 @@ interface CabinetModel {
   model: string;
   path: string;
   gain: number;
+  maxGain: number;
 }
 
 interface CabinetConfig {
@@ -41,27 +42,32 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     {
       model: 'Celesticco',
       path: 'cenzo_celestion_v30_mix.wav',
-      gain: 4
+      gain: 4,
+      maxGain: 10
     },
     {
       model: 'Franklinstein',
       path: 'framus_4x12_v30_sm57.wav',
-      gain: 15
+      gain: 15,
+      maxGain: 25,
     },
     {
       model: 'MegaStorm',
       path: 'mesa_oversized_v30_edge_sneap_1.wav',
-      gain: 15
+      gain: 15,
+      maxGain: 25
     },
     {
       model: 'Yellow Submarine',
       path: 'yellow.ogg',
-      gain: 24
+      gain: 24,
+      maxGain: 30
     },
     {
       model: 'Captain 1960',
       path: 'Marshall1960A-G12Ms-SM57-Cone-0.5in.wav',
-      gain: 6
+      gain: 6,
+      maxGain: 10
     }
   ];
   defaultCabinet = this.cabinets[4];
@@ -79,9 +85,11 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     const convolver = this.convolverService
       .loadIR(this.manager.context, this.selectedModel.path);
     this.effect = new Cabinet(
-      this.manager.context, convolver,
+      this.manager.context,
+      this.selectedModel.model,
+      convolver,
       this.selectedModel.gain,
-      this.selectedModel.model);
+      this.selectedModel.maxGain);
     this.manager.addEffect(this.effect, true);
 
     if (this.config) {

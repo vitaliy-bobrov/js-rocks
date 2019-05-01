@@ -5,19 +5,19 @@ import {
   ComponentFactoryResolver,
   OnInit,
   OnDestroy,
-  ViewRef,
-  Renderer2 } from '@angular/core';
-import { AudioContextManager } from '@audio/audio-context-manager.service';
+  ViewRef } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
+
+import { AudioContextManager } from '@audio/audio-context-manager.service';
+import { PresetManagerService, Preset, PresetInfo } from '@audio/preset-manager.service';
 import { Effect } from '@audio/effects/effect';
 import { PedalBoardDirective } from '../pedalboard/pedalboard.directive';
 import { Pedal, PedalComponent } from '../pedal.interface';
 import { BluesDriverComponent } from '../blues-driver/blues-driver.component';
 import { OverdriveComponent } from '../overdrive/overdrive.component';
 import { DsOneComponent } from '../ds-one/ds-one.component';
-import { PresetManagerService, Preset, PresetInfo } from '@audio/preset-manager.service';
-import { MatDialog } from '@angular/material/dialog';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
 import { ReverbComponent } from '../reverb/reverb.component';
 
@@ -64,8 +64,7 @@ export class StageComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private manager: AudioContextManager,
     private presetsManager: PresetManagerService,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private renderer: Renderer2) {
+    private componentFactoryResolver: ComponentFactoryResolver) {
     this.savePreset = this.savePreset.bind(this);
   }
 

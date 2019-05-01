@@ -14,9 +14,17 @@
     font-style: italic;
   }
 
-  .master {
+  .volume-controls {
     justify-self: start;
   }
+
+  .volume-controls,
+  .eq {
+     padding: 0 16px;
+     margin-bottom: 8px;
+     border-radius: 6px;
+     border-bottom: 2px solid #000;
+   }
 
   jsr-knob {
     margin: 20px 0 8px;
@@ -45,10 +53,6 @@
   }
 
   .eq {
-    padding: 0 16px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    border-bottom: 2px solid #000;
     justify-self: center;
   }
 

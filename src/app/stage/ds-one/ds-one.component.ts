@@ -26,16 +26,16 @@ export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<Distort
   effect: Distortion;
 
   params: DistortionSettings = {
-    level: 0.5,
-    distortion: 0.6,
-    tone: 0.4,
+    level: 0.2,
+    distortion: 0.75,
+    tone: 0.3,
     active: false
   };
 
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, this.params, 'sunshine', 'jds-1')
+    this.effect = new Distortion(this.manager.context, 'jds-1', this.params, 'sunshine')
       .withPreFilter(this.manager.context);
     this.manager.addEffect(this.effect);
   }

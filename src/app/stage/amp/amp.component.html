@@ -24,13 +24,26 @@
     </mat-menu>
   </div>
 
-  <jsr-knob
-    dots
-    class="master"
-    label="VOLUME"
-    [value]="masterVolume$ | async"
-    (valueChanged)="updateMasterVolume($event)">
-  </jsr-knob>
+  <section class="volume-controls">
+    <jsr-knob
+      dots
+      class="master"
+      label="VOLUME"
+      [value]="masterVolume$ | async"
+      (valueChanged)="updateMasterVolume($event)">
+    </jsr-knob>
+
+    <jsr-knob
+      dots
+      class="gain"
+      label="GAIN"
+      [min]="1"
+      [max]="selectedModel.maxGain"
+      [step]="1"
+      [value]="effect.makeUpGain$ | async"
+      (valueChanged)="effect.gain = $event">
+    </jsr-knob>
+  </section>
 
   <section class="eq">
     <jsr-knob

@@ -30,14 +30,14 @@ export class Distortion extends Effect {
 
   constructor(
     context: AudioContext,
+    model: string,
     private defaults: DistortionSettings,
-    private curveType: CurveType = 'classic',
-    model: string
+    private curveType: CurveType = 'classic'
+
   ) {
     super(context, model);
 
-    this.waveSharper = context.createWaveShaper();
-    this.waveSharper.oversample = '4x';
+    this.waveSharper = new WaveShaperNode(context, {oversample: '4x'});
     this.toneNode = Tone(context);
     this.levelNode = context.createGain();
 
@@ -57,10 +57,11 @@ export class Distortion extends Effect {
   }
 
   withPreFilter(context: AudioContext) {
-    this.preFilter = context.createBiquadFilter();
-    this.preFilter.type = 'highpass';
-    this.preFilter.frequency.value = 350;
-    this.preFilter.Q.value = Math.SQRT1_2;
+    this.preFilter = new BiquadFilterNode(context, {
+      type: 'highpass',
+      Q: Math.SQRT1_2,
+      frequency: 350
+    });
 
     this.toggleBypass();
 
@@ -94,7 +95,7 @@ export class Distortion extends Effect {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
     const time = this.levelNode.context.currentTime;
-    this.levelNode.gain.setValueAtTime(gain, time);
+    this.levelNode.gain.setTargetAtTime(gain, time, 0.01);
   }
 
   dispose() {
