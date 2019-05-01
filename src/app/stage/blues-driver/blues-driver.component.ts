@@ -4,7 +4,8 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   Output,
-  EventEmitter } from '@angular/core';
+  EventEmitter,
+  HostBinding } from '@angular/core';
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
@@ -16,6 +17,9 @@ import { PedalComponent } from '../pedal.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
+  @HostBinding('class.pedal')
+  pedalClassName = true;
+
   @Output()
   remove = new EventEmitter<void>();
 

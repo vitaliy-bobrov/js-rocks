@@ -28,3 +28,9 @@ button {
   height: 1px;
   margin: -1px;
 }
+
+.pedal + .pedal,
+.pedal + .pedal-placeholder,
+.pedal-placeholder + .pedal {
+  margin-left: 48px;
+}
