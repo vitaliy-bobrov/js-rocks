@@ -11,6 +11,7 @@ export abstract class Effect {
   private activeSub$ = new BehaviorSubject<boolean>(false);
   private isBypassEnabled = true;
   protected processor: AudioNode[] = [];
+  protected sampleRate: number;
   input: GainNode;
   output: GainNode;
   active$ = this.activeSub$.asObservable();
@@ -34,6 +35,7 @@ export abstract class Effect {
   }
 
   constructor(context: AudioContext, public model: string) {
+    this.sampleRate = context.sampleRate;
     this.input = context.createGain();
     this.output = context.createGain();
     this.activeSub$.next(false);

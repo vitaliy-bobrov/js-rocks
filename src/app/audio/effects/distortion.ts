@@ -39,6 +39,8 @@ export class Distortion extends Effect {
     this.waveSharper.oversample = '4x';
     this.toneNode = context.createBiquadFilter();
     this.toneNode.type = 'lowpass';
+    this.toneNode.frequency.value = 350;
+    this.toneNode.Q.value = Math.SQRT1_2;
     this.levelNode = context.createGain();
 
     this.processor = [
@@ -59,7 +61,8 @@ export class Distortion extends Effect {
   withPreFilter(context: AudioContext) {
     this.preFilter = context.createBiquadFilter();
     this.preFilter.type = 'highpass';
-    this.preFilter.frequency.value = 280;
+    this.preFilter.frequency.value = 350;
+    this.preFilter.Q.value = Math.SQRT1_2;
 
     this.toggleBypass();
 
@@ -84,7 +87,7 @@ export class Distortion extends Effect {
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
-    const frequency = mapToMinMax(expScale(tone), 200, 22050);
+    const frequency = mapToMinMax(expScale(tone), 500, this.sampleRate / 2);
     this.toneNode.frequency.setValueAtTime(frequency, 0);
   }
 
