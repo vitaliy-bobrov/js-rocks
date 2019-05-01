@@ -21,6 +21,7 @@ interface CabinetConfig {
   model: string;
   params: {
     volume: number;
+    gain: number;
     bass: number;
     mid: number;
     treble: number;
@@ -78,8 +79,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private manager: AudioContextManager,
-    private convolverService: ConvolverService
-  ) {}
+    private convolverService: ConvolverService) {}
 
   ngOnInit() {
     const convolver = this.convolverService
@@ -116,7 +116,11 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedModel = cabinet;
     const convolver = this.convolverService
       .loadIR(this.manager.context, this.selectedModel.path);
-    this.effect.updateConvolver(convolver, this.selectedModel.gain, this.selectedModel.model);
+    this.effect.updateConvolver(
+      convolver,
+      this.selectedModel.gain,
+      this.selectedModel.maxGain,
+      this.selectedModel.model);
   }
 
   private setupConfig() {
@@ -128,6 +132,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     this.effect.bass = this.config.params.bass;
     this.effect.mid = this.config.params.mid;
     this.effect.treble = this.config.params.treble;
+    this.effect.gain = this.config.params.gain || this.selectedModel.gain;
 
     this.updateMasterVolume(this.config.params.volume);
 
@@ -135,6 +140,4 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       this.effect.active = this.config.params.active;
     }
   }
-
-
 }
