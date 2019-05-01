@@ -17,24 +17,24 @@
         class="tone"
         label="TONE"
         labelPosition="top"
-        [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
+        [value]="effect.tone$ | async"
+        (valueChanged)="effect.tone = $event"></jsr-knob>
       <jsr-knob
         dots
         small
         class="time"
         label="TIME"
+        [max]="50"
+        [step]="1"
         labelPosition="top"
-        [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
-      <jsr-knob
-        dots
-        small
+        [value]="effect.time$ | async"
+        (valueChanged)="effect.time = $event"></jsr-knob>
+      <jsr-slide-switch
         class="type"
-        label="TYPE"
-        labelPosition="top"
-        [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
+        group="reverb-type"
+        [options]="types"
+        [value]="selectedType"
+        (valueChanged)="switchType($event)"></jsr-slide-switch>
     </div>
 
     <jsr-large-switch
