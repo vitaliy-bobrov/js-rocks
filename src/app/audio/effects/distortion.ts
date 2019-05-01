@@ -28,6 +28,27 @@ export class Distortion extends Effect {
   tone$ = this.toneSub$.asObservable();
   level$ = this.levelSub$.asObservable();
 
+  set distortion(value: number) {
+    const amount = clamp(0, 1, value);
+    this.distortionSub$.next(amount);
+    this.waveSharper.curve = this._makeDistortionCurve(amount);
+  }
+
+  set tone(value: number) {
+    const tone = clamp(0, 1, value);
+    this.toneSub$.next(tone);
+    const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
+    const time = this.toneNode.context.currentTime;
+    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
+  }
+
+  set level(value: number) {
+    const gain = clamp(0, 1, value);
+    this.levelSub$.next(gain);
+    const time = this.levelNode.context.currentTime;
+    this.levelNode.gain.setTargetAtTime(gain, time, 0.01);
+  }
+
   constructor(
     context: AudioContext,
     model: string,
@@ -77,31 +98,11 @@ export class Distortion extends Effect {
     return this;
   }
 
-  set distortion(value: number) {
-    const amount = clamp(0, 1, value);
-    this.distortionSub$.next(amount);
-    this.waveSharper.curve = this._makeDistortionCurve(amount);
-  }
-
-  set tone(value: number) {
-    const tone = clamp(0, 1, value);
-    this.toneSub$.next(tone);
-    const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    const time = this.toneNode.context.currentTime;
-    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
-  }
-
-  set level(value: number) {
-    const gain = clamp(0, 1, value);
-    this.levelSub$.next(gain);
-    const time = this.levelNode.context.currentTime;
-    this.levelNode.gain.setTargetAtTime(gain, time, 0.01);
-  }
-
   dispose() {
     super.dispose();
 
     this.preFilter = null;
+    this.waveSharper.curve = null;
     this.waveSharper = null;
     this.toneNode = null;
     this.levelNode = null;

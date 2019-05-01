@@ -110,12 +110,14 @@ export class Cabinet extends Effect {
     this.input.connect(this.output);
   }
 
-  updateConvolver(convolver: ConvolverNode, gain: number, model: string) {
+  updateConvolver(convolver: ConvolverNode, gain: number, maxGain: number, model: string) {
     this.model = model;
     this.convolver.disconnect();
+    this.convolver.buffer = null;
     this.convolver = null;
     this.convolver = convolver;
     this.processor[0] = this.convolver;
+    this.maxGain = maxGain;
     this.makeUpGain.gain.setTargetAtTime(gain, this.convolver.context.currentTime, 0.01);
 
     this.toggleBypass();
@@ -128,6 +130,7 @@ export class Cabinet extends Effect {
   dispose() {
     super.dispose();
 
+    this.convolver.buffer = null;
     this.convolver = null;
     this.makeUpGain = null;
     this.bassNode = null;

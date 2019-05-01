@@ -75,6 +75,8 @@ export abstract class Effect {
       node.disconnect();
     }
 
+    this.input.disconnect();
+
     this.processor = [];
     this.input = null;
     this.output = null;
