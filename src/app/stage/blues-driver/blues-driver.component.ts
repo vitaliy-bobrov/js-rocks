@@ -28,7 +28,7 @@ export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<D
   params: DistortionSettings = {
     level: 0.5,
     distortion: 0.4,
-    tone: 0.25,
+    tone: 0.2,
     active: false
   };
 
