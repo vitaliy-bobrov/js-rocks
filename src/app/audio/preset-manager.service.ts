@@ -35,10 +35,10 @@ export class PresetManagerService {
         model: 'jbd-2',
         params: null
       },
-      {
-        model: 'jrv-6',
-        params: null
-      }
+      // {
+      //   model: 'jrv-6',
+      //   params: null
+      // }
     ]
   };
 
