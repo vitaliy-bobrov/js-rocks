@@ -123,9 +123,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
     this.updateMasterVolume(this.config.params.volume);
 
-    if (typeof this.config.params.active !== 'undefined'
-      && this.config.params.active !== this.effect.active) {
-      this.effect.toggleBypass();
+    if (typeof this.config.params.active !== 'undefined') {
+      this.effect.active = this.config.params.active;
     }
   }
 
