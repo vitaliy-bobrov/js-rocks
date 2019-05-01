@@ -86,13 +86,15 @@ export class Distortion extends Effect {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
     const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    this.toneNode.frequency.setValueAtTime(frequency, 0);
+    const time = this.toneNode.context.currentTime;
+    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
   }
 
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
-    this.levelNode.gain.setValueAtTime(gain, 0);
+    const time = this.levelNode.context.currentTime;
+    this.levelNode.gain.setValueAtTime(gain, time);
   }
 
   dispose() {

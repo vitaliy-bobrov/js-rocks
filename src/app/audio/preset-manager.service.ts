@@ -26,7 +26,7 @@ export class PresetManagerService {
         volume: 1,
         bass: 0.5,
         mid: 0.6,
-        treble: 0.5,
+        treble: 0.65,
         active: true
       },
     },
