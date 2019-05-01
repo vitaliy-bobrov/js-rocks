@@ -60,29 +60,20 @@ export class AudioContextManager {
   }
 
   addEffect(effect: Effect, post = false) {
+    this.disconnectAll();
+
     if (post) {
       this.effects.push(effect);
     } else {
       this.effects.splice(-1, 0, effect);
     }
 
-    if (this.effects.length) {
-      const last = this.effects[this.effects.length - 1];
-      last.output.disconnect();
-      last.connect(effect);
-    } else if (this.lineInSource) {
-      this.lineInSource.disconnect();
-      this.lineInSource.connect(effect.input);
-    }
-
-    effect.output.connect(this.masterGain);
+    this.connectInOrder();
   }
 
   removeEffect(effect: Effect) {
     this.disconnectAll();
-
     this.effects = this.effects.filter(eff => eff === effect);
-
     this.connectInOrder();
   }
 
