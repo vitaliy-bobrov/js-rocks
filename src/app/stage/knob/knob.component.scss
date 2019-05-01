@@ -2,6 +2,7 @@
   display: inline-block;
   font-weight: 700;
   text-align: center;
+  touch-action: pan-x pan-y;
 
   &[light] {
     color: white;

@@ -51,18 +51,18 @@ export class KnobComponent implements OnInit {
     this._updateKnobPointer(clamp(this.min, this.max, this.value));
   }
 
+  @HostListener('focus')
+  onFocus() {
+    this.control.nativeElement.focus();
+  }
+
   onValueChange(event) {
     const value = clamp(this.min, this.max, parseFloat(event.target.value));
     this._updateKnobPointer(value);
     this.valueChanged.emit(value);
   }
 
-  @HostListener('focus')
-  onFocus() {
-    this.control.nativeElement.focus();
-  }
-
-  _updateKnobPointer(value: number) {
+  private _updateKnobPointer(value: number) {
     const percent = ((value - this.min)) / (this.max - this.min);
     const deg = Math.round(270 * percent - 135);
 
