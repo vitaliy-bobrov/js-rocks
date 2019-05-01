@@ -1,0 +1,55 @@
+<jsr-stompbox>
+  <div class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        small
+        class="level"
+        label="LEVEL"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        small
+        class="tone"
+        label="TONE"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        small
+        class="time"
+        label="TIME"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        small
+        class="type"
+        label="TYPE"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"></jsr-knob>
+    </div>
+
+    <jsr-large-switch
+      class="switch"
+      name="Reverb"
+      [model]="effect.model"
+      (switch)="effect.toggleBypass()"></jsr-large-switch>
+  </div>
+
+  <button
+    type="button"
+    class="remove"
+    mat-mini-fab
+    color="warn"
+    (click)="remove.emit()">
+    <mat-icon aria-label="Remove effect">close</mat-icon>
+  </button>
+</jsr-stompbox>

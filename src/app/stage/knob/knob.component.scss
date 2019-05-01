@@ -23,6 +23,27 @@
         height: 2em;
       }
     }
+
+    .center-dot {
+      display: none;
+    }
+
+    &[dots] {
+      .dot {
+        &:before,
+        &:after {
+          top: 2.7em;
+        }
+
+        &:before {
+          left: 0;
+        }
+
+        &:after {
+          right: 0;
+        }
+      }
+    }
   }
 
   &[dots] {

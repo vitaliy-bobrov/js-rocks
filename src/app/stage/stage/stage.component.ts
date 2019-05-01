@@ -5,7 +5,8 @@ import {
   ComponentFactoryResolver,
   OnInit,
   OnDestroy,
-  ViewRef} from '@angular/core';
+  ViewRef,
+  Renderer2 } from '@angular/core';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { take } from 'rxjs/operators';
@@ -18,6 +19,7 @@ import { DsOneComponent } from '../ds-one/ds-one.component';
 import { PresetManagerService, Preset, PresetInfo } from '@audio/preset-manager.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
+import { ReverbComponent } from '../reverb/reverb.component';
 
 const componentMapping = {
   'jds-1': {
@@ -31,6 +33,10 @@ const componentMapping = {
   'jod-3': {
     symbol: OverdriveComponent,
     name: 'Overdrive JOD-3'
+  },
+  'jrv-6': {
+    symbol: ReverbComponent,
+    name: 'Reverb JRV-6'
   }
 };
 
@@ -58,7 +64,8 @@ export class StageComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private manager: AudioContextManager,
     private presetsManager: PresetManagerService,
-    private componentFactoryResolver: ComponentFactoryResolver) {
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private renderer: Renderer2) {
     this.savePreset = this.savePreset.bind(this);
   }
 
@@ -91,16 +98,7 @@ export class StageComponent implements OnInit, OnDestroy {
     viewContainerRef.clear();
 
     for (const pedal of this.pedals) {
-      const componentFactory = this.componentFactoryResolver
-        .resolveComponentFactory(pedal.component);
-      const componentRef = viewContainerRef.createComponent(componentFactory);
-      const component = componentRef.instance as PedalComponent<any>;
-
-      component.remove.pipe(take(1)).subscribe(() => this.removePedal(componentRef.hostView));
-
-      if (pedal.params) {
-        component.params = pedal.params;
-      }
+      this.createPedal(pedal);
     }
   }
 
@@ -165,8 +163,21 @@ export class StageComponent implements OnInit, OnDestroy {
       params: null
     };
     const pedal = new Pedal(componentMapping[id].symbol, null);
-    const viewContainerRef = this.pedalBoard.viewContainerRef;
 
+    this.createPedal(pedal);
+
+    this.config.pedals.push(pedalInfo);
+  }
+
+  private removePedal(pedalViewRef: ViewRef) {
+    const viewContainerRef = this.pedalBoard.viewContainerRef;
+    const index = viewContainerRef.indexOf(pedalViewRef);
+    viewContainerRef.remove(index);
+    this.config.pedals.splice(index, 1);
+  }
+
+  private createPedal(pedal: Pedal) {
+    const viewContainerRef = this.pedalBoard.viewContainerRef;
     const componentFactory = this.componentFactoryResolver
         .resolveComponentFactory(pedal.component);
     const componentRef = viewContainerRef.createComponent(componentFactory);
@@ -177,15 +188,6 @@ export class StageComponent implements OnInit, OnDestroy {
     if (pedal.params) {
       component.params = pedal.params;
     }
-
-    this.config.pedals.push(pedalInfo);
-  }
-
-  removePedal(pedalViewRef: ViewRef) {
-    const viewContainerRef = this.pedalBoard.viewContainerRef;
-    const index = viewContainerRef.indexOf(pedalViewRef);
-    viewContainerRef.remove(index);
-    this.config.pedals.splice(index, 1);
   }
 
   private afterConfigChange() {
