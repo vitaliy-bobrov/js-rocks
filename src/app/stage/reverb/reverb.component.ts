@@ -28,9 +28,9 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   effect: Reverb;
 
   params: ReverbSettings = {
-    level: 0.5,
-    tone: 0.5,
-    time: 15,
+    level: 0.6,
+    tone: 0.4,
+    time: 5,
     active: false,
     type: 'Hall'
   };
@@ -65,6 +65,7 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
 
   ngOnInit() {
     const path = this.pathByLabel(this.params.type);
+    this.selectedType = path;
     const convolver = this.convolverService.loadIR(this.manager.context, path);
     this.effect = new Reverb(this.manager.context, 'jrv-6', convolver, this.params);
     this.manager.addEffect(this.effect);
@@ -78,7 +79,7 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   switchType(type: string) {
     this.selectedType = type;
     const convolver = this.convolverService.loadIR(this.manager.context, type);
-    this.effect.updateConvolver(convolver);
+    this.effect.updateConvolver(convolver, type);
   }
 
   private pathByLabel(label: string): string {

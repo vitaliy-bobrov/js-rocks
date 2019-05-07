@@ -34,9 +34,9 @@ export class Reverb extends Effect {
   level$ = this.levelSub$.asObservable();
 
   set time(value: number) {
-    const time = clamp(0, 50, value);
+    const time = clamp(0, 15, value);
     this.timeSub$.next(time);
-    const delay = toMs(mapToMinMax(value, 0, 50));
+    const delay = toMs(mapToMinMax(value, 0, 15));
     const setTime = this.toneNode.context.currentTime;
     this.timeNode.delayTime.setTargetAtTime(delay, setTime, 0.01);
   }
@@ -93,7 +93,7 @@ export class Reverb extends Effect {
     this.input.connect(this.output);
   }
 
-  updateConvolver(convolver: ConvolverNode) {
+  updateConvolver(convolver: ConvolverNode, type: string) {
     this.toneNode.disconnect();
     this.convolver.disconnect();
 
@@ -103,6 +103,7 @@ export class Reverb extends Effect {
 
     this.toneNode.connect(this.convolver);
     this.convolver.connect(this.wet);
+    this.type = type;
   }
 
   dispose() {
@@ -127,7 +128,8 @@ export class Reverb extends Effect {
     snapshot.params = {
       ...snapshot.params,
       tone: this.toneSub$.value,
-      level: this.levelSub$.value
+      level: this.levelSub$.value,
+      type: this.type
     };
 
     return snapshot;
