@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
+import { deepCopy } from '../utils';
 
 export interface Preset {
   id?: string;
@@ -80,12 +81,12 @@ export class PresetManagerService {
       .getItem(PresetManagerService.CURRENT_PRESET_KEY);
 
     if (!currentPresetId) {
-      return PresetManagerService.defaultPreset;
+      return deepCopy(PresetManagerService.defaultPreset);
     }
 
     const preset = localStorage.getItem(currentPresetId);
 
-    return preset ? JSON.parse(preset) : PresetManagerService.defaultPreset;
+    return preset ? JSON.parse(preset) : deepCopy(PresetManagerService.defaultPreset);
   }
 
   setCurrentPreset(id: string) {

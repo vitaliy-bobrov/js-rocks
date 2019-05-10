@@ -38,3 +38,7 @@ export function toMs(value: number) {
   return value > 0 ? value / 1000 : 0;
 }
 
+export function deepCopy(obj: any): any {
+  return JSON.parse(JSON.stringify(obj));
+}
+
