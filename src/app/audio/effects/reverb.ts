@@ -66,7 +66,7 @@ export class Reverb extends Effect {
     super(context, model);
 
     this.splitter = new ChannelSplitterNode(context);
-    this.timeNode = new DelayNode(context, {});
+    this.timeNode = new DelayNode(context);
     this.toneNode = Tone(context);
     this.convolver = convolver;
     this.wet = context.createGain();
