@@ -84,33 +84,34 @@ export const curves = {
       curve[i] = Math.round(x * bits) / bits;
     }
   },
-//   chebyshev(order) {
-//     this._order = order;
-//     var curve = new Array(4096);
-//     var len = curve.length;
-//     for (var i = 0; i < len; ++i) {
-//         var x = i * 2 / len - 1;
-//         if (x === 0) {
-//             //should output 0 when input is 0
-//             curve[i] = 0;
-//         } else {
-//             curve[i] = this._getCoefficient(x, order, {});
-//         }
-//     }
-//     this._shaper.curve = curve;
-// }
-// _getCoefficient = function (x, degree, memo) {
-//   if (memo.hasOwnProperty(degree)) {
-//       return memo[degree];
-//   } else if (degree === 0) {
-//       memo[degree] = 0;
-//   } else if (degree === 1) {
-//       memo[degree] = x;
-//   } else {
-//       memo[degree] = 2 * x * this._getCoefficient(x, degree - 1, memo) - this._getCoefficient(x, degree - 2, memo);
-//   }
-//   return memo[degree];
-// }
+  chebyshev(amount: number, curve: Float32Array, n: number) {
+    const k = amount * 100;
+
+    for (let i = 0, x; i < n; ++i) {
+      x = i * 2 / n - 1;
+
+      if (x === 0) {
+        // should output 0 when input is 0.
+        curve[i] = 0;
+      } else {
+        curve[i] = _getCoefficient(x, k);
+      }
+    }
+  }
+}
+
+function _getCoefficient(x: number, degree: number, memo = {}) {
+  if (degree in memo) {
+    return memo[degree];
+  } else if (degree === 0) {
+    memo[degree] = 0;
+  } else if (degree === 1) {
+    memo[degree] = x;
+  } else {
+    memo[degree] = 2 * x * _getCoefficient(x, degree - 1, memo) - _getCoefficient(x, degree - 2, memo);
+  }
+
+  return memo[degree];
 }
 
 export type CurveType = 'classic' | 'blues' | 'sunshine' | 'driver' |
