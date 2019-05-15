@@ -69,8 +69,8 @@ export class Reverb extends Effect {
     this.timeNode = new DelayNode(context);
     this.toneNode = Tone(context);
     this.convolver = convolver;
-    this.wet = context.createGain();
-    this.dry = context.createGain();
+    this.wet = new GainNode(context);
+    this.dry = new GainNode(context);
     this.merger = new ChannelMergerNode(context);
 
     this.processor = [

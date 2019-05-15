@@ -24,7 +24,7 @@ export class AudioContextManager {
 
   constructor() {
     this.context = new AudioContext();
-    this.masterGain = this.context.createGain();
+    this.masterGain = new GainNode(this.context);
 
     gainFadeInConnect({
       target: this.masterGain,

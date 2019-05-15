@@ -36,8 +36,8 @@ export abstract class Effect {
 
   constructor(context: AudioContext, public model: string) {
     this.sampleRate = context.sampleRate;
-    this.input = context.createGain();
-    this.output = context.createGain();
+    this.input = new GainNode(context);
+    this.output = new GainNode(context);
     this.activeSub$.next(false);
   }
 

@@ -60,7 +60,7 @@ export class Distortion extends Effect {
 
     this.waveSharper = new WaveShaperNode(context, {oversample: '2x'});
     this.toneNode = Tone(context);
-    this.levelNode = context.createGain();
+    this.levelNode = new GainNode(context);
 
     this.processor = [
       this.waveSharper,
