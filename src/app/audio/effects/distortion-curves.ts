@@ -61,7 +61,7 @@ export const curves = {
       curve[i] = Math.sign(x) * y * (1 / ((k + 1) / 2));
     }
   },
-  tuna5(amount: number, curve: Float32Array, n: number) {
+  fixed(amount: number, curve: Float32Array, n: number) {
     for (let i = 0, x; i < n; ++i) {
       x = i * 2 / n - 1;
 
