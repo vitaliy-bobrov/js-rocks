@@ -1,3 +1,5 @@
+@import '../../../mixins';
+
 :host {
   --stompbox-led: #2624ba;
   display: block;
@@ -42,14 +44,7 @@
     border: 1px solid #333;
     padding: 0 16px;
     box-shadow: inset 1px 2px 5px rgba(0, 0, 0, .4), inset 0 -1px 3px rgba(0, 0, 0, .3);
-    background-image: -webkit-repeating-linear-gradient(top,
-      hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100% ,0) 6%, hsla(0, 0%, 100%, .1) 7.5%),
-    -webkit-repeating-linear-gradient(top,
-      hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0) 4%, rgba(255, 210, 210, .03) 4.5%),
-    -webkit-repeating-linear-gradient(top,
-      hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .15) 2.2%),
-    linear-gradient(90deg,
-      hsl(0, 0%, 78%) 0%, hsl(0, 0%, 90%) 47%, hsl(0, 0%, 78%) 53%, hsl(0, 0%, 70%) 100%);
+    @include metal-texture();
   }
 
   .eq {
@@ -74,14 +69,7 @@
       position: relative;
       text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
       box-shadow: inset hsla(0,0%,15%, 1) 0 0 0 2px, inset hsla(0,0%,15%, .8) 0 -1px 5px 2px, inset hsla(0,0%,0%, .25) 0 -1px 0 3px, inset hsla(0,0%,100%,.7) 0 2px 1px 3px,hsla(0,0%, 0%,.15) 0 -5px 6px 4px, hsla(0,0%,100%,.5) 0 5px 6px 4px;
-      background-image: -webkit-repeating-linear-gradient(top,
-      hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100% ,0) 6%, hsla(0, 0%, 100%, .1) 7.5%),
-    -webkit-repeating-linear-gradient(top,
-      hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0) 4%, rgba(255, 210, 210, .03) 4.5%),
-    -webkit-repeating-linear-gradient(top,
-      hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .15) 2.2%),
-    linear-gradient(180deg,
-      hsl(0, 0%, 78%) 0%, hsl(0, 0%, 90%) 47%, hsl(0, 0%, 78%) 53%, hsl(0, 0%, 70%) 100%);
+      @include metal-texture();
 
       &:focus {
         &:after {
