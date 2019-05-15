@@ -36,6 +36,7 @@ export class Reverb extends Effect {
   set time(value: number) {
     const time = clamp(0, 15, value);
     this.timeSub$.next(time);
+
     const delay = toMs(mapToMinMax(value, 0, 15));
     const setTime = this.toneNode.context.currentTime;
     this.timeNode.delayTime.setTargetAtTime(delay, setTime, 0.01);
@@ -44,6 +45,7 @@ export class Reverb extends Effect {
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
+
     const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
     const time = this.toneNode.context.currentTime;
     this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
@@ -55,7 +57,7 @@ export class Reverb extends Effect {
 
     const time = this.wet.context.currentTime;
     this.wet.gain.setTargetAtTime(gain, time, 0.01);
-    this.dry.gain.setTargetAtTime(1 - gain, time, 0.01);
+    this.dry.gain.setTargetAtTime(Math.max(1 - gain, 0.2), time, 0.01);
   }
 
   constructor(

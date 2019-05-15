@@ -31,12 +31,14 @@ export class Distortion extends Effect {
   set distortion(value: number) {
     const amount = clamp(0, 1, value);
     this.distortionSub$.next(amount);
+
     this.waveSharper.curve = this._makeDistortionCurve(amount);
   }
 
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
+
     const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
     const time = this.toneNode.context.currentTime;
     this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
@@ -45,6 +47,7 @@ export class Distortion extends Effect {
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
+
     const time = this.levelNode.context.currentTime;
     this.levelNode.gain.setTargetAtTime(gain, time, 0.01);
   }
