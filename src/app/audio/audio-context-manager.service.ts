@@ -36,6 +36,13 @@ export class AudioContextManager {
 
   async plugLineIn() {
     try {
+      /**
+       * Fixes issue with suspended audio context.
+       * See more: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
+       */
+      if (this.context.state === 'suspended') {
+        await this.context.resume();
+      }
       if (!this.lineInSource) {
         const stream = await navigator.mediaDevices
         .getUserMedia({
