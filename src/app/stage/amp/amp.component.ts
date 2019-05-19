@@ -71,7 +71,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       maxGain: 10
     }
   ];
-  defaultCabinet = this.cabinets[4];
+  defaultCabinet = this.cabinets[3];
   selectedModel = this.defaultCabinet;
 
   @Input()
