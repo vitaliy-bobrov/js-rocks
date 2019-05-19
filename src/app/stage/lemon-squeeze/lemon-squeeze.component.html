@@ -8,8 +8,6 @@
         small
         class="level"
         label="LEVEL"
-        [max]="10"
-        [step]="0.5"
         labelPosition="top"
         [value]="effect.level$ | async"
         (valueChanged)="effect.level = $event"></jsr-knob>

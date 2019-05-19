@@ -26,10 +26,10 @@ export class LemonSqueezeComponent implements OnInit, OnDestroy, PedalComponent<
   effect: Compressor;
 
   params: CompressorSettings = {
-    level: 6,
-    attack: 0.003,
-    ratio: 12,
-    threshold: 0.24,
+    level: 0.8,
+    attack: 0.15,
+    ratio: 8,
+    threshold: 0.9,
     active: false
   };
 

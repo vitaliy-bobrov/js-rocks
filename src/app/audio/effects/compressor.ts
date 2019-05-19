@@ -28,7 +28,7 @@ export class Compressor extends Effect {
   threshold$ = this.thresholdSub$.asObservable();
 
   set level(value: number) {
-    const gain = clamp(0, 10, value);
+    const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
 
     const time = this.levelNode.context.currentTime;
@@ -49,7 +49,7 @@ export class Compressor extends Effect {
     this.ratioSub$.next(ratio);
 
     const time = this.compressor.context.currentTime;
-    this.compressor.ratio.exponentialRampToValueAtTime(ratio, time);
+    this.compressor.ratio.setTargetAtTime(ratio, time, 0.01);
   }
 
   set threshold(value: number) {
