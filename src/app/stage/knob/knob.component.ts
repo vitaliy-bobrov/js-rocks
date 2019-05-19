@@ -8,7 +8,9 @@ import {
   HostListener,
   ViewChild,
   ElementRef,
-  OnInit } from '@angular/core';
+  OnInit,
+  SimpleChanges,
+  OnChanges } from '@angular/core';
 import { clamp } from '../../utils';
 
 @Component({
@@ -17,7 +19,7 @@ import { clamp } from '../../utils';
   styleUrls: ['./knob.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class KnobComponent implements OnInit {
+export class KnobComponent implements OnInit, OnChanges {
   @HostBinding('attr.tabindex')
   tabIndex = '0';
 
@@ -49,6 +51,12 @@ export class KnobComponent implements OnInit {
 
   ngOnInit() {
     this._updateKnobPointer(clamp(this.min, this.max, this.value));
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('value' in changes && !changes.value.firstChange) {
+      this._updateKnobPointer(clamp(this.min, this.max, this.value));
+    }
   }
 
   @HostListener('focus')
