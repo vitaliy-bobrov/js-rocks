@@ -56,7 +56,7 @@ export class Compressor extends Effect {
     const clamped = clamp(0, 1, value);
     this.thresholdSub$.next(clamped);
 
-    const threshold = mapToMinMax(clamped, -100, 0);
+    const threshold = mapToMinMax(clamped, -60, 0);
     const time = this.compressor.context.currentTime;
     this.compressor.threshold.exponentialRampToValueAtTime(threshold, time);
   }
