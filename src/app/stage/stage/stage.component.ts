@@ -5,8 +5,10 @@ import {
   ComponentFactoryResolver,
   OnInit,
   OnDestroy,
-  ViewRef } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+  ViewRef,
+  AfterContentInit,
+  AfterContentChecked} from '@angular/core';
+import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 
@@ -38,7 +40,7 @@ const componentMapping = {
   },
   'jbd-2': {
     symbol: BluesDriverComponent,
-    name: 'Blues Rules JBD-2'
+    name: 'Blues Drive JBD-2'
   },
   'jod-3': {
     symbol: OverdriveComponent,
@@ -56,7 +58,7 @@ const componentMapping = {
   styleUrls: ['./stage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StageComponent implements OnInit, OnDestroy {
+export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   isLinePlugged = false;
   config: Preset;
   selectedPresetId: string;
@@ -66,9 +68,13 @@ export class StageComponent implements OnInit, OnDestroy {
     name: componentMapping[key].name
   }));
   private pedals: Pedal[];
+  private dragRefs: CdkDrag[];
 
   @ViewChild(PedalBoardDirective)
   pedalBoard: PedalBoardDirective;
+
+  @ViewChild(CdkDropList)
+  dropList: CdkDropList;
 
   constructor(
     public dialog: MatDialog,
@@ -88,6 +94,10 @@ export class StageComponent implements OnInit, OnDestroy {
     this.presetsManager.setCurrentPreset(this.selectedPresetId);
   }
 
+  ngAfterContentChecked() {
+    this.initPedalsDrag();
+  }
+
   toggleLineConnection() {
     this.isLinePlugged = !this.isLinePlugged;
 
@@ -99,12 +109,14 @@ export class StageComponent implements OnInit, OnDestroy {
   }
 
   dropPedal(event: CdkDragDrop<Effect[]>) {
-    this.manager.moveEffect(event.previousIndex, event.currentIndex);
+    moveItemInArray(this.pedals, event.previousIndex, event.currentIndex);
+    this.loadPedals();
   }
 
   loadPedals() {
     const viewContainerRef = this.pedalBoard.viewContainerRef;
     viewContainerRef.clear();
+    this.dragRefs = [];
 
     for (const pedal of this.pedals) {
       this.createPedal(pedal);
@@ -177,8 +189,8 @@ export class StageComponent implements OnInit, OnDestroy {
     };
     const pedal = new Pedal(componentMapping[id].symbol, null);
 
+    this.pedals.push(pedal);
     this.createPedal(pedal);
-
     this.config.pedals.push(pedalInfo);
   }
 
@@ -186,7 +198,9 @@ export class StageComponent implements OnInit, OnDestroy {
     const viewContainerRef = this.pedalBoard.viewContainerRef;
     const index = viewContainerRef.indexOf(pedalViewRef);
     viewContainerRef.remove(index);
+    this.pedals.splice(index, 1);
     this.config.pedals.splice(index, 1);
+    this.dragRefs.splice(index, 1);
   }
 
   private createPedal(pedal: Pedal) {
@@ -201,6 +215,8 @@ export class StageComponent implements OnInit, OnDestroy {
     if (pedal.params) {
       component.params = pedal.params;
     }
+
+    this.dragRefs.push(component.drag);
   }
 
   private afterConfigChange() {
@@ -212,5 +228,9 @@ export class StageComponent implements OnInit, OnDestroy {
       .map(item =>  new Pedal(componentMapping[item.model].symbol, item.params));
 
     this.loadPedals();
+  }
+
+  private initPedalsDrag() {
+    this.dropList._dropListRef.withItems(this.dragRefs.map(drag => drag._dragRef));
   }
 }

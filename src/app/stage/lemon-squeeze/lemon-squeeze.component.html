@@ -1,4 +1,4 @@
-<jsr-stompbox>
+<jsr-stompbox #drag cdkDrag cdkDragRootElement=".pedal">
   <div class="pedal-layout">
     <div class="controls">
       <p class="led-label">check</p>
@@ -55,4 +55,5 @@
     (click)="remove.emit()">
     <mat-icon aria-label="Remove effect">close</mat-icon>
   </button>
+  <div *cdkDragPlaceholder></div>
 </jsr-stompbox>

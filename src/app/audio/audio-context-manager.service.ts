@@ -76,12 +76,6 @@ export class AudioContextManager {
     this.connectInOrder();
   }
 
-  moveEffect(previousIndex: number, currentIndex: number) {
-    this.disconnectAll();
-    moveItemInArray(this.effects, previousIndex, currentIndex);
-    this.connectInOrder();
-  }
-
   connectInOrder() {
     if (this.effects.length) {
       if (this.lineInSource) {

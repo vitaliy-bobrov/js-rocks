@@ -30,6 +30,22 @@ button {
 }
 
 .pedal,
-.pedal-placeholder {
+.cdk-drag-placeholder {
   margin: 0 24px 24px;
+}
+
+.cdk-drag-placeholder {
+  width: 200px;
+  height: 326px;
+  background-color: rgba(#69f0ae, .5);
+  border: 1px solid #69f0ae;
+  border-radius: .5em;
+}
+
+.cdk-drag-dragging > * {
+  pointer-events: none;
+}
+
+.cdk-drop-list-dragging .pedal:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

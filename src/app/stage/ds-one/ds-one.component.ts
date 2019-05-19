@@ -5,7 +5,9 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  HostBinding } from '@angular/core';
+  HostBinding,
+  ViewChild } from '@angular/core';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
@@ -22,6 +24,9 @@ export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<Distort
 
   @Output()
   remove = new EventEmitter<void>();
+
+  @ViewChild(CdkDrag)
+  drag: CdkDrag;
 
   effect: Distortion;
 

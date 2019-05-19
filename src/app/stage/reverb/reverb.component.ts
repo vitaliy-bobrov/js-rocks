@@ -5,7 +5,9 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  HostBinding} from '@angular/core';
+  HostBinding,
+  ViewChild } from '@angular/core';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
 import { ReverbSettings, Reverb } from '@audio/effects/reverb';
@@ -24,6 +26,9 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
 
   @Output()
   remove = new EventEmitter<void>();
+
+  @ViewChild(CdkDrag)
+  drag: CdkDrag;
 
   effect: Reverb;
 

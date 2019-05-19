@@ -88,13 +88,10 @@
 
 <section
     class="pedal-board"
+    #dropList
     cdkDropList
-    cdkDropListLockAxis="x"
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="dropPedal($event)">
 
   <ng-template jsrPedalBoard></ng-template>
-  <!-- <jsr-ds-one class="pedal" cdkDrag>
-    <div class="pedal-placeholder" *cdkDragPlaceholder></div>
-  </jsr-ds-one> -->
 </section>
