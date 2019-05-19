@@ -141,7 +141,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   savePreset(name?: string) {
-    if (!name) {
+    if (!name && !this.selectedPresetId) {
       return;
     }
 
