@@ -1,6 +1,6 @@
 :host {
-  --stompbox-bg: #0b3e85;
-  --stompbox-label: #eff0f2;
+  --stompbox-label: #fff;
+  --stompbox-bg: #4b5053;
   display: block;
 
   &:hover {
@@ -35,10 +35,10 @@
 
   .controls {
     display: grid;
-    grid-template-areas: '.     label  label .   '
-                         '.     led    led   .   '
-                         'level attack ratio comp';
-    grid-auto-columns: 1fr;
+    grid-template-areas: '.    label   .'
+                         'level led  dist'
+                         'level .    dist'
+                         'level tone dist';
     text-align: center;
     padding: 4px 6px 0;
     position: relative;
@@ -51,7 +51,7 @@
       bottom: 4px;
       left: 6px;
       border-radius: .25em;
-      background-color: #8e8989;
+      background-color: #3c4145;
       z-index: 0;
     }
 
@@ -73,24 +73,20 @@
     justify-self: center;
   }
 
+  .tone {
+    grid-area: tone;
+  }
+
+  .dist {
+    grid-area: dist;
+  }
+
   .level {
     grid-area: level;
   }
 
-  .attack {
-    grid-area: attack;
-  }
-
-  .ratio {
-    grid-area: ratio;
-  }
-
-  .comp {
-    grid-area: comp;
-  }
-
   .switch {
-    --stompbox-label: #c8d6df;
+    --stompbox-label: #ea8031;
     grid-area: switch;
   }
 }

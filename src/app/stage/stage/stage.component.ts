@@ -21,6 +21,7 @@ import { DsOneComponent } from '../ds-one/ds-one.component';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
 import { ReverbComponent } from '../reverb/reverb.component';
 import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component';
+import { MetalAreaComponent } from '../metal-area/metal-area.component';
 
 const componentMapping = {
   'jcp-1': {
@@ -30,6 +31,10 @@ const componentMapping = {
   'jds-1': {
     symbol: DsOneComponent,
     name: 'Classic Dist JDS-1'
+  },
+  'jmt-2': {
+    symbol: MetalAreaComponent,
+    name: 'Metal Area JMT-2'
   },
   'jbd-2': {
     symbol: BluesDriverComponent,

@@ -43,7 +43,7 @@ export const curves = {
       curve[i] = Math.tanh(y * 2);
     }
   },
-  tuna4(amount: number, curve: Float32Array, n: number) {
+  power(amount: number, curve: Float32Array, n: number) {
     const k = 1 - amount > 0.99 ? 0.99 : 1 - amount;
 
     for (let i = 0, x, y, abx; i < n; ++i) {
@@ -74,7 +74,7 @@ export const curves = {
       }
     }
   },
-  tuna6(amount: number, curve: Float32Array, n: number) {
+  bitCrasher(amount: number, curve: Float32Array, n: number) {
     const a = 2 + Math.round(amount * 14);
     // we go from 2 to 16 bits, keep in mind for the UI
     const bits = Math.round(Math.pow(2, a - 1));
@@ -115,4 +115,4 @@ function _getCoefficient(x: number, degree: number, memo = {}) {
 }
 
 export type CurveType = 'classic' | 'blues' | 'sunshine' | 'driver' |
-  'sustained' | 'tuna4' | 'tuna5' | 'tuna6';
+  'sustained' | 'power' | 'fixed' | 'bitCrasher' | 'chebyshev';

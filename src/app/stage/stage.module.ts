@@ -27,6 +27,7 @@ import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dial
 import { ReverbComponent } from './reverb/reverb.component';
 import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
 import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
+import { MetalAreaComponent } from './metal-area/metal-area.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
     PresetNameDialogComponent,
     ReverbComponent,
     SlideSwitchComponent,
-    LemonSqueezeComponent
+    LemonSqueezeComponent,
+    MetalAreaComponent
   ],
   entryComponents: [
     PresetNameDialogComponent,
@@ -51,7 +53,8 @@ import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
     BluesDriverComponent,
     OverdriveComponent,
     ReverbComponent,
-    LemonSqueezeComponent
+    LemonSqueezeComponent,
+    MetalAreaComponent
   ],
   imports: [
     A11yModule,
