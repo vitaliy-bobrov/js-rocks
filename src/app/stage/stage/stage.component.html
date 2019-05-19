@@ -3,12 +3,22 @@
     <button
       type="button"
       mat-menu-item
-      (click)="blankPreset()">Default</button>
+      (click)="blankPreset()">
+      <mat-icon>
+        {{selectedPresetId === '' ? 'radio_button_checked' : 'radio_button_unchecked'}}
+      </mat-icon>
+      <span>Default</span>
+    </button>
     <button
       type="button"
       mat-menu-item
       *ngFor="let preset of presets"
-      (click)="activatePreset(preset.id)">{{preset.name}}</button>
+      (click)="activatePreset(preset.id)">
+      <mat-icon>
+        {{selectedPresetId === preset.id ? 'radio_button_checked' : 'radio_button_unchecked'}}
+      </mat-icon>
+      <span>{{preset.name}}</span>
+    </button>
   </mat-menu>
 
   <button
