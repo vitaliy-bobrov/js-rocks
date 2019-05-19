@@ -13,7 +13,10 @@
     [value]="value"
     (change)="onValueChange($event)">
 
-  <div class="knob">
+  <div class="knob"
+    [matTooltip]="value"
+    [matTooltipPosition]="labelPosition === 'top' ? 'above' : 'below'"
+    [matTooltipShowDelay]="1000">
     <div class="knob-focus"></div>
     <div class="dot">
       <div class="center-dot"></div>

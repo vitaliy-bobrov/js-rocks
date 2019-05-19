@@ -126,6 +126,7 @@
     transform: translateX(50%);
     border-radius: 50%;
     box-shadow: 4px 6px 8px rgba(0, 0, 0, .5);
+    cursor: pointer;
 
     &:before,
     &:after {
