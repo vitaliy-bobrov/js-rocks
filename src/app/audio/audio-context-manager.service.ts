@@ -43,8 +43,7 @@ export class AudioContextManager {
             echoCancellation: false,
             autoGainControl: false,
             noiseSuppression: false,
-            latency: 10,
-            googHighpassFilter: false,
+            latency: 0
           } as MediaStreamConstraints['audio']
         });
         this.lineInSource = this.context.createMediaStreamSource(stream);
