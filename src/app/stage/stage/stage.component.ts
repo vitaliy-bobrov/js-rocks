@@ -25,7 +25,7 @@ import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component'
 const componentMapping = {
   'jcp-1': {
     symbol: LemonSqueezeComponent,
-    name: 'Lemon Comp JCP-1'
+    name: 'Lemon Sqz JCP-1'
   },
   'jds-1': {
     symbol: DsOneComponent,
