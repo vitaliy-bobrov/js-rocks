@@ -1,5 +1,5 @@
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, mapToMinMax, expScale, toMs } from '../../utils';
+import { connectNodes, clamp, mapToMinMax, expScale, toMs, equalCrossFade } from '../../utils';
 import { BehaviorSubject } from 'rxjs';
 import { Tone } from './tone';
 
@@ -54,10 +54,11 @@ export class Reverb extends Effect {
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
-
+    const values = equalCrossFade(value);
     const time = this.wet.context.currentTime;
-    this.wet.gain.setTargetAtTime(gain, time, 0.01);
-    this.dry.gain.setTargetAtTime(Math.max(1 - gain, 0.2), time, 0.01);
+
+    this.dry.gain.setTargetAtTime(values[0], time, 0.01);
+    this.wet.gain.setTargetAtTime(values[1], time, 0.01);
   }
 
   constructor(

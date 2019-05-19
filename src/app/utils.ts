@@ -42,3 +42,10 @@ export function deepCopy(obj: any): any {
   return JSON.parse(JSON.stringify(obj));
 }
 
+export function equalCrossFade(value: number): number[] {
+  const first = value === 1 ? 0 : Math.cos(value * 0.5 * Math.PI);
+  const last = value === 0 ? 0 : Math.cos((1 - value) * 0.5 * Math.PI);
+
+  return [first, last];
+}
+
