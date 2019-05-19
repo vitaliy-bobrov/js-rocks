@@ -131,6 +131,7 @@ export class Reverb extends Effect {
     snapshot.params = {
       ...snapshot.params,
       tone: this.toneSub$.value,
+      time: this.timeSub$.value,
       level: this.levelSub$.value,
       type: this.type
     };
