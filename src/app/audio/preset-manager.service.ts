@@ -21,6 +21,7 @@ export class PresetManagerService {
   static CURRENT_PRESET_KEY = 'jsr_current_preset';
   static PRESETS_KEY = 'jsr_presets';
   static defaultPreset: Preset = {
+    id: '',
     cabinet: {
       model: 'Yellow Submarine',
       params: {
@@ -62,7 +63,7 @@ export class PresetManagerService {
   }
 
   generatePresetId(name: string) {
-    return `jsr-preset-${PresetManagerService.hash(name)}`;
+    return `jsr-preset-${PresetManagerService.hash(name)}-${Math.round(Math.random() * 100)}`;
   }
 
   getPresetsInfo(): PresetInfo[] {
