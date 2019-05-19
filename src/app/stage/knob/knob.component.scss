@@ -88,7 +88,17 @@
   }
 
   &[ticks] {
-
+    .dot {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      left: -8px;
+      bottom: -8px;
+      border-radius: 50%;
+      background: repeating-conic-gradient(var(--stompbox-label) 0 2deg, transparent 0 15deg);
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 70%, 0% 100%);
+      z-index: -1;
+    }
   }
 
   input {
