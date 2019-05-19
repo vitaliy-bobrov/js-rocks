@@ -41,7 +41,7 @@ export class Compressor extends Effect {
 
     const attack = mapToMinMax(clamped, 0.001, 1);
     const time = this.compressor.context.currentTime;
-    this.compressor.attack.exponentialRampToValueAtTime(attack, time);
+    this.compressor.attack.setTargetAtTime(attack, time, 0.01);
   }
 
   set ratio(value: number) {
@@ -58,7 +58,7 @@ export class Compressor extends Effect {
 
     const threshold = mapToMinMax(clamped, -60, 0);
     const time = this.compressor.context.currentTime;
-    this.compressor.threshold.exponentialRampToValueAtTime(threshold, time);
+    this.compressor.threshold.setTargetAtTime(threshold, time, 0.01);
   }
 
   constructor(
@@ -95,6 +95,7 @@ export class Compressor extends Effect {
     this.compressor = null;
     this.levelSub$.complete();
     this.attackSub$.complete();
+    this.ratioSub$.complete();
     this.thresholdSub$.complete();
   }
 
