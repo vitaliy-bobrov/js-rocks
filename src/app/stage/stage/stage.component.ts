@@ -124,6 +124,10 @@ export class StageComponent implements OnInit, OnDestroy {
   }
 
   savePreset(name?: string) {
+    if (!name) {
+      return;
+    }
+
     const preset = this.manager.takeSnapshot();
 
     if (this.selectedPresetId) {
