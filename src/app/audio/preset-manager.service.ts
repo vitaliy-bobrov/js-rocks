@@ -35,6 +35,10 @@ export class PresetManagerService {
     },
     pedals: [
       {
+        model: 'jcp-1',
+        params: null
+      },
+      {
         model: 'jbd-2',
         params: null
       },

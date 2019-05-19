@@ -26,6 +26,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
 import { ReverbComponent } from './reverb/reverb.component';
 import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
+import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
 
 @NgModule({
   declarations: [
@@ -41,14 +42,16 @@ import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
     PedalBoardDirective,
     PresetNameDialogComponent,
     ReverbComponent,
-    SlideSwitchComponent
+    SlideSwitchComponent,
+    LemonSqueezeComponent
   ],
   entryComponents: [
     PresetNameDialogComponent,
     DsOneComponent,
     BluesDriverComponent,
     OverdriveComponent,
-    ReverbComponent
+    ReverbComponent,
+    LemonSqueezeComponent
   ],
   imports: [
     A11yModule,

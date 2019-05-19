@@ -36,28 +36,29 @@ export class Compressor extends Effect {
   }
 
   set attack(value: number) {
-    const attack = clamp(0.001, 1, value);
-    this.attackSub$.next(attack);
+    const clamped = clamp(0, 1, value);
+    this.attackSub$.next(clamped);
 
+    const attack = mapToMinMax(clamped, 0.001, 1);
     const time = this.compressor.context.currentTime;
     this.compressor.attack.exponentialRampToValueAtTime(attack, time);
   }
 
   set ratio(value: number) {
     const ratio = clamp(1, 20, value);
-    this.attackSub$.next(ratio);
+    this.ratioSub$.next(ratio);
 
     const time = this.compressor.context.currentTime;
     this.compressor.ratio.exponentialRampToValueAtTime(ratio, time);
   }
 
-  set treshold(value: number) {
+  set threshold(value: number) {
     const clamped = clamp(0, 1, value);
     this.thresholdSub$.next(clamped);
-
-    const treshold = mapToMinMax(clamped, -100, 0);
+    console.log(clamped);
+    const threshold = mapToMinMax(clamped, -100, 0);
     const time = this.compressor.context.currentTime;
-    this.compressor.threshold.exponentialRampToValueAtTime(treshold, time);
+    this.compressor.threshold.exponentialRampToValueAtTime(threshold, time);
   }
 
   constructor(

@@ -20,8 +20,13 @@ import { OverdriveComponent } from '../overdrive/overdrive.component';
 import { DsOneComponent } from '../ds-one/ds-one.component';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
 import { ReverbComponent } from '../reverb/reverb.component';
+import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component';
 
 const componentMapping = {
+  'jcp-1': {
+    symbol: LemonSqueezeComponent,
+    name: 'Lemon Comp JCP-1'
+  },
   'jds-1': {
     symbol: DsOneComponent,
     name: 'Classic Dist JDS-1'
