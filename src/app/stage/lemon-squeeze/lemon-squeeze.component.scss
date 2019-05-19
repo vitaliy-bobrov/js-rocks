@@ -1,5 +1,6 @@
 :host {
   --stompbox-bg: #0b3e85;
+  --stompbox-label: #fff;
   display: block;
 
   &:hover {
@@ -34,9 +35,10 @@
 
   .controls {
     display: grid;
-    grid-template-areas: '.    label label   .'
-                         '.    led   led    .'
+    grid-template-areas: '.     label  label .   '
+                         '.     led    led   .   '
                          'level attack ratio comp';
+    grid-auto-columns: 1fr;
     text-align: center;
     padding: 4px 6px 0;
     position: relative;
