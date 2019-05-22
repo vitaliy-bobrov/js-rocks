@@ -39,7 +39,7 @@
       label="GAIN"
       [min]="1"
       [max]="selectedModel.maxGain"
-      [step]="1"
+      [step]="0.5"
       [value]="effect.makeUpGain$ | async"
       (valueChanged)="effect.gain = $event">
     </jsr-knob>

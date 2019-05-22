@@ -36,7 +36,7 @@ export class KnobComponent implements OnInit, OnChanges {
   max = 1;
 
   @Input()
-  step = 0.05;
+  step = 0.01;
 
   @Input()
   value = 0;
@@ -50,12 +50,12 @@ export class KnobComponent implements OnInit, OnChanges {
   constructor(private element: ElementRef) {}
 
   ngOnInit() {
-    this._updateKnobPointer(clamp(this.min, this.max, this.value));
+    this.updateKnobPointer(clamp(this.min, this.max, this.value));
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if ('value' in changes && !changes.value.firstChange) {
-      this._updateKnobPointer(clamp(this.min, this.max, this.value));
+      this.updateKnobPointer(clamp(this.min, this.max, this.value));
     }
   }
 
@@ -64,13 +64,14 @@ export class KnobComponent implements OnInit, OnChanges {
     this.control.nativeElement.focus();
   }
 
-  onValueChange(event) {
-    const value = clamp(this.min, this.max, parseFloat(event.target.value));
-    this._updateKnobPointer(value);
+  onValueChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = clamp(this.min, this.max, parseFloat(target.value));
+    this.updateKnobPointer(value);
     this.valueChanged.emit(value);
   }
 
-  private _updateKnobPointer(value: number) {
+  private updateKnobPointer(value: number) {
     const percent = ((value - this.min)) / (this.max - this.min);
     const deg = Math.round(270 * percent - 135);
 
