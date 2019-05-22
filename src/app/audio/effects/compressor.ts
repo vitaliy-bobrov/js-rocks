@@ -70,7 +70,7 @@ export class Compressor extends Effect {
 
     this.levelNode = new GainNode(context);
     this.compressor = new DynamicsCompressorNode(context, {
-      knee: 5,
+      knee: 4,
       release: 0.25
     });
 
