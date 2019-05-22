@@ -62,7 +62,7 @@ export class Cabinet extends Effect {
   set gain(value: number) {
     const gain = clamp(1, this.maxGain, value);
     this.makeUpGainSub$.next(gain);
-    const time = this.bassNode.context.currentTime;
+    const time = this.makeUpGain.context.currentTime;
     this.makeUpGain.gain.setTargetAtTime(gain, time, 0.01);
   }
 
@@ -118,13 +118,9 @@ export class Cabinet extends Effect {
     this.convolver = convolver;
     this.processor[0] = this.convolver;
     this.maxGain = maxGain;
-    this.makeUpGain.gain.setTargetAtTime(gain, this.convolver.context.currentTime, 0.01);
-
-    this.toggleBypass();
+    this.gain = gain;
 
     this.convolver.connect(this.makeUpGain);
-
-    this.toggleBypass();
   }
 
   dispose() {
