@@ -62,16 +62,15 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
       value: 'Deep Space.wav'
     }
   ];
-  selectedType = this.types[0].value;
+  selectedType = this.types[3];
 
   constructor(
     private manager: AudioContextManager,
     private convolverService: ConvolverService) {}
 
   ngOnInit() {
-    const path = this.pathByLabel(this.params.type);
-    this.selectedType = this.params.type;
-    const convolver = this.convolverService.loadIR(this.manager.context, path);
+    this.selectedType = this.typeByLabel(this.params.type);
+    const convolver = this.convolverService.loadIR(this.manager.context, this.selectedType.value);
     this.effect = new Reverb(this.manager.context, 'jrv-6', convolver, this.params);
     this.manager.addEffect(this.effect);
   }
@@ -81,15 +80,20 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
     this.effect.dispose();
   }
 
-  switchType(type: string) {
-    this.selectedType = type;
-    const convolver = this.convolverService.loadIR(this.manager.context, type);
-    this.effect.updateConvolver(convolver, type);
+  switchType(path: string) {
+    this.selectedType = this.typeByValue(path);
+    const convolver = this.convolverService.loadIR(this.manager.context, path);
+    this.effect.updateConvolver(convolver, this.selectedType.label);
   }
 
-  private pathByLabel(label: string): string {
+  private typeByLabel(label: string): SwitchOption {
     const item =  this.types.find((type) => type.label === label);
-    return item ? item.value : this.types[0].value;
+    return item || this.types[3];
+  }
+
+  private typeByValue(value: string): SwitchOption {
+    const item =  this.types.find((type) => type.value === value);
+    return item || this.types[3];
   }
 }
 

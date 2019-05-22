@@ -120,7 +120,11 @@ export class Cabinet extends Effect {
     this.maxGain = maxGain;
     this.gain = gain;
 
+    this.toggleBypass();
+
     this.convolver.connect(this.makeUpGain);
+
+    this.toggleBypass();
   }
 
   dispose() {

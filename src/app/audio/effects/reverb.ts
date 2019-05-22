@@ -91,7 +91,7 @@ export class Reverb extends Effect {
 
     connectNodes(this.processor);
 
-    this.splitter.connect(this.dry).connect(this.merger);
+    this.splitter.connect(this.dry, 1).connect(this.merger, 0, 1);
 
     this.input.connect(this.output);
   }
@@ -103,10 +103,10 @@ export class Reverb extends Effect {
     this.convolver.buffer = null;
     this.convolver = null;
     this.convolver = convolver;
+    this.type = type;
 
     this.toneNode.connect(this.convolver);
     this.convolver.connect(this.wet);
-    this.type = type;
   }
 
   dispose() {
