@@ -39,7 +39,7 @@ export class Reverb extends Effect {
 
     const delay = toMs(mapToMinMax(value, 0, 30));
     const setTime = this.toneNode.context.currentTime;
-    this.timeNode.delayTime.setTargetAtTime(delay, setTime, 0.01);
+    this.timeNode.delayTime.setValueAtTime(delay, setTime);
   }
 
   set tone(value: number) {

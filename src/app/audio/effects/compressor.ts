@@ -41,7 +41,7 @@ export class Compressor extends Effect {
 
     const attack = mapToMinMax(clamped, 0.001, 1);
     const time = this.compressor.context.currentTime;
-    this.compressor.attack.setTargetAtTime(attack, time, 0.01);
+    this.compressor.attack.setValueAtTime(attack, time);
   }
 
   set ratio(value: number) {
@@ -49,7 +49,7 @@ export class Compressor extends Effect {
     this.ratioSub$.next(ratio);
 
     const time = this.compressor.context.currentTime;
-    this.compressor.ratio.setTargetAtTime(ratio, time, 0.01);
+    this.compressor.ratio.setValueAtTime(ratio, time);
   }
 
   set threshold(value: number) {
@@ -58,7 +58,7 @@ export class Compressor extends Effect {
 
     const threshold = mapToMinMax(clamped, -60, 0);
     const time = this.compressor.context.currentTime;
-    this.compressor.threshold.setTargetAtTime(threshold, time, 0.01);
+    this.compressor.threshold.setValueAtTime(threshold, time);
   }
 
   constructor(
@@ -70,7 +70,7 @@ export class Compressor extends Effect {
 
     this.levelNode = new GainNode(context);
     this.compressor = new DynamicsCompressorNode(context, {
-      knee: 4,
+      knee: 40,
       release: 0.25
     });
 
