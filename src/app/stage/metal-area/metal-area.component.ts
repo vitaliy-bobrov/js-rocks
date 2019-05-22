@@ -32,7 +32,7 @@ export class MetalAreaComponent implements OnInit, OnDestroy, PedalComponent<Dis
 
   params: DistortionSettings = {
     level: 0.5,
-    distortion: 0.75,
+    distortion: 0.7,
     tone: 0.55,
     active: false
   };
