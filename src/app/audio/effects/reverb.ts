@@ -34,12 +34,12 @@ export class Reverb extends Effect {
   level$ = this.levelSub$.asObservable();
 
   set time(value: number) {
-    const time = clamp(0, 30, value);
+    const time = clamp(0, 15, value);
     this.timeSub$.next(time);
 
-    const delay = toMs(mapToMinMax(value, 0, 30));
+    const delay = toMs(time);
     const setTime = this.toneNode.context.currentTime;
-    this.timeNode.delayTime.setValueAtTime(delay, setTime);
+    this.timeNode.delayTime.setTargetAtTime(delay, setTime, 0.01);
   }
 
   set tone(value: number) {
