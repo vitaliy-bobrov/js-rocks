@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ConvolverService {
-  private irPath = '/assets/impulses';
+  private irPath = 'assets/impulses';
 
   constructor(private http: HttpClient) {}
 
