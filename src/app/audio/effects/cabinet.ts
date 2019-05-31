@@ -80,7 +80,7 @@ export class Cabinet extends Effect {
     this.defaults.gain = gain;
     this.bassNode = new BiquadFilterNode(context, {
       type: 'lowshelf',
-      frequency: 500,
+      frequency: 500
     });
     this.midNode = new BiquadFilterNode(context, {
       type: 'peaking',
