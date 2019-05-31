@@ -25,7 +25,7 @@ export class LemonSqueezeComponent implements OnInit, OnDestroy, PedalComponent<
   @Output()
   remove = new EventEmitter<void>();
 
-  @ViewChild(CdkDrag)
+  @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
   effect: Compressor;

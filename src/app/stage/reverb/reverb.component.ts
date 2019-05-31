@@ -27,7 +27,7 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   @Output()
   remove = new EventEmitter<void>();
 
-  @ViewChild(CdkDrag)
+  @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
   effect: Reverb;

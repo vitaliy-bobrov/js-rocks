@@ -28,7 +28,7 @@ export class LargeSwitchComponent {
   @Output()
   switch = new EventEmitter<void>();
 
-  @ViewChild('control')
+  @ViewChild('control', { static: true })
   control: ElementRef;
 
   @HostListener('focus')

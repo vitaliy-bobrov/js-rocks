@@ -70,10 +70,10 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   private pedals: Pedal[];
   private dragRefs: CdkDrag[];
 
-  @ViewChild(PedalBoardDirective)
+  @ViewChild(PedalBoardDirective, { static: true })
   pedalBoard: PedalBoardDirective;
 
-  @ViewChild(CdkDropList)
+  @ViewChild(CdkDropList, { static: true })
   dropList: CdkDropList;
 
   constructor(

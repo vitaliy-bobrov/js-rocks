@@ -25,7 +25,7 @@ export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<D
   @Output()
   remove = new EventEmitter<void>();
 
-  @ViewChild(CdkDrag)
+  @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
   effect: Distortion;

@@ -44,7 +44,7 @@ export class KnobComponent implements OnInit, OnChanges {
   @Output()
   valueChanged = new EventEmitter<number>();
 
-  @ViewChild('control')
+  @ViewChild('control', { static: true })
   control: ElementRef;
 
   constructor(private element: ElementRef) {}
