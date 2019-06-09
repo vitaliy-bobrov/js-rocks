@@ -136,6 +136,10 @@ export class Chorus extends Effect {
     super.dispose();
 
     this.lfo.stop();
+    this.lfo.disconnect();
+    this.feedbackNode.disconnect();
+    this.depthNode.disconnect();
+
     this.eqNode = null;
     this.lfo = null;
     this.depthNode = null;
