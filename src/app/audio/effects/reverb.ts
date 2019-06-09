@@ -38,7 +38,7 @@ export class Reverb extends Effect {
     this.timeSub$.next(time);
 
     const delay = toMs(time);
-    const setTime = this.toneNode.context.currentTime;
+    const setTime = this.timeNode.context.currentTime;
     this.timeNode.delayTime.setTargetAtTime(delay, setTime, 0.01);
   }
 
@@ -111,6 +111,10 @@ export class Reverb extends Effect {
 
   dispose() {
     super.dispose();
+
+    this.splitter.disconnect();
+    this.dry.disconnect();
+    this.merger.disconnect();
 
     this.splitter = null;
     this.timeNode = null;
