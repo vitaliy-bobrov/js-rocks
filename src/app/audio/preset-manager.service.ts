@@ -39,6 +39,10 @@ export class PresetManagerService {
         params: null
       },
       {
+        model: 'jch-1',
+        params: null
+      },
+      {
         model: 'jrv-6',
         params: null
       }

@@ -9,7 +9,7 @@ export interface EffectInfo {
 
 export abstract class Effect {
   private activeSub$ = new BehaviorSubject<boolean>(false);
-  private isBypassEnabled = true;
+  protected isBypassEnabled = true;
   protected processor: AudioNode[] = [];
   protected sampleRate: number;
   input: GainNode;

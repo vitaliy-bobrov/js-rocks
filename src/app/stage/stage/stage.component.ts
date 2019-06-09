@@ -24,6 +24,7 @@ import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dia
 import { ReverbComponent } from '../reverb/reverb.component';
 import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component';
 import { MetalAreaComponent } from '../metal-area/metal-area.component';
+import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
 
 const componentMapping = {
   'jcp-1': {
@@ -45,6 +46,10 @@ const componentMapping = {
   'jod-3': {
     symbol: OverdriveComponent,
     name: 'Overdrive JOD-3'
+  },
+  'jch-1': {
+    symbol: CoolChorusComponent,
+    name: 'Cool Chorus JCH-1'
   },
   'jrv-6': {
     symbol: ReverbComponent,

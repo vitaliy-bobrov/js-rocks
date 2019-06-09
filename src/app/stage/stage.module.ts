@@ -28,6 +28,7 @@ import { ReverbComponent } from './reverb/reverb.component';
 import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
 import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
 import { MetalAreaComponent } from './metal-area/metal-area.component';
+import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MetalAreaComponent } from './metal-area/metal-area.component';
     ReverbComponent,
     SlideSwitchComponent,
     LemonSqueezeComponent,
-    MetalAreaComponent
+    MetalAreaComponent,
+    CoolChorusComponent
   ],
   entryComponents: [
     PresetNameDialogComponent,
@@ -54,7 +56,8 @@ import { MetalAreaComponent } from './metal-area/metal-area.component';
     OverdriveComponent,
     ReverbComponent,
     LemonSqueezeComponent,
-    MetalAreaComponent
+    MetalAreaComponent,
+    CoolChorusComponent
   ],
   imports: [
     A11yModule,

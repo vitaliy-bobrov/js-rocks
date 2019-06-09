@@ -1,0 +1,56 @@
+<jsr-stompbox #drag cdkDrag cdkDragRootElement=".pedal">
+  <div class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        small
+        class="level"
+        label="LEVEL"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        small
+        class="eq"
+        label="EQ"
+        labelPosition="top"
+        [value]="effect.eq$ | async"
+        (valueChanged)="effect.eq = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        small
+        class="rate"
+        label="RATE"
+        labelPosition="top"
+        [value]="effect.rate$ | async"
+        (valueChanged)="effect.rate = $event"></jsr-knob>
+        <jsr-knob
+          dots
+          small
+          class="depth"
+          label="DEPTH"
+          labelPosition="top"
+          [value]="effect.depth$ | async"
+          (valueChanged)="effect.depth = $event"></jsr-knob>
+    </div>
+
+    <jsr-large-switch
+      class="switch"
+      name="Cool Chorus"
+      [model]="effect.model"
+      (switch)="effect.toggleBypass()"></jsr-large-switch>
+  </div>
+
+  <button
+    type="button"
+    class="remove"
+    mat-mini-fab
+    color="warn"
+    (click)="remove.emit()">
+    <mat-icon aria-label="Remove effect">close</mat-icon>
+  </button>
+  <div *cdkDragPlaceholder></div>
+</jsr-stompbox>

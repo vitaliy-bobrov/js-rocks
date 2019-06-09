@@ -1,0 +1,96 @@
+:host {
+  --stompbox-bg: #71aeda;
+  --stompbox-label: #e6eef7;
+  display: block;
+
+  &:hover {
+    .remove {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity .2s linear;
+
+    &:focus {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'switch';
+    grid-template-rows: 1fr 65%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas: '.     label  label .    '
+                         '.     led    led   .    '
+                         'level eq     rate  depth';
+    grid-auto-columns: 1fr;
+    text-align: center;
+    padding: 4px 6px 0;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      bottom: 4px;
+      left: 6px;
+      border-radius: .25em;
+      background-color: #18373c;
+      z-index: 0;
+    }
+
+    > * {
+      z-index: 1;
+    }
+  }
+
+  .led-label {
+    grid-area: label;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 3px 0 0;
+    color: var(--stompbox-label);
+  }
+
+  jsr-led {
+    grid-area: led;
+    justify-self: center;
+  }
+
+  .level {
+    grid-area: level;
+  }
+
+  .eq {
+    grid-area: eq;
+  }
+
+  .rate {
+    grid-area: rate;
+  }
+
+  .depth {
+    grid-area: depth;
+  }
+
+  .switch {
+    --stompbox-label: #3f6677;
+    grid-area: switch;
+  }
+}
