@@ -19,7 +19,8 @@ export class Distortion extends Effect {
   private levelSub$ = new BehaviorSubject<number>(0);
   private distortionSub$ = new BehaviorSubject<number>(0);
   private toneSub$ = new BehaviorSubject<number>(0);
-  private preFilter: BiquadFilterNode;
+  private preFilterLow: BiquadFilterNode;
+  private preFilterHigh: BiquadFilterNode;
   private waveSharper: WaveShaperNode;
   private toneNode: BiquadFilterNode;
   private levelNode: GainNode;
@@ -57,15 +58,26 @@ export class Distortion extends Effect {
     model: string,
     private defaults: DistortionSettings,
     private curveType: CurveType = 'classic'
-
   ) {
     super(context, model);
 
+    this.preFilterLow = new BiquadFilterNode(context, {
+      type: 'highpass',
+      Q: Math.SQRT1_2,
+      frequency: 20
+    });
+    this.preFilterHigh = new BiquadFilterNode(context, {
+      type: 'lowpass',
+      Q: Math.SQRT1_2,
+      frequency: 12000
+    });
     this.waveSharper = new WaveShaperNode(context, {oversample: '2x'});
     this.toneNode = Tone(context);
     this.levelNode = new GainNode(context);
 
     this.processor = [
+      this.preFilterLow,
+      this.preFilterHigh,
       this.waveSharper,
       this.toneNode,
       this.levelNode
@@ -80,31 +92,11 @@ export class Distortion extends Effect {
     this.input.connect(this.output);
   }
 
-  withPreFilter(context: AudioContext) {
-    this.preFilter = new BiquadFilterNode(context, {
-      type: 'highpass',
-      Q: Math.SQRT1_2,
-      frequency: 350
-    });
-
-    this.toggleBypass();
-
-    this.processor = [
-      this.preFilter,
-      ...this.processor
-    ];
-
-    this.preFilter.connect(this.processor[1]);
-
-    this.toggleBypass();
-
-    return this;
-  }
-
   dispose() {
     super.dispose();
 
-    this.preFilter = null;
+    this.preFilterLow = null;
+    this.preFilterHigh = null;
     this.waveSharper.curve = null;
     this.waveSharper = null;
     this.toneNode = null;
