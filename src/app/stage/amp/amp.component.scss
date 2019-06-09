@@ -10,22 +10,41 @@
   border-radius: 3px;
   border: 1px solid #333;
   background-color: #222;
-  padding: 24px;
+  padding: 12px;
+
+  @media screen and (min-width: 1024px) {
+    padding: 24px;
+  }
+
+  .inputs {
+    grid-area: inputs;
+  }
 
   .model {
+    display: inline-block;
+    vertical-align: middle;
     font-style: italic;
+
+    @media screen and (min-width: 840addpx) {
+      display: block;
+    }
   }
 
   .volume-controls {
+    grid-area: volume-controls;
     justify-self: start;
   }
 
   .volume-controls,
   .eq {
-     padding: 0 16px;
+     padding: 0 8px;
      margin-bottom: 8px;
      border-radius: 6px;
      border-bottom: 2px solid #000;
+
+     @media screen and (min-width: 768px) {
+      padding: 0 16px;
+     }
    }
 
   jsr-knob {
@@ -33,21 +52,42 @@
   }
 
   jsr-knob + jsr-knob {
-    margin-left: 36px;
+    margin-left: 16px;
+
+    @media screen and (min-width: 768px) {
+      margin-left: 24px;
+    }
+
+    @media screen and (min-width: 1024px) {
+      margin-left: 36px;
+    }
   }
 
   .plate {
     display: grid;
-    grid-auto-flow: column;
+    grid-template-areas: 'inputs          inputs'
+                         'volume-controls switch'
+                         'eq              eq    ';
+
     justify-content: stretch;
     border-radius: 3px;
     border: 1px solid #333;
     padding: 0 16px;
     box-shadow: inset 1px 2px 5px rgba(0, 0, 0, .4), inset 0 -1px 3px rgba(0, 0, 0, .3);
     @include metal-texture();
+
+    @media screen and (min-width: 540px) {
+      grid-template-areas: 'inputs          switch'
+                           'volume-controls eq    ';
+    }
+
+    @media screen and (min-width: 840px) {
+      grid-template-areas: 'inputs volume-controls eq switch'
+    }
   }
 
   .eq {
+    grid-area: eq;
     justify-self: center;
   }
 
@@ -57,6 +97,7 @@
   }
 
   .switch {
+    grid-area: switch;
     justify-self: end;
 
     &-button {
