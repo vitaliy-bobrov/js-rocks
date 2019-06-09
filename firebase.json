@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "js-rocks",
+      "public": "dist/js-rocks",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

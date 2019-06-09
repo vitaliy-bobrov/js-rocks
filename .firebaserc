@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "js-rocks": {
+      "hosting": {
+        "js-rocks": [
+          "js-rocks"
+        ]
+      }
+    }
+  }
+}
