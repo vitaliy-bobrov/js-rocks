@@ -40,7 +40,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-hosting.*.cache
+/.firebase
 
 # System Files
 .DS_Store
