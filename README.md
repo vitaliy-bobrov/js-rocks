@@ -2,7 +2,7 @@
 
 JS Rocks - Web Audio electric guitar effects and cabinets.
 
-[Try it now](https://js-rocks.web.app)
+Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 ![](https://github.com/vitaliy-bobrov/js-rocks/blob/master/src/assets/og-image.jpg)
 
