@@ -58,7 +58,7 @@ export class Chorus extends Effect {
     const rate = clamp(0, 1, value);
     this.rateSub$.next(rate);
 
-    const frequency = mapToMinMax(rate, 0.1, 5);
+    const frequency = mapToMinMax(rate, 0.1, 8);
     const time = this.lfo.context.currentTime;
     this.lfo.frequency.exponentialRampToValueAtTime(frequency, time);
   }
