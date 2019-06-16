@@ -33,8 +33,8 @@ export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<Ch
   params: ChorusSettings = {
     level: 0.9,
     eq: 0.5,
-    rate: 0.18,
-    depth: 0.7,
+    rate: 0.6,
+    depth: 0.85,
     feedback: 0.4,
     delay: 0.0045,
     active: false
