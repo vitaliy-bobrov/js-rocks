@@ -14,6 +14,10 @@ import { ReverbSettings, Reverb } from '@audio/effects/reverb';
 import { SwitchOption } from '../slide-switch/slide-switch.component';
 import { ConvolverService } from '@audio/convolver.service';
 
+interface ReverbConvolver extends SwitchOption {
+  gain: number;
+}
+
 @Component({
   selector: 'jsr-reverb',
   templateUrl: './reverb.component.html',
@@ -40,26 +44,31 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
     type: 'Room'
   };
 
-  types: SwitchOption[] = [
+  types: ReverbConvolver[] = [
     {
       label: 'Spring',
-      value: 'Direct Cabinet N3.wav'
+      value: 'Direct Cabinet N3.wav',
+      gain: 8
     },
     {
       label: 'Plate',
-      value: 'Chateau de Logne, Outside.wav'
+      value: 'Chateau de Logne, Outside.wav',
+      gain: 5
     },
     {
       label: 'Hall',
-      value: 'Scala Milan Opera Hall.wav'
+      value: 'Scala Milan Opera Hall.wav',
+      gain: 3
     },
     {
       label: 'Room',
-      value: 'Highly Damped Large Room.wav'
+      value: 'Highly Damped Large Room.wav',
+      gain: 5
     },
     {
       label: 'Space',
-      value: 'Deep Space.wav'
+      value: 'Deep Space.wav',
+      gain: 6
     }
   ];
   selectedType = this.types[3];
@@ -71,7 +80,12 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   ngOnInit() {
     this.selectedType = this.typeByLabel(this.params.type);
     const convolver = this.convolverService.loadIR(this.manager.context, this.selectedType.value);
-    this.effect = new Reverb(this.manager.context, 'jrv-6', convolver, this.params);
+    this.effect = new Reverb(
+      this.manager.context,
+      'jrv-6', convolver,
+      this.selectedType.gain,
+      this.params
+    );
     this.manager.addEffect(this.effect);
   }
 
@@ -83,15 +97,15 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   switchType(path: string) {
     this.selectedType = this.typeByValue(path);
     const convolver = this.convolverService.loadIR(this.manager.context, path);
-    this.effect.updateConvolver(convolver, this.selectedType.label);
+    this.effect.updateConvolver(convolver, this.selectedType.gain ,this.selectedType.label);
   }
 
-  private typeByLabel(label: string): SwitchOption {
+  private typeByLabel(label: string): ReverbConvolver {
     const item =  this.types.find((type) => type.label === label);
     return item || this.types[3];
   }
 
-  private typeByValue(value: string): SwitchOption {
+  private typeByValue(value: string): ReverbConvolver {
     const item =  this.types.find((type) => type.value === value);
     return item || this.types[3];
   }

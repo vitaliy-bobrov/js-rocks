@@ -23,6 +23,7 @@ export class Reverb extends Effect {
   private timeNode: DelayNode;
   private toneNode: BiquadFilterNode;
   private convolver: ConvolverNode;
+  private makeUpGain: GainNode;
   private wet: GainNode;
   private dry: GainNode;
   private merger: ChannelMergerNode;
@@ -65,6 +66,7 @@ export class Reverb extends Effect {
     context: AudioContext,
     model: string,
     convolver: ConvolverNode,
+    convolverMakeUp: number,
     private defaults: ReverbSettings) {
     super(context, model);
 
@@ -75,6 +77,7 @@ export class Reverb extends Effect {
     this.wet = new GainNode(context);
     this.dry = new GainNode(context);
     this.merger = new ChannelMergerNode(context);
+    this.makeUpGain = new GainNode(context, {gain: convolverMakeUp});
 
     this.processor = [
       this.splitter,
@@ -82,7 +85,8 @@ export class Reverb extends Effect {
       this.toneNode,
       this.convolver,
       this.wet,
-      this.merger
+      this.merger,
+      this.makeUpGain
     ];
 
     Object.keys(this.defaults).forEach(option => {
@@ -96,7 +100,10 @@ export class Reverb extends Effect {
     this.input.connect(this.output);
   }
 
-  updateConvolver(convolver: ConvolverNode, type: string) {
+  updateConvolver(convolver: ConvolverNode, makeUpGain: number, type: string) {
+    const decreaseTime = this.makeUpGain.context.currentTime;
+    this.makeUpGain.gain.setTargetAtTime(0, decreaseTime, 0.01);
+
     this.toneNode.disconnect();
     this.convolver.disconnect();
 
@@ -107,6 +114,9 @@ export class Reverb extends Effect {
 
     this.toneNode.connect(this.convolver);
     this.convolver.connect(this.wet);
+
+    const increaseTime = this.makeUpGain.context.currentTime;
+    this.makeUpGain.gain.setTargetAtTime(makeUpGain, increaseTime, 0.01);
   }
 
   dispose() {
@@ -124,6 +134,7 @@ export class Reverb extends Effect {
     this.wet = null;
     this.dry = null;
     this.merger = null;
+    this.makeUpGain = null;
     this.timeSub$.complete();
     this.toneSub$.complete();
     this.levelSub$.complete();
