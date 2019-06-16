@@ -23,17 +23,21 @@ export class PresetManagerService {
   static defaultPreset: Preset = {
     id: '',
     cabinet: {
-      model: 'Yellow Submarine',
+      model: 'Captain 1960',
       params: {
         volume: 1,
-        bass: 0.5,
+        bass: 0.45,
         mid: 0.6,
-        treble: 0.6,
-        gain: 24,
+        treble: 0.5,
+        gain: 4,
         active: true
       },
     },
     pedals: [
+      {
+        model: 'jcp-1',
+        params: null
+      },
       {
         model: 'jbd-2',
         params: null

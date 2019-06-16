@@ -41,37 +41,61 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
   cabinets: CabinetModel[] = [
     {
-      model: 'Celesticco',
-      path: 'cenzo_celestion_v30_mix.wav',
+      model: 'Captain 1960',
+      path: 'cabinet/captain_1960.wav',
       gain: 4,
-      maxGain: 10
+      maxGain: 7
     },
     {
-      model: 'Franklinstein',
-      path: 'framus_4x12_v30_sm57.wav',
+      model: 'Friender Winner',
+      path: 'cabinet/friender_winner.wav',
+      gain: 5,
+      maxGain: 9
+    },
+    {
+      model: 'Enzo Celesticco',
+      path: 'cabinet/enzo_celesticco.wav',
+      gain: 4,
+      maxGain: 7
+    },
+    {
+      model: 'Fox AC30',
+      path: 'cabinet/fox_ac30.wav',
+      gain: 9,
+      maxGain: 17
+    },
+    {
+      model: 'FranklinStein',
+      path: 'cabinet/franklinstein.wav',
       gain: 15,
-      maxGain: 25,
+      maxGain: 29,
     },
     {
       model: 'MegaStorm',
-      path: 'mesa_oversized_v30_edge_sneap_1.wav',
+      path: 'cabinet/mega_storm.wav',
       gain: 15,
-      maxGain: 25
+      maxGain: 29
     },
     {
       model: 'Yellow Submarine',
-      path: 'yellow.ogg',
+      path: 'cabinet/yellow.ogg',
       gain: 24,
-      maxGain: 30
+      maxGain: 47
     },
     {
-      model: 'Captain 1960',
-      path: 'Marshall1960A-G12Ms-SM57-Cone-0.5in.wav',
+      model: 'Eagle Pro',
+      path: 'cabinet/eagle_pro.wav',
       gain: 6,
-      maxGain: 10
+      maxGain: 11
+    },
+    {
+      model: 'Sandman 2204',
+      path: 'cabinet/sandman_2204.wav',
+      gain: 6,
+      maxGain: 11
     }
   ];
-  defaultCabinet = this.cabinets[3];
+  defaultCabinet = this.cabinets[0];
   selectedModel = this.defaultCabinet;
 
   @Input()

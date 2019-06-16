@@ -32,16 +32,19 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 ## Available cabinets 🔊
 
-- Celesticco
-- Franklinstein
+- Captain 1960
+- Friender Winner
+- Enzo Celesticco
+- Fox AC30
+- FranklinStein
 - MegaStorm
 - Yellow Submarine
-- Captain 1960
+- Eagle Pro
+- Sandman 2204
 
 More come soon...
 
 ## Planned
-- More cabinets
 - Freeverb
 - Tremolo
 - Fuzz
