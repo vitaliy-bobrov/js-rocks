@@ -57,7 +57,7 @@ export const curves = {
       }
     }
   }
-}
+};
 
 function _getCoefficient(x: number, degree: number, memo = {}) {
   if (degree in memo) {

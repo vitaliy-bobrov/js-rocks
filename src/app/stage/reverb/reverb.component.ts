@@ -97,7 +97,7 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   switchType(path: string) {
     this.selectedType = this.typeByValue(path);
     const convolver = this.convolverService.loadIR(this.manager.context, path);
-    this.effect.updateConvolver(convolver, this.selectedType.gain ,this.selectedType.label);
+    this.effect.updateConvolver(convolver, this.selectedType.gain , this.selectedType.label);
   }
 
   private typeByLabel(label: string): ReverbConvolver {
