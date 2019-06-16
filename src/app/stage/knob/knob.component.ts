@@ -47,6 +47,8 @@ export class KnobComponent implements OnInit, OnChanges {
   @ViewChild('control', { static: true })
   control: ElementRef;
 
+  private lashWheelUpdate = 0;
+
   constructor(private element: ElementRef) {}
 
   ngOnInit() {
@@ -64,11 +66,28 @@ export class KnobComponent implements OnInit, OnChanges {
     this.control.nativeElement.focus();
   }
 
+  @HostListener('mousewheel', ['$event'])
+  onMouseWheel(event: WheelEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const currentTime = performance.now();
+    // Limit updates to 100ms.
+    if (currentTime - this.lashWheelUpdate < 100) {
+      return;
+    }
+
+    this.lashWheelUpdate = currentTime;
+    const currentValue = parseFloat(this.control.nativeElement.value);
+    const direction = event.deltaY < 0 ? -1 : 1;
+    const updatedValue = parseFloat((currentValue + direction * this.step).toFixed(2));
+
+    this.updateValue(updatedValue);
+  }
+
   onValueChange(event: Event) {
     const target = event.target as HTMLInputElement;
-    const value = clamp(this.min, this.max, parseFloat(target.value));
-    this.updateKnobPointer(value);
-    this.valueChanged.emit(value);
+    this.updateValue(parseFloat(target.value));
   }
 
   private updateKnobPointer(value: number) {
@@ -76,5 +95,11 @@ export class KnobComponent implements OnInit, OnChanges {
     const deg = Math.round(270 * percent - 135);
 
     this.element.nativeElement.style.setProperty('--knob-angle', `${deg}deg`);
+  }
+
+  private updateValue(value: number) {
+    const clamped = clamp(this.min, this.max, value);
+    this.updateKnobPointer(clamped);
+    this.valueChanged.emit(clamped);
   }
 }
