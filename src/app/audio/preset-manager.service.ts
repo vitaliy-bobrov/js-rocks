@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as nanoid from 'nanoid';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
 import { deepCopy } from '../utils';
@@ -53,25 +54,8 @@ export class PresetManagerService {
     ]
   };
 
-  static hash(str: string) {
-    let hash = 0;
-    let chr = 0;
-
-    if (str.length === 0) {
-      return hash;
-    }
-
-    for (let i = 0; i < str.length; i++) {
-      chr   = str.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
-      hash |= 0;
-    }
-
-    return hash;
-  }
-
-  generatePresetId(name: string) {
-    return `jsr-preset-${PresetManagerService.hash(name)}-${Math.round(Math.random() * 100)}`;
+  generatePresetId() {
+    return `jsr-preset-${nanoid(10)}`;
   }
 
   getPresetsInfo(): PresetInfo[] {
@@ -104,7 +88,7 @@ export class PresetManagerService {
 
   addPreset(preset: Preset, name: string): {presets: PresetInfo[], id: string} {
     const presets = this.getPresetsInfo();
-    const id = this.generatePresetId(name);
+    const id = this.generatePresetId();
     preset.id = id;
     presets.push({
       id,
