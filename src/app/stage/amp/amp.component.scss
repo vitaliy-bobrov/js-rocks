@@ -12,10 +12,6 @@
   background-color: #222;
   padding: 12px;
 
-  @media screen and (min-width: 1024px) {
-    padding: 24px;
-  }
-
   .inputs {
     grid-area: inputs;
   }
@@ -69,6 +65,7 @@
                          'volume-controls switch'
                          'eq              eq    ';
 
+    grid-template-columns: auto max-content;
     justify-content: stretch;
     border-radius: 3px;
     border: 1px solid #333;
@@ -82,7 +79,8 @@
     }
 
     @media screen and (min-width: 840px) {
-      grid-template-areas: 'inputs volume-controls eq switch'
+      grid-template-areas: 'inputs volume-controls eq switch';
+      grid-template-columns: max-content max-content auto max-content;
     }
   }
 
