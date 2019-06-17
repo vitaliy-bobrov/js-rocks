@@ -10,18 +10,25 @@
 
   &[small] {
     label {
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .knob {
-      height: 3em;
-      width: 3em;
-      left: -1.5em;
-      top: .1em;
+      height: 38px;
+      width: 38px;
+      left: -19px;
+      top: 0;
+
+      &:before {
+        width: 2px;
+        margin-left: -1px;
+      }
 
       &:after {
-        width: 2em;
-        height: 2em;
+        width: 24px;
+        height: 24px;
+        left: 7px;
+        top: 7px;
       }
     }
 
@@ -33,15 +40,17 @@
       .dot {
         &:before,
         &:after {
-          top: 2.7em;
+          width: 6px;
+          height: 6px;
+          top: 34px;
         }
 
         &:before {
-          left: 0;
+          left: -1px;
         }
 
         &:after {
-          right: 0;
+          right: -1px;
         }
       }
     }
@@ -58,30 +67,30 @@
       &:before,
       &:after {
         content: '';
-        top: 3.2em;
+        top: 51px;
       }
 
       &:before {
-        left: -.2em;
+        left: -4px;
       }
 
       &:after {
-        right: -.2em;
+        right: -4px;
       }
     }
 
     .dot:before,
     .dot:after,
     .center-dot {
-        width: .5em;
-        height: .5em;
+        width: 8px;
+        height: 8px;
         position: absolute;
         border-radius: 50%;
         background-color: var(--stompbox-label);
       }
 
     .center-dot {
-      top: -.8em;
+      top: -12px;
       left: 50%;
       transform: translateX(-50%);
     }
@@ -118,10 +127,10 @@
   .knob {
     position: relative;
     background: #222;
-    height: 3.5em;
-    width: 3.5em;
-    left: -1.75em;
-    top: .125em;
+    height: 56px;
+    width: 56px;
+    left: -28px;
+    top: 2px;
     margin: 0 auto 8px;
     transform: translateX(50%);
     border-radius: 50%;
@@ -135,25 +144,25 @@
     }
 
     &:before {
-      width: .125em;
+      width: 3px;
       height: 50%;
       transform-origin: bottom;
       transform: rotate(var(--knob-angle, 0deg));
       transition: transform .1s linear;
       top: 0;
       left: 50%;
-      border-top-left-radius: .125em;
-      border-top-right-radius: .125em;
-      margin-left: -0.06em;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      margin-left: -1.5px;
       background: #fff;
     }
 
     &:after {
-      width: 2.5em;
-      height: 2.5em;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      left: .5em;
-      top: .5em;
+      left: 10px;
+      top: 10px;
       background: #999;
       background-image: radial-gradient(8% 50% at 50% 0%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%), radial-gradient(12% 50% at 50% 100%, hsla(0,0%,100%,.6) 0%, hsla(0,0%,100%,0) 100%), radial-gradient(50% 7% at 0% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%), radial-gradient(50% 5% at 100% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%), repeating-radial-gradient(100% 100% at 50% 50%, hsla(0,0%, 0%,0) 0%, hsla(0,0%, 0%,0) 3%, hsla(0,0%, 0%,.1) 3.5%), repeating-radial-gradient(100% 100% at 50% 50%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 6%, hsla(0,0%,100%,.1) 7.5%), repeating-radial-gradient( 100% 100% at 50% 50%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 1.2%, hsla(0,0%,100%,.2) 2.2%), radial-gradient(200% 50% at 50% 50%, hsla(0,0%,90%,1) 5%, hsla(0,0%,85%,1) 30%, hsla(0,0%,60%,1) 100%);
     }
