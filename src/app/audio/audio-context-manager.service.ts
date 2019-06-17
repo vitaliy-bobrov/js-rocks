@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Effect } from './effects/effect';
 import { clamp, gainFadeInConnect } from '../utils';
 import { BehaviorSubject } from 'rxjs';
-import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from './preset-manager.service';
 import { CabinetInfo } from './effects/cabinet';
 
