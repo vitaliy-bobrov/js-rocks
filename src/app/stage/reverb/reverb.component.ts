@@ -79,10 +79,11 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
 
   ngOnInit() {
     this.selectedType = this.typeByLabel(this.params.type);
-    const convolver = this.convolverService.loadIR(this.manager.context, this.selectedType.value);
+    const buffer$ = this.convolverService.loadIR(this.manager.context, this.selectedType.value);
     this.effect = new Reverb(
       this.manager.context,
-      'jrv-6', convolver,
+      'jrv-6',
+      buffer$,
       this.selectedType.gain,
       this.params
     );
@@ -96,8 +97,8 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
 
   switchType(path: string) {
     this.selectedType = this.typeByValue(path);
-    const convolver = this.convolverService.loadIR(this.manager.context, path);
-    this.effect.updateConvolver(convolver, this.selectedType.gain , this.selectedType.label);
+    const buffer$ = this.convolverService.loadIR(this.manager.context, path);
+    this.effect.updateConvolver(buffer$, this.selectedType.gain , this.selectedType.label);
   }
 
   private typeByLabel(label: string): ReverbConvolver {

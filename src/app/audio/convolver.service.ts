@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
 @Injectable()
 export class ConvolverService {
@@ -7,16 +9,16 @@ export class ConvolverService {
 
   constructor(private http: HttpClient) {}
 
-  loadIR(context: AudioContext, irFile: string): ConvolverNode {
-    const convolver = context.createConvolver();
+  loadIR(context: AudioContext, irFile: string): Observable<AudioBuffer> {
     const url = `${this.irPath}/${irFile}`;
 
-    this.http.get(url, {responseType: 'arraybuffer'}).subscribe(res => {
-      context.decodeAudioData(res, buffer => {
-        convolver.buffer = buffer;
-      });
-    });
+    return this.http.get(url, {responseType: 'arraybuffer'})
+    .pipe(
+      flatMap(async (res) => {
+        const buffer = await context.decodeAudioData(res);
 
-    return convolver;
+        return buffer;
+      })
+    );
   }
 }

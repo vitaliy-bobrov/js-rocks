@@ -1,6 +1,6 @@
 import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, mapToMinMax, expScale, toMs, equalCrossFade } from '../../utils';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Tone } from './tone';
 
 export interface ReverbSettings {
@@ -65,7 +65,7 @@ export class Reverb extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    convolver: ConvolverNode,
+    buffer$: Observable<AudioBuffer>,
     convolverMakeUp: number,
     private defaults: ReverbSettings) {
     super(context, model);
@@ -73,11 +73,15 @@ export class Reverb extends Effect {
     this.splitter = new ChannelSplitterNode(context);
     this.timeNode = new DelayNode(context);
     this.toneNode = Tone(context);
-    this.convolver = convolver;
+    this.convolver = new ConvolverNode(context);
     this.wet = new GainNode(context);
     this.dry = new GainNode(context);
     this.merger = new ChannelMergerNode(context);
     this.makeUpGain = new GainNode(context, {gain: convolverMakeUp});
+
+    buffer$.subscribe((buffer) => {
+      this.convolver.buffer = buffer;
+    });
 
     this.processor = [
       this.splitter,
@@ -100,23 +104,24 @@ export class Reverb extends Effect {
     this.input.connect(this.output);
   }
 
-  updateConvolver(convolver: ConvolverNode, makeUpGain: number, type: string) {
-    const decreaseTime = this.makeUpGain.context.currentTime;
-    this.makeUpGain.gain.setTargetAtTime(0, decreaseTime, 0.01);
-
+  updateConvolver(buffer$: Observable<AudioBuffer>, makeUpGain: number, type: string) {
     this.toneNode.disconnect();
     this.convolver.disconnect();
 
     this.convolver.buffer = null;
-    this.convolver = null;
-    this.convolver = convolver;
     this.type = type;
+
+    buffer$.subscribe((buffer) => {
+      this.convolver.buffer = buffer;
+    });
+
+    this.toggleBypass();
 
     this.toneNode.connect(this.convolver);
     this.convolver.connect(this.wet);
+    this.makeUpGain.gain.value = makeUpGain;
 
-    const increaseTime = this.makeUpGain.context.currentTime;
-    this.makeUpGain.gain.setTargetAtTime(makeUpGain, increaseTime, 0.01);
+    this.toggleBypass();
   }
 
   dispose() {

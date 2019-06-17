@@ -106,12 +106,12 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     private convolverService: ConvolverService) {}
 
   ngOnInit() {
-    const convolver = this.convolverService
+    const buffer$ = this.convolverService
       .loadIR(this.manager.context, this.selectedModel.path);
     this.effect = new Cabinet(
       this.manager.context,
       this.selectedModel.model,
-      convolver,
+      buffer$,
       this.selectedModel.gain,
       this.selectedModel.maxGain);
     this.manager.addEffect(this.effect, true);

@@ -1,6 +1,6 @@
 import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, mapToMinMax } from '../../utils';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface CabinetInfo extends EffectInfo {
   params: {
@@ -69,13 +69,13 @@ export class Cabinet extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    convolver: ConvolverNode,
+    buffer$: Observable<AudioBuffer>,
     gain: number,
     private maxGain: number
   ) {
     super(context, model);
 
-    this.convolver = convolver;
+    this.convolver = new ConvolverNode(context);
     this.makeUpGain = new GainNode(context, {gain});
     this.defaults.gain = gain;
     this.bassNode = new BiquadFilterNode(context, {
@@ -91,6 +91,10 @@ export class Cabinet extends Effect {
       type: 'highshelf',
       Q: Math.SQRT1_2,
       frequency: 3000
+    });
+
+    buffer$.subscribe((buffer) => {
+      this.convolver.buffer = buffer;
     });
 
     this.processor = [
@@ -110,15 +114,16 @@ export class Cabinet extends Effect {
     this.input.connect(this.output);
   }
 
-  updateConvolver(convolver: ConvolverNode, gain: number, maxGain: number, model: string) {
+  updateConvolver(buffer$: Observable<AudioBuffer>, gain: number, maxGain: number, model: string) {
     this.model = model;
     this.convolver.disconnect();
     this.convolver.buffer = null;
-    this.convolver = null;
-    this.convolver = convolver;
-    this.processor[0] = this.convolver;
     this.maxGain = maxGain;
     this.gain = gain;
+
+    buffer$.subscribe((buffer) => {
+      this.convolver.buffer = buffer;
+    });
 
     this.toggleBypass();
 
