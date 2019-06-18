@@ -109,7 +109,7 @@
       position: relative;
       text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
       box-shadow: inset hsla(0,0%,15%, 1) 0 0 0 2px, inset hsla(0,0%,15%, .8) 0 -1px 5px 2px, inset hsla(0,0%,0%, .25) 0 -1px 0 3px, inset hsla(0,0%,100%,.7) 0 2px 1px 3px,hsla(0,0%, 0%,.15) 0 -5px 6px 4px, hsla(0,0%,100%,.5) 0 5px 6px 4px;
-      @include metal-texture();
+      @include metal-texture-small();
 
       &:focus {
         &:after {
