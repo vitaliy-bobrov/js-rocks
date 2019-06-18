@@ -70,9 +70,9 @@ export class Distortion extends Effect {
     this.preFilterHigh = new BiquadFilterNode(context, {
       type: 'lowpass',
       Q: Math.SQRT1_2,
-      frequency: 12000
+      frequency: context.sampleRate / 2
     });
-    this.waveSharper = new WaveShaperNode(context, {oversample: '2x'});
+    this.waveSharper = new WaveShaperNode(context, {oversample: '4x'});
     this.toneNode = ToneNode(context);
     this.levelNode = new GainNode(context);
 
