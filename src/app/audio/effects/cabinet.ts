@@ -38,7 +38,7 @@ export class Cabinet extends Effect {
   set bass(value: number) {
     const bass = clamp(0, 1, value);
     this.bassSub$.next(bass);
-    const bassGain = mapToMinMax(bass, -40, 40);
+    const bassGain = mapToMinMax(bass, -24, 24);
     const time = this.bassNode.context.currentTime;
     this.bassNode.gain.setTargetAtTime(bassGain, time, 0.01);
   }
@@ -46,7 +46,7 @@ export class Cabinet extends Effect {
   set mid(value: number) {
     const mid = clamp(0, 1, value);
     this.midSub$.next(mid);
-    const midGain = mapToMinMax(mid, -40, 40);
+    const midGain = mapToMinMax(mid, -24, 24);
     const time = this.midNode.context.currentTime;
     this.midNode.gain.setTargetAtTime(midGain, time, 0.01);
   }
@@ -54,7 +54,7 @@ export class Cabinet extends Effect {
   set treble(value: number) {
     const treble = clamp(0, 1, value);
     this.trebleSub$.next(treble);
-    const trebleGain = mapToMinMax(treble, -40, 40);
+    const trebleGain = mapToMinMax(treble, -24, 24);
     const time = this.trebleNode.context.currentTime;
     this.trebleNode.gain.setTargetAtTime(trebleGain, time, 0.01);
   }
@@ -80,17 +80,19 @@ export class Cabinet extends Effect {
     this.defaults.gain = gain;
     this.bassNode = new BiquadFilterNode(context, {
       type: 'lowshelf',
-      frequency: 500
+      frequency: 320,
+      gain: 0
     });
     this.midNode = new BiquadFilterNode(context, {
       type: 'peaking',
-      Q: Math.SQRT1_2,
-      frequency: 1500
+      Q: 0.5,
+      frequency: 1000,
+      gain: 0
     });
     this.trebleNode = new BiquadFilterNode(context, {
       type: 'highshelf',
-      Q: Math.SQRT1_2,
-      frequency: 3000
+      frequency: 3200,
+      gain: 0
     });
 
     buffer$.subscribe((buffer) => {
