@@ -47,27 +47,27 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   types: ReverbConvolver[] = [
     {
       label: 'Spring',
-      value: 'reverb/Direct Cabinet N3.wav',
+      value: 'reverb/spring.wav',
       gain: 8
     },
     {
       label: 'Plate',
-      value: 'reverb/Chateau de Logne, Outside.wav',
+      value: 'reverb/plate.wav',
       gain: 5
     },
     {
       label: 'Hall',
-      value: 'reverb/Scala Milan Opera Hall.wav',
+      value: 'reverb/hall.wav',
       gain: 3
     },
     {
       label: 'Room',
-      value: 'reverb/Highly Damped Large Room.wav',
+      value: 'reverb/room.wav',
       gain: 5
     },
     {
       label: 'Space',
-      value: 'reverb/Deep Space.wav',
+      value: 'reverb/space.wav',
       gain: 6
     }
   ];
