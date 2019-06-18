@@ -1,3 +1,5 @@
+import { EffectNode } from '@audio/node.interface';
+
 export interface FadeInOptions {
   target: GainNode;
   dest?: AudioNode;
@@ -9,7 +11,7 @@ export function clamp(min, max, value) {
   return Math.min(Math.max(value, min), max);
 }
 
-export function connectNodes(nodes: AudioNode[]) {
+export function connectNodes(nodes: EffectNode[]) {
   for (let i = nodes.length - 1; i > 0; --i) {
     nodes[i - 1].connect(nodes[i]);
   }

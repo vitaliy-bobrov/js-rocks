@@ -1,7 +1,7 @@
 import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
 import { BehaviorSubject } from 'rxjs';
-import { Tone } from './tone';
+import { ToneNode } from './tone';
 import { LFO } from './lfo';
 
 export interface ChorusSettings {
@@ -102,7 +102,7 @@ export class Chorus extends Effect {
     private defaults: ChorusSettings
   ) {
     super(context, model);
-    this.eqNode = Tone(context);
+    this.eqNode = ToneNode(context);
     this.lfo = LFO(context);
     this.depthNode = new GainNode(context);
     this.delayNode = new DelayNode(context);

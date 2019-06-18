@@ -1,7 +1,7 @@
 import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, mapToMinMax, expScale, toMs, equalCrossFade } from '../../utils';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Tone } from './tone';
+import { ToneNode } from './tone';
 
 export interface ReverbSettings {
   level: number;
@@ -72,7 +72,7 @@ export class Reverb extends Effect {
 
     this.splitter = new ChannelSplitterNode(context);
     this.timeNode = new DelayNode(context);
-    this.toneNode = Tone(context);
+    this.toneNode = ToneNode(context);
     this.convolver = new ConvolverNode(context);
     this.wet = new GainNode(context);
     this.dry = new GainNode(context);

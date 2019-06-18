@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
+import { EffectNode } from '@audio/node.interface';
 
 export interface EffectInfo {
   model: string;
@@ -16,13 +17,13 @@ export abstract class Effect {
   output: GainNode;
   active$ = this.activeSub$.asObservable();
 
-  static connectInOrder(effects: Effect[]) {
+  static connectInOrder(effects: Required<EffectNode>[]) {
     for (let i = effects.length - 1; i > 0; --i) {
       effects[i - 1].connect(effects[i]);
     }
   }
 
-  static disconnectInOrder(effects: Effect[]) {
+  static disconnectInOrder(effects: Required<EffectNode>[]) {
     for (const effect of effects) {
       effect.disconnect();
     }

@@ -2,7 +2,7 @@ import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
 import { curves, CurveType } from './distortion-curves';
 import { BehaviorSubject } from 'rxjs';
-import { Tone } from './tone';
+import { ToneNode } from './tone';
 
 export interface DistortionSettings {
   level: number;
@@ -58,7 +58,7 @@ export class Distortion extends Effect {
     model: string,
     private defaults: DistortionSettings,
     private curveType: CurveType = 'classic',
-    lowPreFilter: number = 350
+    lowPreFilter = 350
   ) {
     super(context, model);
 
@@ -73,7 +73,7 @@ export class Distortion extends Effect {
       frequency: 12000
     });
     this.waveSharper = new WaveShaperNode(context, {oversample: '2x'});
-    this.toneNode = Tone(context);
+    this.toneNode = ToneNode(context);
     this.levelNode = new GainNode(context);
 
     this.processor = [
