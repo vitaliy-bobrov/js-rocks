@@ -57,14 +57,15 @@ export class Distortion extends Effect {
     context: AudioContext,
     model: string,
     private defaults: DistortionSettings,
-    private curveType: CurveType = 'classic'
+    private curveType: CurveType = 'classic',
+    lowPreFilter: number = 350
   ) {
     super(context, model);
 
     this.preFilterLow = new BiquadFilterNode(context, {
       type: 'highpass',
       Q: Math.SQRT1_2,
-      frequency: 20
+      frequency: lowPreFilter
     });
     this.preFilterHigh = new BiquadFilterNode(context, {
       type: 'lowpass',
