@@ -15,9 +15,9 @@ export class ConvolverService {
     return this.http.get(url, {responseType: 'arraybuffer'})
     .pipe(
       flatMap(async (res) => {
-        const buffer = await context.decodeAudioData(res);
-
-        return buffer;
+        return new Promise<AudioBuffer>((resolve, reject) => {
+          context.decodeAudioData(res, resolve, reject);
+        });
       })
     );
   }
