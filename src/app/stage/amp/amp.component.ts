@@ -78,7 +78,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     },
     {
       model: 'Yellow Submarine',
-      path: 'cabinet/yellow.ogg',
+      path: 'cabinet/yellow.wav',
       gain: 24,
       maxGain: 47
     },
