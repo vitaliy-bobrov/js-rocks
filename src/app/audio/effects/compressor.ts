@@ -68,11 +68,10 @@ export class Compressor extends Effect {
   ) {
     super(context, model);
 
-    this.levelNode = new GainNode(context);
-    this.compressor = new DynamicsCompressorNode(context, {
-      knee: 30,
-      release: 0.25
-    });
+    this.levelNode = context.createGain();
+    this.compressor = context.createDynamicsCompressor();
+    this.compressor.knee.value = 30;
+    this.compressor.release.value = 0.25;
 
     this.processor = [
       this.compressor,

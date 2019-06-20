@@ -70,14 +70,15 @@ export class Reverb extends Effect {
     private defaults: ReverbSettings) {
     super(context, model);
 
-    this.splitter = new ChannelSplitterNode(context);
-    this.timeNode = new DelayNode(context);
+    this.splitter = context.createChannelSplitter();
+    this.timeNode = context.createDelay();
     this.toneNode = ToneNode(context);
-    this.convolver = new ConvolverNode(context);
-    this.wet = new GainNode(context);
-    this.dry = new GainNode(context);
-    this.merger = new ChannelMergerNode(context);
-    this.makeUpGain = new GainNode(context, {gain: convolverMakeUp});
+    this.convolver = context.createConvolver();
+    this.wet = context.createGain();
+    this.dry = context.createGain();
+    this.merger = context.createChannelMerger();
+    this.makeUpGain = context.createGain();
+    this.makeUpGain.gain.value = convolverMakeUp;
 
     buffer$.subscribe((buffer) => {
       this.convolver.buffer = buffer;

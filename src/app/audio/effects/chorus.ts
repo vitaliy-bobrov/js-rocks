@@ -104,10 +104,10 @@ export class Chorus extends Effect {
     super(context, model);
     this.eqNode = ToneNode(context);
     this.lfo = LFO(context);
-    this.depthNode = new GainNode(context);
-    this.delayNode = new DelayNode(context);
-    this.feedbackNode = new GainNode(context);
-    this.levelNode = new GainNode(context);
+    this.depthNode = context.createGain();
+    this.delayNode = context.createDelay();
+    this.feedbackNode = context.createGain();
+    this.levelNode = context.createGain();
 
     this.processor = [
       this.eqNode,

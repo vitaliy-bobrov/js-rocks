@@ -75,25 +75,26 @@ export class Cabinet extends Effect {
   ) {
     super(context, model);
 
-    this.convolver = new ConvolverNode(context);
-    this.makeUpGain = new GainNode(context, {gain});
+    this.convolver = context.createConvolver();
+    this.makeUpGain = context.createGain();
+    this.makeUpGain.gain.value = gain;
     this.defaults.gain = gain;
-    this.bassNode = new BiquadFilterNode(context, {
-      type: 'lowshelf',
-      frequency: 320,
-      gain: 0
-    });
-    this.midNode = new BiquadFilterNode(context, {
-      type: 'peaking',
-      Q: 0.5,
-      frequency: 1000,
-      gain: 0
-    });
-    this.trebleNode = new BiquadFilterNode(context, {
-      type: 'highshelf',
-      frequency: 3200,
-      gain: 0
-    });
+
+    this.bassNode = context.createBiquadFilter();
+    this.bassNode.type = 'lowshelf';
+    this.bassNode.frequency.value = 320;
+    this.bassNode.gain.value = 0;
+
+    this.midNode = context.createBiquadFilter();
+    this.midNode.type = 'peaking';
+    this.midNode.Q.value = 0.5;
+    this.midNode.frequency.value = 1000;
+    this.midNode.gain.value = 0;
+
+    this.trebleNode = context.createBiquadFilter();
+    this.trebleNode.type = 'highshelf';
+    this.trebleNode.frequency.value = 3200;
+    this.trebleNode.gain.value = 0;
 
     buffer$.subscribe((buffer) => {
       this.convolver.buffer = buffer;
