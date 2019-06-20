@@ -99,7 +99,7 @@ export class Distortion extends Effect {
 
     this.preFilterLow = null;
     this.preFilterHigh = null;
-    this.waveSharper.curve = null;
+    this.waveSharper.curve = new Float32Array();
     this.waveSharper = null;
     this.toneNode = null;
     this.levelNode = null;
