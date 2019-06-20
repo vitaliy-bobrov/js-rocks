@@ -89,6 +89,12 @@ export class PresetManagerService {
   addPreset(preset: Preset, name: string): {presets: PresetInfo[], id: string} {
     const presets = this.getPresetsInfo();
     const id = this.generatePresetId();
+
+    // Check for id collisions.
+    if (presets.some(item => item.id === id)) {
+      this.addPreset(preset, name);
+    }
+
     preset.id = id;
     presets.push({
       id,
