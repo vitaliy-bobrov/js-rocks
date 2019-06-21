@@ -50,6 +50,10 @@
       dots
       class="bass"
       label="BASS"
+      units="dB"
+      [min]="-24"
+      [max]="24"
+      [step]="0.5"
       [value]="effect.bass$ | async"
       (valueChanged)="effect.bass = $event">
     </jsr-knob>
@@ -58,6 +62,10 @@
       dots
       class="mid"
       label="MID"
+      units="dB"
+      [min]="-24"
+      [max]="24"
+      [step]="0.5"
       [value]="effect.mid$ | async"
       (valueChanged)="effect.mid = $event">
     </jsr-knob>
@@ -65,6 +73,10 @@
     <jsr-knob
       dots
       class="treble"
+      units="dB"
+      [min]="-24"
+      [max]="24"
+      [step]="0.5"
       label="TREBLE"
       [value]="effect.treble$ | async"
       (valueChanged)="effect.treble = $event">

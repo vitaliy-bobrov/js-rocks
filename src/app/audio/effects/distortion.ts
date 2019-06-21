@@ -41,16 +41,14 @@ export class Distortion extends Effect {
     this.toneSub$.next(tone);
 
     const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    const time = this.toneNode.context.currentTime;
-    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
+    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
   }
 
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
 
-    const time = this.levelNode.context.currentTime;
-    this.levelNode.gain.setTargetAtTime(gain, time, 0.01);
+    this.levelNode.gain.setTargetAtTime(gain, this.currentTime, 0.01);
   }
 
   constructor(
@@ -70,7 +68,7 @@ export class Distortion extends Effect {
     this.preFilterHigh = context.createBiquadFilter();
     this.preFilterHigh.type = 'lowpass';
     this.preFilterHigh.Q.value = Math.SQRT1_2;
-    this.preFilterHigh.frequency.value = context.sampleRate / 2;
+    this.preFilterHigh.frequency.value = this.sampleRate / 2;
 
     this.waveSharper = context.createWaveShaper();
     // Prevents aliasing.

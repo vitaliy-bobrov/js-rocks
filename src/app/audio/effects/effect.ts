@@ -10,9 +10,9 @@ export interface EffectInfo {
 
 export abstract class Effect {
   private activeSub$ = new BehaviorSubject<boolean>(false);
+  private context: AudioContext;
   protected isBypassEnabled = true;
   protected processor: AudioNode[] = [];
-  protected sampleRate: number;
   input: GainNode;
   output: GainNode;
   active$ = this.activeSub$.asObservable();
@@ -35,8 +35,16 @@ export abstract class Effect {
     }
   }
 
+  get currentTime(): number {
+    return this.context.currentTime;
+  }
+
+  get sampleRate(): number {
+    return this.context.sampleRate;
+  }
+
   constructor(context: AudioContext, public model: string) {
-    this.sampleRate = context.sampleRate;
+    this.context = context;
     this.input = context.createGain();
     this.output = context.createGain();
     this.activeSub$.next(false);
@@ -81,6 +89,7 @@ export abstract class Effect {
     this.processor = [];
     this.input = null;
     this.output = null;
+    this.context = null;
     this.isBypassEnabled = false;
     this.activeSub$.complete();
   }

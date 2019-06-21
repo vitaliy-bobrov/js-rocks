@@ -36,34 +36,31 @@ export class Cabinet extends Effect {
   makeUpGain$ = this.makeUpGainSub$.asObservable();
 
   set bass(value: number) {
-    const bass = clamp(0, 1, value);
+    const bass = clamp(-24, 24, value);
     this.bassSub$.next(bass);
-    const bassGain = mapToMinMax(bass, -24, 24);
-    const time = this.bassNode.context.currentTime;
-    this.bassNode.gain.setTargetAtTime(bassGain, time, 0.01);
+
+    this.bassNode.gain.setTargetAtTime(bass, this.currentTime, 0.01);
   }
 
   set mid(value: number) {
-    const mid = clamp(0, 1, value);
+    const mid = clamp(-24, 24, value);
     this.midSub$.next(mid);
-    const midGain = mapToMinMax(mid, -24, 24);
-    const time = this.midNode.context.currentTime;
-    this.midNode.gain.setTargetAtTime(midGain, time, 0.01);
+
+    this.midNode.gain.setTargetAtTime(mid, this.currentTime, 0.01);
   }
 
   set treble(value: number) {
-    const treble = clamp(0, 1, value);
+    const treble = clamp(-24, 24, value);
     this.trebleSub$.next(treble);
-    const trebleGain = mapToMinMax(treble, -24, 24);
-    const time = this.trebleNode.context.currentTime;
-    this.trebleNode.gain.setTargetAtTime(trebleGain, time, 0.01);
+
+    this.trebleNode.gain.setTargetAtTime(treble, this.currentTime, 0.01);
   }
 
   set gain(value: number) {
     const gain = clamp(1, this.maxGain, value);
     this.makeUpGainSub$.next(gain);
-    const time = this.makeUpGain.context.currentTime;
-    this.makeUpGain.gain.setTargetAtTime(gain, time, 0.01);
+
+    this.makeUpGain.gain.setTargetAtTime(gain, this.currentTime, 0.01);
   }
 
   constructor(

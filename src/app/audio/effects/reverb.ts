@@ -39,8 +39,7 @@ export class Reverb extends Effect {
     this.timeSub$.next(time);
 
     const delay = toMs(time);
-    const setTime = this.timeNode.context.currentTime;
-    this.timeNode.delayTime.setTargetAtTime(delay, setTime, 0.01);
+    this.timeNode.delayTime.setTargetAtTime(delay, this.currentTime, 0.01);
   }
 
   set tone(value: number) {
@@ -48,18 +47,16 @@ export class Reverb extends Effect {
     this.toneSub$.next(tone);
 
     const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    const time = this.toneNode.context.currentTime;
-    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, time);
+    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
   }
 
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
     const values = equalCrossFade(value);
-    const time = this.wet.context.currentTime;
 
-    this.dry.gain.setTargetAtTime(values[0], time, 0.01);
-    this.wet.gain.setTargetAtTime(values[1], time, 0.01);
+    this.dry.gain.setTargetAtTime(values[0], this.currentTime, 0.01);
+    this.wet.gain.setTargetAtTime(values[1], this.currentTime, 0.01);
   }
 
   constructor(

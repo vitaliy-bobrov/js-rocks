@@ -41,8 +41,7 @@ export class Chorus extends Effect {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
 
-    const time = this.levelNode.context.currentTime;
-    this.levelNode.gain.setTargetAtTime(gain, time, 0.01);
+    this.levelNode.gain.setTargetAtTime(gain, this.currentTime, 0.01);
   }
 
   set eq(value: number) {
@@ -50,8 +49,7 @@ export class Chorus extends Effect {
     this.eqSub$.next(tone);
 
     const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    const time = this.eqNode.context.currentTime;
-    this.eqNode.frequency.exponentialRampToValueAtTime(frequency, time);
+    this.eqNode.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
   }
 
   set rate(value: number) {
@@ -59,8 +57,7 @@ export class Chorus extends Effect {
     this.rateSub$.next(rate);
 
     const frequency = mapToMinMax(rate, 0.1, 8);
-    const time = this.lfo.context.currentTime;
-    this.lfo.frequency.exponentialRampToValueAtTime(frequency, time);
+    this.lfo.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
   }
 
   set depth(value: number) {
@@ -68,16 +65,14 @@ export class Chorus extends Effect {
     this.depthSub$.next(depth);
 
     const gain = depth * this.delay;
-    const time = this.depthNode.context.currentTime;
-    this.depthNode.gain.setTargetAtTime(gain, time, 0.01);
+    this.depthNode.gain.setTargetAtTime(gain, this.currentTime, 0.01);
   }
 
   set feedback(value: number) {
     const feedback = clamp(0, 1, value);
     this.feedbackSub$.next(feedback);
 
-    const time = this.feedbackNode.context.currentTime;
-    this.feedbackNode.gain.setTargetAtTime(feedback, time, 0.01);
+    this.feedbackNode.gain.setTargetAtTime(feedback, this.currentTime, 0.01);
   }
 
   set delay(value: number) {
@@ -88,8 +83,7 @@ export class Chorus extends Effect {
     // Recalculate depth value as it is dependents on delay.
     this.depth = this.depthSub$.value;
 
-    const time = this.delayNode.context.currentTime;
-    this.delayNode.delayTime.setTargetAtTime(delay, time, 0.01);
+    this.delayNode.delayTime.setTargetAtTime(delay, this.currentTime, 0.01);
   }
 
   get delay(): number {
