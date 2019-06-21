@@ -57,7 +57,7 @@ export class Distortion extends Effect {
     context: AudioContext,
     model: string,
     private defaults: DistortionSettings,
-    private curveType: CurveType = 'classic',
+    private curveType: CurveType,
     lowPreFilter = 350
   ) {
     super(context, model);
@@ -73,6 +73,7 @@ export class Distortion extends Effect {
     this.preFilterHigh.frequency.value = context.sampleRate / 2;
 
     this.waveSharper = context.createWaveShaper();
+    // Prevents aliasing.
     this.waveSharper.oversample = '4x';
     this.toneNode = ToneNode(context);
     this.levelNode = context.createGain();
@@ -122,11 +123,7 @@ export class Distortion extends Effect {
   }
 
   private _makeDistortionCurve(amount: number): Float32Array {
-    if (amount === 0) {
-      return null;
-    }
-
-    const n = 8192;
+    const n = this.sampleRate;
     const curve = new Float32Array(n + 1);
 
     curves[this.curveType](amount, curve, n);

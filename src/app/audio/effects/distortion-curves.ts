@@ -1,13 +1,4 @@
 export const curves = {
-  classic(amount: number, curve: Float32Array, n: number) {
-    const k = amount * 150 + 50;
-
-    for (let i = 0, x: number; i <= n; ++i) {
-      x = i * 2 / n - 1;
-
-      curve[i] = (Math.PI + k) * x / (Math.PI + k * Math.abs(x));
-    }
-  },
   blues(amount: number, curve: Float32Array, n: number) {
     const k = amount * 10;
 
@@ -21,10 +12,11 @@ export const curves = {
 
     for (let i = 0, x, y: number; i <= n; ++i) {
       x = i * 2 / n - 1;
-      y = Math.tanh(Math.PI * x * k * 0.5);
-      curve[i] =  Math.tanh(Math.PI * y * k * 0.5) * Math.cos(0.5 * y);
+      y = Math.tanh(0.5 * x * k * Math.PI);
+      curve[i] =  Math.tanh(0.5 * y * k * Math.PI) * Math.cos(0.5 * y);
     }
   },
+  // A nonlinearity by Partice Tarrabia and Bram de Jong.
   driver(amount: number, curve: Float32Array, n: number) {
     amount = Math.min(amount, 0.9);
     const k = 2 * amount / (1 - amount);
@@ -43,35 +35,36 @@ export const curves = {
       curve[i] = Math.tanh(y * 2);
     }
   },
-  chebyshev(amount: number, curve: Float32Array, n: number) {
-    const k = amount * 100;
+  // Arctangent nonlinearity.
+  arch(amount: number, curve: Float32Array, n: number) {
+    for (let i = 0, x; i < n; ++i) {
+      x = i * 2 / n - 1;
+      curve[i] = (2 / Math.PI) * Math.atan(amount * x);
+    }
+  },
+  // A cubic nonlinearity, input range: [-1, 1]
+  cubic(amount: number, curve: Float32Array, n: number) {
+    for (let i = 0, x; i < n; ++i) {
+      x = i * 2 / n - 1;
+      curve[i] = 1.5 * x - 0.5 * Math.pow(x, 3);
+    }
+  },
+  // A nonlinearity by Jon Watte.
+  jonny(amount: number, curve: Float32Array, n: number) {
+    const z = Math.PI * amount;
+    const s = 1 / Math.sin(z);
+    const b = 1 / amount;
 
     for (let i = 0, x; i < n; ++i) {
       x = i * 2 / n - 1;
 
-      if (x === 0) {
-        // should output 0 when input is 0.
-        curve[i] = 0;
+      if (x > b) {
+        curve[i] = 1;
       } else {
-        curve[i] = _getCoefficient(x, k);
+        curve[i] = Math.sin(z * x) * s;
       }
     }
   }
 };
 
-function _getCoefficient(x: number, degree: number, memo = {}) {
-  if (degree in memo) {
-    return memo[degree];
-  } else if (degree === 0) {
-    memo[degree] = 0;
-  } else if (degree === 1) {
-    memo[degree] = x;
-  } else {
-    memo[degree] = 2 * x * _getCoefficient(x, degree - 1, memo) - _getCoefficient(x, degree - 2, memo);
-  }
-
-  return memo[degree];
-}
-
-export type CurveType = 'classic' | 'blues' | 'sunshine' | 'driver' |
-  'sustained' | 'chebyshev';
+export type CurveType = 'blues' | 'sunshine' | 'driver' | 'sustained';
