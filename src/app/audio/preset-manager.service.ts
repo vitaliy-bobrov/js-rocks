@@ -27,9 +27,9 @@ export class PresetManagerService {
       model: 'Captain 1960',
       params: {
         volume: 1,
-        bass: 0.45,
-        mid: 0.6,
-        treble: 0.5,
+        bass: -2,
+        mid: 6,
+        treble: 0,
         gain: 4,
         active: true
       },
@@ -118,6 +118,6 @@ export class PresetManagerService {
     this.setPresetsInfo(updated);
     localStorage.removeItem(id);
 
-    return presets;
+    return updated;
   }
 }

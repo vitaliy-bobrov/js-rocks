@@ -172,13 +172,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   deletePreset() {
     this.presets = this.presetsManager.removePreset(this.selectedPresetId);
-
-    if (this.presets.length) {
-      this.presetsManager.setCurrentPreset(this.presets[0].id);
-    } else {
-      this.presetsManager.setCurrentPreset('');
-    }
-
+    this.presetsManager.setCurrentPreset('');
     this.afterConfigChange();
   }
 
