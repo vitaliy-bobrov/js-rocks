@@ -13,10 +13,14 @@
     [value]="value"
     (change)="onValueChange($event)">
 
-  <div class="knob"
-    [matTooltip]="value"
+  <div
+    #knob
+    class="knob"
+    [matTooltip]="value + units"
     [matTooltipPosition]="labelPosition === 'top' ? 'above' : 'below'"
-    [matTooltipShowDelay]="1000">
+    [matTooltipShowDelay]="1000"
+    (mousedown)="addRotateListener($event)"
+    (touchstart)="addRotateListener($event)">
     <div class="knob-focus"></div>
     <div class="dot">
       <div class="center-dot"></div>

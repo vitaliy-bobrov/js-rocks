@@ -21,6 +21,10 @@ export function mapToMinMax(value, min, max) {
   return value * (max - min) + min;
 }
 
+export function percentFromMinMax(value, min, max) {
+  return ((value - min)) / (max - min);
+}
+
 export function expScale(value) {
   return Math.pow(Math.abs(value), 2);
 }
