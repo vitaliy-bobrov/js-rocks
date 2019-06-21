@@ -118,8 +118,8 @@ export class KnobComponent implements OnInit, OnChanges {
     const knobRect = this.knob.nativeElement.getBoundingClientRect();
 
     this.center = {
-      x: scrollX + knobRect.left + knobRect.width / 2,
-      y: scrollY + knobRect.top + knobRect.height / 2,
+      x: window.scrollX + knobRect.left + knobRect.width / 2,
+      y: window.scrollY + knobRect.top + knobRect.height / 2,
     };
 
     this.knob.nativeElement
