@@ -108,7 +108,7 @@ export class KnobComponent implements OnInit, OnChanges {
       return;
     }
 
-    const isTouch = event.type === ' touchstart';
+    const isTouch = event.type === 'touchstart';
     const updateEvent = isTouch ? 'touchmove' : 'mousemove';
     const endEvent = isTouch ? 'touchend' : 'mouseup';
 
@@ -139,7 +139,7 @@ export class KnobComponent implements OnInit, OnChanges {
 
     this.lashUpdate = currentTime;
 
-    const isTouch = event.type === ' touchstart';
+    const isTouch = event.type === 'touchmove';
     const pageX = isTouch ? (event as TouchEvent).touches[0].pageX : (event as MouseEvent).pageX;
     const pageY = isTouch ? (event as TouchEvent).touches[0].pageY : (event as MouseEvent).pageY;
     const x = this.center.x - pageX;
@@ -167,7 +167,7 @@ export class KnobComponent implements OnInit, OnChanges {
     event.stopPropagation();
     event.preventDefault();
 
-    const isTouch = event.type === ' touchstart';
+    const isTouch = event.type === 'touchend';
     const updateEvent = isTouch ? 'touchmove' : 'mousemove';
     const endEvent = isTouch ? 'touchend' : 'mouseup';
 
