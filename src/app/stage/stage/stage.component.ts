@@ -114,6 +114,13 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   dropPedal(event: CdkDragDrop<Effect[]>) {
+    const currentState = this.manager.takeSnapshot().pedals;
+
+    // Save current configurations.
+    for (let i = 0; i < this.pedals.length; i++) {
+      this.pedals[i].params = currentState[i].params;
+    }
+
     moveItemInArray(this.pedals, event.previousIndex, event.currentIndex);
     this.loadPedals();
   }
