@@ -5,18 +5,21 @@
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
+        gold
         class="level"
         label="LEVEL"
         [value]="effect.level$ | async"
         (valueChanged)="effect.level = $event"></jsr-knob>
       <jsr-knob
         dots
+        gold
         class="dist"
         label="GAIN"
         [value]="effect.distortion$ | async"
         (valueChanged)="effect.distortion = $event"></jsr-knob>
       <jsr-knob
         small
+        gold
         class="tone"
         label="TONE"
         labelPosition="top"
@@ -25,8 +28,10 @@
     </div>
 
     <jsr-large-switch
+      center
+      xl-label
       class="switch"
-      name="Blues Drive"
+      name="Blues Driver"
       [model]="effect.model"
       (switch)="effect.toggleBypass()"></jsr-large-switch>
   </div>

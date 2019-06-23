@@ -5,17 +5,20 @@
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
+        silver
         class="level"
         label="LEVEL"
         [value]="effect.level$ | async"
         (valueChanged)="effect.level = $event"></jsr-knob>
       <jsr-knob
         dots
+        silver
         class="dist"
         label="DRIVE"
         [value]="effect.distortion$ | async"
         (valueChanged)="effect.distortion = $event"></jsr-knob>
       <jsr-knob
+        silver
         small
         class="tone"
         label="TONE"
@@ -25,8 +28,10 @@
     </div>
 
     <jsr-large-switch
+      center
+      xl-label
       class="switch"
-      name="Overdrive"
+      name="OverDrive"
       [model]="effect.model"
       (switch)="effect.toggleBypass()"></jsr-large-switch>
   </div>

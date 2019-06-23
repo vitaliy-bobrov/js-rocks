@@ -10,12 +10,12 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 ### Overdrive
 
-- Blues Drive JBD-2
-- Overdrive JOD-3
+- Blues Driver JBD-2
+- OverDrive JOD-3
 
 ### Distortion
 
-- Classic Dist JDS-1
+- Classic Distortion JDS-1
 - Metal Area JMT-2
 
 ### Reverb
@@ -28,7 +28,7 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 ### Compressor
 
-- Lemon Sqz JCP-1
+- Lemon Squeeze JCP-1
 
 ## Available cabinets 🔊
 

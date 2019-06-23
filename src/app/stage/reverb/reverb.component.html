@@ -5,6 +5,7 @@
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
+        silver
         small
         class="level"
         label="LEVEL"
@@ -13,6 +14,7 @@
         (valueChanged)="effect.level = $event"></jsr-knob>
       <jsr-knob
         dots
+        silver
         small
         class="tone"
         label="TONE"
@@ -21,6 +23,7 @@
         (valueChanged)="effect.tone = $event"></jsr-knob>
       <jsr-knob
         dots
+        silver
         small
         class="time"
         label="TIME"
@@ -38,6 +41,7 @@
     </div>
 
     <jsr-large-switch
+      xl-label
       class="switch"
       name="Reverb"
       [model]="effect.model"

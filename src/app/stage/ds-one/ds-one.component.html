@@ -5,18 +5,21 @@
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
+        silver
         class="tone"
         label="TONE"
         [value]="effect.tone$ | async"
         (valueChanged)="effect.tone = $event"></jsr-knob>
       <jsr-knob
         dots
+        silver
         class="dist"
         label="DIST"
         [value]="effect.distortion$ | async"
         (valueChanged)="effect.distortion = $event"></jsr-knob>
       <jsr-knob
         small
+        silver
         class="level"
         label="LEVEL"
         labelPosition="top"
@@ -26,7 +29,7 @@
 
     <jsr-large-switch
       class="switch"
-      name="Classic Dist"
+      name="Classic Distortion"
       [model]="effect.model"
       (switch)="effect.toggleBypass()"></jsr-large-switch>
   </div>

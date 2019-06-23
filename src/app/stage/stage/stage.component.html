@@ -75,7 +75,7 @@
     type="button"
     mat-menu-item
     *ngFor="let pedal of availablePedals"
-    (click)="addPedal(pedal.id)">{{pedal.name}}</button>
+    (click)="addPedal(pedal.id)">{{pedal.name}} {{pedal.model}}</button>
 </mat-menu>
 
 <button

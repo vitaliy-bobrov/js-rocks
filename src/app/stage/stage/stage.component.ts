@@ -29,31 +29,38 @@ import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
 const componentMapping = {
   'jcp-1': {
     symbol: LemonSqueezeComponent,
-    name: 'Lemon Sqz JCP-1'
+    name: 'Lemon Squeeze',
+    model: 'JCP-1'
   },
   'jds-1': {
     symbol: DsOneComponent,
-    name: 'Classic Dist JDS-1'
+    name: 'Classic Distortion',
+    model: 'JDS-1'
   },
   'jmt-2': {
     symbol: MetalAreaComponent,
-    name: 'Metal Area JMT-2'
+    name: 'Metal Area',
+    model: 'JMT-2'
   },
   'jbd-2': {
     symbol: BluesDriverComponent,
-    name: 'Blues Drive JBD-2'
+    name: 'Blues Driver',
+    model: 'JBD-2'
   },
   'jod-3': {
     symbol: OverdriveComponent,
-    name: 'Overdrive JOD-3'
+    name: 'OverDrive',
+    model: 'JOD-3'
   },
   'jch-1': {
     symbol: CoolChorusComponent,
-    name: 'Cool Chorus JCH-1'
+    name: 'Cool Chorus',
+    model: 'JCH-1'
   },
   'jrv-6': {
     symbol: ReverbComponent,
-    name: 'Reverb JRV-6'
+    name: 'Reverb',
+    model: 'JRV-6'
   }
 };
 

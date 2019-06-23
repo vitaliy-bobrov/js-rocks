@@ -5,6 +5,7 @@
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
+        silver
         small
         class="level"
         label="LEVEL"
@@ -13,6 +14,7 @@
         (valueChanged)="effect.level = $event"></jsr-knob>
       <jsr-knob
         dots
+        silver
         small
         class="attack"
         label="ATTACK"
@@ -21,6 +23,7 @@
         (valueChanged)="effect.attack = $event"></jsr-knob>
       <jsr-knob
         dots
+        silver
         small
         class="ratio"
         label="RATIO"
@@ -32,6 +35,7 @@
         (valueChanged)="effect.ratio = $event"></jsr-knob>
         <jsr-knob
           dots
+          silver
           small
           class="comp"
           label="COMP"
@@ -42,7 +46,7 @@
 
     <jsr-large-switch
       class="switch"
-      name="Lemon Sqz"
+      name="Lemon Squeeze"
       [model]="effect.model"
       (switch)="effect.toggleBypass()"></jsr-large-switch>
   </div>
