@@ -3,6 +3,18 @@
   height: 100%;
   margin: 0 -1px;
 
+  &[center] {
+    .name {
+      text-align: center;
+    }
+  }
+
+  &[xl-label] {
+    .name {
+      font-size: 32px;
+    }
+  }
+
   button {
     display: grid;
     width: 100%;
@@ -61,21 +73,21 @@
   .name,
   .model {
     color: var(--stompbox-label);
-    font-weight: 700;
+    font-family: 'Rationale', 'Roboto', sans-serif;
     text-align: right;
     margin: 0;
-    padding: 0 12px 4px;
-    text-transform: uppercase;
+    padding: 0 12px;
   }
 
   .name {
     grid-area: label;
-    font-size: 22px;
+    font-size: 26px;
   }
 
   .model {
     grid-area: model;
     font-size: 18px;
+    text-transform: uppercase;
   }
 
   .pad {
