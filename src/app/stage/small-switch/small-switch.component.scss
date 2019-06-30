@@ -1,0 +1,84 @@
+:host {
+  display: grid;
+  grid-template-areas: '. switch led';
+  grid-auto-columns: 1fr;
+  grid-gap: 8px;
+  align-items: center;
+  background-color: var(--stompbox-bg, transparent);
+  position: relative;
+  z-index: 1;
+
+  button {
+    grid-area: switch;
+    justify-self: center;
+    position: relative;
+    background: #888;
+    height: 47px;
+    width: 47px;
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      box-shadow: inset 0 0 25px #dedede, inset -2px -2px 1px rgba(#000, 0.25);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: -webkit-radial-gradient(50% 0%, 8% 50%, rgba(#fff, .5) 0%, rgba(#fff, 0) 100%), -webkit-radial-gradient(50% 100%, 12% 50%, rgba(#fff, .6) 0%, rgba(#fff, 0) 100%), -webkit-radial-gradient(0% 50%, 50% 7%, rgba(#fff, .5) 0%, rgba(#fff, 0) 100%), -webkit-radial-gradient(100% 50%, 50% 5%, rgba(#fff, .5) 0%, rgba(#fff, 0) 100%), -webkit-repeating-radial-gradient(50% 50%, 100% 100%, rgba(#000, 0) 0%, rgba(#000, 0) 3%, rgba(#000, .1) 3.5%), -webkit-repeating-radial-gradient(50% 50%, 100% 100%, rgba(#fff, 0) 0%, rgba(#fff, 0) 6%, rgba(#fff, .1) 7.5%), -webkit-repeating-radial-gradient(50% 50%, 100% 100%, rgba(#fff, 0) 0%, rgba(#fff, 0) 1.2%, rgba(#fff, .2) 2.2%), -webkit-radial-gradient(50% 50%, 200% 50%, #e6e6e6 5%, #d9d9d9 30%, #999999 100%);
+      z-index: 1;
+    }
+
+    &:focus {
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        z-index: -1;
+        box-shadow: 0 0 6px #f44336;
+      }
+    }
+  }
+
+  .hexagon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 23.09px;
+    background-color: #d8d8d8;
+    transform: translate(-50%, -50%);
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      left: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+    }
+
+    &:before {
+      bottom: 99%;
+      border-bottom: 11.55px solid #d8d8d8;
+    }
+
+    &:after {
+      top: 99%;
+      border-top: 11.55px solid #d8d8d8;
+    }
+  }
+
+  jsr-led {
+    grid-area: led;
+  }
+}
