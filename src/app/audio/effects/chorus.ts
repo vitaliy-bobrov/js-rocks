@@ -1,7 +1,7 @@
 import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
 import { BehaviorSubject } from 'rxjs';
-import { ToneNode } from './tone';
+import { StandardTone, ToneControl } from './tone';
 import { LFO } from './lfo';
 
 export interface ChorusSettings {
@@ -25,7 +25,7 @@ export class Chorus extends Effect {
   private depthSub$ = new BehaviorSubject<number>(0);
   private feedbackSub$ = new BehaviorSubject<number>(0);
   private delaySub$ = new BehaviorSubject<number>(0);
-  private eqNode: BiquadFilterNode;
+  private eqNode: ToneControl;
   private lfo: OscillatorNode;
   private depthNode: GainNode;
   private delayNode: DelayNode;
@@ -47,9 +47,7 @@ export class Chorus extends Effect {
   set eq(value: number) {
     const tone = clamp(0, 1, value);
     this.eqSub$.next(tone);
-
-    const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    this.eqNode.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
+    this.eqNode.tone = tone;
   }
 
   set rate(value: number) {
@@ -96,7 +94,7 @@ export class Chorus extends Effect {
     private defaults: ChorusSettings
   ) {
     super(context, model);
-    this.eqNode = ToneNode(context);
+    this.eqNode = new StandardTone(context);
     this.lfo = LFO(context);
     this.depthNode = context.createGain();
     this.delayNode = context.createDelay();
@@ -104,7 +102,7 @@ export class Chorus extends Effect {
     this.levelNode = context.createGain();
 
     this.processor = [
-      this.eqNode,
+      ...this.eqNode.nodes,
       this.delayNode,
       this.levelNode,
     ];
@@ -134,6 +132,7 @@ export class Chorus extends Effect {
     this.feedbackNode.disconnect();
     this.depthNode.disconnect();
 
+    this.eqNode.dispose();
     this.eqNode = null;
     this.lfo = null;
     this.depthNode = null;

@@ -1,7 +1,7 @@
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, mapToMinMax, expScale, toMs, equalCrossFade } from '../../utils';
+import { connectNodes, clamp, toMs, equalCrossFade } from '../../utils';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ToneNode } from './tone';
+import { ToneControl, StandardTone } from './tone';
 
 export interface ReverbSettings {
   level: number;
@@ -21,7 +21,7 @@ export class Reverb extends Effect {
   private levelSub$ = new BehaviorSubject<number>(0);
   private splitter: ChannelSplitterNode;
   private timeNode: DelayNode;
-  private toneNode: BiquadFilterNode;
+  private toneNode: ToneControl;
   private convolver: ConvolverNode;
   private makeUpGain: GainNode;
   private wet: GainNode;
@@ -45,9 +45,7 @@ export class Reverb extends Effect {
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
-
-    const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
+    this.toneNode.tone = tone;
   }
 
   set level(value: number) {
@@ -69,7 +67,7 @@ export class Reverb extends Effect {
 
     this.splitter = context.createChannelSplitter();
     this.timeNode = context.createDelay();
-    this.toneNode = ToneNode(context);
+    this.toneNode = new StandardTone(context);
     this.convolver = context.createConvolver();
     this.wet = context.createGain();
     this.dry = context.createGain();
@@ -84,7 +82,7 @@ export class Reverb extends Effect {
     this.processor = [
       this.splitter,
       this.timeNode,
-      this.toneNode,
+      ...this.toneNode.nodes,
       this.convolver,
       this.wet,
       this.merger,
@@ -103,7 +101,9 @@ export class Reverb extends Effect {
   }
 
   updateConvolver(buffer$: Observable<AudioBuffer>, makeUpGain: number, type: string) {
-    this.toneNode.disconnect();
+    const lastToneNode = this.toneNode.nodes[this.toneNode.nodes.length - 1];
+
+    lastToneNode.disconnect();
     this.convolver.disconnect();
 
     this.convolver.buffer = null;
@@ -115,7 +115,7 @@ export class Reverb extends Effect {
 
     this.toggleBypass();
 
-    this.toneNode.connect(this.convolver);
+    lastToneNode.connect(this.convolver);
     this.convolver.connect(this.wet);
     this.makeUpGain.gain.value = makeUpGain;
 
@@ -129,6 +129,7 @@ export class Reverb extends Effect {
     this.dry.disconnect();
     this.merger.disconnect();
 
+    this.toneNode.dispose();
     this.splitter = null;
     this.timeNode = null;
     this.toneNode = null;

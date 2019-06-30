@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { EffectNode } from '@audio/node.interface';
+import { Disposable } from '@audio/disposable.interface';
 
 export interface EffectInfo {
   model: string;
@@ -8,7 +9,7 @@ export interface EffectInfo {
   };
 }
 
-export abstract class Effect {
+export abstract class Effect implements Disposable {
   private activeSub$ = new BehaviorSubject<boolean>(false);
   private context: AudioContext;
   protected isBypassEnabled = true;
