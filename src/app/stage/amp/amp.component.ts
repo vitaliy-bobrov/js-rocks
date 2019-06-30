@@ -43,8 +43,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     {
       model: 'Captain 1960',
       path: 'cabinet/captain_1960.wav',
-      gain: 4,
-      maxGain: 7
+      gain: 3,
+      maxGain: 5
     },
     {
       model: 'Friender Winner',
@@ -55,8 +55,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     {
       model: 'Enzo Celesticco',
       path: 'cabinet/enzo_celesticco.wav',
-      gain: 4,
-      maxGain: 7
+      gain: 2,
+      maxGain: 3
     },
     {
       model: 'Fox AC30',
@@ -73,8 +73,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     {
       model: 'MegaStorm',
       path: 'cabinet/mega_storm.wav',
-      gain: 15,
-      maxGain: 29
+      gain: 6,
+      maxGain: 11
     },
     {
       model: 'Yellow Submarine',
@@ -91,8 +91,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     {
       model: 'Sandman 2204',
       path: 'cabinet/sandman_2204.wav',
-      gain: 6,
-      maxGain: 11
+      gain: 7,
+      maxGain: 13
     }
   ];
   defaultCabinet = this.cabinets[0];
