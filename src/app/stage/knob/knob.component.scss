@@ -18,15 +18,31 @@
     }
   }
 
+  &:not([silver]):not([gold]) {
+    .knob:before {
+      background-image: linear-gradient(
+        to top, currentColor, currentColor 40%, rgba(#fff, .8) 45%);
+    }
+  }
+
   &[light] {
     color: white;
   }
 
+  &[small-label] {
+    .knob {
+      margin-bottom: 0;
+    }
+  }
+
+  &[small-label],
   &[small] {
     label {
       font-size: 13px;
     }
+  }
 
+  &[small] {
     .knob {
       height: 38px;
       width: 38px;
@@ -139,8 +155,9 @@
   }
 
   .knob {
+    color: #222;
     position: relative;
-    background: #222;
+    background: currentColor;
     height: 56px;
     width: 56px;
     left: -28px;
@@ -167,7 +184,7 @@
       left: 50%;
       border-radius: 3px;
       margin-left: -1.5px;
-      background: rgba(#fff, .8);
+      background-color: rgba(#fff, .8);
     }
 
     &:after {
