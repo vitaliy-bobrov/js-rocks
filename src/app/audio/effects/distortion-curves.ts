@@ -18,12 +18,12 @@ export const curves = {
   },
   // A nonlinearity by Partice Tarrabia and Bram de Jong.
   driver(amount: number, curve: Float32Array, n: number) {
-    amount = Math.min(amount, 0.9);
-    const k = 2 * amount / (1 - amount);
+    const k = amount * 100;
 
     for (let i = 0, x; i < n; ++i) {
       x = i * 2 / n - 1;
-      curve[i] =  (1 + k) * x / (1 + k * Math.abs(x));
+
+      curve[i] = (1 + k / 101) * x / (1 + k / 101 * Math.abs(x));
     }
   },
   sustained(amount: number, curve: Float32Array, n: number) {
@@ -37,9 +37,11 @@ export const curves = {
   },
   // Arctangent nonlinearity.
   arch(amount: number, curve: Float32Array, n: number) {
+    const k = amount * 100;
+
     for (let i = 0, x; i < n; ++i) {
       x = i * 2 / n - 1;
-      curve[i] = (2 / Math.PI) * Math.atan(amount * x);
+      curve[i] = (2 / Math.PI) * Math.atan(k * x);
     }
   },
   // A cubic nonlinearity, input range: [-1, 1]
@@ -48,23 +50,15 @@ export const curves = {
       x = i * 2 / n - 1;
       curve[i] = 1.5 * x - 0.5 * Math.pow(x, 3);
     }
-  },
-  // A nonlinearity by Jon Watte.
-  jonny(amount: number, curve: Float32Array, n: number) {
-    const z = Math.PI * amount;
-    const s = 1 / Math.sin(z);
-    const b = 1 / amount;
-
-    for (let i = 0, x; i < n; ++i) {
-      x = i * 2 / n - 1;
-
-      if (x > b) {
-        curve[i] = 1;
-      } else {
-        curve[i] = Math.sin(z * x) * s;
-      }
-    }
   }
 };
 
-export type CurveType = 'blues' | 'sunshine' | 'driver' | 'sustained';
+export type CurveType = 'blues' | 'sunshine' | 'driver' | 'sustained' | 'arch' | 'cubic';
+
+export function makeDistortionCurve(amount: number, n: number, type: CurveType): Float32Array {
+  const curve = new Float32Array(n);
+
+  curves[type](amount, curve, n);
+
+  return curve;
+}

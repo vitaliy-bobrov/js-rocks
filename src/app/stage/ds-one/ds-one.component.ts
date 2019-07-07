@@ -40,7 +40,18 @@ export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<Distort
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, 'jds-1', this.params, 'sunshine');
+    // Config based on Boss DS-1 analysis https://www.electrosmash.com/boss-ds1-analysis.
+    this.effect = new Distortion(
+      this.manager.context,
+      'jds-1',
+      this.params,
+      {
+        curveType: 'sunshine',
+        preFilterRange: [350, 5000],
+        toneControlType: 'standard',
+        postFilter: 8000
+      }
+    );
     this.manager.addEffect(this.effect);
   }
 

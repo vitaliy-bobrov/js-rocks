@@ -40,7 +40,14 @@ export class MetalAreaComponent implements OnInit, OnDestroy, PedalComponent<Dis
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, 'jmt-2', this.params, 'sustained');
+    this.effect = new Distortion(
+      this.manager.context,
+      'jmt-2',
+      this.params,
+      {
+        curveType: 'sustained'
+      }
+    );
     this.manager.addEffect(this.effect);
   }
 

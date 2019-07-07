@@ -1,8 +1,19 @@
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
-import { curves, CurveType } from './distortion-curves';
+import {
+  clamp,
+  connectNodes,
+  calculateBandpass } from '../../utils';
+import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { BehaviorSubject } from 'rxjs';
-import { ToneNode } from './tone';
+import { ToneControl, StandardTone, MixedTone } from './tone';
+
+export interface DistortionTuningOptions {
+  curveType: CurveType;
+  preFilterRange?: [number, number];
+  toneControlType?: 'standard' | 'mixed';
+  toneRange?: [number, number];
+  postFilter?: number;
+}
 
 export interface DistortionSettings {
   level: number;
@@ -16,13 +27,22 @@ export interface DistortionInfo extends EffectInfo {
 }
 
 export class Distortion extends Effect {
+  private static defaultTunings: DistortionTuningOptions = {
+    curveType: 'driver',
+    preFilterRange: [350, 12000],
+    toneControlType: 'standard',
+    toneRange: [350, 12000],
+    postFilter: 12000,
+  };
+
+  private tunings: DistortionTuningOptions;
   private levelSub$ = new BehaviorSubject<number>(0);
   private distortionSub$ = new BehaviorSubject<number>(0);
   private toneSub$ = new BehaviorSubject<number>(0);
-  private preFilterLow: BiquadFilterNode;
-  private preFilterHigh: BiquadFilterNode;
+  private preFilter: BiquadFilterNode;
   private waveSharper: WaveShaperNode;
-  private toneNode: BiquadFilterNode;
+  private postFilter: BiquadFilterNode;
+  private toneNode: ToneControl;
   private levelNode: GainNode;
 
   distortion$ = this.distortionSub$.asObservable();
@@ -32,22 +52,22 @@ export class Distortion extends Effect {
   set distortion(value: number) {
     const amount = clamp(0, 1, value);
     this.distortionSub$.next(amount);
-
-    this.waveSharper.curve = this._makeDistortionCurve(amount);
+    this.waveSharper.curve = makeDistortionCurve(
+      amount,
+      this.sampleRate,
+      this.tunings.curveType
+    );
   }
 
   set tone(value: number) {
     const tone = clamp(0, 1, value);
     this.toneSub$.next(tone);
-
-    const frequency = mapToMinMax(expScale(tone), 350, this.sampleRate / 2);
-    this.toneNode.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
+    this.toneNode.tone = tone;
   }
 
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
-
     this.levelNode.gain.setTargetAtTime(gain, this.currentTime, 0.01);
   }
 
@@ -55,32 +75,46 @@ export class Distortion extends Effect {
     context: AudioContext,
     model: string,
     private defaults: DistortionSettings,
-    private curveType: CurveType,
-    lowPreFilter = 350
+    tunings: DistortionTuningOptions,
   ) {
     super(context, model);
 
-    this.preFilterLow = context.createBiquadFilter();
-    this.preFilterLow.type = 'highpass';
-    this.preFilterLow.Q.value = Math.SQRT1_2;
-    this.preFilterLow.frequency.value = lowPreFilter;
+    this.tunings = {...Distortion.defaultTunings, ...tunings};
 
-    this.preFilterHigh = context.createBiquadFilter();
-    this.preFilterHigh.type = 'lowpass';
-    this.preFilterHigh.Q.value = Math.SQRT1_2;
-    this.preFilterHigh.frequency.value = this.sampleRate / 2;
+    // Boost stage - pre-filtering + boost gain.
+    this.preFilter = context.createBiquadFilter();
+    const bandpassParams = calculateBandpass(this.tunings.preFilterRange);
+    this.preFilter.type = 'bandpass';
+    this.preFilter.Q.value = bandpassParams.q;
+    this.preFilter.frequency.value = bandpassParams.fc;
 
+    // Clipping stage.
     this.waveSharper = context.createWaveShaper();
     // Prevents aliasing.
     this.waveSharper.oversample = '4x';
-    this.toneNode = ToneNode(context);
+
+    this.postFilter = context.createBiquadFilter();
+    this.postFilter.type = 'lowpass';
+    this.postFilter.Q.value = Math.SQRT1_2;
+    this.postFilter.frequency.value = this.tunings.postFilter;
+
+    // Equalization stage.
+    if (this.tunings.toneControlType === 'standard') {
+      this.toneNode = new StandardTone(context, this.tunings.toneRange);
+    }
+
+    if (this.tunings.toneControlType === 'mixed') {
+      this.toneNode = new MixedTone(context, this.tunings.toneRange);
+    }
+
+    // Output stage.
     this.levelNode = context.createGain();
 
     this.processor = [
-      this.preFilterLow,
-      this.preFilterHigh,
+      this.preFilter,
       this.waveSharper,
-      this.toneNode,
+      this.postFilter,
+      ...this.toneNode.nodes,
       this.levelNode
     ];
 
@@ -96,10 +130,12 @@ export class Distortion extends Effect {
   dispose() {
     super.dispose();
 
-    this.preFilterLow = null;
-    this.preFilterHigh = null;
+    this.preFilter = null;
     this.waveSharper.curve = new Float32Array(2);
     this.waveSharper = null;
+    this.postFilter = null;
+
+    this.toneNode.dispose();
     this.toneNode = null;
     this.levelNode = null;
     this.levelSub$.complete();
@@ -118,15 +154,6 @@ export class Distortion extends Effect {
     };
 
     return snapshot;
-  }
-
-  private _makeDistortionCurve(amount: number): Float32Array {
-    const n = this.sampleRate;
-    const curve = new Float32Array(n + 1);
-
-    curves[this.curveType](amount, curve, n);
-
-    return curve;
   }
 }
 

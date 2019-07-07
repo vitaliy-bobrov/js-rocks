@@ -40,7 +40,14 @@ export class OverdriveComponent implements OnInit, OnDestroy, PedalComponent<Dis
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, 'jod-3', this.params, 'driver');
+    this.effect = new Distortion(
+      this.manager.context,
+      'jod-3',
+      this.params, {
+        curveType: 'driver',
+        preFilterRange: [200, 1500]
+      }
+    );
     this.manager.addEffect(this.effect);
   }
 
