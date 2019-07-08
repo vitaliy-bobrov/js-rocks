@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Effect } from './effects/effect';
-import { clamp, gainFadeInConnect } from '../utils';
+import { clamp } from '../utils';
 import { BehaviorSubject } from 'rxjs';
 import { Preset } from './preset-manager.service';
 import { CabinetInfo } from './effects/cabinet';
@@ -18,18 +18,13 @@ export class AudioContextManager {
   set master(value: number) {
     const gain = clamp(0, 1, value);
     this.masterSub$.next(gain);
-    this.masterGain.gain.setValueAtTime(gain, 0);
+    this.masterGain.gain.setTargetAtTime(gain, this.context.currentTime, 0.01);
   }
 
   constructor() {
     this.context = new AudioContext();
     this.masterGain = this.context.createGain();
-
-    gainFadeInConnect({
-      target: this.masterGain,
-      dest: this.context.destination,
-      time: this.context.currentTime
-    });
+    this.masterGain.connect(this.context.destination);
     this.masterSub$.next(1);
   }
 
