@@ -44,7 +44,7 @@ export const curves = {
       curve[i] = (2 / Math.PI) * Math.atan(k * x);
     }
   },
-  // A cubic nonlinearity, input range: [-1, 1]
+  // A cubic nonlinearity, soft-clip, input range: [-1, 1]
   cubic(amount: number, curve: Float32Array, n: number) {
     for (let i = 0, x; i < n; ++i) {
       x = i * 2 / n - 1;
