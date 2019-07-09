@@ -71,7 +71,7 @@ export function calculateCenterFrequency(range: [number, number]): number {
 /**
  * Calculates center frequency and Q (quality) parameter for bandpass filter.
  */
-export function calculateBandpass(range: [number, number]): {fc: number; q: number;} {
+export function calculateBandpass(range: [number, number]): {fc: number; q: number; } {
   const fc = calculateCenterFrequency(range);
   const q = fc / (range[1] - range[0]);
 
