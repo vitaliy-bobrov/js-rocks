@@ -37,9 +37,9 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   effect: Reverb;
 
   params: ReverbSettings = {
-    level: 0.6,
-    tone: 0.4,
-    time: 3,
+    level: 0.5,
+    tone: 0.5,
+    time: 2,
     active: false,
     type: 'Room'
   };

@@ -32,8 +32,8 @@ export class MetalAreaComponent implements OnInit, OnDestroy, PedalComponent<Dis
 
   params: DistortionSettings = {
     level: 0.5,
-    distortion: 0.7,
-    tone: 0.55,
+    distortion: 0.5,
+    tone: 0.5,
     active: false
   };
 
@@ -45,7 +45,8 @@ export class MetalAreaComponent implements OnInit, OnDestroy, PedalComponent<Dis
       'jmt-2',
       this.params,
       {
-        curveType: 'sustained'
+        curveType: 'sustained',
+        postFilter: 8000
       }
     );
     this.manager.addEffect(this.effect);

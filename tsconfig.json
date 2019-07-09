@@ -22,4 +22,7 @@
       "@audio/*": ["src/app/audio/*"],
     }
   },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true
+  }
 }

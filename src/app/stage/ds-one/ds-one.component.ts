@@ -31,9 +31,9 @@ export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<Distort
   effect: Distortion;
 
   params: DistortionSettings = {
-    level: 0.2,
-    distortion: 0.75,
-    tone: 0.3,
+    level: 0.5,
+    distortion: 0.5,
+    tone: 0.5,
     active: false
   };
 

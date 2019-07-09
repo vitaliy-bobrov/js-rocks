@@ -31,9 +31,9 @@ export class OverdriveComponent implements OnInit, OnDestroy, PedalComponent<Dis
   effect: Distortion;
 
   params: DistortionSettings = {
-    level: 0.75,
-    distortion: 0.85,
-    tone: 0.35,
+    level: 0.5,
+    distortion: 0.5,
+    tone: 0.5,
     active: false
   };
 
