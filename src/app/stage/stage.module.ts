@@ -29,6 +29,8 @@ import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
 import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
 import { MetalAreaComponent } from './metal-area/metal-area.component';
 import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
+import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.component';
+import { SmallSwitchComponent } from './small-switch/small-switch.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
     SlideSwitchComponent,
     LemonSqueezeComponent,
     MetalAreaComponent,
-    CoolChorusComponent
+    CoolChorusComponent,
+    MassiveMuffPiComponent,
+    SmallSwitchComponent
   ],
   entryComponents: [
     PresetNameDialogComponent,
@@ -57,7 +61,8 @@ import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
     ReverbComponent,
     LemonSqueezeComponent,
     MetalAreaComponent,
-    CoolChorusComponent
+    CoolChorusComponent,
+    MassiveMuffPiComponent
   ],
   imports: [
     A11yModule,
