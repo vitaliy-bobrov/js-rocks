@@ -1,0 +1,88 @@
+:host {
+  --stompbox-bg: #cbcac6;
+  display: block;
+
+  &:hover {
+    .remove {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity .2s linear;
+
+    &:focus {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'name' 'switch';
+    grid-template-rows: 1fr auto 40%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas: 'vol  .    sustain'
+                         'vol  tone sustain'
+                         '.    tone .      ';
+    text-align: center;
+    padding: 18px 6px 0;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      bottom: 6px;
+      left: 6px;
+      border-radius: .25em;
+      border: 2px solid #000;
+      z-index: 0;
+    }
+
+    > * {
+      z-index: 1;
+    }
+  }
+
+  .tone {
+    grid-area: tone;
+  }
+
+  .sustain {
+    grid-area: sustain;
+  }
+
+  .vol {
+    grid-area: vol;
+  }
+
+  .name {
+    grid-area: name;
+    margin: 16px 0;
+    color: #d51208;
+    font-size: 24px;
+    line-height: 24px;
+    font-family: 'Rationale', 'Roboto', sans-serif;
+    text-align: center;
+  }
+
+  .switch {
+    grid-area: switch;
+    margin: 0 6px 6px;
+    border-radius: 0 0 .25em .25em;
+    --stompbox-bg: #222;
+  }
+}

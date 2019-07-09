@@ -25,6 +25,7 @@ import { ReverbComponent } from '../reverb/reverb.component';
 import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component';
 import { MetalAreaComponent } from '../metal-area/metal-area.component';
 import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
+import { MassiveMuffPiComponent } from '../massive-muff-pi/massive-muff-pi.component';
 
 const componentMapping = {
   'jcp-1': {
@@ -51,6 +52,11 @@ const componentMapping = {
     symbol: OverdriveComponent,
     name: 'OverDrive',
     model: 'JOD-3'
+  },
+  'js-bmf': {
+    symbol: MassiveMuffPiComponent,
+    name: 'Massive Muff π',
+    model: 'JS-BMF'
   },
   'jch-1': {
     symbol: CoolChorusComponent,
