@@ -1,4 +1,4 @@
-import { expScale, mapToMinMax, equalCrossFade } from 'src/app/utils';
+import { expScale, mapToMinMax } from 'src/app/utils';
 import { Disposable } from '@audio/disposable.interface';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 
@@ -55,15 +55,13 @@ export class MixedTone implements Disposable {
   }
 
   set tone(value: number) {
-    const [high, low] = equalCrossFade(value);
-
-    this.toneHighGain.gain.setTargetAtTime(high, this.currentTime, 0.01);
-    this.toneLowGain.gain.setTargetAtTime(low, this.currentTime, 0.01);
+    this.toneHighGain.gain.setTargetAtTime(value, this.currentTime, 0.01);
+    this.toneLowGain.gain.setTargetAtTime(1 - value, this.currentTime, 0.01);
   }
 
   constructor(
     context: AudioContext,
-    range: [number, number] = [550, 12000]
+    range: [number, number] = [550, 1000]
   ) {
     this.splitter = context.createChannelSplitter();
 
@@ -72,14 +70,14 @@ export class MixedTone implements Disposable {
 
     this.toneLowGain = context.createGain();
 
-    const hp = onePoleHighpass(range[0], context.sampleRate);
+    const hp = onePoleHighpass(range[1], context.sampleRate);
     this.highpassFilter = context.createIIRFilter(hp.feedForward, hp.feedback);
 
     this.toneHighGain = context.createGain();
     this.merger = context.createChannelMerger();
 
     this.splitter
-      .connect(this.highpassFilter, 1)
+      .connect(this.highpassFilter)
       .connect(this.toneHighGain)
       .connect(this.merger, 0, 1);
   }
