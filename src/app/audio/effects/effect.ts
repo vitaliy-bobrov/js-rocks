@@ -12,7 +12,7 @@ export interface EffectInfo {
 export abstract class Effect implements Disposable {
   private activeSub$ = new BehaviorSubject<boolean>(false);
   private context: AudioContext;
-  protected isBypassEnabled = true;
+  protected isBypassEnabled: boolean;
   protected processor: AudioNode[] = [];
   input: GainNode;
   output: GainNode;
@@ -31,6 +31,11 @@ export abstract class Effect implements Disposable {
   }
 
   set active(value: boolean) {
+    if (value && typeof this.isBypassEnabled === 'undefined') {
+      this.toggleBypass();
+      this.toggleBypass();
+    }
+
     if (this.isBypassEnabled !== !value) {
       this.toggleBypass();
     }
@@ -91,7 +96,6 @@ export abstract class Effect implements Disposable {
     this.input = null;
     this.output = null;
     this.context = null;
-    this.isBypassEnabled = false;
     this.activeSub$.complete();
   }
 

@@ -27,8 +27,8 @@ export class PresetManagerService {
       model: 'Captain 1960',
       params: {
         volume: 1,
-        bass: -2,
-        mid: 6,
+        bass: 0,
+        mid: 0,
         treble: 0,
         gain: 4,
         active: true

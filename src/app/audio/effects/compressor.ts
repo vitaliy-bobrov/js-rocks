@@ -74,13 +74,11 @@ export class Compressor extends Effect {
       this.levelNode
     ];
 
+    connectNodes(this.processor);
+
     Object.keys(this.defaults).forEach(option => {
       this[option] = this.defaults[option];
     });
-
-    connectNodes(this.processor);
-
-    this.input.connect(this.output);
   }
 
   dispose() {

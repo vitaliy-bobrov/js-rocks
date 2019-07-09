@@ -109,10 +109,10 @@ export class Muff extends Effect {
 
     const postRange = this.tunings.postFilterRange;
     const postHP = onePoleHighpass(postRange[0], context.sampleRate);
-    this.preHighpass = context.createIIRFilter(postHP.feedForward, postHP.feedback);
+    this.postLowpass = context.createIIRFilter(postHP.feedForward, postHP.feedback);
 
     const postLP = onePoleLowpass(postRange[1], context.sampleRate);
-    this.preLowpass = context.createIIRFilter(postLP.feedForward, postLP.feedback);
+    this.postHighpass = context.createIIRFilter(postLP.feedForward, postLP.feedback);
 
     // Equalization stage.
     this.toneNode = new MixedTone(context, this.tunings.toneRange);
@@ -121,6 +121,7 @@ export class Muff extends Effect {
     this.levelNode = context.createGain();
 
     this.processor = [
+      this.boostNode,
       this.preLowpass,
       this.preHighpass,
       this.waveSharper1Stage,
@@ -131,13 +132,11 @@ export class Muff extends Effect {
       this.levelNode
     ];
 
+    connectNodes(this.processor);
+
     Object.keys(this.defaults).forEach(option => {
       this[option] = this.defaults[option];
     });
-
-    connectNodes(this.processor);
-
-    this.input.connect(this.output);
   }
 
   dispose() {

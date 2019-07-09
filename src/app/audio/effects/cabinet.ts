@@ -105,13 +105,11 @@ export class Cabinet extends Effect {
       this.trebleNode
     ];
 
+    connectNodes(this.processor);
+
     Object.keys(this.defaults).forEach(option => {
       this[option] = this.defaults[option];
     });
-
-    connectNodes(this.processor);
-
-    this.input.connect(this.output);
   }
 
   updateConvolver(buffer$: Observable<AudioBuffer>, gain: number, maxGain: number, model: string) {

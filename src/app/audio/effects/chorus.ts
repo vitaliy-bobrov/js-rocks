@@ -107,10 +107,6 @@ export class Chorus extends Effect {
       this.levelNode,
     ];
 
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
-
     connectNodes(this.processor);
 
     // Feedback loop.
@@ -121,7 +117,9 @@ export class Chorus extends Effect {
     this.lfo.start();
     this.lfo.connect(this.depthNode).connect(this.delayNode.delayTime);
 
-    this.input.connect(this.output);
+    Object.keys(this.defaults).forEach(option => {
+      this[option] = this.defaults[option];
+    });
   }
 
   dispose() {
