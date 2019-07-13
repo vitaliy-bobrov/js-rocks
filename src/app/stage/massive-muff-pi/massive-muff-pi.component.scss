@@ -1,5 +1,6 @@
 :host {
   --stompbox-bg: #cbcac6;
+  --muff-color: #8c161e;
   display: block;
 
   &:hover {
@@ -28,7 +29,7 @@
   .pedal-layout {
     display: grid;
     grid-template-areas: 'controls' 'name' 'switch';
-    grid-template-rows: 1fr auto 40%;
+    grid-template-rows: 1fr auto 42%;
     height: 100%;
   }
 
@@ -72,17 +73,37 @@
   .name {
     grid-area: name;
     margin: 16px 0;
-    color: #d51208;
+    color: var(--stompbox-bg);
     font-size: 24px;
     line-height: 24px;
     font-family: 'Rationale', 'Roboto', sans-serif;
     text-align: center;
+    text-shadow: 1px 1px var(--muff-color),
+      -1px -1px var(--muff-color),
+      -1px 1px var(--muff-color),
+      1px -1px var(--muff-color),
+      -2px 1px var(--muff-color),
+      -3px 2px var(--muff-color),
+      -2px 3px var(--muff-color);
   }
 
   .switch {
     grid-area: switch;
     margin: 0 6px 6px;
     border-radius: 0 0 .25em .25em;
+    position: relative;
     --stompbox-bg: #222;
+
+    &:after {
+      content: '';
+      display: block;
+      height: 4px;
+      background-color: #cbcac6;
+      border-top: 4px solid var(--muff-color);
+      position: absolute;
+      top: -8px;
+      left: 2px;
+      right: 2px;
+    }
   }
 }

@@ -53,6 +53,12 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       maxGain: 9
     },
     {
+      model: 'Friender Bassman',
+      path: 'cabinet/friender_bassman.wav',
+      gain: 16,
+      maxGain: 31
+    },
+    {
       model: 'Enzo Celesticco',
       path: 'cabinet/enzo_celesticco.wav',
       gain: 2,

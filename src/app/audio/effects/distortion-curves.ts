@@ -37,7 +37,7 @@ export const curves = {
   },
   // Arctangent nonlinearity.
   arch(amount: number, curve: Float32Array, n: number) {
-    const k = amount * 100;
+    const k = Math.max(amount, 0.01) * 100;
 
     for (let i = 0, x; i < n; ++i) {
       x = i * 2 / n - 1;

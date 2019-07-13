@@ -51,7 +51,7 @@ export class MassiveMuffPiComponent
         boost: 16.7,
         preFilterRange: [3.84, 1215.3],
         toneRange: [482.39, 1206.27],
-        postFilterRange: [94, 1170]
+        postFilterRanges: [55, 1780, 94, 1170]
       }
     );
     this.manager.addEffect(this.effect);

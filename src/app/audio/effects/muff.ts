@@ -13,7 +13,7 @@ export interface MuffTuningOptions {
   boost?: number;
   preFilterRange?: [number, number];
   toneRange?: [number, number];
-  postFilterRange?: [number, number];
+  postFilterRanges?: [number, number, number, number];
 }
 
 export interface MuffSettings {
@@ -31,9 +31,9 @@ export class Muff extends Effect {
   private static defaultTunings: MuffTuningOptions = {
     curveType: 'driver',
     boost: 0,
-    preFilterRange: [350, 22050],
-    toneRange: [350, 22050],
-    postFilterRange: [350, 22050]
+    preFilterRange: [250, 22050],
+    toneRange: [250, 22050],
+    postFilterRanges: [250, 22050, 250, 22050]
   };
 
   private tunings: MuffTuningOptions;
@@ -44,9 +44,11 @@ export class Muff extends Effect {
   private preLowpass: IIRFilterNode;
   private preHighpass: IIRFilterNode;
   private waveSharper1Stage: WaveShaperNode;
+  private postLowpass1Stage: IIRFilterNode;
+  private postHighpass1Stage: IIRFilterNode;
   private waveSharper2Stage: WaveShaperNode;
-  private postLowpass: IIRFilterNode;
-  private postHighpass: IIRFilterNode;
+  private postLowpass2Stage: IIRFilterNode;
+  private postHighpass2Stage: IIRFilterNode;
   private toneNode: ToneControl;
   private levelNode: GainNode;
 
@@ -58,13 +60,18 @@ export class Muff extends Effect {
     const amount = clamp(0, 1, value);
     this.sustainSub$.next(amount);
 
-    const curve =  makeDistortionCurve(
-      amount,
+    const curve1 =  makeDistortionCurve(
+      amount / 4,
       this.sampleRate,
       this.tunings.curveType
     );
-    this.waveSharper1Stage.curve = curve;
-    this.waveSharper2Stage.curve = curve;
+    const curve2 =  makeDistortionCurve(
+      amount / 2,
+      this.sampleRate,
+      this.tunings.curveType
+    );
+    this.waveSharper1Stage.curve = curve1;
+    this.waveSharper2Stage.curve = curve2;
   }
 
   set tone(value: number) {
@@ -107,12 +114,18 @@ export class Muff extends Effect {
     this.waveSharper1Stage.oversample = '4x';
     this.waveSharper2Stage.oversample = '4x';
 
-    const postRange = this.tunings.postFilterRange;
-    const postHP = onePoleHighpass(postRange[0], context.sampleRate);
-    this.postLowpass = context.createIIRFilter(postHP.feedForward, postHP.feedback);
+    const postRange = this.tunings.postFilterRanges;
+    const postHP1 = onePoleHighpass(postRange[0], context.sampleRate);
+    this.postLowpass1Stage = context.createIIRFilter(postHP1.feedForward, postHP1.feedback);
 
-    const postLP = onePoleLowpass(postRange[1], context.sampleRate);
-    this.postHighpass = context.createIIRFilter(postLP.feedForward, postLP.feedback);
+    const postLP1 = onePoleLowpass(postRange[1], context.sampleRate);
+    this.postHighpass1Stage = context.createIIRFilter(postLP1.feedForward, postLP1.feedback);
+
+    const postHP2 = onePoleHighpass(postRange[2], context.sampleRate);
+    this.postLowpass2Stage = context.createIIRFilter(postHP2.feedForward, postHP2.feedback);
+
+    const postLP2 = onePoleLowpass(postRange[3], context.sampleRate);
+    this.postHighpass2Stage = context.createIIRFilter(postLP2.feedForward, postLP2.feedback);
 
     // Equalization stage.
     this.toneNode = new MixedTone(context, this.tunings.toneRange);
@@ -125,9 +138,11 @@ export class Muff extends Effect {
       this.preLowpass,
       this.preHighpass,
       this.waveSharper1Stage,
+      this.postLowpass1Stage,
+      this.postHighpass1Stage,
       this.waveSharper2Stage,
-      this.postLowpass,
-      this.postHighpass,
+      this.postLowpass2Stage,
+      this.postHighpass2Stage,
       ...this.toneNode.nodes,
       this.levelNode
     ];
@@ -149,8 +164,10 @@ export class Muff extends Effect {
     this.waveSharper1Stage = null;
     this.waveSharper2Stage.curve = new Float32Array(2);
     this.waveSharper2Stage = null;
-    this.postLowpass = null;
-    this.postHighpass = null;
+    this.postLowpass1Stage = null;
+    this.postHighpass1Stage = null;
+    this.postLowpass2Stage = null;
+    this.postHighpass2Stage = null;
 
     this.toneNode.dispose();
     this.toneNode = null;

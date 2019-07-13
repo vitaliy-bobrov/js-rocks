@@ -16,9 +16,9 @@
   <div
     #knob
     class="knob"
-    [matTooltip]="value + units"
+    [matTooltip]="value | valueLabel:units:showValueSign"
     [matTooltipPosition]="labelPosition === 'top' ? 'above' : 'below'"
-    [matTooltipShowDelay]="1000"
+    [matTooltipShowDelay]="100"
     (mousedown)="addRotateListener($event)"
     (touchstart)="addRotateListener($event)">
     <div class="knob-focus"></div>

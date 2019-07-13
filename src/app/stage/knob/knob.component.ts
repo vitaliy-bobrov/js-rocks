@@ -34,6 +34,9 @@ export class KnobComponent implements OnInit, OnChanges {
   units = '';
 
   @Input()
+  showValueSign = false;
+
+  @Input()
   min = 0;
 
   @Input()

@@ -57,6 +57,7 @@
       [min]="-24"
       [max]="24"
       [step]="0.5"
+      [showValueSign]="true"
       [value]="effect.bass$ | async"
       (valueChanged)="effect.bass = $event">
     </jsr-knob>
@@ -70,6 +71,7 @@
       [min]="-24"
       [max]="24"
       [step]="0.5"
+      [showValueSign]="true"
       [value]="effect.mid$ | async"
       (valueChanged)="effect.mid = $event">
     </jsr-knob>
@@ -78,11 +80,12 @@
       dots
       silver
       class="treble"
+      label="TREBLE"
       units="dB"
       [min]="-24"
       [max]="24"
       [step]="0.5"
-      label="TREBLE"
+      [showValueSign]="true"
       [value]="effect.treble$ | async"
       (valueChanged)="effect.treble = $event">
     </jsr-knob>
