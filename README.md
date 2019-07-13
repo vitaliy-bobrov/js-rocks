@@ -18,6 +18,9 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 - Classic Distortion JDS-1
 - Metal Area JMT-2
 
+## Fuzz
+- Massive Muff π
+
 ### Reverb
 
 - Reverb JRV-6
@@ -34,6 +37,7 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 - Captain 1960
 - Friender Winner
+- Friender Bassman
 - Enzo Celesticco
 - Fox AC30
 - FranklinStein
@@ -49,6 +53,6 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 ## Planned
 - Freeverb
-- Tremolo
+- Tremolo - JTR-2
 - Fuzz
 
