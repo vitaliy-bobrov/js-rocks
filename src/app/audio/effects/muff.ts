@@ -1,10 +1,18 @@
+import { BehaviorSubject } from 'rxjs';
+import {
+  AudioContext,
+  GainNode,
+  IIRFilterNode,
+  WaveShaperNode
+} from 'standardized-audio-context';
+
 import { Effect, EffectInfo } from './effect';
 import {
   clamp,
   connectNodes,
-  dBToGain } from '../../utils';
+  dBToGain
+} from '../../utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
-import { BehaviorSubject } from 'rxjs';
 import { ToneControl, MixedTone } from './tone';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 
@@ -40,17 +48,17 @@ export class Muff extends Effect {
   private levelSub$ = new BehaviorSubject<number>(0);
   private sustainSub$ = new BehaviorSubject<number>(0);
   private toneSub$ = new BehaviorSubject<number>(0);
-  private boostNode: GainNode;
-  private preLowpass: IIRFilterNode;
-  private preHighpass: IIRFilterNode;
-  private waveSharper1Stage: WaveShaperNode;
-  private postLowpass1Stage: IIRFilterNode;
-  private postHighpass1Stage: IIRFilterNode;
-  private waveSharper2Stage: WaveShaperNode;
-  private postLowpass2Stage: IIRFilterNode;
-  private postHighpass2Stage: IIRFilterNode;
+  private boostNode: GainNode<AudioContext>;
+  private preLowpass: IIRFilterNode<AudioContext>;
+  private preHighpass: IIRFilterNode<AudioContext>;
+  private waveSharper1Stage: WaveShaperNode<AudioContext>;
+  private postLowpass1Stage: IIRFilterNode<AudioContext>;
+  private postHighpass1Stage: IIRFilterNode<AudioContext>;
+  private waveSharper2Stage: WaveShaperNode<AudioContext>;
+  private postLowpass2Stage: IIRFilterNode<AudioContext>;
+  private postHighpass2Stage: IIRFilterNode<AudioContext>;
   private toneNode: ToneControl;
-  private levelNode: GainNode;
+  private levelNode: GainNode<AudioContext>;
 
   sustain$ = this.sustainSub$.asObservable();
   tone$ = this.toneSub$.asObservable();
@@ -97,35 +105,44 @@ export class Muff extends Effect {
     this.tunings = {...Muff.defaultTunings, ...tunings};
 
     // Boost stage - pre-filtering + boost gain.
-    this.boostNode = context.createGain();
-    this.boostNode.gain.value = dBToGain(this.tunings.boost);
+    this.boostNode = new GainNode(context, {
+      gain: dBToGain(this.tunings.boost)
+    });
 
     const preRange = this.tunings.preFilterRange;
-    const preHP = onePoleHighpass(preRange[0], context.sampleRate);
-    this.preHighpass = context.createIIRFilter(preHP.feedForward, preHP.feedback);
 
-    const preLP = onePoleLowpass(preRange[1], context.sampleRate);
-    this.preLowpass = context.createIIRFilter(preLP.feedForward, preLP.feedback);
+    this.preHighpass = new IIRFilterNode(context, {
+      ...onePoleHighpass(preRange[0], context.sampleRate)
+    });
+
+    this.preLowpass = new IIRFilterNode(context, {
+      ...onePoleLowpass(preRange[1], context.sampleRate)
+    });
 
     // Double clipping stage.
-    this.waveSharper1Stage = context.createWaveShaper();
-    this.waveSharper2Stage = context.createWaveShaper();
-    // Prevents aliasing.
-    this.waveSharper1Stage.oversample = '4x';
-    this.waveSharper2Stage.oversample = '4x';
+    this.waveSharper1Stage = new WaveShaperNode(context, {
+      oversample: '4x'
+    });
+    this.waveSharper2Stage = new WaveShaperNode(context, {
+      oversample: '4x'
+    });
 
     const postRange = this.tunings.postFilterRanges;
-    const postHP1 = onePoleHighpass(postRange[0], context.sampleRate);
-    this.postLowpass1Stage = context.createIIRFilter(postHP1.feedForward, postHP1.feedback);
+    this.postLowpass1Stage = new IIRFilterNode(context, {
+      ...onePoleHighpass(postRange[0], context.sampleRate)
+    });
 
-    const postLP1 = onePoleLowpass(postRange[1], context.sampleRate);
-    this.postHighpass1Stage = context.createIIRFilter(postLP1.feedForward, postLP1.feedback);
+    this.postHighpass1Stage = new IIRFilterNode(context, {
+      ...onePoleLowpass(postRange[1], context.sampleRate)
+    });
 
-    const postHP2 = onePoleHighpass(postRange[2], context.sampleRate);
-    this.postLowpass2Stage = context.createIIRFilter(postHP2.feedForward, postHP2.feedback);
+    this.postLowpass2Stage = new IIRFilterNode(context, {
+      ...onePoleHighpass(postRange[2], context.sampleRate)
+    });
 
-    const postLP2 = onePoleLowpass(postRange[3], context.sampleRate);
-    this.postHighpass2Stage = context.createIIRFilter(postLP2.feedForward, postLP2.feedback);
+    this.postHighpass2Stage = new IIRFilterNode(context, {
+      ...onePoleLowpass(postRange[3], context.sampleRate)
+    });
 
     // Equalization stage.
     this.toneNode = new MixedTone(context, this.tunings.toneRange);

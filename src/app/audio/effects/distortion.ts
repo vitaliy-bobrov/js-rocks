@@ -1,10 +1,18 @@
+import { BehaviorSubject } from 'rxjs';
+import {
+  AudioContext,
+  GainNode,
+  BiquadFilterNode,
+  WaveShaperNode
+} from 'standardized-audio-context';
+
 import { Effect, EffectInfo } from './effect';
 import {
   clamp,
   connectNodes,
-  calculateBandpass } from '../../utils';
+  calculateBandpass
+} from '../../utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
-import { BehaviorSubject } from 'rxjs';
 import { ToneControl, StandardTone, MixedTone } from './tone';
 
 export interface DistortionTuningOptions {
@@ -39,11 +47,11 @@ export class Distortion extends Effect {
   private levelSub$ = new BehaviorSubject<number>(0);
   private distortionSub$ = new BehaviorSubject<number>(0);
   private toneSub$ = new BehaviorSubject<number>(0);
-  private preFilter: BiquadFilterNode;
-  private waveSharper: WaveShaperNode;
-  private postFilter: BiquadFilterNode;
+  private preFilter: BiquadFilterNode<AudioContext>;
+  private waveSharper: WaveShaperNode<AudioContext>;
+  private postFilter: BiquadFilterNode<AudioContext>;
   private toneNode: ToneControl;
-  private levelNode: GainNode;
+  private levelNode: GainNode<AudioContext>;
 
   distortion$ = this.distortionSub$.asObservable();
   tone$ = this.toneSub$.asObservable();
@@ -82,21 +90,24 @@ export class Distortion extends Effect {
     this.tunings = {...Distortion.defaultTunings, ...tunings};
 
     // Boost stage - pre-filtering + boost gain.
-    this.preFilter = context.createBiquadFilter();
+
     const bandpassParams = calculateBandpass(this.tunings.preFilterRange);
-    this.preFilter.type = 'bandpass';
-    this.preFilter.Q.value = bandpassParams.q;
-    this.preFilter.frequency.value = bandpassParams.fc;
+    this.preFilter = new BiquadFilterNode(context, {
+      type: 'bandpass',
+      Q: bandpassParams.q,
+      frequency: bandpassParams.fc
+    });
 
     // Clipping stage.
-    this.waveSharper = context.createWaveShaper();
-    // Prevents aliasing.
-    this.waveSharper.oversample = '4x';
+    this.waveSharper = new WaveShaperNode(context, {
+      oversample: '4x'
+    });
 
-    this.postFilter = context.createBiquadFilter();
-    this.postFilter.type = 'lowpass';
-    this.postFilter.Q.value = Math.SQRT1_2;
-    this.postFilter.frequency.value = this.tunings.postFilter;
+    this.postFilter = new BiquadFilterNode(context, {
+      type: 'lowpass',
+      Q: Math.SQRT1_2,
+      frequency: this.tunings.postFilter
+    });
 
     // Equalization stage.
     if (this.tunings.toneControlType === 'standard') {
@@ -108,7 +119,7 @@ export class Distortion extends Effect {
     }
 
     // Output stage.
-    this.levelNode = context.createGain();
+    this.levelNode = new GainNode(context);
 
     this.processor = [
       this.preFilter,

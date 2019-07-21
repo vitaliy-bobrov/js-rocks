@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import {
+  AudioContext,
+  GainNode,
+  MediaStreamAudioSourceNode
+} from 'standardized-audio-context';
+
 import { Effect } from './effects/effect';
 import { clamp } from '../utils';
-import { BehaviorSubject } from 'rxjs';
 import { Preset } from './preset-manager.service';
 import { CabinetInfo } from './effects/cabinet';
 
@@ -9,8 +15,8 @@ import { CabinetInfo } from './effects/cabinet';
 export class AudioContextManager {
   context: AudioContext;
   private effects: Effect[] = [];
-  private lineInSource: MediaStreamAudioSourceNode;
-  private masterGain: GainNode;
+  private lineInSource: MediaStreamAudioSourceNode<AudioContext>;
+  private masterGain: GainNode<AudioContext>;
   private masterSub$ = new BehaviorSubject<number>(0);
 
   master$ = this.masterSub$.asObservable();
@@ -23,7 +29,7 @@ export class AudioContextManager {
 
   constructor() {
     this.context = new AudioContext();
-    this.masterGain = this.context.createGain();
+    this.masterGain = new GainNode(this.context);
     this.masterGain.connect(this.context.destination);
     this.masterSub$.next(1);
   }
@@ -31,7 +37,7 @@ export class AudioContextManager {
   async plugLineIn() {
     try {
       if (!this.lineInSource) {
-        const stream = await navigator.mediaDevices
+        const mediaStream = await navigator.mediaDevices
         .getUserMedia({
           audio: {
             echoCancellation: false,
@@ -40,7 +46,9 @@ export class AudioContextManager {
             latency: 0
           } as MediaStreamConstraints['audio']
         });
-        this.lineInSource = this.context.createMediaStreamSource(stream);
+        this.lineInSource = new MediaStreamAudioSourceNode(this.context, {
+          mediaStream
+        });
 
         this.connectInOrder();
       }

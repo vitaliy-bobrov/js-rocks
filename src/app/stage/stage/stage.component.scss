@@ -5,6 +5,7 @@
   grid-template-areas: 'cabinet   '
                        'add       '
                        'pedalboard';
+  min-height: 24px;
 
   .line-toggle {
     position: absolute;
@@ -26,8 +27,6 @@
 
   .pedal-board {
     grid-area: pedalboard;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 16px 0 0;
+    padding-top: 16px;
   }
 }

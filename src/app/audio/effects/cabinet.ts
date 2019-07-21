@@ -1,6 +1,13 @@
-import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, mapToMinMax } from '../../utils';
+import {
+  AudioContext,
+  GainNode,
+  ConvolverNode,
+  BiquadFilterNode
+} from 'standardized-audio-context';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { Effect, EffectInfo } from './effect';
+import { connectNodes, clamp } from '../../utils';
 
 export interface CabinetInfo extends EffectInfo {
   params: {
@@ -14,15 +21,15 @@ export interface CabinetInfo extends EffectInfo {
 }
 
 export class Cabinet extends Effect {
-  private makeUpGain: GainNode;
-  private convolver: ConvolverNode;
+  private makeUpGain: GainNode<AudioContext>;
+  private convolver: ConvolverNode<AudioContext>;
   private bassSub$ = new BehaviorSubject<number>(0);
   private midSub$ = new BehaviorSubject<number>(0);
   private trebleSub$ = new BehaviorSubject<number>(0);
   private makeUpGainSub$ = new BehaviorSubject<number>(1);
-  private bassNode: BiquadFilterNode;
-  private midNode: BiquadFilterNode;
-  private trebleNode: BiquadFilterNode;
+  private bassNode: BiquadFilterNode<AudioContext>;
+  private midNode: BiquadFilterNode<AudioContext>;
+  private trebleNode: BiquadFilterNode<AudioContext>;
   private defaults: Partial<CabinetInfo['params']> = {
     bass: 0.5,
     mid: 0.5,
@@ -72,26 +79,28 @@ export class Cabinet extends Effect {
   ) {
     super(context, model);
 
-    this.convolver = context.createConvolver();
-    this.makeUpGain = context.createGain();
-    this.makeUpGain.gain.value = gain;
+    this.convolver = new ConvolverNode(context);
+    this.makeUpGain = new GainNode(context, {gain});
     this.defaults.gain = gain;
 
-    this.bassNode = context.createBiquadFilter();
-    this.bassNode.type = 'lowshelf';
-    this.bassNode.frequency.value = 320;
-    this.bassNode.gain.value = 0;
+    this.bassNode = new BiquadFilterNode(context, {
+      type: 'lowshelf',
+      frequency: 320,
+      gain: 0
+    });
 
-    this.midNode = context.createBiquadFilter();
-    this.midNode.type = 'peaking';
-    this.midNode.Q.value = 0.5;
-    this.midNode.frequency.value = 1000;
-    this.midNode.gain.value = 0;
+    this.midNode = new BiquadFilterNode(context, {
+      type: 'peaking',
+      Q: 0.5,
+      frequency: 1000,
+      gain: 0
+    });
 
-    this.trebleNode = context.createBiquadFilter();
-    this.trebleNode.type = 'highshelf';
-    this.trebleNode.frequency.value = 3200;
-    this.trebleNode.gain.value = 0;
+    this.trebleNode = new BiquadFilterNode(context, {
+      type: 'highshelf',
+      frequency: 3200,
+      gain: 0
+    });
 
     buffer$.subscribe((buffer) => {
       this.convolver.buffer = buffer;

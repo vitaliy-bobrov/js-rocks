@@ -1,4 +1,10 @@
+import {
+  AudioContext,
+  GainNode,
+  IAudioNode
+} from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
+
 import { EffectNode } from '@audio/node.interface';
 import { Disposable } from '@audio/disposable.interface';
 
@@ -13,9 +19,9 @@ export abstract class Effect implements Disposable {
   private activeSub$ = new BehaviorSubject<boolean>(false);
   private context: AudioContext;
   protected isBypassEnabled: boolean;
-  protected processor: AudioNode[] = [];
-  input: GainNode;
-  output: GainNode;
+  protected processor: IAudioNode<AudioContext>[] = [];
+  input: GainNode<AudioContext>;
+  output: GainNode<AudioContext>;
   active$ = this.activeSub$.asObservable();
 
   static connectInOrder(effects: Required<EffectNode>[]) {

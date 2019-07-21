@@ -1,6 +1,12 @@
+import { BehaviorSubject } from 'rxjs';
+import {
+  AudioContext,
+  GainNode,
+  DynamicsCompressorNode
+} from 'standardized-audio-context';
+
 import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax } from '../../utils';
-import { BehaviorSubject } from 'rxjs';
 
 export interface CompressorSettings {
   level: number;
@@ -19,8 +25,8 @@ export class Compressor extends Effect {
   private attackSub$ = new BehaviorSubject<number>(0);
   private ratioSub$ = new BehaviorSubject<number>(0);
   private thresholdSub$ = new BehaviorSubject<number>(0);
-  private compressor: DynamicsCompressorNode;
-  private levelNode: GainNode;
+  private compressor: DynamicsCompressorNode<AudioContext>;
+  private levelNode: GainNode<AudioContext>;
 
   level$ = this.levelSub$.asObservable();
   attack$ = this.attackSub$.asObservable();
@@ -64,10 +70,11 @@ export class Compressor extends Effect {
   ) {
     super(context, model);
 
-    this.levelNode = context.createGain();
-    this.compressor = context.createDynamicsCompressor();
-    this.compressor.knee.value = 30;
-    this.compressor.release.value = 0.25;
+    this.levelNode = new GainNode(context);
+    this.compressor = new DynamicsCompressorNode(context, {
+      knee: 30,
+      release: 0.25
+    });
 
     this.processor = [
       this.compressor,

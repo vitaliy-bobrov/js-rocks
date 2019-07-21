@@ -1,4 +1,9 @@
+import {
+  AudioContext,
+  IAudioNode
+} from 'standardized-audio-context';
+
 export interface EffectNode {
-  connect(target: AudioParam | AudioNode | EffectNode);
+  connect(target: IAudioNode<AudioContext> | EffectNode);
   disconnect();
 }
