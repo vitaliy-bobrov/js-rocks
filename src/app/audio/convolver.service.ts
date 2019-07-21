@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
+import {
+  AudioContext,
+  AudioBuffer
+} from 'standardized-audio-context';
 
 @Injectable()
 export class ConvolverService {

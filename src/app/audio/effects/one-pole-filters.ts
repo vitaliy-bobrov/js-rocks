@@ -1,7 +1,7 @@
 // Based on https://beis.de/Elektronik/Filter/AnaDigFilt/1stOrderDigFilt.html
 
 export interface IIRCoefficients {
-  feedForward: number[];
+  feedforward: number[];
   feedback: number[];
 }
 
@@ -14,7 +14,7 @@ export function onePoleLowpass(frequency: number, sampleRate: number): IIRCoeffi
   const b1 = a0 - 1;
 
   return {
-    feedForward: [a0, 0],
+    feedforward: [a0, 0],
     feedback: [1, b1]
   };
 }
@@ -27,7 +27,7 @@ export function onePoleHighpass(frequency: number, sampleRate: number): IIRCoeff
   const b1 = 1 / (t * sampleRate) - 1;
 
   return {
-    feedForward: [1, -1],
+    feedforward: [1, -1],
     feedback: [1, b1]
   };
 }

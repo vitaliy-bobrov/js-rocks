@@ -1,8 +1,15 @@
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax, expScale } from '../../utils';
-import { BehaviorSubject } from 'rxjs';
+import { clamp, connectNodes, mapToMinMax } from '../../utils';
 import { StandardTone, ToneControl } from './tone';
 import { LFO } from './lfo';
+
+import {
+  AudioContext,
+  GainNode,
+  OscillatorNode,
+  DelayNode
+} from 'standardized-audio-context';
+import { BehaviorSubject } from 'rxjs';
 
 export interface ChorusSettings {
   level: number;
@@ -26,11 +33,11 @@ export class Chorus extends Effect {
   private feedbackSub$ = new BehaviorSubject<number>(0);
   private delaySub$ = new BehaviorSubject<number>(0);
   private eqNode: ToneControl;
-  private lfo: OscillatorNode;
-  private depthNode: GainNode;
-  private delayNode: DelayNode;
-  private feedbackNode: GainNode;
-  private levelNode: GainNode;
+  private lfo: OscillatorNode<AudioContext>;
+  private depthNode: GainNode<AudioContext>;
+  private delayNode: DelayNode<AudioContext>;
+  private feedbackNode: GainNode<AudioContext>;
+  private levelNode: GainNode<AudioContext>;
 
   level$ = this.levelSub$.asObservable();
   eq$ = this.eqSub$.asObservable();
@@ -96,10 +103,10 @@ export class Chorus extends Effect {
     super(context, model);
     this.eqNode = new StandardTone(context);
     this.lfo = LFO(context);
-    this.depthNode = context.createGain();
-    this.delayNode = context.createDelay();
-    this.feedbackNode = context.createGain();
-    this.levelNode = context.createGain();
+    this.depthNode = new GainNode(context);
+    this.delayNode = new DelayNode(context);
+    this.feedbackNode = new GainNode(context);
+    this.levelNode = new GainNode(context);
 
     this.processor = [
       ...this.eqNode.nodes,
@@ -115,7 +122,8 @@ export class Chorus extends Effect {
 
     // LFO setup.
     this.lfo.start();
-    this.lfo.connect(this.depthNode).connect(this.delayNode.delayTime);
+    this.lfo.connect(this.depthNode);
+    this.depthNode.connect(this.delayNode.delayTime as any);
 
     Object.keys(this.defaults).forEach(option => {
       this[option] = this.defaults[option];

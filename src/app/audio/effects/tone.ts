@@ -1,15 +1,25 @@
-import { expScale, mapToMinMax } from 'src/app/utils';
-import { Disposable } from '@audio/disposable.interface';
+import {
+  AudioContext,
+  IAudioNode,
+  IIRFilterNode,
+  GainNode,
+  BiquadFilterNode,
+  ChannelSplitterNode,
+  ChannelMergerNode
+} from 'standardized-audio-context';
+
+import { expScale, mapToMinMax } from '../../utils';
+import { Disposable } from '../disposable.interface';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 
 export class StandardTone implements Disposable {
-  private filter: BiquadFilterNode;
+  private filter: BiquadFilterNode<AudioContext>;
 
   private get currentTime(): number {
     return this.filter.context.currentTime;
   }
 
-  get nodes(): AudioNode[] {
+  get nodes(): IAudioNode<AudioContext>[] {
     return [this.filter];
   }
 
@@ -22,9 +32,10 @@ export class StandardTone implements Disposable {
     context: AudioContext,
     private range: [number, number] = [350, 12000]
   ) {
-    this.filter = context.createBiquadFilter();
-    this.filter.type = 'lowpass';
-    this.filter.Q.value = Math.SQRT1_2;
+    this.filter = new BiquadFilterNode(context, {
+      type: 'lowpass',
+      Q: Math.SQRT1_2
+    });
   }
 
   dispose() {
@@ -34,18 +45,18 @@ export class StandardTone implements Disposable {
 }
 
 export class MixedTone implements Disposable {
-  private splitter: ChannelSplitterNode;
-  private lowpassFilter: IIRFilterNode;
-  private highpassFilter: IIRFilterNode;
-  private toneHighGain: GainNode;
-  private toneLowGain: GainNode;
-  private merger: ChannelMergerNode;
+  private splitter: ChannelSplitterNode<AudioContext>;
+  private lowpassFilter: IIRFilterNode<AudioContext>;
+  private highpassFilter: IIRFilterNode<AudioContext>;
+  private toneHighGain: GainNode<AudioContext>;
+  private toneLowGain: GainNode<AudioContext>;
+  private merger: ChannelMergerNode<AudioContext>;
 
   private get currentTime(): number {
     return this.toneLowGain.context.currentTime;
   }
 
-  get nodes(): AudioNode[] {
+  get nodes(): IAudioNode<AudioContext>[] {
     return [
       this.splitter,
       this.lowpassFilter,
@@ -63,18 +74,20 @@ export class MixedTone implements Disposable {
     context: AudioContext,
     range: [number, number] = [550, 1000]
   ) {
-    this.splitter = context.createChannelSplitter();
+    this.splitter = new ChannelSplitterNode(context);
 
-    const lp = onePoleLowpass(range[0], context.sampleRate);
-    this.lowpassFilter = context.createIIRFilter(lp.feedForward, lp.feedback);
+    this.lowpassFilter = new IIRFilterNode(context, {
+      ...onePoleLowpass(range[0], context.sampleRate)
+    });
 
-    this.toneLowGain = context.createGain();
+    this.toneLowGain = new GainNode(context);
 
-    const hp = onePoleHighpass(range[1], context.sampleRate);
-    this.highpassFilter = context.createIIRFilter(hp.feedForward, hp.feedback);
+    this.highpassFilter = new IIRFilterNode(context, {
+      ...onePoleHighpass(range[1], context.sampleRate)
+    });
 
-    this.toneHighGain = context.createGain();
-    this.merger = context.createChannelMerger();
+    this.toneHighGain = new GainNode(context);
+    this.merger = new ChannelMergerNode(context);
 
     this.splitter
       .connect(this.highpassFilter)

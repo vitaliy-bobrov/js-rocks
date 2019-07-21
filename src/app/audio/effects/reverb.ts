@@ -1,6 +1,15 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  AudioContext,
+  GainNode,
+  ConvolverNode,
+  DelayNode,
+  ChannelSplitterNode,
+  ChannelMergerNode
+} from 'standardized-audio-context';
+
 import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, toMs, equalCrossFade } from '../../utils';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { ToneControl, StandardTone } from './tone';
 
 export interface ReverbSettings {
@@ -19,14 +28,14 @@ export class Reverb extends Effect {
   private timeSub$ = new BehaviorSubject<number>(0);
   private toneSub$ = new BehaviorSubject<number>(0);
   private levelSub$ = new BehaviorSubject<number>(0);
-  private splitter: ChannelSplitterNode;
-  private timeNode: DelayNode;
+  private splitter: ChannelSplitterNode<AudioContext>;
+  private timeNode: DelayNode<AudioContext>;
   private toneNode: ToneControl;
-  private convolver: ConvolverNode;
-  private makeUpGain: GainNode;
-  private wet: GainNode;
-  private dry: GainNode;
-  private merger: ChannelMergerNode;
+  private convolver: ConvolverNode<AudioContext>;
+  private makeUpGain: GainNode<AudioContext>;
+  private wet: GainNode<AudioContext>;
+  private dry: GainNode<AudioContext>;
+  private merger: ChannelMergerNode<AudioContext>;
 
   type: string;
 
@@ -65,15 +74,16 @@ export class Reverb extends Effect {
     private defaults: ReverbSettings) {
     super(context, model);
 
-    this.splitter = context.createChannelSplitter();
-    this.timeNode = context.createDelay();
+    this.splitter = new ChannelSplitterNode(context);
+    this.timeNode = new DelayNode(context);
     this.toneNode = new StandardTone(context);
-    this.convolver = context.createConvolver();
-    this.wet = context.createGain();
-    this.dry = context.createGain();
-    this.merger = context.createChannelMerger();
-    this.makeUpGain = context.createGain();
-    this.makeUpGain.gain.value = convolverMakeUp;
+    this.convolver = new ConvolverNode(context);
+    this.wet = new GainNode(context);
+    this.dry = new GainNode(context);
+    this.merger = new ChannelMergerNode(context);
+    this.makeUpGain = new GainNode(context, {
+      gain: convolverMakeUp
+    });
 
     buffer$.subscribe((buffer) => {
       this.convolver.buffer = buffer;
