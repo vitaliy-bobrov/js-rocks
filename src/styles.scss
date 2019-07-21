@@ -30,8 +30,9 @@ button {
   margin: -1px;
 }
 
-.pedal,
+jsr-stage .pedal,
 .cdk-drag-placeholder {
+  display: inline-block;
   margin: 0 24px 24px;
 }
 
@@ -41,7 +42,10 @@ button {
   background-color: rgba(#69f0ae, .5);
   border: 1px solid #69f0ae;
   border-radius: .5em;
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-animating {
+  transition: transform .25s cubic-bezier(0, 0, .2, 1);
 }
 
 .cdk-drag-dragging > * {
@@ -49,5 +53,5 @@ button {
 }
 
 .cdk-drop-list-dragging .pedal:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  transition: transform .25s cubic-bezier(0, 0, .2, 1);
 }
