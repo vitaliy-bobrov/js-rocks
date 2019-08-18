@@ -6,7 +6,6 @@ import { LFO } from './lfo';
 import {
   AudioContext,
   GainNode,
-  OscillatorNode,
   DelayNode
 } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
@@ -33,8 +32,7 @@ export class Chorus extends Effect {
   private feedbackSub$ = new BehaviorSubject<number>(0);
   private delaySub$ = new BehaviorSubject<number>(0);
   private eqNode: ToneControl;
-  private lfo: OscillatorNode<AudioContext>;
-  private depthNode: GainNode<AudioContext>;
+  private lfo: LFO;
   private delayNode: DelayNode<AudioContext>;
   private feedbackNode: GainNode<AudioContext>;
   private levelNode: GainNode<AudioContext>;
@@ -62,7 +60,7 @@ export class Chorus extends Effect {
     this.rateSub$.next(rate);
 
     const frequency = mapToMinMax(rate, 0.1, 8);
-    this.lfo.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
+    this.lfo.rate = frequency;
   }
 
   set depth(value: number) {
@@ -70,7 +68,7 @@ export class Chorus extends Effect {
     this.depthSub$.next(depth);
 
     const gain = depth * this.delay;
-    this.depthNode.gain.setTargetAtTime(gain, this.currentTime, 0.01);
+    this.lfo.depth = gain;
   }
 
   set feedback(value: number) {
@@ -102,8 +100,7 @@ export class Chorus extends Effect {
   ) {
     super(context, model);
     this.eqNode = new StandardTone(context);
-    this.lfo = LFO(context);
-    this.depthNode = new GainNode(context);
+    this.lfo = new LFO(context);
     this.delayNode = new DelayNode(context);
     this.feedbackNode = new GainNode(context);
     this.levelNode = new GainNode(context);
@@ -121,9 +118,7 @@ export class Chorus extends Effect {
     this.feedbackNode.connect(this.delayNode);
 
     // LFO setup.
-    this.lfo.start();
-    this.lfo.connect(this.depthNode);
-    this.depthNode.connect(this.delayNode.delayTime as any);
+    this.lfo.connect(this.delayNode.delayTime);
 
     Object.keys(this.defaults).forEach(option => {
       this[option] = this.defaults[option];
@@ -133,15 +128,12 @@ export class Chorus extends Effect {
   dispose() {
     super.dispose();
 
-    this.lfo.stop();
-    this.lfo.disconnect();
+    this.lfo.dispose();
     this.feedbackNode.disconnect();
-    this.depthNode.disconnect();
 
     this.eqNode.dispose();
     this.eqNode = null;
     this.lfo = null;
-    this.depthNode = null;
     this.delayNode = null;
     this.feedbackNode = null;
     this.levelNode = null;
