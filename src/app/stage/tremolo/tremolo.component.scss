@@ -1,0 +1,73 @@
+:host {
+  --stompbox-bg: #18898c;
+  --stompbox-label: #fff;
+  display: block;
+
+  &:hover {
+    .remove {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity .2s linear;
+
+    &:focus {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'switch';
+    grid-template-rows: 1fr 65%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas: '.    label     .'
+                         'rate led   depth'
+                         'rate .     depth'
+                         'rate wave  depth';
+    text-align: center;
+    padding: 0 6px;
+  }
+
+  .led-label {
+    grid-area: label;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 3px 0 0;
+  }
+
+  jsr-led {
+    grid-area: led;
+    justify-self: center;
+  }
+
+  .wave {
+    grid-area: wave;
+  }
+
+  .depth {
+    grid-area: depth;
+  }
+
+  .rate {
+    grid-area: rate;
+  }
+
+  .switch {
+    grid-area: switch;
+  }
+}
