@@ -31,10 +31,10 @@ export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<Ch
   effect: Chorus;
 
   params: ChorusSettings = {
-    level: 0.9,
+    level: 1,
     eq: 0.5,
-    rate: 0.6,
-    depth: 0.85,
+    rate: 0.5,
+    depth: 0.5,
     feedback: 0.4,
     delay: 0.0045,
     active: false

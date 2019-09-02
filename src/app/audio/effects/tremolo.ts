@@ -58,7 +58,7 @@ export class Tremolo extends Effect {
     private defaults: TremoloSettings
   ) {
     super(context, model);
-    this.lfo = new LFO(context);
+    this.lfo = new LFO(context, 'triangle');
     this.gainNode = new GainNode(context);
 
     this.processor = [

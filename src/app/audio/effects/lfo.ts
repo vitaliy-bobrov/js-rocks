@@ -12,6 +12,7 @@ import { Disposable } from '../disposable.interface';
 
 export class LFO implements Disposable {
   private osc: OscillatorNode<AudioContext>;
+  private sumNode: GainNode<AudioContext>;
   private depthNode: GainNode<AudioContext>;
 
   private get currentTime(): number {
@@ -46,9 +47,10 @@ export class LFO implements Disposable {
       type,
       frequency: 0.5
     });
+    this.sumNode = new GainNode(context, {gain: -1});
     this.depthNode = new GainNode(context);
 
-    this.osc.connect(this.depthNode);
+    this.osc.connect(this.sumNode).connect(this.depthNode);
   }
 
   connect(node: IAudioNode<AudioContext> | IAudioParam) {
@@ -59,9 +61,11 @@ export class LFO implements Disposable {
   dispose() {
     this.osc.stop();
     this.osc.disconnect();
+    this.sumNode.disconnect();
     this.depthNode.disconnect();
 
     this.osc = null;
+    this.sumNode = null;
     this.depthNode = null;
   }
 
