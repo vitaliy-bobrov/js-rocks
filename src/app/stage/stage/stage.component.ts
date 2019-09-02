@@ -6,8 +6,8 @@ import {
   OnInit,
   OnDestroy,
   ViewRef,
-  AfterContentInit,
-  AfterContentChecked} from '@angular/core';
+  AfterContentChecked
+} from '@angular/core';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
@@ -26,6 +26,7 @@ import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component'
 import { MetalAreaComponent } from '../metal-area/metal-area.component';
 import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
 import { MassiveMuffPiComponent } from '../massive-muff-pi/massive-muff-pi.component';
+import { TremoloComponent } from '../tremolo/tremolo.component';
 
 const componentMapping = {
   'jcp-1': {
@@ -62,6 +63,11 @@ const componentMapping = {
     symbol: CoolChorusComponent,
     name: 'Cool Chorus',
     model: 'JCH-1'
+  },
+  'jtr-2': {
+    symbol: TremoloComponent,
+    name: 'Tremolo',
+    model: 'JTR-2'
   },
   'jrv-6': {
     symbol: ReverbComponent,

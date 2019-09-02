@@ -8,17 +8,17 @@ import {
   HostBinding,
   ViewChild } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { Chorus, ChorusSettings } from '@audio/effects/chorus';
+import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
 
 @Component({
-  selector: 'jsr-cool-chorus',
-  templateUrl: './cool-chorus.component.html',
-  styleUrls: ['./cool-chorus.component.scss'],
+  selector: 'jsr-tremolo',
+  templateUrl: './tremolo.component.html',
+  styleUrls: ['./tremolo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<ChorusSettings> {
+export class TremoloComponent implements OnInit, OnDestroy, PedalComponent<TremoloSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -28,22 +28,24 @@ export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<Ch
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
-  effect: Chorus;
+  effect: Tremolo;
 
-  params: ChorusSettings = {
-    level: 1,
-    eq: 0.5,
+  params: TremoloSettings = {
     rate: 0.5,
     depth: 0.5,
-    feedback: 0.4,
-    delay: 0.0045,
+    type: 'triangle',
+    wave: 0.5,
     active: false
   };
 
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Chorus(this.manager.context, 'jch-1', this.params);
+    this.effect = new Tremolo(
+      this.manager.context,
+      'jtr-2',
+      this.params
+    );
     this.manager.addEffect(this.effect);
   }
 

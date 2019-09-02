@@ -31,38 +31,37 @@ import { MetalAreaComponent } from './metal-area/metal-area.component';
 import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
 import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.component';
 import { SmallSwitchComponent } from './small-switch/small-switch.component';
+import { TremoloComponent } from './tremolo/tremolo.component';
+
+const pedals = [
+  BluesDriverComponent,
+  CoolChorusComponent,
+  DsOneComponent,
+  LemonSqueezeComponent,
+  MassiveMuffPiComponent,
+  MetalAreaComponent,
+  OverdriveComponent,
+  ReverbComponent,
+  TremoloComponent
+];
 
 @NgModule({
   declarations: [
     StageComponent,
-    StompboxComponent,
-    DsOneComponent,
     LedComponent,
-    KnobComponent,
+    StompboxComponent,
+    SmallSwitchComponent,
     LargeSwitchComponent,
-    BluesDriverComponent,
+    SlideSwitchComponent,
+    KnobComponent,
     AmpComponent,
-    OverdriveComponent,
     PedalBoardDirective,
     PresetNameDialogComponent,
-    ReverbComponent,
-    SlideSwitchComponent,
-    LemonSqueezeComponent,
-    MetalAreaComponent,
-    CoolChorusComponent,
-    MassiveMuffPiComponent,
-    SmallSwitchComponent
+    ...pedals
   ],
   entryComponents: [
     PresetNameDialogComponent,
-    DsOneComponent,
-    BluesDriverComponent,
-    OverdriveComponent,
-    ReverbComponent,
-    LemonSqueezeComponent,
-    MetalAreaComponent,
-    CoolChorusComponent,
-    MassiveMuffPiComponent
+    ...pedals
   ],
   imports: [
     A11yModule,

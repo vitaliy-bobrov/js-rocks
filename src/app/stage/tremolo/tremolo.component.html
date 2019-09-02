@@ -1,0 +1,48 @@
+<jsr-stompbox #drag cdkDrag cdkDragRootElement=".pedal">
+  <div class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        gold
+        class="rate"
+        label="RATE"
+        [value]="effect.rate$ | async"
+        (valueChanged)="effect.rate = $event"></jsr-knob>
+      <jsr-knob
+        dots
+        gold
+        class="depth"
+        label="DEPTH"
+        [value]="effect.depth$ | async"
+        (valueChanged)="effect.depth = $event"></jsr-knob>
+      <!-- <jsr-knob
+        small
+        gold
+        class="wave"
+        label="WAVE"
+        labelPosition="top"
+        [value]="effect.wave$ | async"
+        (valueChanged)="effect.wave = $event"></jsr-knob> -->
+    </div>
+
+    <jsr-large-switch
+      center
+      xl-label
+      class="switch"
+      name="Tremolo"
+      [model]="effect.model"
+      (switch)="effect.toggleBypass()"></jsr-large-switch>
+  </div>
+
+  <button
+    type="button"
+    class="remove"
+    mat-mini-fab
+    color="warn"
+    (click)="remove.emit()">
+    <mat-icon aria-label="Remove effect">close</mat-icon>
+  </button>
+  <div *cdkDragPlaceholder></div>
+</jsr-stompbox>
