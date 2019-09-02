@@ -4,7 +4,8 @@ import {
   GainNode,
   IOscillatorNode,
   IAudioNode,
-  IAudioParam
+  IAudioParam,
+  PeriodicWave
 } from 'standardized-audio-context';
 
 import { Disposable } from '../disposable.interface';
@@ -33,8 +34,8 @@ export class LFO implements Disposable {
     if (this.osc.type !== 'custom') {
       return;
     }
-
-
+    const wave = this._createTrapezoidWave(value);
+    this.osc.setPeriodicWave(wave);
   }
 
   constructor(
@@ -62,5 +63,21 @@ export class LFO implements Disposable {
 
     this.osc = null;
     this.depthNode = null;
+  }
+
+  _createTrapezoidWave(value: number): PeriodicWave {
+    const samples = 2048;
+    const real = [0];
+    const imag = new Array(samples).fill(0);
+
+    for (let i = 1; i < samples; i++) {
+      if (i % 2 === 0) {
+        real[i] = 0;
+      } else {
+
+      }
+    }
+
+    return new PeriodicWave(this.osc.context, {real, imag, disableNormalization: true});
   }
 }

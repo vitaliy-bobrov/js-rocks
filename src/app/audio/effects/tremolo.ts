@@ -43,11 +43,13 @@ export class Tremolo extends Effect {
   set depth(value: number) {
     const depth = clamp(0, 1, value);
     this.depthSub$.next(depth);
+    this.lfo.depth = depth;
   }
 
   set wave(value: number) {
     const wave = clamp(0, 1, value);
     this.waveSub$.next(wave);
+    this.lfo.wave = wave;
   }
 
   constructor(
