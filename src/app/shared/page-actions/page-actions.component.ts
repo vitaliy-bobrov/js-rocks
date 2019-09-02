@@ -9,8 +9,8 @@ import {
   OnDestroy
 } from '@angular/core';
 import {
-  DomPortalHost,
-  PortalHost,
+  DomPortalOutlet,
+  PortalOutlet,
   CdkPortal
 } from '@angular/cdk/portal';
 
@@ -23,7 +23,7 @@ import {
   `
 })
 export class PageActionsComponent implements OnInit, AfterViewInit, OnDestroy {
-  private portalHost: PortalHost;
+  private portalHost: PortalOutlet;
   @ViewChild(CdkPortal, { static: true }) portal;
 
   constructor(
@@ -36,7 +36,7 @@ export class PageActionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     // Create a portalHost from a DOM element
-    this.portalHost = new DomPortalHost(
+    this.portalHost = new DomPortalOutlet(
       document.querySelector('#page-actions-container'),
       this.componentFactoryResolver,
       this.appRef,
