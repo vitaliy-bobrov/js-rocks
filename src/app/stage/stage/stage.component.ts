@@ -1,6 +1,7 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  HostListener,
   ViewChild,
   ComponentFactoryResolver,
   OnInit,
@@ -93,6 +94,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }));
   private pedals: Pedal[];
   private dragRefs: CdkDrag[];
+  private presetKeyMap: string[] = [''];
 
   @ViewChild(PedalBoardDirective, { static: true })
   pedalBoard: PedalBoardDirective;
@@ -112,6 +114,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.afterConfigChange();
 
     this.presets = this.presetsManager.getPresetsInfo();
+    this.updatePresetsKeyMap();
   }
 
   ngOnDestroy() {
@@ -120,6 +123,17 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   ngAfterContentChecked() {
     this.initPedalsDrag();
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  handlePresetShortcut(event: KeyboardEvent) {
+    const id = this.presetKeyMap[event.key];
+
+    if (typeof id === 'undefined') {
+      return;
+    }
+
+    this.activatePreset(id);
   }
 
   toggleLineConnection() {
@@ -186,12 +200,14 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       this.presets = result.presets;
       this.selectedPresetId = result.id;
       this.presetsManager.setCurrentPreset(result.id);
+      this.updatePresetsKeyMap();
     }
   }
 
   deletePreset() {
     this.presets = this.presetsManager.removePreset(this.selectedPresetId);
     this.presetsManager.setCurrentPreset('');
+    this.updatePresetsKeyMap();
     this.afterConfigChange();
   }
 
@@ -257,5 +273,13 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   private initPedalsDrag() {
     this.dropList._dropListRef.withItems(this.dragRefs.map(drag => drag._dragRef));
+  }
+
+  private updatePresetsKeyMap() {
+    this.presetKeyMap = this.presets.reduce((map, preset) => {
+      map.push(preset.id);
+
+      return map;
+    }, ['']);
   }
 }
