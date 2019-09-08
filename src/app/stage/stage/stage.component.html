@@ -23,6 +23,7 @@
 
   <button
     type="button"
+    aria-label="Presets"
     mat-icon-button
     matTooltip="Presets"
     [matMenuTriggerFor]="appMenu">
@@ -31,6 +32,7 @@
 
   <button
     type="button"
+    aria-label="New preset"
     class="toolbar-btn"
     mat-icon-button
     matTooltip="New preset"
@@ -40,6 +42,7 @@
 
   <button
     type="button"
+    aria-label="Save preset"
     class="toolbar-btn"
     mat-icon-button
     matTooltip="Save preset"
@@ -50,6 +53,7 @@
   <button
     *ngIf="selectedPresetId"
     type="button"
+    aria-label="Delete preset"
     class="toolbar-btn"
     mat-icon-button
     matTooltip="Delete preset"
@@ -60,12 +64,13 @@
 
 <button
   type="button"
+  [attr.aria-label]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
   class="line-toggle"
   mat-fab
   [matTooltip]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
   [color]="isLinePlugged ? 'accent' : 'warn'"
   (click)="toggleLineConnection()">
-  <mat-icon aria-label="Connect line source">settings_input_svideo</mat-icon>
+  <mat-icon>settings_input_svideo</mat-icon>
 </button>
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>

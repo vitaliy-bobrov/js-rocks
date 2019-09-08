@@ -4,6 +4,7 @@
 
     <button
       type="button"
+      aria-label="Select cabinet model"
       mat-icon-button
       matTooltip="Select cabinet model"
       [matMenuTriggerFor]="menu">
@@ -13,6 +14,7 @@
     <mat-menu #menu="matMenu">
       <button
         type="button"
+        [attr.aria-label]="'Select ' + cabinet.model + ' cabinet'"
         mat-menu-item
         *ngFor="let cabinet of cabinets"
         (click)="selectCabinet(cabinet)">
@@ -95,6 +97,7 @@
     <jsr-led [active]="effect.active$ | async"></jsr-led>
     <button
       type="button"
+      aria-label="Toggle cabinet"
       class="switch-button"
       [class.active]="effect.active$ | async"
       (click)="effect.toggleBypass()">
