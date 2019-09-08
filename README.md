@@ -29,6 +29,10 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 - Cool Chorus JCH-1
 
+## Tremolo
+
+- Tremolo JTR-2
+
 ### Compressor
 
 - Lemon Squeeze JCP-1
@@ -53,6 +57,5 @@ Try it now ➡ [js-rocks.web.app](https://js-rocks.web.app)
 
 ## Planned
 - Freeverb
-- Tremolo - JTR-2
-- Fuzz
+- Phaser 90
 
