@@ -5,7 +5,7 @@
       mat-menu-item
       (click)="blankPreset()">
       <mat-icon>
-        {{selectedPresetId === '' ? 'radio_button_checked' : 'radio_button_unchecked'}}
+        {{selectedPresetId === '' ? '&#xe837;' : '&#xe836;'}}
       </mat-icon>
       <span>Default</span>
     </button>
@@ -15,7 +15,7 @@
       *ngFor="let preset of presets"
       (click)="activatePreset(preset.id)">
       <mat-icon>
-        {{selectedPresetId === preset.id ? 'radio_button_checked' : 'radio_button_unchecked'}}
+        {{selectedPresetId === preset.id ? '&#xe837;' : '&#xe836;'}}
       </mat-icon>
       <span>{{preset.name}}</span>
     </button>
@@ -27,7 +27,7 @@
     mat-icon-button
     matTooltip="Presets"
     [matMenuTriggerFor]="appMenu">
-    <mat-icon>list</mat-icon>
+    <mat-icon>&#xe896;</mat-icon>
   </button>
 
   <button
@@ -37,7 +37,7 @@
     mat-icon-button
     matTooltip="New preset"
     (click)="blankPreset()">
-      <mat-icon>insert_drive_file</mat-icon>
+      <mat-icon>&#xe24d;</mat-icon>
   </button>
 
   <button
@@ -47,7 +47,7 @@
     mat-icon-button
     matTooltip="Save preset"
     (click)="requestSavePreset()">
-      <mat-icon>save</mat-icon>
+      <mat-icon>&#xe161;</mat-icon>
   </button>
 
   <button
@@ -58,7 +58,7 @@
     mat-icon-button
     matTooltip="Delete preset"
     (click)="deletePreset()">
-      <mat-icon>delete</mat-icon>
+      <mat-icon>&#xe872;</mat-icon>
   </button>
 </jsr-page-actions>
 
@@ -70,7 +70,7 @@
   [matTooltip]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
   [color]="isLinePlugged ? 'accent' : 'warn'"
   (click)="toggleLineConnection()">
-  <mat-icon>settings_input_svideo</mat-icon>
+  <mat-icon>&#xe8c3;</mat-icon>
 </button>
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>
@@ -89,7 +89,7 @@
   mat-flat-button
   color="accent"
   [matMenuTriggerFor]="pedalBoardMenu">
-  <mat-icon>add</mat-icon> Add effect
+  <mat-icon>&#xe145;</mat-icon> Add effect
 </button>
 
 <section
