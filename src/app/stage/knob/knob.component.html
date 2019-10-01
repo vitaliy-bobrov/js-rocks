@@ -7,10 +7,10 @@
     #control
     class="visually-hidden"
     type="range"
-    [min]="min"
-    [max]="max"
-    [step]="step"
-    [value]="value"
+    [min]="min | string"
+    [max]="max | string"
+    [step]="step | string"
+    [value]="value | string"
     (change)="onValueChange($event)">
 
   <div
