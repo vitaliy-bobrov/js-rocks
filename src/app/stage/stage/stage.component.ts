@@ -9,7 +9,12 @@ import {
   ViewRef,
   AfterContentChecked
 } from '@angular/core';
-import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  CdkDropList,
+  CdkDrag,
+  moveItemInArray
+} from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 
@@ -17,7 +22,7 @@ import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PresetManagerService, Preset, PresetInfo } from '@audio/preset-manager.service';
 import { Effect } from '@audio/effects/effect';
 import { PedalBoardDirective } from '../pedalboard/pedalboard.directive';
-import { Pedal, PedalComponent } from '../pedal.interface';
+import { Pedal, PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { BluesDriverComponent } from '../blues-driver/blues-driver.component';
 import { OverdriveComponent } from '../overdrive/overdrive.component';
 import { DsOneComponent } from '../ds-one/ds-one.component';
@@ -88,9 +93,10 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   config: Preset;
   selectedPresetId: string;
   presets: PresetInfo[];
-  availablePedals = Object.keys(componentMapping).map(key => ({
+  availablePedals: PedalDescriptor[] = Object.keys(componentMapping).map(key => ({
     id: key,
-    name: componentMapping[key].name
+    name: componentMapping[key].name,
+    model: componentMapping[key].model
   }));
   private pedals: Pedal[];
   private dragRefs: CdkDrag[];

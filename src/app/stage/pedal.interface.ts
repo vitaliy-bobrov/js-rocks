@@ -7,6 +7,12 @@ export interface PedalComponent<T> {
   drag: CdkDrag;
 }
 
+export interface PedalDescriptor {
+  id: string;
+  name: string;
+  model: string;
+}
+
 export class Pedal {
   constructor(public component: Type<any>, public params?: any) {}
 }
