@@ -22,7 +22,8 @@
       "resources": {
         "files": [
           "/assets/icon/**",
-          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+          "/assets/fonts/*.(eot|otf|ttf|woff|woff2)",
+          "/*.(svg|cur|jpg|png|webp|gif)"
         ]
       }
     },
