@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KnobComponent } from './knob.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from '@shared/shared.module';
 
 describe('KnobComponent', () => {
   let component: KnobComponent;
@@ -8,7 +10,11 @@ describe('KnobComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KnobComponent ]
+      imports: [
+        MatTooltipModule,
+        SharedModule
+      ],
+      declarations: [KnobComponent]
     })
     .compileComponents();
   }));
