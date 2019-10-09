@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/vitaliy-bobrov/js-rocks.svg?branch=master)](https://travis-ci.org/vitaliy-bobrov/js-rocks)
+
 # JS Rocks 🤘
 
 JS Rocks - Web Audio electric guitar effects and cabinets.
