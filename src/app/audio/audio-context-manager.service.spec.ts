@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AudioContextManager } from './audio-context-manager.service';
 
-describe('AudioContextManager', () => {
+xdescribe('AudioContextManager', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

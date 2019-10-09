@@ -22,7 +22,7 @@ import { BluesDriverComponent } from './blues-driver/blues-driver.component';
 import { AmpComponent } from './amp/amp.component';
 import { OverdriveComponent } from './overdrive/overdrive.component';
 import { PedalBoardDirective } from './pedalboard/pedalboard.directive';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
 import { ReverbComponent } from './reverb/reverb.component';
 import { SlideSwitchComponent } from './slide-switch/slide-switch.component';

@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@audio/*": ["src/app/audio/*"],
+      "@shared/*": ["src/app/shared/*"]
     }
   },
   "angularCompilerOptions": {

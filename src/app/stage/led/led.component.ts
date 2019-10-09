@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular
 
 @Component({
   selector: 'jsr-led',
-  templateUrl: './led.component.html',
+  template: '',
   styleUrls: ['./led.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
