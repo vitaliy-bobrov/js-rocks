@@ -1,4 +1,4 @@
-[![Build Status][travis-image]][travis-url]
+[![Build Status](https://travis-ci.org/vitaliy-bobrov/js-rocks.svg?branch=master)](https://travis-ci.org/vitaliy-bobrov/js-rocks)
 
 # JS Rocks 🤘
 
