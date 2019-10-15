@@ -43,6 +43,7 @@
     "@angular/compiler-cli": "~8.2.10",
     "@angular/language-service": "~8.2.10",
     "@types/jest": "24.0.19",
+    "@types/nanoid": "^2.1.0",
     "@types/node": "~12.7.12",
     "codelyzer": "^5.1.2",
     "firebase-tools": "^7.5.0",

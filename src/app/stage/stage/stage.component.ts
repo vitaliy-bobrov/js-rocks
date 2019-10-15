@@ -117,9 +117,8 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.afterConfigChange();
-
     this.presets = this.presetsManager.getPresetsInfo();
+    this.afterConfigChange();
     this.updatePresetsKeyMap();
   }
 
@@ -152,7 +151,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     }
   }
 
-  dropPedal(event: CdkDragDrop<Effect[]>) {
+  dropPedal(event: CdkDragDrop<Effect<any>[]>) {
     const currentState = this.manager.takeSnapshot().pedals;
 
     // Save current configurations.
@@ -232,7 +231,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   addPedal(id: string) {
     const pedalInfo = {
       model: id,
-      params: null
+      params: null as null
     };
     const pedal = new Pedal(componentMapping[id].symbol, null);
 

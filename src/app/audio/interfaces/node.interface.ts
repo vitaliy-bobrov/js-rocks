@@ -4,6 +4,6 @@ import {
 } from 'standardized-audio-context';
 
 export interface EffectNode {
-  connect(target: IAudioNode<AudioContext> | EffectNode);
-  disconnect();
+  connect(target: IAudioNode<AudioContext> | EffectNode): any;
+  disconnect(): void;
 }

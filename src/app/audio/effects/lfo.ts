@@ -8,7 +8,7 @@ import {
   PeriodicWave
 } from 'standardized-audio-context';
 
-import { Disposable } from '../disposable.interface';
+import { Disposable } from '@audio/interfaces/disposable.interface';
 
 export class LFO implements Disposable {
   private osc: OscillatorNode<AudioContext>;

@@ -70,11 +70,6 @@ export class SlideSwitchComponent {
     }
   }
 
-  onValueChange(event) {
-    const value = event.target.value;
-    this.valueChanged.emit(value);
-  }
-
   private selectedIndex(): number {
     return this.value ? this.options
       .findIndex((option) => option.value === this.value) : 0;

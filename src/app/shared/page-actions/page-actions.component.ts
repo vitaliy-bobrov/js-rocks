@@ -24,7 +24,7 @@ import {
 })
 export class PageActionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private portalHost: PortalOutlet;
-  @ViewChild(CdkPortal, { static: true }) portal;
+  @ViewChild(CdkPortal, { static: true }) portal: CdkPortal;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,

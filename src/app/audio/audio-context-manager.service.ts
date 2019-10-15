@@ -14,7 +14,7 @@ import { CabinetInfo } from './effects/cabinet';
 @Injectable()
 export class AudioContextManager {
   context: AudioContext;
-  private effects: Effect[] = [];
+  private effects: Effect<any>[] = [];
   private lineInSource: MediaStreamAudioSourceNode<AudioContext>;
   private masterGain: GainNode<AudioContext>;
   private masterSub$ = new BehaviorSubject<number>(0);
@@ -67,7 +67,7 @@ export class AudioContextManager {
     }
   }
 
-  addEffect(effect: Effect, post = false) {
+  addEffect(effect: Effect<any>, post = false) {
     this.disconnectAll();
 
     if (post) {
@@ -79,7 +79,7 @@ export class AudioContextManager {
     this.connectInOrder();
   }
 
-  removeEffect(effect: Effect) {
+  removeEffect(effect: Effect<any>) {
     this.disconnectAll();
     this.effects = this.effects.filter(eff => eff !== effect);
     this.connectInOrder();
@@ -115,7 +115,7 @@ export class AudioContextManager {
     const cabinet = this.effects[this.effects.length - 1].takeSnapshot() as CabinetInfo;
     cabinet.params.volume = this.masterSub$.value;
 
-    const snapshot = {
+    const snapshot: Preset = {
       cabinet,
       pedals: []
     };

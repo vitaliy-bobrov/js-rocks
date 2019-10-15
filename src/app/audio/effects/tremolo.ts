@@ -1,13 +1,13 @@
-import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '../../utils';
-import { LFO } from './lfo';
-
 import {
   AudioContext,
   GainNode,
   IOscillatorNode
 } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
+
+import { Effect, EffectInfo } from './effect';
+import { clamp, connectNodes, mapToMinMax } from '../../utils';
+import { LFO } from './lfo';
 
 export interface TremoloSettings {
   rate: number;
@@ -21,7 +21,7 @@ export interface TremoloInfo extends EffectInfo {
   params: TremoloSettings;
 }
 
-export class Tremolo extends Effect {
+export class Tremolo extends Effect<TremoloSettings> {
   private rateSub$ = new BehaviorSubject<number>(0);
   private depthSub$ = new BehaviorSubject<number>(0);
   private waveSub$ = new BehaviorSubject<number>(0);
@@ -55,7 +55,7 @@ export class Tremolo extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    private defaults: TremoloSettings
+    protected defaults: TremoloSettings
   ) {
     super(context, model);
     this.lfo = new LFO(context, 'triangle');
@@ -70,9 +70,7 @@ export class Tremolo extends Effect {
     // LFO setup.
     this.lfo.connect(this.gainNode.gain);
 
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   dispose() {

@@ -11,20 +11,20 @@ import {
 import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp, toMs, equalCrossFade } from '../../utils';
 import { ToneControl, StandardTone } from './tone';
+import { Active } from '@audio/interfaces/active.interface';
 
-export interface ReverbSettings {
+export interface ReverbSettings extends Active  {
   level: number;
   tone: number;
   time: number;
   type: string;
-  active: boolean;
 }
 
 export interface ReverbInfo extends EffectInfo {
   params: ReverbSettings;
 }
 
-export class Reverb extends Effect {
+export class Reverb extends Effect<ReverbSettings> {
   private timeSub$ = new BehaviorSubject<number>(0);
   private toneSub$ = new BehaviorSubject<number>(0);
   private levelSub$ = new BehaviorSubject<number>(0);
@@ -71,7 +71,7 @@ export class Reverb extends Effect {
     model: string,
     buffer$: Observable<AudioBuffer>,
     convolverMakeUp: number,
-    private defaults: ReverbSettings) {
+    protected defaults: ReverbSettings) {
     super(context, model);
 
     this.splitter = new ChannelSplitterNode(context);
@@ -102,9 +102,7 @@ export class Reverb extends Effect {
     connectNodes(this.processor);
     this.splitter.connect(this.dry).connect(this.merger, 0, 1);
 
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   updateConvolver(buffer$: Observable<AudioBuffer>, makeUpGain: number, type: string) {

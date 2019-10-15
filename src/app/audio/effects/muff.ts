@@ -1,10 +1,10 @@
-import { BehaviorSubject } from 'rxjs';
 import {
   AudioContext,
   GainNode,
   IIRFilterNode,
   WaveShaperNode
 } from 'standardized-audio-context';
+import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
 import {
@@ -15,6 +15,7 @@ import {
 import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { ToneControl, MixedTone } from './tone';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
+import { Active } from '@audio/interfaces/active.interface';
 
 export interface MuffTuningOptions {
   curveType: CurveType;
@@ -24,18 +25,17 @@ export interface MuffTuningOptions {
   postFilterRanges?: [number, number, number, number];
 }
 
-export interface MuffSettings {
+export interface MuffSettings extends Active {
   level: number;
   sustain: number;
   tone: number;
-  active: boolean;
 }
 
 export interface MuffInfo extends EffectInfo {
   params: MuffSettings;
 }
 
-export class Muff extends Effect {
+export class Muff extends Effect<MuffSettings> {
   private static defaultTunings: MuffTuningOptions = {
     curveType: 'driver',
     boost: 0,
@@ -97,7 +97,7 @@ export class Muff extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    private defaults: MuffSettings,
+    protected defaults: MuffSettings,
     tunings: MuffTuningOptions,
   ) {
     super(context, model);
@@ -165,10 +165,7 @@ export class Muff extends Effect {
     ];
 
     connectNodes(this.processor);
-
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   dispose() {

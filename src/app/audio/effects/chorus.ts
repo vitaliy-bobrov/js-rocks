@@ -1,8 +1,3 @@
-import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '../../utils';
-import { StandardTone, ToneControl } from './tone';
-import { LFO } from './lfo';
-
 import {
   AudioContext,
   GainNode,
@@ -10,21 +5,26 @@ import {
 } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
-export interface ChorusSettings {
+import { Active } from '@audio/interfaces/active.interface';
+import { Effect, EffectInfo } from './effect';
+import { clamp, connectNodes, mapToMinMax } from '../../utils';
+import { StandardTone, ToneControl } from './tone';
+import { LFO } from './lfo';
+
+export interface ChorusSettings extends Active {
   level: number;
   eq: number;
   rate: number;
   depth: number;
   feedback: number;
   delay: number;
-  active: boolean;
 }
 
 export interface ChorusInfo extends EffectInfo {
   params: ChorusSettings;
 }
 
-export class Chorus extends Effect {
+export class Chorus extends Effect<ChorusSettings> {
   private levelSub$ = new BehaviorSubject<number>(0);
   private eqSub$ = new BehaviorSubject<number>(0);
   private rateSub$ = new BehaviorSubject<number>(0);
@@ -96,7 +96,7 @@ export class Chorus extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    private defaults: ChorusSettings
+    protected defaults: ChorusSettings
   ) {
     super(context, model);
     this.eqNode = new StandardTone(context);
@@ -119,10 +119,7 @@ export class Chorus extends Effect {
 
     // LFO setup.
     this.lfo.connect(this.delayNode.delayTime);
-
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   dispose() {

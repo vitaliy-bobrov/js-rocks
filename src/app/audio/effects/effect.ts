@@ -5,8 +5,9 @@ import {
 } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
-import { EffectNode } from '@audio/node.interface';
-import { Disposable } from '@audio/disposable.interface';
+import { Active } from '@audio/interfaces/active.interface';
+import { EffectNode } from '@audio/interfaces/node.interface';
+import { Disposable } from '@audio/interfaces/disposable.interface';
 
 export interface EffectInfo {
   model: string;
@@ -15,9 +16,10 @@ export interface EffectInfo {
   };
 }
 
-export abstract class Effect implements Disposable {
+export abstract class Effect<D extends Active> implements Disposable {
   private activeSub$ = new BehaviorSubject<boolean>(false);
   private context: AudioContext;
+  protected defaults: D;
   protected isBypassEnabled: boolean;
   protected processor: IAudioNode<AudioContext>[] = [];
   input: GainNode<AudioContext>;
@@ -62,6 +64,12 @@ export abstract class Effect implements Disposable {
     this.activeSub$.next(false);
   }
 
+  applyDefaults() {
+    Object.keys(this.defaults).forEach(option => {
+      this[option] = this.defaults[option];
+    });
+  }
+
   toggleBypass() {
     this.isBypassEnabled = !this.isBypassEnabled;
 
@@ -81,7 +89,7 @@ export abstract class Effect implements Disposable {
     this.activeSub$.next(!this.isBypassEnabled);
   }
 
-  connect(effect: Effect) {
+  connect(effect: Effect<any>) {
     this.output.connect(effect.input);
   }
 

@@ -1,4 +1,4 @@
-import { EffectNode } from '@audio/node.interface';
+import { EffectNode } from '@audio/interfaces/node.interface';
 
 /**
  * Clamps value to provided min and max - min <= value <= max.
@@ -19,21 +19,21 @@ export function connectNodes(nodes: EffectNode[]) {
 /**
  * Maps value to min max range.
  */
-export function mapToMinMax(value, min, max): number {
+export function mapToMinMax(value: number, min: number, max: number): number {
   return value * (max - min) + min;
 }
 
 /**
  * Gets value percentage from min max range.
  */
-export function percentFromMinMax(value, min, max): number {
+export function percentFromMinMax(value: number, min: number, max: number): number {
   return ((value - min)) / (max - min);
 }
 
 /**
  * Rescales value exponentially.
  */
-export function expScale(value): number {
+export function expScale(value: number): number {
   return Math.pow(Math.abs(value), 2);
 }
 
@@ -47,7 +47,7 @@ export function toMs(value: number): number {
 /**
  * Fast deep copy of a simple object.
  */
-export function deepCopy(obj: any): any {
+export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
 }
 

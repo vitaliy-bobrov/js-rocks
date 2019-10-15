@@ -8,34 +8,36 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
 import { connectNodes, clamp } from '../../utils';
+import { Active } from '@audio/interfaces/active.interface';
 
-export interface CabinetInfo extends EffectInfo {
-  params: {
-    bass: number;
-    mid: number;
-    treble: number;
-    volume: number;
-    gain: number;
-    active: boolean;
-  };
+export interface CabinetSettings extends Active {
+  bass: number;
+  mid: number;
+  treble: number;
+  volume?: number;
+  gain: number;
 }
 
-export class Cabinet extends Effect {
-  private makeUpGain: GainNode<AudioContext>;
-  private convolver: ConvolverNode<AudioContext>;
+export interface CabinetInfo extends EffectInfo {
+  params: CabinetSettings;
+}
+
+export class Cabinet extends Effect<CabinetSettings> {
   private bassSub$ = new BehaviorSubject<number>(0);
   private midSub$ = new BehaviorSubject<number>(0);
   private trebleSub$ = new BehaviorSubject<number>(0);
   private makeUpGainSub$ = new BehaviorSubject<number>(1);
+  private makeUpGain: GainNode<AudioContext>;
+  private convolver: ConvolverNode<AudioContext> | null;
   private bassNode: BiquadFilterNode<AudioContext>;
   private midNode: BiquadFilterNode<AudioContext>;
   private trebleNode: BiquadFilterNode<AudioContext>;
-  private defaults: Partial<CabinetInfo['params']> = {
+  protected defaults = {
     bass: 0.5,
     mid: 0.5,
     treble: 0.5,
     gain: 1
-  };
+  } as CabinetSettings;
 
   bass$ = this.bassSub$.asObservable();
   mid$ = this.midSub$.asObservable();
@@ -115,10 +117,7 @@ export class Cabinet extends Effect {
     ];
 
     connectNodes(this.processor);
-
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   updateConvolver(buffer$: Observable<AudioBuffer>, gain: number, maxGain: number, model: string) {

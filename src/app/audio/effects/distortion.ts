@@ -14,6 +14,7 @@ import {
 } from '../../utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { ToneControl, StandardTone, MixedTone } from './tone';
+import { Active } from '@audio/interfaces/active.interface';
 
 export interface DistortionTuningOptions {
   curveType: CurveType;
@@ -23,18 +24,17 @@ export interface DistortionTuningOptions {
   postFilter?: number;
 }
 
-export interface DistortionSettings {
+export interface DistortionSettings extends Active {
   level: number;
   distortion: number;
   tone: number;
-  active: boolean;
 }
 
 export interface DistortionInfo extends EffectInfo {
   params: DistortionSettings;
 }
 
-export class Distortion extends Effect {
+export class Distortion extends Effect<DistortionSettings> {
   private static defaultTunings: DistortionTuningOptions = {
     curveType: 'driver',
     preFilterRange: [350, 12000],
@@ -82,7 +82,7 @@ export class Distortion extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    private defaults: DistortionSettings,
+    protected defaults: DistortionSettings,
     tunings: DistortionTuningOptions,
   ) {
     super(context, model);
@@ -130,10 +130,7 @@ export class Distortion extends Effect {
     ];
 
     connectNodes(this.processor);
-
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   dispose() {

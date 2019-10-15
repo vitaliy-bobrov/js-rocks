@@ -9,7 +9,7 @@ import {
 } from 'standardized-audio-context';
 
 import { expScale, mapToMinMax } from '../../utils';
-import { Disposable } from '../disposable.interface';
+import { Disposable } from '@audio/interfaces/disposable.interface';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 
 export class StandardTone implements Disposable {

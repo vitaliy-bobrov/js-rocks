@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   OnChanges } from '@angular/core';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { Cabinet } from '@audio/effects/cabinet';
+import { Cabinet, CabinetInfo } from '@audio/effects/cabinet';
 import { ConvolverService } from '@audio/convolver.service';
 
 interface CabinetModel {
@@ -15,18 +15,6 @@ interface CabinetModel {
   path: string;
   gain: number;
   maxGain: number;
-}
-
-interface CabinetConfig {
-  model: string;
-  params: {
-    volume: number;
-    gain: number;
-    bass: number;
-    mid: number;
-    treble: number;
-    active: boolean;
-  };
 }
 
 @Component({
@@ -105,7 +93,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
   selectedModel = this.defaultCabinet;
 
   @Input()
-  config: CabinetConfig;
+  config: CabinetInfo;
 
   constructor(
     private manager: AudioContextManager,

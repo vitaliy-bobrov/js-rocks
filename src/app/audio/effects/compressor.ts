@@ -1,26 +1,26 @@
-import { BehaviorSubject } from 'rxjs';
 import {
   AudioContext,
   GainNode,
   DynamicsCompressorNode
 } from 'standardized-audio-context';
+import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax } from '../../utils';
+import { Active } from '@audio/interfaces/active.interface';
 
-export interface CompressorSettings {
+export interface CompressorSettings extends Active {
   level: number;
   attack: number;
   ratio: number;
   threshold: number;
-  active: boolean;
 }
 
 export interface CompressorInfo extends EffectInfo {
   params: CompressorSettings;
 }
 
-export class Compressor extends Effect {
+export class Compressor extends Effect<CompressorSettings> {
   private levelSub$ = new BehaviorSubject<number>(0);
   private attackSub$ = new BehaviorSubject<number>(0);
   private ratioSub$ = new BehaviorSubject<number>(0);
@@ -66,7 +66,7 @@ export class Compressor extends Effect {
   constructor(
     context: AudioContext,
     model: string,
-    private defaults: CompressorSettings
+    protected defaults: CompressorSettings
   ) {
     super(context, model);
 
@@ -82,10 +82,7 @@ export class Compressor extends Effect {
     ];
 
     connectNodes(this.processor);
-
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
+    this.applyDefaults();
   }
 
   dispose() {
