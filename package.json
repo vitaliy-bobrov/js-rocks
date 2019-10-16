@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prettier": "prettier --write \"**/*.{js,json,scss,md,ts,html,component.html}\"",
     "start": "ng serve",
     "build": "ng build",
     "test": "jest",
@@ -48,13 +49,17 @@
     "codelyzer": "^5.1.2",
     "firebase-tools": "^7.5.0",
     "fuzzy": "^0.1.3",
+    "husky": "3.0.9",
     "inquirer": "^7.0.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "jest": "24.9.0",
     "jest-preset-angular": "7.1.1",
+    "lint-staged": "9.4.2",
+    "prettier": "1.18.2",
     "protractor": "~5.4.0",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0",
+    "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.3"
   },
   "jest": {
@@ -81,5 +86,16 @@
         ]
       }
     }
+  },
+  "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "*.{js,json,css,scss,less,md,ts,html,component.html}": [
+        "prettier --write",
+        "git add"
+      ]
+    }
   }
-}
