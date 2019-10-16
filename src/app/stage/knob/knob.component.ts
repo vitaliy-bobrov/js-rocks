@@ -10,8 +10,9 @@ import {
   ElementRef,
   OnInit,
   SimpleChanges,
-  OnChanges } from '@angular/core';
-import { clamp, mapToMinMax, percentFromMinMax } from '../../utils';
+  OnChanges
+} from '@angular/core';
+import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 
 @Component({
@@ -100,7 +101,9 @@ export class KnobComponent implements OnInit, OnChanges {
     this.lashUpdate = currentTime;
     const currentValue = parseFloat(this.control.nativeElement.value);
     const direction = event.deltaY < 0 ? -1 : 1;
-    const updatedValue = parseFloat((currentValue + direction * this.step).toFixed(2));
+    const updatedValue = parseFloat(
+      (currentValue + direction * this.step).toFixed(2)
+    );
 
     this.updateValue(updatedValue);
   }
@@ -122,13 +125,11 @@ export class KnobComponent implements OnInit, OnChanges {
 
     this.center = {
       x: window.scrollX + knobRect.left + knobRect.width / 2,
-      y: window.scrollY + knobRect.top + knobRect.height / 2,
+      y: window.scrollY + knobRect.top + knobRect.height / 2
     };
 
-    this.knob.nativeElement
-      .addEventListener(updateEvent, this.rotateHandler);
-    document
-      .addEventListener(endEvent, this.removeRotateListener);
+    this.knob.nativeElement.addEventListener(updateEvent, this.rotateHandler);
+    document.addEventListener(endEvent, this.removeRotateListener);
   }
 
   rotateHandler(event: MouseEvent | TouchEvent) {
@@ -144,11 +145,15 @@ export class KnobComponent implements OnInit, OnChanges {
     this.lashUpdate = currentTime;
 
     const isTouch = event.type === 'touchmove';
-    const pageX = isTouch ? (event as TouchEvent).touches[0].pageX : (event as MouseEvent).pageX;
-    const pageY = isTouch ? (event as TouchEvent).touches[0].pageY : (event as MouseEvent).pageY;
+    const pageX = isTouch
+      ? (event as TouchEvent).touches[0].pageX
+      : (event as MouseEvent).pageX;
+    const pageY = isTouch
+      ? (event as TouchEvent).touches[0].pageY
+      : (event as MouseEvent).pageY;
     const x = this.center.x - pageX;
     const y = this.center.y - pageY;
-    let deg = Math.round(Math.atan2(y, x) * 180 / Math.PI);
+    let deg = Math.round((Math.atan2(y, x) * 180) / Math.PI);
 
     if (deg < 0) {
       deg += 360;
@@ -175,10 +180,11 @@ export class KnobComponent implements OnInit, OnChanges {
     const updateEvent = isTouch ? 'touchmove' : 'mousemove';
     const endEvent = isTouch ? 'touchend' : 'mouseup';
 
-    this.knob.nativeElement
-      .removeEventListener(updateEvent, this.rotateHandler);
-    document
-      .removeEventListener(endEvent, this.removeRotateListener);
+    this.knob.nativeElement.removeEventListener(
+      updateEvent,
+      this.rotateHandler
+    );
+    document.removeEventListener(endEvent, this.removeRotateListener);
   }
 
   onValueChange(event: Event) {
@@ -188,7 +194,9 @@ export class KnobComponent implements OnInit, OnChanges {
 
   private updateKnobPointer(value: number) {
     const percent = percentFromMinMax(value, this.min, this.max);
-    const deg = Math.round((this.endDegree - this.startDegree) * percent + this.startDegree);
+    const deg = Math.round(
+      (this.endDegree - this.startDegree) * percent + this.startDegree
+    );
 
     this.element.nativeElement.style.setProperty('--knob-angle', `${deg}deg`);
   }

@@ -7,7 +7,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect } from './effects/effect';
-import { clamp } from '../utils';
+import { clamp } from '@shared/utils';
 import { Preset } from './preset-manager.service';
 import { CabinetInfo } from './effects/cabinet';
 
@@ -37,8 +37,7 @@ export class AudioContextManager {
   async plugLineIn() {
     try {
       if (!this.lineInSource) {
-        const mediaStream = await navigator.mediaDevices
-        .getUserMedia({
+        const mediaStream = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: false,
             autoGainControl: false,
@@ -112,7 +111,9 @@ export class AudioContextManager {
       return;
     }
 
-    const cabinet = this.effects[this.effects.length - 1].takeSnapshot() as CabinetInfo;
+    const cabinet = this.effects[
+      this.effects.length - 1
+    ].takeSnapshot() as CabinetInfo;
     cabinet.params.volume = this.masterSub$.value;
 
     const snapshot: Preset = {

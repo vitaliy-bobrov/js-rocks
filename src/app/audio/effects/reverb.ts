@@ -9,11 +9,11 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, toMs, equalCrossFade } from '../../utils';
+import { connectNodes, clamp, toMs, equalCrossFade } from '@shared/utils';
 import { ToneControl, StandardTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';
 
-export interface ReverbSettings extends Active  {
+export interface ReverbSettings extends Active {
   level: number;
   tone: number;
   time: number;
@@ -71,7 +71,8 @@ export class Reverb extends Effect<ReverbSettings> {
     model: string,
     buffer$: Observable<AudioBuffer>,
     convolverMakeUp: number,
-    protected defaults: ReverbSettings) {
+    protected defaults: ReverbSettings
+  ) {
     super(context, model);
 
     this.splitter = new ChannelSplitterNode(context);
@@ -85,7 +86,7 @@ export class Reverb extends Effect<ReverbSettings> {
       gain: convolverMakeUp
     });
 
-    buffer$.subscribe((buffer) => {
+    buffer$.subscribe(buffer => {
       this.convolver.buffer = buffer;
     });
 
@@ -105,7 +106,11 @@ export class Reverb extends Effect<ReverbSettings> {
     this.applyDefaults();
   }
 
-  updateConvolver(buffer$: Observable<AudioBuffer>, makeUpGain: number, type: string) {
+  updateConvolver(
+    buffer$: Observable<AudioBuffer>,
+    makeUpGain: number,
+    type: string
+  ) {
     const lastToneNode = this.toneNode.nodes[this.toneNode.nodes.length - 1];
 
     lastToneNode.disconnect();
@@ -114,7 +119,7 @@ export class Reverb extends Effect<ReverbSettings> {
     this.convolver.buffer = null;
     this.type = type;
 
-    buffer$.subscribe((buffer) => {
+    buffer$.subscribe(buffer => {
       this.convolver.buffer = buffer;
     });
 

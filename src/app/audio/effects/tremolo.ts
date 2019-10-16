@@ -6,7 +6,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '../../utils';
+import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
 import { LFO } from './lfo';
 
 export interface TremoloSettings {
@@ -61,9 +61,7 @@ export class Tremolo extends Effect<TremoloSettings> {
     this.lfo = new LFO(context, 'triangle');
     this.gainNode = new GainNode(context);
 
-    this.processor = [
-      this.gainNode
-    ];
+    this.processor = [this.gainNode];
 
     connectNodes(this.processor);
 
@@ -92,10 +90,9 @@ export class Tremolo extends Effect<TremoloSettings> {
       ...snapshot.params,
       rate: this.rateSub$.value,
       depth: this.depthSub$.value,
-      wave: this.waveSub$.value,
+      wave: this.waveSub$.value
     };
 
     return snapshot;
   }
 }
-

@@ -7,11 +7,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import {
-  clamp,
-  connectNodes,
-  calculateBandpass
-} from '../../utils';
+import { clamp, connectNodes, calculateBandpass } from '@shared/utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { ToneControl, StandardTone, MixedTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';
@@ -40,7 +36,7 @@ export class Distortion extends Effect<DistortionSettings> {
     preFilterRange: [350, 12000],
     toneControlType: 'standard',
     toneRange: [350, 12000],
-    postFilter: 12000,
+    postFilter: 12000
   };
 
   private tunings: DistortionTuningOptions;
@@ -83,11 +79,11 @@ export class Distortion extends Effect<DistortionSettings> {
     context: AudioContext,
     model: string,
     protected defaults: DistortionSettings,
-    tunings: DistortionTuningOptions,
+    tunings: DistortionTuningOptions
   ) {
     super(context, model);
 
-    this.tunings = {...Distortion.defaultTunings, ...tunings};
+    this.tunings = { ...Distortion.defaultTunings, ...tunings };
 
     // Boost stage - pre-filtering + boost gain.
 
@@ -162,4 +158,3 @@ export class Distortion extends Effect<DistortionSettings> {
     return snapshot;
   }
 }
-

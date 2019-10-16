@@ -1,13 +1,9 @@
-import {
-  AudioContext,
-  GainNode,
-  DelayNode
-} from 'standardized-audio-context';
+import { AudioContext, GainNode, DelayNode } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '../../utils';
+import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
 import { StandardTone, ToneControl } from './tone';
 import { LFO } from './lfo';
 
@@ -105,11 +101,7 @@ export class Chorus extends Effect<ChorusSettings> {
     this.feedbackNode = new GainNode(context);
     this.levelNode = new GainNode(context);
 
-    this.processor = [
-      ...this.eqNode.nodes,
-      this.delayNode,
-      this.levelNode,
-    ];
+    this.processor = [...this.eqNode.nodes, this.delayNode, this.levelNode];
 
     connectNodes(this.processor);
 
@@ -152,10 +144,9 @@ export class Chorus extends Effect<ChorusSettings> {
       rate: this.rateSub$.value,
       depth: this.depthSub$.value,
       feedback: this.feedbackSub$.value,
-      delay: this.delaySub$.value,
+      delay: this.delaySub$.value
     };
 
     return snapshot;
   }
 }
-

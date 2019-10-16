@@ -8,7 +8,7 @@ import {
   ChannelMergerNode
 } from 'standardized-audio-context';
 
-import { expScale, mapToMinMax } from '../../utils';
+import { expScale, mapToMinMax } from '@shared/utils';
 import { Disposable } from '@audio/interfaces/disposable.interface';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 
@@ -24,8 +24,15 @@ export class StandardTone implements Disposable {
   }
 
   set tone(value: number) {
-    const frequency = mapToMinMax(expScale(value), this.range[0], this.range[1]);
-    this.filter.frequency.exponentialRampToValueAtTime(frequency, this.currentTime);
+    const frequency = mapToMinMax(
+      expScale(value),
+      this.range[0],
+      this.range[1]
+    );
+    this.filter.frequency.exponentialRampToValueAtTime(
+      frequency,
+      this.currentTime
+    );
   }
 
   constructor(
@@ -57,12 +64,7 @@ export class MixedTone implements Disposable {
   }
 
   get nodes(): IAudioNode<AudioContext>[] {
-    return [
-      this.splitter,
-      this.lowpassFilter,
-      this.toneLowGain,
-      this.merger
-    ];
+    return [this.splitter, this.lowpassFilter, this.toneLowGain, this.merger];
   }
 
   set tone(value: number) {
@@ -70,10 +72,7 @@ export class MixedTone implements Disposable {
     this.toneLowGain.gain.setTargetAtTime(1 - value, this.currentTime, 0.01);
   }
 
-  constructor(
-    context: AudioContext,
-    range: [number, number] = [550, 1000]
-  ) {
+  constructor(context: AudioContext, range: [number, number] = [550, 1000]) {
     this.splitter = new ChannelSplitterNode(context);
 
     this.lowpassFilter = new IIRFilterNode(context, {

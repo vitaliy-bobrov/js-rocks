@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import nanoid from 'nanoid';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
-import { deepCopy } from '../utils';
+import { deepCopy } from '@shared/utils';
 
 export interface Preset {
   id?: string;
@@ -32,7 +32,7 @@ export class PresetManagerService {
         treble: 0,
         gain: 4,
         active: true
-      },
+      }
     },
     pedals: [
       {
@@ -59,19 +59,22 @@ export class PresetManagerService {
   }
 
   getPresetsInfo(): PresetInfo[] {
-    const presets = localStorage
-      .getItem(PresetManagerService.PRESETS_KEY);
+    const presets = localStorage.getItem(PresetManagerService.PRESETS_KEY);
 
     return presets ? JSON.parse(presets) : [];
   }
 
   setPresetsInfo(presets: PresetInfo[]) {
-    localStorage.setItem(PresetManagerService.PRESETS_KEY, JSON.stringify(presets));
+    localStorage.setItem(
+      PresetManagerService.PRESETS_KEY,
+      JSON.stringify(presets)
+    );
   }
 
   getCurrentPreset(): Preset {
-    const currentPresetId = localStorage
-      .getItem(PresetManagerService.CURRENT_PRESET_KEY);
+    const currentPresetId = localStorage.getItem(
+      PresetManagerService.CURRENT_PRESET_KEY
+    );
 
     if (!currentPresetId) {
       return deepCopy(PresetManagerService.defaultPreset);
@@ -79,14 +82,19 @@ export class PresetManagerService {
 
     const preset = localStorage.getItem(currentPresetId);
 
-    return preset ? JSON.parse(preset) : deepCopy(PresetManagerService.defaultPreset);
+    return preset
+      ? JSON.parse(preset)
+      : deepCopy(PresetManagerService.defaultPreset);
   }
 
   setCurrentPreset(id: string) {
     localStorage.setItem(PresetManagerService.CURRENT_PRESET_KEY, id);
   }
 
-  addPreset(preset: Preset, name: string): {presets: PresetInfo[], id: string} {
+  addPreset(
+    preset: Preset,
+    name: string
+  ): { presets: PresetInfo[]; id: string } {
     const presets = this.getPresetsInfo();
     const id = this.generatePresetId();
 
@@ -104,7 +112,7 @@ export class PresetManagerService {
     this.setPresetsInfo(presets);
     this.updatePreset(preset);
 
-    return {presets, id};
+    return { presets, id };
   }
 
   updatePreset(preset: Preset) {

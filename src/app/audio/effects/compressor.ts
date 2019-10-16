@@ -6,7 +6,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '../../utils';
+import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
 import { Active } from '@audio/interfaces/active.interface';
 
 export interface CompressorSettings extends Active {
@@ -76,10 +76,7 @@ export class Compressor extends Effect<CompressorSettings> {
       release: 0.25
     });
 
-    this.processor = [
-      this.compressor,
-      this.levelNode
-    ];
+    this.processor = [this.compressor, this.levelNode];
 
     connectNodes(this.processor);
     this.applyDefaults();
@@ -104,10 +101,9 @@ export class Compressor extends Effect<CompressorSettings> {
       level: this.levelSub$.value,
       attack: this.attackSub$.value,
       ratio: this.ratioSub$.value,
-      threshold: this.thresholdSub$.value,
+      threshold: this.thresholdSub$.value
     };
 
     return snapshot;
   }
 }
-

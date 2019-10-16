@@ -7,7 +7,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp } from '../../utils';
+import { connectNodes, clamp } from '@shared/utils';
 import { Active } from '@audio/interfaces/active.interface';
 
 export interface CabinetSettings extends Active {
@@ -82,7 +82,7 @@ export class Cabinet extends Effect<CabinetSettings> {
     super(context, model);
 
     this.convolver = new ConvolverNode(context);
-    this.makeUpGain = new GainNode(context, {gain});
+    this.makeUpGain = new GainNode(context, { gain });
     this.defaults.gain = gain;
 
     this.bassNode = new BiquadFilterNode(context, {
@@ -104,7 +104,7 @@ export class Cabinet extends Effect<CabinetSettings> {
       gain: 0
     });
 
-    buffer$.subscribe((buffer) => {
+    buffer$.subscribe(buffer => {
       this.convolver.buffer = buffer;
     });
 
@@ -120,14 +120,19 @@ export class Cabinet extends Effect<CabinetSettings> {
     this.applyDefaults();
   }
 
-  updateConvolver(buffer$: Observable<AudioBuffer>, gain: number, maxGain: number, model: string) {
+  updateConvolver(
+    buffer$: Observable<AudioBuffer>,
+    gain: number,
+    maxGain: number,
+    model: string
+  ) {
     this.model = model;
     this.convolver.disconnect();
     this.convolver.buffer = null;
     this.maxGain = maxGain;
     this.gain = gain;
 
-    buffer$.subscribe((buffer) => {
+    buffer$.subscribe(buffer => {
       this.convolver.buffer = buffer;
     });
 

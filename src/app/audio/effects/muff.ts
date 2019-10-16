@@ -7,11 +7,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import {
-  clamp,
-  connectNodes,
-  dBToGain
-} from '../../utils';
+import { clamp, connectNodes, dBToGain } from '@shared/utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { ToneControl, MixedTone } from './tone';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
@@ -68,12 +64,12 @@ export class Muff extends Effect<MuffSettings> {
     const amount = clamp(0, 1, value);
     this.sustainSub$.next(amount);
 
-    const curve1 =  makeDistortionCurve(
+    const curve1 = makeDistortionCurve(
       amount / 4,
       this.sampleRate,
       this.tunings.curveType
     );
-    const curve2 =  makeDistortionCurve(
+    const curve2 = makeDistortionCurve(
       amount / 2,
       this.sampleRate,
       this.tunings.curveType
@@ -98,11 +94,11 @@ export class Muff extends Effect<MuffSettings> {
     context: AudioContext,
     model: string,
     protected defaults: MuffSettings,
-    tunings: MuffTuningOptions,
+    tunings: MuffTuningOptions
   ) {
     super(context, model);
 
-    this.tunings = {...Muff.defaultTunings, ...tunings};
+    this.tunings = { ...Muff.defaultTunings, ...tunings };
 
     // Boost stage - pre-filtering + boost gain.
     this.boostNode = new GainNode(context, {
@@ -204,4 +200,3 @@ export class Muff extends Effect<MuffSettings> {
     return snapshot;
   }
 }
-
