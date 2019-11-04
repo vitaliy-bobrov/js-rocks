@@ -2,15 +2,23 @@ import {
   AudioContext,
   OscillatorNode,
   GainNode,
-  IOscillatorNode,
   IAudioNode,
   IAudioParam,
-  PeriodicWave
+  PeriodicWave,
+  TOscillatorType
 } from 'standardized-audio-context';
 
 import { Disposable } from '@audio/interfaces/disposable.interface';
 
+export type LFOType = TOscillatorType | 'trapezoid';
+
 export class LFO implements Disposable {
+  private static allowedTypes: Set<TOscillatorType> = new Set([
+    'sine',
+    'square',
+    'sawtooth',
+    'triangle'
+  ]);
   private osc: OscillatorNode<AudioContext>;
   private sumNode: GainNode<AudioContext>;
   private depthNode: GainNode<AudioContext>;
@@ -32,22 +40,26 @@ export class LFO implements Disposable {
   }
 
   set wave(value: number) {
-    if (this.osc.type !== 'custom') {
+    if (LFO.isAllowedType(this.type)) {
       return;
     }
-    const wave = this._createTrapezoidWave(value);
-    this.osc.setPeriodicWave(wave);
+
+    if (this.type === 'trapezoid') {
+      const wave = this.createTrapezoidWave(value);
+      this.osc.setPeriodicWave(wave);
+    }
   }
 
-  constructor(
-    context: AudioContext,
-    type: IOscillatorNode<AudioContext>['type'] = 'sine'
-  ) {
+  static isAllowedType(type: LFOType): boolean {
+    return LFO.allowedTypes.has(type as TOscillatorType);
+  }
+
+  constructor(context: AudioContext, private type: LFOType = 'sine') {
     this.osc = new OscillatorNode(context, {
-      type,
+      type: LFO.isAllowedType(type) ? (type as TOscillatorType) : undefined,
       frequency: 0.5
     });
-    this.sumNode = new GainNode(context, {gain: -1});
+    this.sumNode = new GainNode(context, { gain: -1 });
     this.depthNode = new GainNode(context);
 
     this.osc.connect(this.sumNode).connect(this.depthNode);
@@ -69,19 +81,34 @@ export class LFO implements Disposable {
     this.depthNode = null;
   }
 
-  _createTrapezoidWave(value: number): PeriodicWave {
-    const samples = 2048;
-    const real = [0];
-    const imag = new Array(samples).fill(0);
+  private createTrapezoidWave(amount: number): PeriodicWave {
+    const fftSize = 4096;
+    const periodicWaveSize = fftSize / 2;
+    const real = new Float32Array(periodicWaveSize) as any;
+    const imag = new Float32Array(periodicWaveSize) as any;
 
-    for (let i = 1; i < samples; i++) {
-      if (i % 2 === 0) {
-        real[i] = 0;
+    // Based on https://docs.google.com/presentation/d/17YX_k1_1o6Z7OdybDdk9mbyFYH4u2I99sJi7fZp6ijE/edit#slide=id.p10
+    const tau = 0.5;
+    const tr = (1 - amount) / 2;
+
+    for (let i = 0; i < periodicWaveSize; ++i) {
+      if (i & 1) {
+        // is odd number
+        const npf = i * Math.PI;
+        real[i] =
+          2 *
+          (Math.sin(npf * tau) / (npf * tau)) *
+          (Math.sin(npf * tr) / (npf * tr)) *
+          Math.cos(2 * npf - npf * (tau - tr));
       } else {
-
+        real[i] = 0;
       }
     }
 
-    return new PeriodicWave(this.osc.context, {real, imag, disableNormalization: true});
+    return new PeriodicWave(this.osc.context, {
+      real,
+      imag,
+      disableNormalization: true
+    });
   }
 }

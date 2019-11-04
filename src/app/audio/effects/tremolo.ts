@@ -1,19 +1,14 @@
-import {
-  AudioContext,
-  GainNode,
-  IOscillatorNode
-} from 'standardized-audio-context';
+import { AudioContext, GainNode } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
 import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
-import { LFO } from './lfo';
+import { LFO, LFOType } from './lfo';
 
 export interface TremoloSettings {
   rate: number;
   depth: number;
-  type: IOscillatorNode<AudioContext>['type'];
-  wave?: number;
+  wave: number;
   active: boolean;
 }
 
@@ -36,30 +31,36 @@ export class Tremolo extends Effect<TremoloSettings> {
     const rate = clamp(0, 1, value);
     this.rateSub$.next(rate);
 
-    const frequency = mapToMinMax(rate, 1, 11);
+    const frequency = mapToMinMax(rate, 0.5, 8);
     this.lfo.rate = frequency;
   }
 
   set depth(value: number) {
     const depth = clamp(0, 1, value);
     this.depthSub$.next(depth);
-    this.lfo.depth = depth;
+
+    const amount = mapToMinMax(depth, 0.25, 1);
+    this.lfo.depth = amount;
   }
 
   set wave(value: number) {
     const wave = clamp(0, 1, value);
     this.waveSub$.next(wave);
-    this.lfo.wave = wave;
+
+    const amount = mapToMinMax(wave, 0, 0.95);
+    this.lfo.wave = amount;
   }
 
   constructor(
     context: AudioContext,
     model: string,
-    protected defaults: TremoloSettings
+    protected defaults: TremoloSettings,
+    type?: LFOType
   ) {
     super(context, model);
-    this.lfo = new LFO(context, 'triangle');
-    this.gainNode = new GainNode(context);
+
+    this.lfo = new LFO(context, type);
+    this.gainNode = new GainNode(context, { gain: 0 });
 
     this.processor = [this.gainNode];
 
@@ -73,7 +74,6 @@ export class Tremolo extends Effect<TremoloSettings> {
 
   dispose() {
     super.dispose();
-
     this.lfo.dispose();
 
     this.lfo = null;

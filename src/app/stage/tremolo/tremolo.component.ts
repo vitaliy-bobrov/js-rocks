@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
+  ViewChild
+} from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -18,7 +19,8 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./tremolo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TremoloComponent implements OnInit, OnDestroy, PedalComponent<TremoloSettings> {
+export class TremoloComponent
+  implements OnInit, OnDestroy, PedalComponent<TremoloSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -33,7 +35,6 @@ export class TremoloComponent implements OnInit, OnDestroy, PedalComponent<Tremo
   params: TremoloSettings = {
     rate: 0.5,
     depth: 0.5,
-    type: 'triangle',
     wave: 0.5,
     active: false
   };
@@ -44,7 +45,8 @@ export class TremoloComponent implements OnInit, OnDestroy, PedalComponent<Tremo
     this.effect = new Tremolo(
       this.manager.context,
       'jtr-2',
-      this.params
+      this.params,
+      'trapezoid'
     );
     this.manager.addEffect(this.effect);
   }
@@ -54,4 +56,3 @@ export class TremoloComponent implements OnInit, OnDestroy, PedalComponent<Tremo
     this.effect.dispose();
   }
 }
-
