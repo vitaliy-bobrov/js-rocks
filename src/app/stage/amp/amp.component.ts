@@ -5,7 +5,8 @@ import {
   OnDestroy,
   Input,
   SimpleChanges,
-  OnChanges } from '@angular/core';
+  OnChanges
+} from '@angular/core';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { Cabinet, CabinetInfo } from '@audio/effects/cabinet';
 import { ConvolverService } from '@audio/convolver.service';
@@ -29,55 +30,55 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
   cabinets: CabinetModel[] = [
     {
-      model: 'Captain 1960',
+      model: 'Captain 1960', // Marshall 1960A
       path: 'cabinet/captain_1960.wav',
       gain: 3,
       maxGain: 5
     },
     {
-      model: 'Friender Winner',
+      model: 'Friender Winner', // Fender Champion
       path: 'cabinet/friender_winner.wav',
       gain: 5,
       maxGain: 9
     },
     {
-      model: 'Friender Bassman',
+      model: 'Friender Bassman', // Fender Bassman
       path: 'cabinet/friender_bassman.wav',
       gain: 16,
       maxGain: 31
     },
     {
-      model: 'Enzo Celesticco',
+      model: 'Enzo Celesticco', // Celestion
       path: 'cabinet/enzo_celesticco.wav',
       gain: 2,
       maxGain: 3
     },
     {
-      model: 'Fox AC30',
+      model: 'Fox AC30', // Vox AC30
       path: 'cabinet/fox_ac30.wav',
       gain: 9,
       maxGain: 17
     },
     {
-      model: 'FranklinStein',
+      model: 'FranklinStein', // Framus
       path: 'cabinet/franklinstein.wav',
       gain: 15,
-      maxGain: 29,
+      maxGain: 29
     },
     {
-      model: 'MegaStorm',
+      model: 'MegaStorm', // Mesa Boogie
       path: 'cabinet/mega_storm.wav',
       gain: 6,
       maxGain: 11
     },
     {
-      model: 'Yellow Submarine',
+      model: 'Yellow Submarine', // Orange
       path: 'cabinet/yellow.wav',
       gain: 24,
       maxGain: 47
     },
     {
-      model: 'Eagle Pro',
+      model: 'Eagle Pro', // ENGL Pro
       path: 'cabinet/eagle_pro.wav',
       gain: 6,
       maxGain: 11
@@ -97,17 +98,21 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private manager: AudioContextManager,
-    private convolverService: ConvolverService) {}
+    private convolverService: ConvolverService
+  ) {}
 
   ngOnInit() {
-    const buffer$ = this.convolverService
-      .loadIR(this.manager.context, this.selectedModel.path);
+    const buffer$ = this.convolverService.loadIR(
+      this.manager.context,
+      this.selectedModel.path
+    );
     this.effect = new Cabinet(
       this.manager.context,
       this.selectedModel.model,
       buffer$,
       this.selectedModel.gain,
-      this.selectedModel.maxGain);
+      this.selectedModel.maxGain
+    );
     this.manager.addEffect(this.effect, true);
 
     if (this.config) {
@@ -132,18 +137,22 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
   selectCabinet(cabinet: CabinetModel) {
     this.selectedModel = cabinet;
-    const convolver = this.convolverService
-      .loadIR(this.manager.context, this.selectedModel.path);
+    const convolver = this.convolverService.loadIR(
+      this.manager.context,
+      this.selectedModel.path
+    );
     this.effect.updateConvolver(
       convolver,
       this.selectedModel.gain,
       this.selectedModel.maxGain,
-      this.selectedModel.model);
+      this.selectedModel.model
+    );
   }
 
   private setupConfig() {
-    this.selectedModel = this.cabinets
-      .find(cabinet => cabinet.model === this.config.model) || this.defaultCabinet;
+    this.selectedModel =
+      this.cabinets.find(cabinet => cabinet.model === this.config.model) ||
+      this.defaultCabinet;
 
     this.selectCabinet(this.selectedModel);
 
