@@ -43,7 +43,7 @@ export class AudioContextManager {
             autoGainControl: false,
             noiseSuppression: false,
             latency: 0
-          } as MediaStreamConstraints['audio']
+          }
         });
         this.lineInSource = new MediaStreamAudioSourceNode(this.context, {
           mediaStream
