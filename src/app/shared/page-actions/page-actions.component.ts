@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   AfterViewInit,
   ComponentFactoryResolver,
   Injector,
@@ -8,31 +7,25 @@ import {
   ViewChild,
   OnDestroy
 } from '@angular/core';
-import {
-  DomPortalOutlet,
-  PortalOutlet,
-  CdkPortal
-} from '@angular/cdk/portal';
+import { DomPortalOutlet, PortalOutlet, CdkPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'jsr-page-actions',
   template: `
-  <ng-template cdk-portal>
-    <ng-content></ng-content>
-  </ng-template>
+    <ng-template cdkPortal>
+      <ng-content></ng-content>
+    </ng-template>
   `
 })
-export class PageActionsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PageActionsComponent implements AfterViewInit, OnDestroy {
   private portalHost: PortalOutlet;
-  @ViewChild(CdkPortal, { static: true }) portal: CdkPortal;
+  @ViewChild(CdkPortal, { static: false }) portal: CdkPortal;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector,
     private appRef: ApplicationRef
   ) {}
-
-  ngOnInit() {}
 
   ngAfterViewInit(): void {
     // Create a portalHost from a DOM element

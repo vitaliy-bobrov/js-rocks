@@ -1,11 +1,8 @@
 <jsr-page-actions>
   <mat-menu #appMenu="matMenu">
-    <button
-      type="button"
-      mat-menu-item
-      (click)="blankPreset()">
+    <button type="button" mat-menu-item (click)="blankPreset()">
       <mat-icon>
-        {{selectedPresetId === '' ? '&#xe837;' : '&#xe836;'}}
+        {{ selectedPresetId === '' ? '&#xe837;' : '&#xe836;' }}
       </mat-icon>
       <span>Default</span>
     </button>
@@ -13,11 +10,12 @@
       type="button"
       mat-menu-item
       *ngFor="let preset of presets"
-      (click)="activatePreset(preset.id)">
+      (click)="activatePreset(preset.id)"
+    >
       <mat-icon>
-        {{selectedPresetId === preset.id ? '&#xe837;' : '&#xe836;'}}
+        {{ selectedPresetId === preset.id ? '&#xe837;' : '&#xe836;' }}
       </mat-icon>
-      <span>{{preset.name}}</span>
+      <span>{{ preset.name }}</span>
     </button>
   </mat-menu>
 
@@ -26,7 +24,8 @@
     aria-label="Presets"
     mat-icon-button
     matTooltip="Presets"
-    [matMenuTriggerFor]="appMenu">
+    [matMenuTriggerFor]="appMenu"
+  >
     <mat-icon>&#xe896;</mat-icon>
   </button>
 
@@ -36,8 +35,9 @@
     class="toolbar-btn"
     mat-icon-button
     matTooltip="New preset"
-    (click)="blankPreset()">
-      <mat-icon>&#xe24d;</mat-icon>
+    (click)="blankPreset()"
+  >
+    <mat-icon>&#xe24d;</mat-icon>
   </button>
 
   <button
@@ -46,30 +46,38 @@
     class="toolbar-btn"
     mat-icon-button
     matTooltip="Save preset"
-    (click)="requestSavePreset()">
-      <mat-icon>&#xe161;</mat-icon>
+    (click)="requestSavePreset()"
+  >
+    <mat-icon>&#xe161;</mat-icon>
   </button>
 
-  <button
-    *ngIf="selectedPresetId"
-    type="button"
-    aria-label="Delete preset"
-    class="toolbar-btn"
-    mat-icon-button
-    matTooltip="Delete preset"
-    (click)="deletePreset()">
+  <!-- Additional wrapper to solve Ivy issue with portal and ngIf. -->
+  <span>
+    <button
+      *ngIf="selectedPresetId"
+      type="button"
+      aria-label="Delete preset"
+      class="toolbar-btn"
+      mat-icon-button
+      matTooltip="Delete preset"
+      (click)="deletePreset()"
+    >
       <mat-icon>&#xe872;</mat-icon>
-  </button>
+    </button>
+  </span>
 </jsr-page-actions>
 
 <button
   type="button"
-  [attr.aria-label]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
+  [attr.aria-label]="
+    isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+  "
   class="line-toggle"
   mat-fab
   [matTooltip]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
   [color]="isLinePlugged ? 'accent' : 'warn'"
-  (click)="toggleLineConnection()">
+  (click)="toggleLineConnection()"
+>
   <mat-icon>&#xe8c3;</mat-icon>
 </button>
 
@@ -80,7 +88,10 @@
     type="button"
     mat-menu-item
     *ngFor="let pedal of availablePedals"
-    (click)="addPedal(pedal.id)">{{pedal.name}} {{pedal.model}}</button>
+    (click)="addPedal(pedal.id)"
+  >
+    {{ pedal.name }} {{ pedal.model }}
+  </button>
 </mat-menu>
 
 <button
@@ -88,16 +99,17 @@
   class="add-button"
   mat-flat-button
   color="accent"
-  [matMenuTriggerFor]="pedalBoardMenu">
+  [matMenuTriggerFor]="pedalBoardMenu"
+>
   <mat-icon>&#xe145;</mat-icon> Add effect
 </button>
 
 <section
-    class="pedal-board"
-    #dropList
-    cdkDropList
-    cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="dropPedal($event)">
-
+  class="pedal-board"
+  #dropList
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="dropPedal($event)"
+>
   <ng-template jsrPedalBoard></ng-template>
 </section>
