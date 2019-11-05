@@ -46,6 +46,7 @@
     "@types/jest": "24.0.21",
     "@types/nanoid": "^2.1.0",
     "@types/node": "~12.12.5",
+    "axe-core": "^3.4.0",
     "codelyzer": "^5.2.0",
     "firebase-tools": "^7.6.1",
     "fuzzy": "^0.1.3",
