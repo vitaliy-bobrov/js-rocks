@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
+  ViewChild
+} from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
@@ -24,7 +25,8 @@ interface ReverbConvolver extends SwitchOption {
   styleUrls: ['./reverb.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<ReverbSettings> {
+export class ReverbComponent
+  implements OnInit, OnDestroy, PedalComponent<ReverbSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -75,11 +77,15 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
 
   constructor(
     private manager: AudioContextManager,
-    private convolverService: ConvolverService) {}
+    private convolverService: ConvolverService
+  ) {}
 
   ngOnInit() {
     this.selectedType = this.typeByLabel(this.params.type);
-    const buffer$ = this.convolverService.loadIR(this.manager.context, this.selectedType.value);
+    const buffer$ = this.convolverService.loadIR(
+      this.manager.context,
+      this.selectedType.value
+    );
     this.effect = new Reverb(
       this.manager.context,
       'jrv-6',
@@ -98,17 +104,20 @@ export class ReverbComponent implements OnInit, OnDestroy, PedalComponent<Reverb
   switchType(path: string) {
     this.selectedType = this.typeByValue(path);
     const buffer$ = this.convolverService.loadIR(this.manager.context, path);
-    this.effect.updateConvolver(buffer$, this.selectedType.gain , this.selectedType.label);
+    this.effect.updateConvolver(
+      buffer$,
+      this.selectedType.gain,
+      this.selectedType.label
+    );
   }
 
-  private typeByLabel(label: string): ReverbConvolver {
-    const item =  this.types.find((type) => type.label === label);
+  private typeByLabel(label: string) {
+    const item = this.types.find(type => type.label === label);
     return item || this.types[3];
   }
 
-  private typeByValue(value: string): ReverbConvolver {
-    const item =  this.types.find((type) => type.value === value);
+  private typeByValue(value: string) {
+    const item = this.types.find(type => type.value === value);
     return item || this.types[3];
   }
 }
-

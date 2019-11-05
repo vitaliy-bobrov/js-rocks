@@ -23,10 +23,10 @@ export interface CabinetInfo extends EffectInfo {
 }
 
 export class Cabinet extends Effect<CabinetSettings> {
-  private bassSub$ = new BehaviorSubject<number>(0);
-  private midSub$ = new BehaviorSubject<number>(0);
-  private trebleSub$ = new BehaviorSubject<number>(0);
-  private makeUpGainSub$ = new BehaviorSubject<number>(1);
+  private bassSub$ = new BehaviorSubject(0);
+  private midSub$ = new BehaviorSubject(0);
+  private trebleSub$ = new BehaviorSubject(0);
+  private makeUpGainSub$ = new BehaviorSubject(1);
   private makeUpGain: GainNode<AudioContext>;
   private convolver: ConvolverNode<AudioContext> | null;
   private bassNode: BiquadFilterNode<AudioContext>;
@@ -158,7 +158,7 @@ export class Cabinet extends Effect<CabinetSettings> {
     this.makeUpGainSub$.complete();
   }
 
-  takeSnapshot(): CabinetInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as CabinetInfo;
 
     snapshot.params = {

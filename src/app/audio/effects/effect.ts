@@ -1,8 +1,4 @@
-import {
-  AudioContext,
-  GainNode,
-  IAudioNode
-} from 'standardized-audio-context';
+import { AudioContext, GainNode, IAudioNode } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
@@ -17,7 +13,7 @@ export interface EffectInfo {
 }
 
 export abstract class Effect<D extends Active> implements Disposable {
-  private activeSub$ = new BehaviorSubject<boolean>(false);
+  private activeSub$ = new BehaviorSubject(false);
   private context: AudioContext;
   protected defaults: D;
   protected isBypassEnabled: boolean;
@@ -49,11 +45,11 @@ export abstract class Effect<D extends Active> implements Disposable {
     }
   }
 
-  get currentTime(): number {
+  get currentTime() {
     return this.context.currentTime;
   }
 
-  get sampleRate(): number {
+  get sampleRate() {
     return this.context.sampleRate;
   }
 

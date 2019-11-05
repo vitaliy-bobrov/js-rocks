@@ -17,7 +17,7 @@ export class AudioContextManager {
   private effects: Effect<any>[] = [];
   private lineInSource: MediaStreamAudioSourceNode<AudioContext>;
   private masterGain: GainNode<AudioContext>;
-  private masterSub$ = new BehaviorSubject<number>(0);
+  private masterSub$ = new BehaviorSubject(0);
 
   master$ = this.masterSub$.asObservable();
 
@@ -106,7 +106,7 @@ export class AudioContextManager {
     Effect.disconnectInOrder(this.effects);
   }
 
-  takeSnapshot(): Preset {
+  takeSnapshot() {
     if (!this.effects.length) {
       return;
     }

@@ -15,11 +15,11 @@ import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 export class StandardTone implements Disposable {
   private filter: BiquadFilterNode<AudioContext>;
 
-  private get currentTime(): number {
+  private get currentTime() {
     return this.filter.context.currentTime;
   }
 
-  get nodes(): IAudioNode<AudioContext>[] {
+  get nodes() {
     return [this.filter];
   }
 
@@ -59,11 +59,11 @@ export class MixedTone implements Disposable {
   private toneLowGain: GainNode<AudioContext>;
   private merger: ChannelMergerNode<AudioContext>;
 
-  private get currentTime(): number {
+  private get currentTime() {
     return this.toneLowGain.context.currentTime;
   }
 
-  get nodes(): IAudioNode<AudioContext>[] {
+  get nodes() {
     return [this.splitter, this.lowpassFilter, this.toneLowGain, this.merger];
   }
 

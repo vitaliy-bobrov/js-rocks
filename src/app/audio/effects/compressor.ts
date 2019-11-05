@@ -21,10 +21,10 @@ export interface CompressorInfo extends EffectInfo {
 }
 
 export class Compressor extends Effect<CompressorSettings> {
-  private levelSub$ = new BehaviorSubject<number>(0);
-  private attackSub$ = new BehaviorSubject<number>(0);
-  private ratioSub$ = new BehaviorSubject<number>(0);
-  private thresholdSub$ = new BehaviorSubject<number>(0);
+  private levelSub$ = new BehaviorSubject(0);
+  private attackSub$ = new BehaviorSubject(0);
+  private ratioSub$ = new BehaviorSubject(0);
+  private thresholdSub$ = new BehaviorSubject(0);
   private compressor: DynamicsCompressorNode<AudioContext>;
   private levelNode: GainNode<AudioContext>;
 
@@ -93,7 +93,7 @@ export class Compressor extends Effect<CompressorSettings> {
     this.thresholdSub$.complete();
   }
 
-  takeSnapshot(): CompressorInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as CompressorInfo;
 
     snapshot.params = {

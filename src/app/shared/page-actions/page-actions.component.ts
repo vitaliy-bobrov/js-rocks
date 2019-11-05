@@ -27,7 +27,7 @@ export class PageActionsComponent implements AfterViewInit, OnDestroy {
     private appRef: ApplicationRef
   ) {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     // Create a portalHost from a DOM element
     this.portalHost = new DomPortalOutlet(
       document.querySelector('#page-actions-container'),
@@ -40,7 +40,7 @@ export class PageActionsComponent implements AfterViewInit, OnDestroy {
     this.portalHost.attach(this.portal);
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.portalHost.detach();
   }
 }

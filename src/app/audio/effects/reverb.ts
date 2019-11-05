@@ -25,9 +25,9 @@ export interface ReverbInfo extends EffectInfo {
 }
 
 export class Reverb extends Effect<ReverbSettings> {
-  private timeSub$ = new BehaviorSubject<number>(0);
-  private toneSub$ = new BehaviorSubject<number>(0);
-  private levelSub$ = new BehaviorSubject<number>(0);
+  private timeSub$ = new BehaviorSubject(0);
+  private toneSub$ = new BehaviorSubject(0);
+  private levelSub$ = new BehaviorSubject(0);
   private splitter: ChannelSplitterNode<AudioContext>;
   private timeNode: DelayNode<AudioContext>;
   private toneNode: ToneControl;
@@ -154,7 +154,7 @@ export class Reverb extends Effect<ReverbSettings> {
     this.levelSub$.complete();
   }
 
-  takeSnapshot(): ReverbInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as ReverbInfo;
 
     snapshot.params = {

@@ -17,9 +17,9 @@ export interface TremoloInfo extends EffectInfo {
 }
 
 export class Tremolo extends Effect<TremoloSettings> {
-  private rateSub$ = new BehaviorSubject<number>(0);
-  private depthSub$ = new BehaviorSubject<number>(0);
-  private waveSub$ = new BehaviorSubject<number>(0);
+  private rateSub$ = new BehaviorSubject(0);
+  private depthSub$ = new BehaviorSubject(0);
+  private waveSub$ = new BehaviorSubject(0);
   private lfo: LFO;
   private gainNode: GainNode<AudioContext>;
 
@@ -83,7 +83,7 @@ export class Tremolo extends Effect<TremoloSettings> {
     this.waveSub$.complete();
   }
 
-  takeSnapshot(): TremoloInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as TremoloInfo;
 
     snapshot.params = {

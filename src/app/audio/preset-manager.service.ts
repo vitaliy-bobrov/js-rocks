@@ -48,6 +48,10 @@ export class PresetManagerService {
         params: null
       },
       {
+        model: 'jtr-2',
+        params: null
+      },
+      {
         model: 'jrv-6',
         params: null
       }
@@ -91,10 +95,7 @@ export class PresetManagerService {
     localStorage.setItem(PresetManagerService.CURRENT_PRESET_KEY, id);
   }
 
-  addPreset(
-    preset: Preset,
-    name: string
-  ): { presets: PresetInfo[]; id: string } {
+  addPreset(preset: Preset, name: string) {
     const presets = this.getPresetsInfo();
     const id = this.generatePresetId();
 
@@ -119,7 +120,7 @@ export class PresetManagerService {
     localStorage.setItem(preset.id, JSON.stringify(preset));
   }
 
-  removePreset(id: string): PresetInfo[] {
+  removePreset(id: string) {
     const presets = this.getPresetsInfo();
     const updated = presets.filter(preset => preset.id !== id);
 

@@ -23,11 +23,11 @@ export class LFO implements Disposable {
   private sumNode: GainNode<AudioContext>;
   private depthNode: GainNode<AudioContext>;
 
-  private get currentTime(): number {
+  private get currentTime() {
     return this.osc.context.currentTime;
   }
 
-  get nodes(): IAudioNode<AudioContext>[] {
+  get nodes() {
     return [this.osc];
   }
 
@@ -50,7 +50,7 @@ export class LFO implements Disposable {
     }
   }
 
-  static isAllowedType(type: LFOType): boolean {
+  static isAllowedType(type: LFOType) {
     return LFO.allowedTypes.has(type as TOscillatorType);
   }
 
@@ -81,7 +81,7 @@ export class LFO implements Disposable {
     this.depthNode = null;
   }
 
-  private createTrapezoidWave(amount: number): PeriodicWave {
+  private createTrapezoidWave(amount: number) {
     const fftSize = 4096;
     const periodicWaveSize = fftSize / 2;
     const real = new Float32Array(periodicWaveSize) as any;

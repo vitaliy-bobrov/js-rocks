@@ -41,9 +41,9 @@ export class Muff extends Effect<MuffSettings> {
   };
 
   private tunings: MuffTuningOptions;
-  private levelSub$ = new BehaviorSubject<number>(0);
-  private sustainSub$ = new BehaviorSubject<number>(0);
-  private toneSub$ = new BehaviorSubject<number>(0);
+  private levelSub$ = new BehaviorSubject(0);
+  private sustainSub$ = new BehaviorSubject(0);
+  private toneSub$ = new BehaviorSubject(0);
   private boostNode: GainNode<AudioContext>;
   private preLowpass: IIRFilterNode<AudioContext>;
   private preHighpass: IIRFilterNode<AudioContext>;
@@ -187,7 +187,7 @@ export class Muff extends Effect<MuffSettings> {
     this.toneSub$.complete();
   }
 
-  takeSnapshot(): MuffInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as MuffInfo;
 
     snapshot.params = {

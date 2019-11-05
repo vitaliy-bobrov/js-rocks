@@ -3,7 +3,7 @@ import { EffectNode } from '@audio/interfaces/node.interface';
 /**
  * Clamps value to provided min and max - min <= value <= max.
  */
-export function clamp(min: number, max: number, value: number): number {
+export function clamp(min: number, max: number, value: number) {
   return Math.min(Math.max(value, min), max);
 }
 
@@ -19,32 +19,28 @@ export function connectNodes(nodes: EffectNode[]) {
 /**
  * Maps value to min max range.
  */
-export function mapToMinMax(value: number, min: number, max: number): number {
+export function mapToMinMax(value: number, min: number, max: number) {
   return value * (max - min) + min;
 }
 
 /**
  * Gets value percentage from min max range.
  */
-export function percentFromMinMax(
-  value: number,
-  min: number,
-  max: number
-): number {
+export function percentFromMinMax(value: number, min: number, max: number) {
   return (value - min) / (max - min);
 }
 
 /**
  * Rescales value exponentially.
  */
-export function expScale(value: number): number {
+export function expScale(value: number) {
   return Math.pow(Math.abs(value), 2);
 }
 
 /**
  * Converts seconds to milliseconds.
  */
-export function toMs(value: number): number {
+export function toMs(value: number) {
   return value > 0 ? value / 1000 : 0;
 }
 
@@ -58,26 +54,24 @@ export function deepCopy<T>(obj: T): T {
 /**
  * Equal power cross-fade.
  */
-export function equalCrossFade(value: number): [number, number] {
+export function equalCrossFade(value: number) {
   const first = value === 1 ? 0 : Math.cos(value * 0.5 * Math.PI);
   const last = value === 0 ? 0 : Math.cos((1 - value) * 0.5 * Math.PI);
 
-  return [first, last];
+  return [first, last] as const;
 }
 
 /**
  * Calculates biquad filter center frequency for a given frequencies range.
  */
-export function calculateCenterFrequency(range: [number, number]): number {
+export function calculateCenterFrequency(range: [number, number]) {
   return Math.sqrt(range[0] * range[1]);
 }
 
 /**
  * Calculates center frequency and Q (quality) parameter for bandpass filter.
  */
-export function calculateBandpass(
-  range: [number, number]
-): { fc: number; q: number } {
+export function calculateBandpass(range: [number, number]) {
   const fc = calculateCenterFrequency(range);
   const q = fc / (range[1] - range[0]);
 
@@ -87,7 +81,7 @@ export function calculateBandpass(
 /**
  * Computation fast Math.tanh approximation.
  */
-export function fastTanh(x: number): number {
+export function fastTanh(x: number) {
   // Limit out of range data.
   if (x < -3) {
     x = -1;
@@ -103,13 +97,13 @@ export function fastTanh(x: number): number {
 /**
  * Converts gain value to dB.
  */
-export function gainToDB(value: number): number {
+export function gainToDB(value: number) {
   return 20 * Math.log10(value);
 }
 
 /**
  * Converts dB value to gain.
  */
-export function dBToGain(value: number): number {
+export function dBToGain(value: number) {
   return Math.pow(10, value / 20);
 }

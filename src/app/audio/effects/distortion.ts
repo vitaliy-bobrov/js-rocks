@@ -40,9 +40,9 @@ export class Distortion extends Effect<DistortionSettings> {
   };
 
   private tunings: DistortionTuningOptions;
-  private levelSub$ = new BehaviorSubject<number>(0);
-  private distortionSub$ = new BehaviorSubject<number>(0);
-  private toneSub$ = new BehaviorSubject<number>(0);
+  private levelSub$ = new BehaviorSubject(0);
+  private distortionSub$ = new BehaviorSubject(0);
+  private toneSub$ = new BehaviorSubject(0);
   private preFilter: BiquadFilterNode<AudioContext>;
   private waveSharper: WaveShaperNode<AudioContext>;
   private postFilter: BiquadFilterNode<AudioContext>;
@@ -145,7 +145,7 @@ export class Distortion extends Effect<DistortionSettings> {
     this.toneSub$.complete();
   }
 
-  takeSnapshot(): DistortionInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as DistortionInfo;
 
     snapshot.params = {

@@ -21,12 +21,12 @@ export interface ChorusInfo extends EffectInfo {
 }
 
 export class Chorus extends Effect<ChorusSettings> {
-  private levelSub$ = new BehaviorSubject<number>(0);
-  private eqSub$ = new BehaviorSubject<number>(0);
-  private rateSub$ = new BehaviorSubject<number>(0);
-  private depthSub$ = new BehaviorSubject<number>(0);
-  private feedbackSub$ = new BehaviorSubject<number>(0);
-  private delaySub$ = new BehaviorSubject<number>(0);
+  private levelSub$ = new BehaviorSubject(0);
+  private eqSub$ = new BehaviorSubject(0);
+  private rateSub$ = new BehaviorSubject(0);
+  private depthSub$ = new BehaviorSubject(0);
+  private feedbackSub$ = new BehaviorSubject(0);
+  private delaySub$ = new BehaviorSubject(0);
   private eqNode: ToneControl;
   private lfo: LFO;
   private delayNode: DelayNode<AudioContext>;
@@ -85,7 +85,7 @@ export class Chorus extends Effect<ChorusSettings> {
     this.delayNode.delayTime.setTargetAtTime(delay, this.currentTime, 0.01);
   }
 
-  get delay(): number {
+  get delay() {
     return this.delaySub$.value;
   }
 
@@ -134,7 +134,7 @@ export class Chorus extends Effect<ChorusSettings> {
     this.delaySub$.complete();
   }
 
-  takeSnapshot(): ChorusInfo {
+  takeSnapshot() {
     const snapshot = super.takeSnapshot() as ChorusInfo;
 
     snapshot.params = {

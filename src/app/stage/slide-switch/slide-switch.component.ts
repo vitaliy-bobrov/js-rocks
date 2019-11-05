@@ -8,7 +8,8 @@ import {
   ViewChildren,
   ElementRef,
   HostListener,
-  QueryList } from '@angular/core';
+  QueryList
+} from '@angular/core';
 
 export interface SwitchOption {
   label: string;
@@ -70,8 +71,9 @@ export class SlideSwitchComponent {
     }
   }
 
-  private selectedIndex(): number {
-    return this.value ? this.options
-      .findIndex((option) => option.value === this.value) : 0;
+  private selectedIndex() {
+    return this.value
+      ? this.options.findIndex(option => option.value === this.value)
+      : 0;
   }
 }
