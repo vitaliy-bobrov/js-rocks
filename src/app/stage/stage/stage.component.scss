@@ -1,32 +1,21 @@
 :host {
   display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: 'cabinet   '
-                       'add       '
-                       'pedalboard';
-  min-height: 24px;
+  position: relative;
 
   .line-toggle {
     position: absolute;
-    top: 35px;
-    left: 50%;
+    top: -28px;
+    left: 50vw;
     transform: translateX(-50%);
-    z-index: 1;
-  }
-
-  jsr-amp {
-    grid-area: cabinet;
   }
 
   .add-button {
-    grid-area: add;
-    justify-self: center;
-    margin-top: 16px;
+    margin: 16px auto;
   }
 
-  .pedal-board {
-    grid-area: pedalboard;
-    padding-top: 16px;
+  .empty-board-message {
+    color: rgba(#fff, 0.8);
+    text-align: center;
+    padding: 0 16px;
   }
 }
