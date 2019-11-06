@@ -7,7 +7,8 @@ import {
   HostListener,
   HostBinding,
   ViewChild,
-  ElementRef } from '@angular/core';
+  ElementRef
+} from '@angular/core';
 
 @Component({
   selector: 'jsr-large-switch',
@@ -24,6 +25,9 @@ export class LargeSwitchComponent {
 
   @Input()
   model = 'JE-0';
+
+  @Input()
+  active = false;
 
   @Output()
   switch = new EventEmitter<void>();

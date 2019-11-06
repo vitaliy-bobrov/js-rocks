@@ -11,7 +11,8 @@
         label="LEVEL"
         labelPosition="top"
         [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
@@ -20,7 +21,8 @@
         label="TONE"
         labelPosition="top"
         [value]="effect.tone$ | async"
-        (valueChanged)="effect.tone = $event"></jsr-knob>
+        (valueChanged)="effect.tone = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
@@ -31,21 +33,25 @@
         [step]="1"
         labelPosition="top"
         [value]="effect.time$ | async"
-        (valueChanged)="effect.time = $event"></jsr-knob>
+        (valueChanged)="effect.time = $event"
+      ></jsr-knob>
       <jsr-slide-switch
         class="type"
         group="reverb-type"
         [options]="types"
         [value]="selectedType.value"
-        (valueChanged)="switchType($event)"></jsr-slide-switch>
+        (valueChanged)="switchType($event)"
+      ></jsr-slide-switch>
     </div>
 
     <jsr-large-switch
       xl-label
       class="switch"
       name="Reverb"
+      [active]="effect.active$ | async"
       [model]="effect.model"
-      (switch)="effect.toggleBypass()"></jsr-large-switch>
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
   </div>
 
   <button
@@ -54,7 +60,8 @@
     class="remove"
     mat-mini-fab
     color="warn"
-    (click)="remove.emit()">
+    (click)="remove.emit()"
+  >
     <mat-icon>&#xe872;</mat-icon>
   </button>
   <div *cdkDragPlaceholder></div>
