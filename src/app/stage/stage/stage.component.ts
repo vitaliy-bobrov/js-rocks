@@ -19,7 +19,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PresetManagerService, Preset, PresetInfo } from '@audio/preset-manager.service';
+import {
+  PresetManagerService,
+  Preset,
+  PresetInfo
+} from '@audio/preset-manager.service';
 import { Effect } from '@audio/effects/effect';
 import { PedalBoardDirective } from '../pedalboard/pedalboard.directive';
 import { Pedal, PedalComponent, PedalDescriptor } from '../pedal.interface';
@@ -93,12 +97,14 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   config: Preset;
   selectedPresetId: string;
   presets: PresetInfo[];
-  availablePedals: PedalDescriptor[] = Object.keys(componentMapping).map(key => ({
-    id: key,
-    name: componentMapping[key].name,
-    model: componentMapping[key].model
-  }));
-  private pedals: Pedal[];
+  availablePedals: PedalDescriptor[] = Object.keys(componentMapping).map(
+    key => ({
+      id: key,
+      name: componentMapping[key].name,
+      model: componentMapping[key].model
+    })
+  );
+  pedals: Pedal[];
   private dragRefs: CdkDrag[];
   private presetKeyMap: string[] = [''];
 
@@ -112,7 +118,8 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     public dialog: MatDialog,
     private manager: AudioContextManager,
     private presetsManager: PresetManagerService,
-    private componentFactoryResolver: ComponentFactoryResolver) {
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {
     this.savePreset = this.savePreset.bind(this);
   }
 
@@ -176,7 +183,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   openPresetNameDialog() {
     const dialogRef = this.dialog.open(PresetNameDialogComponent, {
       width: '250px',
-      data: {name: ''}
+      data: { name: '' }
     });
 
     dialogRef.afterClosed().subscribe(this.savePreset);
@@ -251,12 +258,15 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   private createPedal(pedal: Pedal) {
     const viewContainerRef = this.pedalBoard.viewContainerRef;
-    const componentFactory = this.componentFactoryResolver
-        .resolveComponentFactory(pedal.component);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+      pedal.component
+    );
     const componentRef = viewContainerRef.createComponent(componentFactory);
     const component = componentRef.instance as PedalComponent<any>;
 
-    component.remove.pipe(take(1)).subscribe(() => this.removePedal(componentRef.hostView));
+    component.remove
+      .pipe(take(1))
+      .subscribe(() => this.removePedal(componentRef.hostView));
 
     if (pedal.params) {
       component.params = pedal.params;
@@ -267,24 +277,30 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   private afterConfigChange() {
     this.config = this.presetsManager.getCurrentPreset();
-    this.config.cabinet = {...this.config.cabinet};
+    this.config.cabinet = { ...this.config.cabinet };
 
     this.selectedPresetId = this.config.id;
-    this.pedals = this.config.pedals
-      .map(item =>  new Pedal(componentMapping[item.model].symbol, item.params));
+    this.pedals = this.config.pedals.map(
+      item => new Pedal(componentMapping[item.model].symbol, item.params)
+    );
 
     this.loadPedals();
   }
 
   private initPedalsDrag() {
-    this.dropList._dropListRef.withItems(this.dragRefs.map(drag => drag._dragRef));
+    this.dropList._dropListRef.withItems(
+      this.dragRefs.map(drag => drag._dragRef)
+    );
   }
 
   private updatePresetsKeyMap() {
-    this.presetKeyMap = this.presets.reduce((map, preset) => {
-      map.push(preset.id);
+    this.presetKeyMap = this.presets.reduce(
+      (map, preset) => {
+        map.push(preset.id);
 
-      return map;
-    }, ['']);
+        return map;
+      },
+      ['']
+    );
   }
 }
