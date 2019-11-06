@@ -1,10 +1,11 @@
 <h1 mat-dialog-title>New preset</h1>
 <div mat-dialog-content>
-  <mat-form-field>
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>Name</mat-label>
     <input
       matInput
-      placeholder="Preset name"
       cdkFocusInitial
+      autocomplete="off"
       [(ngModel)]="data.name"
     />
   </mat-form-field>

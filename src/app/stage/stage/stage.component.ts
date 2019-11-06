@@ -182,7 +182,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   openPresetNameDialog() {
     const dialogRef = this.dialog.open(PresetNameDialogComponent, {
-      width: '250px',
+      width: '320px',
       data: { name: '' }
     });
 
