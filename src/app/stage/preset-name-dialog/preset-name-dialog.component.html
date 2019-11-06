@@ -5,18 +5,15 @@
       matInput
       placeholder="Preset name"
       cdkFocusInitial
-      [(ngModel)]="data.name">
+      [(ngModel)]="data.name"
+    />
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button
-    type="button"
-    mat-raised-button
-    color="warn"
-    (click)="onCancel()">Cancel</button>
-  <button
-    type="button"
-    mat-raised-button
-    color="accent"
-    [mat-dialog-close]="data.name">Save</button>
+  <button type="reset" mat-raised-button color="warn" (click)="onCancel()">
+    Cancel
+  </button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="data.name">
+    Save
+  </button>
 </div>
