@@ -9,7 +9,8 @@
         class="level"
         label="LEVEL"
         [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
       <jsr-knob
         silver
         small
@@ -17,14 +18,16 @@
         label="TONE"
         labelPosition="top"
         [value]="effect.tone$ | async"
-        (valueChanged)="effect.tone = $event"></jsr-knob>
+        (valueChanged)="effect.tone = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
         class="dist"
         label="DIST"
         [value]="effect.distortion$ | async"
-        (valueChanged)="effect.distortion = $event"></jsr-knob>
+        (valueChanged)="effect.distortion = $event"
+      ></jsr-knob>
     </div>
 
     <jsr-large-switch
@@ -32,8 +35,10 @@
       xl-label
       class="switch"
       name="Metal Area"
+      [active]="effect.active$ | async"
       [model]="effect.model"
-      (switch)="effect.toggleBypass()"></jsr-large-switch>
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
   </div>
 
   <button
@@ -42,7 +47,8 @@
     class="remove"
     mat-mini-fab
     color="warn"
-    (click)="remove.emit()">
+    (click)="remove.emit()"
+  >
     <mat-icon>&#xe872;</mat-icon>
   </button>
   <div *cdkDragPlaceholder></div>

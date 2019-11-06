@@ -2,12 +2,14 @@
   #control
   type="button"
   aria-label="Toggle effect"
-  (click)="switch.emit()">
+  [attr.aria-pressed]="active"
+  (click)="switch.emit()"
+>
   <div class="switch-content">
     <mat-icon>&#xe5c8;</mat-icon>
     <mat-icon>&#xe5c8;</mat-icon>
-    <h3 class="name">{{name}}</h3>
-    <p class="model">{{model}}</p>
+    <h3 class="name">{{ name }}</h3>
+    <p class="model">{{ model }}</p>
     <div class="pad"></div>
   </div>
 </button>

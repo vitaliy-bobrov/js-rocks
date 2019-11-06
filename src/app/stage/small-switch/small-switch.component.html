@@ -2,7 +2,9 @@
   #control
   type="button"
   aria-label="Toggle effect"
-  (click)="switch.emit()">
+  [attr.aria-pressed]="active"
+  (click)="switch.emit()"
+>
   <div class="hexagon"></div>
 </button>
 

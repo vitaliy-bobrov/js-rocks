@@ -37,6 +37,7 @@
       xl-label
       class="switch"
       name="Tremolo"
+      [active]="effect.active$ | async"
       [model]="effect.model"
       (switch)="effect.toggleBypass()"
     ></jsr-large-switch>

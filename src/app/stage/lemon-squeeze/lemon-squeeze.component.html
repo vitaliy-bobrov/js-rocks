@@ -11,7 +11,8 @@
         label="LEVEL"
         labelPosition="top"
         [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
@@ -20,7 +21,8 @@
         label="ATTACK"
         labelPosition="top"
         [value]="effect.attack$ | async"
-        (valueChanged)="effect.attack = $event"></jsr-knob>
+        (valueChanged)="effect.attack = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
@@ -32,23 +34,27 @@
         [step]="1"
         labelPosition="top"
         [value]="effect.ratio$ | async"
-        (valueChanged)="effect.ratio = $event"></jsr-knob>
-        <jsr-knob
-          dots
-          silver
-          small
-          class="comp"
-          label="COMP"
-          labelPosition="top"
-          [value]="effect.threshold$ | async"
-          (valueChanged)="effect.threshold = $event"></jsr-knob>
+        (valueChanged)="effect.ratio = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        small
+        class="comp"
+        label="COMP"
+        labelPosition="top"
+        [value]="effect.threshold$ | async"
+        (valueChanged)="effect.threshold = $event"
+      ></jsr-knob>
     </div>
 
     <jsr-large-switch
       class="switch"
       name="Lemon Squeeze"
+      [active]="effect.active$ | async"
       [model]="effect.model"
-      (switch)="effect.toggleBypass()"></jsr-large-switch>
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
   </div>
 
   <button
@@ -57,7 +63,8 @@
     class="remove"
     mat-mini-fab
     color="warn"
-    (click)="remove.emit()">
+    (click)="remove.emit()"
+  >
     <mat-icon>&#xe872;</mat-icon>
   </button>
   <div *cdkDragPlaceholder></div>

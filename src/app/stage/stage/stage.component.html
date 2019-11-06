@@ -72,6 +72,7 @@
   [attr.aria-label]="
     isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
   "
+  [attr.aria-pressed]="isLinePlugged"
   class="line-toggle"
   mat-fab
   [matTooltip]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"

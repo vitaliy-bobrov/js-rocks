@@ -1,27 +1,29 @@
 <div class="plate">
   <div class="inputs">
-    <h2 class="model">{{effect.model}}</h2>
+    <h2 class="model">{{ effect.model }}</h2>
 
     <button
       type="button"
       aria-label="Select cabinet model"
       mat-icon-button
       matTooltip="Select cabinet model"
-      [matMenuTriggerFor]="menu">
+      [matMenuTriggerFor]="menu"
+    >
       <mat-icon>&#xe5d4;</mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
       <button
         type="button"
-        [attr.aria-label]="'Select ' + cabinet.model + ' cabinet'"
+        aria-label="Select cabinet"
         mat-menu-item
         *ngFor="let cabinet of cabinets"
-        (click)="selectCabinet(cabinet)">
+        (click)="selectCabinet(cabinet)"
+      >
         <mat-icon>
-          {{selectedModel === cabinet ? '&#xe837;' : '&#xe836;'}}
+          {{ selectedModel === cabinet ? '&#xe837;' : '&#xe836;' }}
         </mat-icon>
-        <span>{{cabinet.model}}</span>
+        <span>{{ cabinet.model }}</span>
       </button>
     </mat-menu>
   </div>
@@ -33,7 +35,8 @@
       class="master"
       label="VOLUME"
       [value]="masterVolume$ | async"
-      (valueChanged)="updateMasterVolume($event)">
+      (valueChanged)="updateMasterVolume($event)"
+    >
     </jsr-knob>
 
     <jsr-knob
@@ -45,7 +48,8 @@
       [max]="selectedModel.maxGain"
       [step]="0.5"
       [value]="effect.makeUpGain$ | async"
-      (valueChanged)="effect.gain = $event">
+      (valueChanged)="effect.gain = $event"
+    >
     </jsr-knob>
   </section>
 
@@ -61,7 +65,8 @@
       [step]="0.5"
       [showValueSign]="true"
       [value]="effect.bass$ | async"
-      (valueChanged)="effect.bass = $event">
+      (valueChanged)="effect.bass = $event"
+    >
     </jsr-knob>
 
     <jsr-knob
@@ -75,7 +80,8 @@
       [step]="0.5"
       [showValueSign]="true"
       [value]="effect.mid$ | async"
-      (valueChanged)="effect.mid = $event">
+      (valueChanged)="effect.mid = $event"
+    >
     </jsr-knob>
 
     <jsr-knob
@@ -89,7 +95,8 @@
       [step]="0.5"
       [showValueSign]="true"
       [value]="effect.treble$ | async"
-      (valueChanged)="effect.treble = $event">
+      (valueChanged)="effect.treble = $event"
+    >
     </jsr-knob>
   </section>
 
@@ -98,9 +105,10 @@
     <button
       type="button"
       aria-label="Toggle cabinet"
+      [attr.aria-pressed]="effect.active$ | async"
       class="switch-button"
-      [class.active]="effect.active$ | async"
-      (click)="effect.toggleBypass()">
+      (click)="effect.toggleBypass()"
+    >
       |
     </button>
   </div>

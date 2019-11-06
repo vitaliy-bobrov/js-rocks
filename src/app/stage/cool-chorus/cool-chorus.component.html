@@ -11,7 +11,8 @@
         label="LEVEL"
         labelPosition="top"
         [value]="effect.level$ | async"
-        (valueChanged)="effect.level = $event"></jsr-knob>
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
@@ -20,7 +21,8 @@
         label="EQ"
         labelPosition="top"
         [value]="effect.eq$ | async"
-        (valueChanged)="effect.eq = $event"></jsr-knob>
+        (valueChanged)="effect.eq = $event"
+      ></jsr-knob>
       <jsr-knob
         dots
         silver
@@ -29,23 +31,27 @@
         label="RATE"
         labelPosition="top"
         [value]="effect.rate$ | async"
-        (valueChanged)="effect.rate = $event"></jsr-knob>
-        <jsr-knob
-          dots
-          silver
-          small
-          class="depth"
-          label="DEPTH"
-          labelPosition="top"
-          [value]="effect.depth$ | async"
-          (valueChanged)="effect.depth = $event"></jsr-knob>
+        (valueChanged)="effect.rate = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        small
+        class="depth"
+        label="DEPTH"
+        labelPosition="top"
+        [value]="effect.depth$ | async"
+        (valueChanged)="effect.depth = $event"
+      ></jsr-knob>
     </div>
 
     <jsr-large-switch
       class="switch"
       name="Cool Chorus"
+      [active]="effect.active$ | async"
       [model]="effect.model"
-      (switch)="effect.toggleBypass()"></jsr-large-switch>
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
   </div>
 
   <button
@@ -54,7 +60,8 @@
     class="remove"
     mat-mini-fab
     color="warn"
-    (click)="remove.emit()">
+    (click)="remove.emit()"
+  >
     <mat-icon>&#xe872;</mat-icon>
   </button>
   <div *cdkDragPlaceholder></div>
