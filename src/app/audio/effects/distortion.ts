@@ -85,7 +85,7 @@ export class Distortion extends Effect<DistortionSettings> {
 
     this.tunings = { ...Distortion.defaultTunings, ...tunings };
 
-    // Boost stage - pre-filtering + boost gain.
+    // Boost stage - pre-filtering.
 
     const bandpassParams = calculateBandpass(this.tunings.preFilterRange);
     this.preFilter = new BiquadFilterNode(context, {
