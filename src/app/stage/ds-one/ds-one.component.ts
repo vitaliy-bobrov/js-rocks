@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
+  ViewChild
+} from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -18,7 +19,8 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./ds-one.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
+export class DsOneComponent
+  implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -41,17 +43,13 @@ export class DsOneComponent implements OnInit, OnDestroy, PedalComponent<Distort
 
   ngOnInit() {
     // Config based on Boss DS-1 analysis https://www.electrosmash.com/boss-ds1-analysis.
-    this.effect = new Distortion(
-      this.manager.context,
-      'jds-1',
-      this.params,
-      {
-        curveType: 'sunshine',
-        preFilterRange: [350, 5000],
-        toneControlType: 'standard',
-        postFilter: 8000
-      }
-    );
+    this.effect = new Distortion(this.manager.context, 'jds-1', this.params, {
+      curveType: 'sunshine',
+      preFilterRange: [33, 5000],
+      toneControlType: 'mixed',
+      toneRange: [234, 1063],
+      postFilter: 8000
+    });
     this.manager.addEffect(this.effect);
   }
 
