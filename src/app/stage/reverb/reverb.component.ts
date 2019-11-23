@@ -39,11 +39,11 @@ export class ReverbComponent
   effect: Reverb;
 
   params: ReverbSettings = {
-    level: 0.5,
-    tone: 0.5,
-    time: 2,
+    level: 0.6,
+    tone: 0.75,
+    time: 5,
     active: false,
-    type: 'Room'
+    type: 'Hall'
   };
 
   types: ReverbConvolver[] = [
@@ -113,11 +113,11 @@ export class ReverbComponent
 
   private typeByLabel(label: string) {
     const item = this.types.find(type => type.label === label);
-    return item || this.types[3];
+    return item || this.types[2];
   }
 
   private typeByValue(value: string) {
     const item = this.types.find(type => type.value === value);
-    return item || this.types[3];
+    return item || this.types[2];
   }
 }
