@@ -154,8 +154,6 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       this.cabinets.find(cabinet => cabinet.model === this.config.model) ||
       this.defaultCabinet;
 
-    this.selectCabinet(this.selectedModel);
-
     this.effect.bass = this.config.params.bass;
     this.effect.mid = this.config.params.mid;
     this.effect.treble = this.config.params.treble;
@@ -166,5 +164,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     if (typeof this.config.params.active !== 'undefined') {
       this.effect.active = this.config.params.active;
     }
+
+    this.selectCabinet(this.selectedModel);
   }
 }
