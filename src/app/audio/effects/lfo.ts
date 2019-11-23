@@ -27,10 +27,6 @@ export class LFO implements Disposable {
     return this.osc.context.currentTime;
   }
 
-  get nodes() {
-    return [this.osc];
-  }
-
   set rate(value: number) {
     this.osc.frequency.exponentialRampToValueAtTime(value, this.currentTime);
   }
