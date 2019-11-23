@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
+  ViewChild
+} from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -18,7 +19,8 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./overdrive.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OverdriveComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
+export class OverdriveComponent
+  implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -40,14 +42,10 @@ export class OverdriveComponent implements OnInit, OnDestroy, PedalComponent<Dis
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(
-      this.manager.context,
-      'jod-3',
-      this.params, {
-        curveType: 'driver',
-        preFilterRange: [200, 1500]
-      }
-    );
+    this.effect = new Distortion(this.manager.context, 'jod-3', this.params, {
+      curveType: 'driver',
+      preFilterRange: [150, 2000]
+    });
     this.manager.addEffect(this.effect);
   }
 
