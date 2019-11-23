@@ -45,21 +45,21 @@ export class Cabinet extends Effect<CabinetSettings> {
   makeUpGain$ = this.makeUpGainSub$.asObservable();
 
   set bass(value: number) {
-    const bass = clamp(-24, 24, value);
+    const bass = clamp(-12, 12, value);
     this.bassSub$.next(bass);
 
     this.bassNode.gain.setTargetAtTime(bass, this.currentTime, 0.01);
   }
 
   set mid(value: number) {
-    const mid = clamp(-24, 24, value);
+    const mid = clamp(-12, 12, value);
     this.midSub$.next(mid);
 
     this.midNode.gain.setTargetAtTime(mid, this.currentTime, 0.01);
   }
 
   set treble(value: number) {
-    const treble = clamp(-24, 24, value);
+    const treble = clamp(-12, 12, value);
     this.trebleSub$.next(treble);
 
     this.trebleNode.gain.setTargetAtTime(treble, this.currentTime, 0.01);
@@ -93,7 +93,7 @@ export class Cabinet extends Effect<CabinetSettings> {
 
     this.midNode = new BiquadFilterNode(context, {
       type: 'peaking',
-      Q: 0.5,
+      Q: Math.SQRT1_2,
       frequency: 1000,
       gain: 0
     });
@@ -134,13 +134,8 @@ export class Cabinet extends Effect<CabinetSettings> {
 
     buffer$.subscribe(buffer => {
       this.convolver.buffer = buffer;
+      this.convolver.connect(this.makeUpGain);
     });
-
-    this.toggleBypass();
-
-    this.convolver.connect(this.makeUpGain);
-
-    this.toggleBypass();
   }
 
   dispose() {
