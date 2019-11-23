@@ -18,7 +18,7 @@ export const curves = {
   },
   // A nonlinearity by Partice Tarrabia and Bram de Jong.
   driver(amount: number, curve: Float32Array, n: number) {
-    const k = amount * 100;
+    const k = amount * 2000;
 
     for (let i = 0, x; i < n; ++i) {
       x = (i * 2) / n - 1;
