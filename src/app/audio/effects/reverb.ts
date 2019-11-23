@@ -82,13 +82,7 @@ export class Reverb extends Effect<ReverbSettings> {
     this.wet = new GainNode(context);
     this.dry = new GainNode(context);
     this.merger = new ChannelMergerNode(context);
-    this.makeUpGain = new GainNode(context, {
-      gain: convolverMakeUp
-    });
-
-    buffer$.subscribe(buffer => {
-      this.convolver.buffer = buffer;
-    });
+    this.makeUpGain = new GainNode(context);
 
     this.processor = [
       this.splitter,
@@ -104,6 +98,7 @@ export class Reverb extends Effect<ReverbSettings> {
     this.splitter.connect(this.dry).connect(this.merger, 0, 1);
 
     this.applyDefaults();
+    this.updateConvolver(buffer$, convolverMakeUp, this.type);
   }
 
   updateConvolver(
@@ -111,25 +106,15 @@ export class Reverb extends Effect<ReverbSettings> {
     makeUpGain: number,
     type: string
   ) {
-    const lastToneNode = this.toneNode.nodes[this.toneNode.nodes.length - 1];
-
-    lastToneNode.disconnect();
     this.convolver.disconnect();
-
     this.convolver.buffer = null;
     this.type = type;
+    this.makeUpGain.gain.value = makeUpGain;
 
     buffer$.subscribe(buffer => {
       this.convolver.buffer = buffer;
+      this.convolver.connect(this.wet);
     });
-
-    this.toggleBypass();
-
-    lastToneNode.connect(this.convolver);
-    this.convolver.connect(this.wet);
-    this.makeUpGain.gain.value = makeUpGain;
-
-    this.toggleBypass();
   }
 
   dispose() {
