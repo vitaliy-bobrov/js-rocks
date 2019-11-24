@@ -3,29 +3,6 @@
   --muff-color: #8c161e;
   display: block;
 
-  &:hover {
-    .remove {
-      transform: translate(20px, -20px);
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-
-  .remove {
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity .2s linear;
-
-    &:focus {
-      transform: translate(20px, -20px);
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-
   .pedal-layout {
     display: grid;
     grid-template-areas: 'controls' 'name' 'switch';
@@ -35,9 +12,10 @@
 
   .controls {
     display: grid;
-    grid-template-areas: 'vol  .    sustain'
-                         'vol  tone sustain'
-                         '.    tone .      ';
+    grid-template-areas:
+      'vol  .    sustain'
+      'vol  tone sustain'
+      '.    tone .      ';
     text-align: center;
     padding: 18px 6px 0;
 
@@ -48,7 +26,7 @@
       right: 6px;
       bottom: 6px;
       left: 6px;
-      border-radius: .25em;
+      border-radius: 0.25em;
       border: 2px solid #000;
       z-index: 0;
     }
@@ -78,19 +56,16 @@
     line-height: 24px;
     font-family: 'Rationale', 'Roboto', sans-serif;
     text-align: center;
-    text-shadow: 1px 1px var(--muff-color),
-      -1px -1px var(--muff-color),
-      -1px 1px var(--muff-color),
-      1px -1px var(--muff-color),
-      -2px 1px var(--muff-color),
-      -3px 2px var(--muff-color),
+    text-shadow: 1px 1px var(--muff-color), -1px -1px var(--muff-color),
+      -1px 1px var(--muff-color), 1px -1px var(--muff-color),
+      -2px 1px var(--muff-color), -3px 2px var(--muff-color),
       -2px 3px var(--muff-color);
   }
 
   .switch {
     grid-area: switch;
     margin: 0 6px 6px;
-    border-radius: 0 0 .25em .25em;
+    border-radius: 0 0 0.25em 0.25em;
     position: relative;
     --stompbox-bg: #222;
 

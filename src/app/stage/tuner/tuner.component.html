@@ -1,4 +1,9 @@
-<jsr-stompbox #drag cdkDrag cdkDragRootElement=".pedal">
+<jsr-stompbox
+  #drag
+  cdkDrag
+  cdkDragRootElement=".pedal"
+  (remove)="remove.emit()"
+>
   <div class="pedal-layout">
     <div class="controls">
       <p class="led-label">check</p>
@@ -15,16 +20,5 @@
       (switch)="effect.toggleBypass()"
     ></jsr-large-switch>
   </div>
-
-  <button
-    type="button"
-    aria-label="Remove effect"
-    class="remove"
-    mat-mini-fab
-    color="warn"
-    (click)="remove.emit()"
-  >
-    <mat-icon>&#xe872;</mat-icon>
-  </button>
   <div *cdkDragPlaceholder></div>
 </jsr-stompbox>

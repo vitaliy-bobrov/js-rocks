@@ -3,5 +3,14 @@
 
   <div class="input jack"></div>
   <div class="output jack"></div>
+  <button
+    type="button"
+    aria-label="Remove effect"
+    class="remove"
+    mat-mini-fab
+    color="warn"
+    (click)="remove.emit()"
+  >
+    <mat-icon>&#xe872;</mat-icon>
+  </button>
 </div>
-

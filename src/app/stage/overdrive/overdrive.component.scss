@@ -2,29 +2,6 @@
   --stompbox-bg: #f7ce5c;
   display: block;
 
-  &:hover {
-    .remove {
-      transform: translate(20px, -20px);
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-
-  .remove {
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity .2s linear;
-
-    &:focus {
-      transform: translate(20px, -20px);
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-
   .pedal-layout {
     display: grid;
     grid-template-areas: 'controls' 'switch';
@@ -34,10 +11,11 @@
 
   .controls {
     display: grid;
-    grid-template-areas: '.     label    .'
-                         'level led   drive'
-                         'level .     drive'
-                         'level tone  drive';
+    grid-template-areas:
+      '.     label    .'
+      'level led   drive'
+      'level .     drive'
+      'level tone  drive';
     text-align: center;
     padding: 0 6px;
   }

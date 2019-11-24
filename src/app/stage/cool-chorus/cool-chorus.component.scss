@@ -3,29 +3,6 @@
   --stompbox-label: #e6eef7;
   display: block;
 
-  &:hover {
-    .remove {
-      transform: translate(20px, -20px);
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-
-  .remove {
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity .2s linear;
-
-    &:focus {
-      transform: translate(20px, -20px);
-      opacity: 1;
-      z-index: 1;
-    }
-  }
-
   .pedal-layout {
     display: grid;
     grid-template-areas: 'controls' 'switch';
@@ -35,9 +12,10 @@
 
   .controls {
     display: grid;
-    grid-template-areas: '.     label  label .    '
-                         '.     led    led   .    '
-                         'level eq     rate  depth';
+    grid-template-areas:
+      '.     label  label .    '
+      '.     led    led   .    '
+      'level eq     rate  depth';
     grid-auto-columns: 1fr;
     text-align: center;
     padding: 4px 6px 0;
@@ -50,7 +28,7 @@
       right: 6px;
       bottom: 4px;
       left: 6px;
-      border-radius: .25em;
+      border-radius: 0.25em;
       background-color: #18373c;
       z-index: 0;
     }

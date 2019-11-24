@@ -1,6 +1,6 @@
 import { AudioContext, AnalyserNode } from 'standardized-audio-context';
 import { BehaviorSubject, interval } from 'rxjs';
-import { tap, takeUntil, takeWhile } from 'rxjs/operators';
+import { tap, takeWhile } from 'rxjs/operators';
 import { Effect } from './effect';
 import { Active } from '@audio/interfaces/active.interface';
 import { Note, notes } from '@audio/notes';

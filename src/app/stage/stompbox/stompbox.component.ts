@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'jsr-stompbox',
@@ -6,4 +11,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./stompbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StompboxComponent {}
+export class StompboxComponent {
+  @Output()
+  remove = new EventEmitter<void>();
+}
