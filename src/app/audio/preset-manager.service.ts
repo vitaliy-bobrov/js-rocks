@@ -34,28 +34,7 @@ export class PresetManagerService {
         active: true
       }
     },
-    pedals: [
-      {
-        model: 'jcp-1',
-        params: null
-      },
-      {
-        model: 'jbd-2',
-        params: null
-      },
-      {
-        model: 'jch-1',
-        params: null
-      },
-      {
-        model: 'jtr-2',
-        params: null
-      },
-      {
-        model: 'jrv-6',
-        params: null
-      }
-    ]
+    pedals: []
   };
 
   generatePresetId() {
