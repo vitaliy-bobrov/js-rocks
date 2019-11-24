@@ -1,6 +1,5 @@
 import {
   AudioContext,
-  IAudioNode,
   IIRFilterNode,
   GainNode,
   BiquadFilterNode,
@@ -37,7 +36,7 @@ export class StandardTone implements Disposable {
 
   constructor(
     context: AudioContext,
-    private range: [number, number] = [350, 12000]
+    private range: [number, number] = [350, 10000]
   ) {
     this.filter = new BiquadFilterNode(context, {
       type: 'lowpass',

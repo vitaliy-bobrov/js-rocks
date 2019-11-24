@@ -33,10 +33,10 @@ export interface DistortionInfo extends EffectInfo {
 export class Distortion extends Effect<DistortionSettings> {
   private static defaultTunings: DistortionTuningOptions = {
     curveType: 'driver',
-    preFilterRange: [350, 12000],
+    preFilterRange: [350, 10000],
     toneControlType: 'standard',
-    toneRange: [350, 12000],
-    postFilter: 12000
+    toneRange: [350, 10000],
+    postFilter: 10000
   };
 
   private tunings: DistortionTuningOptions;

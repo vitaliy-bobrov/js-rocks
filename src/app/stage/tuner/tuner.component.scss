@@ -1,0 +1,58 @@
+:host {
+  --stompbox-bg: #eef0e5;
+  --stompbox-label: #f02d02;
+  display: block;
+
+  &:hover {
+    .remove {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.2s linear;
+
+    &:focus {
+      transform: translate(20px, -20px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'switch';
+    grid-template-rows: 1fr 65%;
+    height: 100%;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-areas: '.     led label';
+    text-align: center;
+    padding: 0 6px;
+  }
+
+  .led-label {
+    grid-area: label;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 3px 0 0;
+  }
+
+  jsr-led {
+    grid-area: led;
+    justify-self: center;
+  }
+
+  .switch {
+    grid-area: switch;
+  }
+}

@@ -37,8 +37,14 @@ import { MetalAreaComponent } from '../metal-area/metal-area.component';
 import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
 import { MassiveMuffPiComponent } from '../massive-muff-pi/massive-muff-pi.component';
 import { TremoloComponent } from '../tremolo/tremolo.component';
+import { TunerComponent } from '../tuner/tuner.component';
 
 const componentMapping = {
+  'jtu-3': {
+    symbol: TunerComponent,
+    name: 'Tuner',
+    model: 'JTU-3'
+  },
   'jcp-1': {
     symbol: LemonSqueezeComponent,
     name: 'Lemon Squeeze',

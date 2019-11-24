@@ -32,6 +32,7 @@ import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
 import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.component';
 import { SmallSwitchComponent } from './small-switch/small-switch.component';
 import { TremoloComponent } from './tremolo/tremolo.component';
+import { TunerComponent } from './tuner/tuner.component';
 
 const pedals = [
   BluesDriverComponent,
@@ -42,7 +43,8 @@ const pedals = [
   MetalAreaComponent,
   OverdriveComponent,
   ReverbComponent,
-  TremoloComponent
+  TremoloComponent,
+  TunerComponent
 ];
 
 @NgModule({
@@ -59,10 +61,7 @@ const pedals = [
     PresetNameDialogComponent,
     ...pedals
   ],
-  entryComponents: [
-    PresetNameDialogComponent,
-    ...pedals
-  ],
+  entryComponents: [PresetNameDialogComponent, ...pedals],
   imports: [
     A11yModule,
     AudioModule,

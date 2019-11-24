@@ -1,0 +1,30 @@
+<jsr-stompbox #drag cdkDrag cdkDragRootElement=".pedal">
+  <div class="pedal-layout">
+    <div class="controls">
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+    </div>
+
+    <jsr-large-switch
+      center
+      xl-label
+      class="switch"
+      name="Tuner"
+      [active]="effect.active$ | async"
+      [model]="effect.model"
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
+  </div>
+
+  <button
+    type="button"
+    aria-label="Remove effect"
+    class="remove"
+    mat-mini-fab
+    color="warn"
+    (click)="remove.emit()"
+  >
+    <mat-icon>&#xe872;</mat-icon>
+  </button>
+  <div *cdkDragPlaceholder></div>
+</jsr-stompbox>
