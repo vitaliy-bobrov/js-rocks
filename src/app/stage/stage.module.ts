@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { StageRoutingModule } from './stage-routing.module';
@@ -75,6 +76,7 @@ const pedals = [
     MatInputModule,
     MatMenuModule,
     MatTooltipModule,
+    MatSnackBarModule,
     StageRoutingModule
   ]
 })
