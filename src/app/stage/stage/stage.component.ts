@@ -38,6 +38,7 @@ import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
 import { MassiveMuffPiComponent } from '../massive-muff-pi/massive-muff-pi.component';
 import { TremoloComponent } from '../tremolo/tremolo.component';
 import { TunerComponent } from '../tuner/tuner.component';
+import { MatSnackBar } from '@angular/material';
 
 const componentMapping = {
   // 'jtu-3': {
@@ -124,7 +125,8 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     public dialog: MatDialog,
     private manager: AudioContextManager,
     private presetsManager: PresetManagerService,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private snackBar: MatSnackBar
   ) {
     this.savePreset = this.savePreset.bind(this);
   }
@@ -213,12 +215,14 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     if (this.selectedPresetId) {
       preset.id = this.selectedPresetId;
       this.presetsManager.updatePreset(preset);
+      this.showToastNotification('Preset updated successfully!');
     } else {
       const result = this.presetsManager.addPreset(preset, name);
       this.presets = result.presets;
       this.selectedPresetId = result.id;
       this.presetsManager.setCurrentPreset(result.id);
       this.updatePresetsKeyMap();
+      this.showToastNotification('New preset added successfully!');
     }
   }
 
@@ -227,6 +231,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.presetsManager.setCurrentPreset('');
     this.updatePresetsKeyMap();
     this.afterConfigChange();
+    this.showToastNotification('Preset deleted successfully!');
   }
 
   blankPreset() {
@@ -251,6 +256,10 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.pedals.push(pedal);
     this.createPedal(pedal);
     this.config.pedals.push(pedalInfo);
+  }
+
+  private showToastNotification(notificationMessage: string) {
+    this.snackBar.open(notificationMessage, '', { duration: 2500 });
   }
 
   private removePedal(pedalViewRef: ViewRef) {
