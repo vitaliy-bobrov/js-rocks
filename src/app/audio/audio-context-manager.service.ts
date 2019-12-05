@@ -28,7 +28,9 @@ export class AudioContextManager {
   }
 
   constructor() {
-    this.context = new AudioContext();
+    this.context = new AudioContext({
+      latencyHint: 'interactive'
+    });
     this.masterGain = new GainNode(this.context);
     this.masterGain.connect(this.context.destination);
     this.masterSub$.next(1);
