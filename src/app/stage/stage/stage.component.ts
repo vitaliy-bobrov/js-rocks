@@ -41,11 +41,11 @@ import { TunerComponent } from '../tuner/tuner.component';
 import { MatSnackBar } from '@angular/material';
 
 const componentMapping = {
-  // 'jtu-3': {
-  //   symbol: TunerComponent,
-  //   name: 'Tuner',
-  //   model: 'JTU-3'
-  // },
+  'jtu-3': {
+    symbol: TunerComponent,
+    name: 'Tuner',
+    model: 'JTU-3'
+  },
   'jcp-1': {
     symbol: LemonSqueezeComponent,
     name: 'Lemon Squeeze',
@@ -258,10 +258,6 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.config.pedals.push(pedalInfo);
   }
 
-  private showToastNotification(notificationMessage: string) {
-    this.snackBar.open(notificationMessage, '', { duration: 2500 });
-  }
-
   private removePedal(pedalViewRef: ViewRef) {
     const viewContainerRef = this.pedalBoard.viewContainerRef;
     const index = viewContainerRef.indexOf(pedalViewRef);
@@ -317,5 +313,9 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       },
       ['']
     );
+  }
+
+  private showToastNotification(notificationMessage: string) {
+    this.snackBar.open(notificationMessage);
   }
 }
