@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 
 import { StompboxComponent } from './stompbox.component';
 
@@ -8,9 +9,9 @@ describe('StompboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StompboxComponent ]
-    })
-    .compileComponents();
+      imports: [MatIconModule],
+      declarations: [StompboxComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
