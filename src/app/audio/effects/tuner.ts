@@ -68,6 +68,7 @@ export class Tuner extends Effect<Active> {
       this.noteSub$.next(note);
       this.centsSub$.next(cents);
       console.log(note);
+      console.log(cents);
     } else {
       this.noteSub$.next(null);
       this.centsSub$.next(null);

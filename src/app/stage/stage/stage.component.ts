@@ -40,11 +40,11 @@ import { TremoloComponent } from '../tremolo/tremolo.component';
 import { TunerComponent } from '../tuner/tuner.component';
 
 const componentMapping = {
-  'jtu-3': {
-    symbol: TunerComponent,
-    name: 'Tuner',
-    model: 'JTU-3'
-  },
+  // 'jtu-3': {
+  //   symbol: TunerComponent,
+  //   name: 'Tuner',
+  //   model: 'JTU-3'
+  // },
   'jcp-1': {
     symbol: LemonSqueezeComponent,
     name: 'Lemon Squeeze',
