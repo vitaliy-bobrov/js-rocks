@@ -102,7 +102,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   isLinePlugged = false;
   config: Preset;
   selectedPresetId: string;
-  presets: PresetInfo[];
+  presets: PresetInfo[] = [];
   availablePedals: PedalDescriptor[] = Object.keys(componentMapping).map(
     key => ({
       id: key,
