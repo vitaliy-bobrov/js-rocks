@@ -24,7 +24,7 @@
     aria-label="Presets"
     mat-icon-button
     matTooltip="Presets"
-    matBadge="{{ presets.length }}"
+    [matBadge]="presets.length | number"
     matBadgeColor="accent"
     [matBadgeHidden]="!presets.length"
     [matMenuTriggerFor]="appMenu"
