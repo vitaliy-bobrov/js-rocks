@@ -24,12 +24,15 @@
     aria-label="Presets"
     mat-icon-button
     matTooltip="Presets"
-    [matBadge]="presets.length | number"
-    matBadgeColor="accent"
-    [matBadgeHidden]="!presets.length"
     [matMenuTriggerFor]="appMenu"
   >
-    <mat-icon>&#xe896;</mat-icon>
+    <mat-icon
+      [matBadge]="presets.length | number"
+      matBadgeColor="accent"
+      matBadgePosition="before"
+      [matBadgeHidden]="!presets.length"
+      >&#xe896;</mat-icon
+    >
   </button>
 
   <button
