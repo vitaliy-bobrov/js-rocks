@@ -112,7 +112,7 @@ export class Tuner extends Effect<Active> {
     }
 
     // Frequency identified in kHz
-    return period ? this.sampleRate / (period * 2) : -1;
+    return period ? this.sampleRate / period : -1;
   }
 
   private findClosestNote(freq: number) {
