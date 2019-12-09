@@ -107,6 +107,7 @@ export abstract class Effect<D extends Active> implements Disposable {
     this.output = null;
     this.context = null;
     this.activeSub$.complete();
+    this.isBypassEnabled = true;
   }
 
   takeSnapshot(): EffectInfo {

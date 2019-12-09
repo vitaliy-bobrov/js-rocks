@@ -1,5 +1,5 @@
 import { AudioContext, AnalyserNode } from 'standardized-audio-context';
-import { BehaviorSubject, interval } from 'rxjs';
+import { BehaviorSubject, interval, animationFrameScheduler } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 import { Effect } from './effect';
 import { Active } from '@audio/interfaces/active.interface';
@@ -38,7 +38,7 @@ export class Tuner extends Effect<Active> {
       this.noteSub$.next(null);
       this.centsSub$.next(null);
     } else {
-      interval(100)
+      interval(null, animationFrameScheduler)
         .pipe(
           tap(this.detectPitch),
           takeWhile(() => !this.isBypassEnabled)
@@ -57,7 +57,7 @@ export class Tuner extends Effect<Active> {
   }
 
   private detectPitch() {
-    const buffer = new Uint8Array(this.analyserNode.fftSize);
+    const buffer = new Uint8Array(this.analyserNode.frequencyBinCount);
     this.analyserNode.getByteTimeDomainData(buffer);
 
     const fundamentalFreq = this.findFundamentalFreq(buffer);
@@ -80,38 +80,39 @@ export class Tuner extends Effect<Active> {
    * https://en.wikipedia.org/wiki/Autocorrelation
    */
   private findFundamentalFreq(buffer: Uint8Array) {
-    const n = 1024;
-    let bestK = -1;
-    let bestR = 0;
+    const len = 250;
+    let sum = 0;
+    let prevSum = 0;
+    let state = 0;
+    let period = 0;
+    let thresh = 0;
 
-    for (let k = 8; k <= 1000; k++) {
-      let sum = 0;
+    for (let i = 0; i <= len; i++) {
+      prevSum = sum;
+      sum = 0;
 
-      for (let i = 0; i < n; i++) {
-        sum += ((buffer[i] - 128) / 128) * ((buffer[i + k] - 128) / 128);
+      for (let k = 0; k < len - i; k++) {
+        sum += ((buffer[k] - 128) * (buffer[i + k] - 128)) / 256;
       }
 
-      const r = sum / (n + k);
-
-      if (r > bestR) {
-        bestR = r;
-        bestK = k;
-      }
-
-      if (r > 0.9) {
-        // Let's assume that this is good enough and stop right here
+      // Peak Detect State Machine
+      if (state === 2 && sum - prevSum <= 0) {
+        period = i;
         break;
       }
+
+      if (state === 1 && sum > thresh && sum - prevSum > 0) {
+        state = 2;
+      }
+
+      if (!i) {
+        thresh = sum / 2;
+        state = 1;
+      }
     }
 
-    if (bestR > 0.0025) {
-      // The period (in frames) of the fundamental frequency is 'bestK'.
-      // Getting the frequency from there is trivial.
-      return this.sampleRate / bestK;
-    } else {
-      // We haven't found a good correlation
-      return -1;
-    }
+    // Frequency identified in kHz
+    return period ? this.sampleRate / (period * 2) : -1;
   }
 
   private findClosestNote(freq: number) {
