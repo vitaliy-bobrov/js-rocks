@@ -1,8 +1,4 @@
-export interface Note {
-  symbol: string;
-  frequency: number;
-  octave: number;
-}
+import { Note } from './tuner.interface';
 
 export const notes: Note[] = [
   {

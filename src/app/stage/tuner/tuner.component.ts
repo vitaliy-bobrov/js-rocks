@@ -11,7 +11,7 @@ import {
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { PedalComponent } from '../pedal.interface';
 import { Active } from '@audio/interfaces/active.interface';
-import { Tuner } from '@audio/effects/tuner';
+import { Tuner } from '@audio/effects/tuner/tuner';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 
 @Component({
