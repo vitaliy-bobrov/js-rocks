@@ -6,8 +6,5 @@
   "angularCompilerOptions": {
     "enableIvy": true
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["test.ts", "**/*.spec.ts", "**/*.worker.ts"]
 }
