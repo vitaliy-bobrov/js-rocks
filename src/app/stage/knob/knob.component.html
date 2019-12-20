@@ -1,6 +1,6 @@
 <label>
   <ng-container *ngIf="labelPosition === 'top'">
-    {{label}}
+    {{ label }}
   </ng-container>
 
   <input
@@ -11,16 +11,16 @@
     [max]="max | string"
     [step]="step | string"
     [value]="value | string"
-    (change)="onValueChange($event)">
+    (change)="onValueChange($event)"
+  />
 
   <div
     #knob
     class="knob"
-    [matTooltip]="value | valueLabel:units:showValueSign"
+    [matTooltip]="value | valueLabel: units:showValueSign"
     [matTooltipPosition]="labelPosition === 'top' ? 'above' : 'below'"
     [matTooltipShowDelay]="100"
-    (mousedown)="addRotateListener($event)"
-    (touchstart)="addRotateListener($event)">
+  >
     <div class="knob-focus"></div>
     <div class="dot">
       <div class="center-dot"></div>
@@ -28,7 +28,6 @@
   </div>
 
   <ng-container *ngIf="labelPosition === 'bottom'">
-    {{label}}
+    {{ label }}
   </ng-container>
 </label>
-

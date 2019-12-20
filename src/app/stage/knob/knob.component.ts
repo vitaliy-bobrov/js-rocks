@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ChangeDetectionStrategy,
   Input,
@@ -10,10 +11,15 @@ import {
   ElementRef,
   OnInit,
   SimpleChanges,
-  OnChanges
+  OnChanges,
+  Inject,
+  OnDestroy
 } from '@angular/core';
-import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
+import { DOCUMENT } from '@angular/common';
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
+import { switchMapTo, takeUntil, filter, tap } from 'rxjs/operators';
+import { Subject, fromEvent } from 'rxjs';
+import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
 
 @Component({
   selector: 'jsr-knob',
@@ -21,37 +27,68 @@ import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
   styleUrls: ['./knob.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class KnobComponent implements OnInit, OnChanges {
+export class KnobComponent
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @HostBinding('attr.tabindex')
   tabIndex = '0';
 
+  /**
+   * Label used for the knob.
+   */
   @Input()
   label = 'Knob';
 
+  /**
+   * Label position - 'top' or 'bottom'.
+   */
   @Input()
   labelPosition: 'top' | 'bottom' = 'bottom';
 
+  /**
+   * Units used for value in tooltip.
+   */
   @Input()
   units = '';
 
+  /**
+   * Whether tooltip should show +/- sign for value.
+   */
   @Input()
   showValueSign = false;
 
+  /**
+   * Minimum value.
+   */
   @Input()
   min = 0;
 
+  /**
+   * Maximum value.
+   */
   @Input()
   max = 1;
 
+  /**
+   * Value change step.
+   */
   @Input()
   step = 0.01;
 
+  /**
+   * Knob value.
+   */
   @Input()
   value = 0;
 
+  /**
+   * Minimum value knob degree [0, 360].
+   */
   @Input()
   startDegree = -135;
 
+  /**
+   * Maximum value knob degree [0, 360].
+   */
   @Input()
   endDegree = 135;
 
@@ -64,22 +101,71 @@ export class KnobComponent implements OnInit, OnChanges {
   @ViewChild('knob', { static: true })
   knob: ElementRef;
 
+  private destroy$ = new Subject<void>();
   private lashUpdate = 0;
   private center: Point;
 
-  constructor(private element: ElementRef) {
+  constructor(
+    private element: ElementRef,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+    this.updateKnobPosition = this.updateKnobPosition.bind(this);
     this.rotateHandler = this.rotateHandler.bind(this);
-    this.removeRotateListener = this.removeRotateListener.bind(this);
   }
 
   ngOnInit() {
     this.updateKnobPointer(clamp(this.min, this.max, this.value));
   }
 
+  ngAfterViewInit() {
+    const mousedown$ = fromEvent<MouseEvent>(
+      this.knob.nativeElement,
+      'mousedown'
+    );
+    const mousemove$ = fromEvent<MouseEvent>(this.document, 'mousemove');
+    const mouseup$ = fromEvent<MouseEvent>(this.document, 'mouseup');
+
+    mousedown$
+      .pipe(
+        // Only handling clicks with the left mouse button.
+        filter(event => event.button === 0),
+        tap(this.updateKnobPosition),
+        switchMapTo(
+          mousemove$.pipe(tap(this.rotateHandler), takeUntil(mouseup$))
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+
+    // Check for touch capabilities.
+    if (this.document.defaultView.window.navigator.maxTouchPoints) {
+      const touchstart$ = fromEvent<MouseEvent>(
+        this.knob.nativeElement,
+        'touchstart'
+      );
+      const touchmove$ = fromEvent<MouseEvent>(this.document, 'touchmove');
+      const touchend$ = fromEvent<MouseEvent>(this.document, 'touchend');
+
+      touchstart$
+        .pipe(
+          tap(this.updateKnobPosition),
+          switchMapTo(
+            touchmove$.pipe(tap(this.rotateHandler), takeUntil(touchend$))
+          ),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if ('value' in changes && !changes.value.firstChange) {
       this.updateKnobPointer(clamp(this.min, this.max, this.value));
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
   }
 
   @HostListener('focus')
@@ -108,16 +194,7 @@ export class KnobComponent implements OnInit, OnChanges {
     this.updateValue(updatedValue);
   }
 
-  addRotateListener(event: MouseEvent | TouchEvent) {
-    // Only handling clicks with the left mouse button.
-    if (event.type === 'mousedown' && (event as MouseEvent).button !== 0) {
-      return;
-    }
-
-    const isTouch = event.type === 'touchstart';
-    const updateEvent = isTouch ? 'touchmove' : 'mousemove';
-    const endEvent = isTouch ? 'touchend' : 'mouseup';
-
+  updateKnobPosition(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -127,9 +204,6 @@ export class KnobComponent implements OnInit, OnChanges {
       x: window.scrollX + knobRect.left + knobRect.width / 2,
       y: window.scrollY + knobRect.top + knobRect.height / 2
     };
-
-    this.knob.nativeElement.addEventListener(updateEvent, this.rotateHandler);
-    document.addEventListener(endEvent, this.removeRotateListener);
   }
 
   rotateHandler(event: MouseEvent | TouchEvent) {
@@ -170,21 +244,6 @@ export class KnobComponent implements OnInit, OnChanges {
     const value = mapToMinMax(percent, this.min, this.max);
 
     this.updateValue(value);
-  }
-
-  removeRotateListener(event: MouseEvent | TouchEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    const isTouch = event.type === 'touchend';
-    const updateEvent = isTouch ? 'touchmove' : 'mousemove';
-    const endEvent = isTouch ? 'touchend' : 'mouseup';
-
-    this.knob.nativeElement.removeEventListener(
-      updateEvent,
-      this.rotateHandler
-    );
-    document.removeEventListener(endEvent, this.removeRotateListener);
   }
 
   onValueChange(event: Event) {
