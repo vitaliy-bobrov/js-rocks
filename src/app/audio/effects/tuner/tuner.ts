@@ -1,4 +1,8 @@
-import { AudioContext, AnalyserNode } from 'standardized-audio-context';
+import {
+  AudioContext,
+  AnalyserNode,
+  BiquadFilterNode
+} from 'standardized-audio-context';
 import { BehaviorSubject, interval } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 import { Effect } from '../effect';
@@ -8,6 +12,7 @@ import { Note, TunerResponseMessage } from './tuner.interface';
 
 export class Tuner extends Effect<Active> {
   private worker: Worker;
+  private preHPFilter: BiquadFilterNode<AudioContext>;
   private analyserNode: AnalyserNode<AudioContext>;
   private noteSub$ = new BehaviorSubject<Note>(null);
   private centsSub$ = new BehaviorSubject<number>(null);
@@ -22,11 +27,17 @@ export class Tuner extends Effect<Active> {
   ) {
     super(context, model);
 
+    this.preHPFilter = new BiquadFilterNode(context, {
+      type: 'highpass',
+      Q: Math.SQRT1_2,
+      frequency: 20
+    });
+
     this.analyserNode = new AnalyserNode(context, {
       fftSize: 4096
     });
 
-    this.processor = [this.analyserNode];
+    this.processor = [this.preHPFilter, this.analyserNode];
     connectNodes(this.processor);
     this.applyDefaults();
 
@@ -59,6 +70,8 @@ export class Tuner extends Effect<Active> {
     super.dispose();
 
     this.worker.terminate();
+    this.preHPFilter.disconnect();
+    this.preHPFilter = null;
     this.analyserNode.disconnect();
     this.analyserNode = null;
     this.noteSub$.complete();
