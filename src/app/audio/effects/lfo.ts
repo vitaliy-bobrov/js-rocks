@@ -1,5 +1,6 @@
 import {
   AudioContext,
+  ConstantSourceNode,
   OscillatorNode,
   GainNode,
   IAudioNode,
@@ -19,8 +20,9 @@ export class LFO implements Disposable {
     'sawtooth',
     'triangle'
   ]);
+  private offsetNode: ConstantSourceNode<AudioContext>;
+  private rangeNode: GainNode<AudioContext>;
   private osc: OscillatorNode<AudioContext>;
-  private sumNode: GainNode<AudioContext>;
   private depthNode: GainNode<AudioContext>;
 
   private get currentTime() {
@@ -55,10 +57,17 @@ export class LFO implements Disposable {
       type: LFO.isAllowedType(type) ? (type as TOscillatorType) : undefined,
       frequency: 0.5
     });
-    this.sumNode = new GainNode(context, { gain: -1 });
+
+    // Add one to the output signals, making the range [0, 2].
+    this.offsetNode = new ConstantSourceNode(context, { offset: 1 });
+
+    // Divide the result by 2, making the range [0, 1].
+    this.rangeNode = new GainNode(context, { gain: 0.5 });
     this.depthNode = new GainNode(context);
 
-    this.osc.connect(this.sumNode).connect(this.depthNode);
+    // Map the oscillator's output range from [-1, 1] to [0, 1].
+    this.osc.connect(this.offsetNode.offset as any);
+    this.offsetNode.connect(this.rangeNode).connect(this.depthNode);
   }
 
   connect(node: IAudioNode<AudioContext> | IAudioParam) {
@@ -69,11 +78,13 @@ export class LFO implements Disposable {
   dispose() {
     this.osc.stop();
     this.osc.disconnect();
-    this.sumNode.disconnect();
+    this.rangeNode.disconnect();
+    this.offsetNode.disconnect();
     this.depthNode.disconnect();
 
     this.osc = null;
-    this.sumNode = null;
+    this.rangeNode = null;
+    this.offsetNode = null;
     this.depthNode = null;
   }
 
