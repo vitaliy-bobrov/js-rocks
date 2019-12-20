@@ -6,6 +6,7 @@ import { TunerRequestMessage, TunerResponse } from './tuner.interface';
 /**
  * Returns closes fundamental frequency using autocorrelation.
  * https://en.wikipedia.org/wiki/Autocorrelation
+ * http://www.akellyirl.com/reliable-frequency-detection-using-dsp-techniques/
  */
 function findFundamentalFreq(buffer: Uint8Array, sampleRate: number) {
   const len = buffer.length;
