@@ -1,11 +1,11 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
+  OnDestroy,
+  OnInit,
+  Output,
   ViewChild
 } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';

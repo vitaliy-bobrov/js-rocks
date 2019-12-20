@@ -1,24 +1,24 @@
 import {
   AfterViewInit,
-  Component,
   ChangeDetectionStrategy,
-  Input,
-  Output,
+  Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   HostListener,
-  ViewChild,
-  ElementRef,
-  OnInit,
-  SimpleChanges,
-  OnChanges,
   Inject,
-  OnDestroy
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { switchMapTo, takeUntil, filter, tap } from 'rxjs/operators';
-import { Subject, fromEvent } from 'rxjs';
+import { filter, switchMapTo, takeUntil, tap } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
 import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
 
 @Component({

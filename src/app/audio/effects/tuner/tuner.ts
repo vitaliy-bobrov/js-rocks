@@ -1,10 +1,10 @@
 import {
-  AudioContext,
   AnalyserNode,
+  AudioContext,
   BiquadFilterNode
 } from 'standardized-audio-context';
 import { BehaviorSubject, interval } from 'rxjs';
-import { tap, takeWhile } from 'rxjs/operators';
+import { takeWhile, tap } from 'rxjs/operators';
 import { Effect } from '../effect';
 import { Active } from '@audio/interfaces/active.interface';
 import { connectNodes } from '@shared/utils';
