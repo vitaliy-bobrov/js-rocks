@@ -60,7 +60,7 @@ export class LFO implements Disposable {
 
     // Add one to the output signals, making the range [0, 2].
     this.offsetNode = new ConstantSourceNode(context, { offset: 1 });
-
+    this.offsetNode.start();
     // Divide the result by 2, making the range [0, 1].
     this.rangeNode = new GainNode(context, { gain: 0.5 });
     this.depthNode = new GainNode(context);
@@ -79,6 +79,7 @@ export class LFO implements Disposable {
     this.osc.stop();
     this.osc.disconnect();
     this.rangeNode.disconnect();
+    this.offsetNode.stop();
     this.offsetNode.disconnect();
     this.depthNode.disconnect();
 
