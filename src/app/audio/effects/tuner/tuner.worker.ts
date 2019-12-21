@@ -1,7 +1,23 @@
 /// <reference lib="webworker" />
 
-import { notes } from './notes';
 import { TunerRequestMessage, TunerResponse } from './tuner.interface';
+
+const middleA = 440;
+const semitone = 69;
+const noteStrings = [
+  'C',
+  'C♯',
+  'D',
+  'D♯',
+  'E',
+  'F',
+  'F♯',
+  'G',
+  'G♯',
+  'A',
+  'A♯',
+  'B'
+];
 
 /**
  * Returns closes fundamental frequency using autocorrelation.
@@ -44,31 +60,24 @@ function findFundamentalFreq(buffer: Uint8Array, sampleRate: number) {
   return period ? sampleRate / period : -1;
 }
 
-function findClosestNote(freq: number) {
-  // Use binary search to find the closest note
-  let low = 0;
-  let high = notes.length - 1;
-
-  while (high - low > 1) {
-    const pivot = Math.round((low + high) / 2);
-    if (notes[pivot].frequency <= freq) {
-      low = pivot;
-    } else {
-      high = pivot;
-    }
-  }
-
-  if (
-    Math.abs(notes[high].frequency - freq) <=
-    Math.abs(notes[low].frequency - freq)
-  ) {
-    // notes[high] is closer to the frequency we found
-    return notes[high];
-  }
-
-  return notes[low];
+/**
+ * Finds note index from fundamental frequency.
+ */
+function findNote(frequency: number) {
+  const note = 12 * (Math.log(frequency / middleA) / Math.LN2);
+  return Math.round(note) + semitone;
 }
 
+/**
+ * Returns note standard musical frequency.
+ */
+function getStandardFrequency(note: number) {
+  return middleA * Math.pow(2, (note - semitone) / 12);
+}
+
+/**
+ * Finds cents off standard note frequency pitch.
+ */
 function findCentsOffPitch(freq: number, refFreq: number) {
   // We need to find how far freq is from baseFreq in cents
   const multiplicativeFactor = freq / refFreq;
@@ -85,9 +94,17 @@ addEventListener('message', ({ data }: TunerRequestMessage) => {
   };
 
   if (fundamentalFreq !== -1) {
-    const note = findClosestNote(fundamentalFreq);
-    response.note = note;
-    response.cents = findCentsOffPitch(fundamentalFreq, note.frequency);
+    const note = findNote(fundamentalFreq);
+    const symbol = noteStrings[note % 12];
+    const octave = Math.floor(note / 12) - 1;
+    const frequency = getStandardFrequency(note);
+    console.log(frequency, octave, symbol);
+    response.note = {
+      symbol,
+      frequency,
+      octave
+    };
+    response.cents = findCentsOffPitch(fundamentalFreq, frequency);
   }
 
   postMessage(response);
