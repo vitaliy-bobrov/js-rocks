@@ -9,11 +9,11 @@ import { BitMaskPipe } from './pipes/bit-mask.pipe';
   declarations: [PageActionsComponent, ValueLabelPipe, StringPipe, BitMaskPipe],
   imports: [PortalModule],
   exports: [
+    BitMaskPipe,
     PageActionsComponent,
     PortalModule,
-    ValueLabelPipe,
     StringPipe,
-    BitMaskPipe
+    ValueLabelPipe
   ]
 })
 export class SharedModule {}
