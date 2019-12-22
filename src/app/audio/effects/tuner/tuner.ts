@@ -15,10 +15,8 @@ export class Tuner extends Effect<Active> {
   private preHPFilter: BiquadFilterNode<AudioContext>;
   private analyserNode: AnalyserNode<AudioContext>;
   private noteSub$ = new BehaviorSubject<Note>(null);
-  private centsSub$ = new BehaviorSubject<number>(null);
 
   note$ = this.noteSub$.asObservable();
-  cents$ = this.centsSub$.asObservable();
 
   constructor(
     context: AudioContext,
@@ -44,7 +42,6 @@ export class Tuner extends Effect<Active> {
     this.worker = new Worker('./tuner.worker', { type: 'module' });
     this.worker.onmessage = ({ data }: TunerResponseMessage) => {
       this.noteSub$.next(data.note);
-      this.centsSub$.next(data.cents);
     };
 
     this.detectPitch = this.detectPitch.bind(this);
@@ -55,7 +52,6 @@ export class Tuner extends Effect<Active> {
 
     if (this.isBypassEnabled) {
       this.noteSub$.next(null);
-      this.centsSub$.next(null);
     } else {
       interval(100)
         .pipe(
@@ -75,7 +71,6 @@ export class Tuner extends Effect<Active> {
     this.analyserNode.disconnect();
     this.analyserNode = null;
     this.noteSub$.complete();
-    this.centsSub$.complete();
   }
 
   private detectPitch() {

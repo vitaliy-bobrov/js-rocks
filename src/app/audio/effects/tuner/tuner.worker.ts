@@ -89,8 +89,7 @@ function findCentsOffPitch(freq: number, refFreq: number) {
 addEventListener('message', ({ data }: TunerRequestMessage) => {
   const fundamentalFreq = findFundamentalFreq(data.buffer, data.sampleRate);
   const response: TunerResponse = {
-    note: null,
-    cents: null
+    note: null
   };
 
   if (fundamentalFreq !== -1) {
@@ -98,13 +97,13 @@ addEventListener('message', ({ data }: TunerRequestMessage) => {
     const symbol = noteStrings[note % 12];
     const octave = Math.floor(note / 12) - 1;
     const frequency = getStandardFrequency(note);
-    console.log(frequency, octave, symbol);
+    const cents = findCentsOffPitch(fundamentalFreq, frequency);
     response.note = {
       symbol,
       frequency,
-      octave
+      octave,
+      cents
     };
-    response.cents = findCentsOffPitch(fundamentalFreq, frequency);
   }
 
   postMessage(response);

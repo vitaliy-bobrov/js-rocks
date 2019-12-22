@@ -2,6 +2,7 @@ export interface Note {
   symbol: string;
   frequency: number;
   octave: number;
+  cents: number;
 }
 
 export interface TunerRequest {
@@ -15,7 +16,6 @@ export interface TunerRequestMessage {
 
 export interface TunerResponse {
   note: Note | null;
-  cents: number | null;
 }
 
 export interface TunerResponseMessage {
