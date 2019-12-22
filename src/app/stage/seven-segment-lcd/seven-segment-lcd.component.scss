@@ -1,0 +1,120 @@
+$segment-h-width: 16px;
+$segment-v-width: 12px;
+$segment-height: 4px;
+$segment-corner: 2px;
+$lcd-padding-block: 4px;
+$lcd-padding-inline: 12px;
+$active-color: hsl(345, 99%, 49%);
+$inactive-color: hsl(345, 15%, 16%);
+
+:host {
+  display: block;
+  width: $segment-h-width + ($segment-corner * 2) + ($lcd-padding-inline * 2);
+  height: ($lcd-padding-block * 2) + ($segment-v-width * 2)+ (
+      $segment-corner * 4
+    ) + 8px + $segment-height;
+  background-color: #212121;
+  position: relative;
+
+  .lcd {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: skew(-8deg);
+  }
+
+  .segment {
+    width: $segment-v-width;
+    height: $segment-height;
+    position: absolute;
+    background-color: $inactive-color;
+
+    &.active {
+      background-color: $active-color;
+
+      &:before {
+        border-right-color: $active-color;
+      }
+
+      &:after {
+        border-left-color: $active-color;
+      }
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: $segment-corner solid transparent;
+      border-bottom: $segment-corner solid transparent;
+      position: absolute;
+      top: 0;
+    }
+
+    &:before {
+      left: -$segment-corner;
+      border-right: $segment-corner solid $inactive-color;
+    }
+
+    &:after {
+      left: $segment-v-width;
+      border-left: $segment-corner solid $inactive-color;
+    }
+
+    &-a,
+    &-c,
+    &-d,
+    &-f {
+      transform: rotate(90deg);
+      transform-origin: 0 50%;
+    }
+
+    &-b,
+    &-e,
+    &-g {
+      width: $segment-h-width;
+      left: $lcd-padding-inline + $segment-corner;
+
+      &:after {
+        left: $segment-h-width;
+      }
+    }
+
+    &-b {
+      top: $lcd-padding-block;
+    }
+
+    &-e {
+      top: $lcd-padding-block + $segment-v-width + $segment-height + 4px;
+    }
+
+    &-g {
+      top: $lcd-padding-block + ($segment-v-width * 2) + ($segment-height * 2) +
+        8px;
+    }
+
+    &-a,
+    &-d {
+      left: $lcd-padding-inline;
+    }
+
+    &-a,
+    &-c {
+      top: $lcd-padding-block + $segment-corner + 2px;
+    }
+
+    &-c,
+    &-f {
+      left: $lcd-padding-inline + ($segment-corner * 2) + $segment-h-width;
+    }
+
+    &-d,
+    &-f {
+      top: $lcd-padding-block + ($segment-corner * 3) + $segment-v-width + 6px;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<div class="lcd">
+  <div
+    class="segment segment-a"
+    [class.active]="normalizedSymbol | bitMask: segmentAMask"
+  ></div>
+  <div
+    class="segment segment-b"
+    [class.active]="normalizedSymbol | bitMask: segmentBMask"
+  ></div>
+  <div
+    class="segment segment-c"
+    [class.active]="normalizedSymbol | bitMask: segmentCMask"
+  ></div>
+  <div
+    class="segment segment-d"
+    [class.active]="normalizedSymbol | bitMask: segmentDMask"
+  ></div>
+  <div
+    class="segment segment-e"
+    [class.active]="normalizedSymbol | bitMask: segmentEMask"
+  ></div>
+  <div
+    class="segment segment-f"
+    [class.active]="normalizedSymbol | bitMask: segmentFMask"
+  ></div>
+  <div
+    class="segment segment-g"
+    [class.active]="normalizedSymbol | bitMask: segmentGMask"
+  ></div>
+</div>

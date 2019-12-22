@@ -38,6 +38,7 @@ import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.compon
 import { SmallSwitchComponent } from './small-switch/small-switch.component';
 import { TremoloComponent } from './tremolo/tremolo.component';
 import { TunerComponent } from './tuner/tuner.component';
+import { SevenSegmentLcdComponent } from './seven-segment-lcd/seven-segment-lcd.component';
 
 const pedals = [
   BluesDriverComponent,
@@ -54,34 +55,35 @@ const pedals = [
 
 @NgModule({
   declarations: [
-    StageComponent,
-    LedComponent,
-    StompboxComponent,
-    SmallSwitchComponent,
-    LargeSwitchComponent,
-    SlideSwitchComponent,
-    KnobComponent,
     AmpComponent,
+    KnobComponent,
+    LargeSwitchComponent,
+    LedComponent,
     PedalBoardDirective,
     PresetNameDialogComponent,
+    SevenSegmentLcdComponent,
+    SlideSwitchComponent,
+    SmallSwitchComponent,
+    StageComponent,
+    StompboxComponent,
     ...pedals
   ],
   entryComponents: [PresetNameDialogComponent, ...pedals],
   imports: [
     A11yModule,
     AudioModule,
-    SharedModule,
     CommonModule,
     DragDropModule,
     FormsModule,
+    MatBadgeModule,
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
-    MatTooltipModule,
-    MatBadgeModule,
     MatSnackBarModule,
+    MatTooltipModule,
+    SharedModule,
     StageRoutingModule
   ],
   providers: [
