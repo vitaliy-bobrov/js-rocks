@@ -1,9 +1,9 @@
-$segment-h-width: 16px;
-$segment-v-width: 12px;
+$segment-h-width: 14px;
+$segment-v-width: 8px;
 $segment-height: 4px;
 $segment-corner: 2px;
-$lcd-padding-block: 4px;
-$lcd-padding-inline: 12px;
+$lcd-padding-block: 2px;
+$lcd-padding-inline: 8px;
 $active-color: hsl(345, 99%, 49%);
 $inactive-color: hsl(345, 15%, 16%);
 
@@ -13,7 +13,7 @@ $inactive-color: hsl(345, 15%, 16%);
   height: ($lcd-padding-block * 2) + ($segment-v-width * 2)+ (
       $segment-corner * 4
     ) + 8px + $segment-height;
-  background-color: #212121;
+  background-color: #232323;
   position: relative;
 
   .lcd {

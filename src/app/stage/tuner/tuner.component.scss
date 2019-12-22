@@ -1,6 +1,6 @@
 :host {
   --stompbox-bg: #eef0e5;
-  --stompbox-label: #f02d02;
+  --stompbox-label: #fff;
   display: block;
 
   .pedal-layout {
@@ -12,24 +12,153 @@
 
   .controls {
     display: grid;
-    grid-template-areas: '.     led label';
+    grid-template-areas:
+      '.   .  led label .'
+      'minus . zero . plus'
+      'cents cents cents cents cents'
+      '. lcd lcd lcd sharp'
+      '. lcd-sign lcd-sign lcd-sign .';
+    grid-auto-columns: 1fr 1fr auto 1fr 1fr;
+    justify-items: center;
     text-align: center;
-    padding: 0 6px;
+    padding: 10px 6px 4px;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      bottom: 4px;
+      left: 6px;
+      border-radius: 0.25em;
+      background-image: linear-gradient(220deg, #353535, #353535 25%, #000 27%);
+      z-index: 0;
+    }
+
+    > * {
+      z-index: 1;
+    }
+  }
+
+  p {
+    color: #fff;
+    font-size: 8px;
+    line-height: 8px;
+    margin: 2px 0 4px;
   }
 
   .led-label {
     grid-area: label;
-    text-transform: uppercase;
     font-size: 9px;
-    margin: 3px 0 0;
+    text-align: left;
+    text-transform: uppercase;
+    margin: 0 0 0 6px;
+    justify-self: start;
   }
 
   jsr-led {
     grid-area: led;
-    justify-self: center;
+  }
+
+  .minus {
+    grid-area: minus;
+    justify-self: start;
+    padding-left: 6px;
+  }
+
+  .zero {
+    grid-area: zero;
+  }
+
+  .plus {
+    grid-area: plus;
+    justify-self: end;
+    padding-right: 8px;
+  }
+
+  .cents {
+    grid-area: cents;
+    width: calc(100% - 16px);
+    height: 12px;
+    margin: 0 0 4px;
+    background-image: repeating-linear-gradient(
+      to right,
+      #232323,
+      #232323 4px,
+      #353535 4px,
+      #353535 8px
+    );
+    position: relative;
+    border-radius: 6px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      left: calc(50% - 2px);
+      transform: translateX(var(--cents-x, 0));
+      border-radius: 1px;
+      z-index: 1;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.4),
+        inset -3px -2px 2px rgba(0, 0, 0, 0.3),
+        inset 2px -2px 2px rgba(0, 0, 0, 0.55);
+      border-radius: 6px;
+      z-index: 2;
+    }
+
+    &.accurate:before,
+    &.inaccurate:before {
+      background-image: radial-gradient(
+        ellipse at center,
+        white 0%,
+        var(--cents-led) 42%,
+        var(--cents-led) 42%
+      );
+      box-shadow: 0 0 4px var(--cents-led), 0 0 16px white,
+        0 0 16px var(--cents-led);
+    }
+
+    &.accurate {
+      --cents-led: #89eb1c;
+    }
+
+    &.inaccurate {
+      --cents-led: hsl(345, 99%, 49%);
+    }
+  }
+
+  jsr-seven-segment-lcd {
+    grid-area: lcd;
+  }
+
+  .sharp {
+    grid-area: lcd / 4;
+    color: hsl(345, 15%, 16%);
+    margin-left: -4px;
+
+    &.active {
+      color: hsl(345, 99%, 49%);
+    }
+  }
+
+  .lcd-sign {
+    grid-area: lcd-sign;
   }
 
   .switch {
+    --stompbox-label: #f02d02;
     grid-area: switch;
   }
 }

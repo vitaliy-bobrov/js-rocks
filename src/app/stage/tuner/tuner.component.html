@@ -7,7 +7,21 @@
   <div class="pedal-layout">
     <div class="controls">
       <p class="led-label">check</p>
+      <p class="minus">-50</p>
+      <p class="zero">0</p>
+      <p class="plus">50</p>
+      <div
+        class="cents"
+        [class.accurate]="isAccurate$ | async"
+        [class.inaccurate]="isInaccurate$ | async"
+        [ngStyle]="{ '--cents-x': centsPosition$ | async }"
+      ></div>
       <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-seven-segment-lcd
+        [symbol]="noteName$ | async"
+      ></jsr-seven-segment-lcd>
+      <div class="sharp" [class.active]="isSharp$ | async">♯</div>
+      <p class="lcd-sign">440 Hz</p>
     </div>
 
     <jsr-large-switch

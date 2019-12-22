@@ -9,6 +9,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { PedalComponent } from '../pedal.interface';
 import { Active } from '@audio/interfaces/active.interface';
 import { Tuner } from '@audio/effects/tuner/tuner';
@@ -32,6 +34,11 @@ export class TunerComponent
   drag: CdkDrag;
 
   effect: Tuner;
+  noteName$: Observable<string | null>;
+  isSharp$: Observable<boolean>;
+  isAccurate$: Observable<boolean>;
+  isInaccurate$: Observable<boolean>;
+  centsPosition$: Observable<string>;
 
   params: Active = {
     active: false
@@ -42,6 +49,27 @@ export class TunerComponent
   ngOnInit() {
     this.effect = new Tuner(this.manager.context, 'jtu-3', this.params);
     this.manager.addEffect(this.effect);
+    this.noteName$ = this.effect.note$.pipe(
+      map(note => (note === null ? null : note.symbol[0]))
+    );
+    this.isSharp$ = this.effect.note$.pipe(
+      map(note => (note === null ? false : note.symbol.length > 1))
+    );
+    this.isAccurate$ = this.effect.note$.pipe(
+      map(note => (note === null ? false : Math.abs(note.cents) - 5 <= 0))
+    );
+    this.isInaccurate$ = this.effect.note$.pipe(
+      map(note => (note === null ? false : Math.abs(note.cents) - 5 > 0))
+    );
+    this.centsPosition$ = this.effect.note$.pipe(
+      map(note => {
+        if (note === null || note.cents === 0) {
+          return '0';
+        }
+
+        return `${Math.round(note.cents / 5) * 8}px`;
+      })
+    );
   }
 
   ngOnDestroy() {
