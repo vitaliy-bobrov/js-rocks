@@ -53,7 +53,7 @@ export class Tuner extends Effect<Active> {
     if (this.isBypassEnabled) {
       this.noteSub$.next(null);
     } else {
-      interval(100)
+      interval(300)
         .pipe(
           tap(this.detectPitch),
           takeWhile(() => !this.isBypassEnabled)

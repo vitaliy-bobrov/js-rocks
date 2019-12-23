@@ -56,14 +56,14 @@ export class TunerComponent
       map(note => (note === null ? false : note.symbol.length > 1))
     );
     this.isAccurate$ = this.effect.note$.pipe(
-      map(note => (note === null ? false : Math.abs(note.cents) - 5 <= 0))
+      map(note => (note === null ? false : Math.abs(note.cents) - 5 < 0))
     );
     this.isInaccurate$ = this.effect.note$.pipe(
-      map(note => (note === null ? false : Math.abs(note.cents) - 5 > 0))
+      map(note => (note === null ? false : Math.abs(note.cents) - 5 >= 0))
     );
     this.centsPosition$ = this.effect.note$.pipe(
       map(note => {
-        if (note === null || note.cents === 0) {
+        if (note === null || note.cents === 0 || Math.abs(note.cents) < 4) {
           return '0';
         }
 
