@@ -41,6 +41,10 @@ export class Tuner extends Effect<Active> {
 
     this.worker = new Worker('./tuner.worker', { type: 'module' });
     this.worker.onmessage = ({ data }: TunerResponseMessage) => {
+      if (this.isBypassEnabled) {
+        return;
+      }
+
       this.noteSub$.next(data.note);
     };
 

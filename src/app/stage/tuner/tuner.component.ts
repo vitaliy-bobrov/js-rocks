@@ -49,6 +49,7 @@ export class TunerComponent
   ngOnInit() {
     this.effect = new Tuner(this.manager.context, 'jtu-3', this.params);
     this.manager.addEffect(this.effect);
+
     this.noteName$ = this.effect.note$.pipe(
       map(note => (note === null ? null : note.symbol[0]))
     );
