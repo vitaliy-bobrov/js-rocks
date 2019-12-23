@@ -32,13 +32,17 @@ JS Rocks - Web Audio electric guitar effects and cabinets.
 
 - Cool Chorus JCH-1
 
-## Tremolo
+### Tremolo
 
 - Tremolo JTR-2
 
 ### Compressor
 
 - Lemon Squeeze JCP-1
+
+### Tuner
+
+- Tuner JTU-3
 
 ## Available cabinets 🔊
 
