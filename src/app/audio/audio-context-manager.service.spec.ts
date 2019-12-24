@@ -6,7 +6,7 @@ xdescribe('AudioContextManager', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AudioContextManager = TestBed.get(AudioContextManager);
+    const service: AudioContextManager = TestBed.inject(AudioContextManager);
     expect(service).toBeTruthy();
   });
 });

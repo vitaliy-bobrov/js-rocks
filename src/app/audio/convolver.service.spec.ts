@@ -6,7 +6,7 @@ xdescribe('ConvolverService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ConvolverService = TestBed.get(ConvolverService);
+    const service: ConvolverService = TestBed.inject(ConvolverService);
     expect(service).toBeTruthy();
   });
 });

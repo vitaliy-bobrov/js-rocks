@@ -6,7 +6,7 @@ describe('PresetManagerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PresetManagerService = TestBed.get(PresetManagerService);
+    const service: PresetManagerService = TestBed.inject(PresetManagerService);
     expect(service).toBeTruthy();
   });
 });

@@ -95,7 +95,7 @@
     z-index: -1;
 
     &:focus {
-      animation: 0.2s cubic-bezier(0, 0, 0.2, 1) forwards slide-edge;
+      animation: 0.2s ease-in forwards slide-edge;
       z-index: 1;
     }
   }

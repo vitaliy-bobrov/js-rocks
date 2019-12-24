@@ -3,8 +3,5 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app"
   },
-  "angularCompilerOptions": {
-    "enableIvy": true
-  },
-  "exclude": ["test.ts", "**/*.spec.ts", "**/*.worker.ts"]
+  "files": ["main.ts", "polyfills.ts"]
 }

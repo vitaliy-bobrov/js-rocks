@@ -50,7 +50,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -59,6 +58,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": true,
@@ -127,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "js-rocks"
+  "defaultProject": "js-rocks",
+  "cli": {
+    "analytics": "e45a4c42-f20a-4bc2-9043-93763a98e8ac"
+  }
 }

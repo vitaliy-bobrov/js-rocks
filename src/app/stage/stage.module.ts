@@ -40,22 +40,10 @@ import { TremoloComponent } from './tremolo/tremolo.component';
 import { TunerComponent } from './tuner/tuner.component';
 import { SevenSegmentLcdComponent } from './seven-segment-lcd/seven-segment-lcd.component';
 
-const pedals = [
-  BluesDriverComponent,
-  CoolChorusComponent,
-  DsOneComponent,
-  LemonSqueezeComponent,
-  MassiveMuffPiComponent,
-  MetalAreaComponent,
-  OverdriveComponent,
-  ReverbComponent,
-  TremoloComponent,
-  TunerComponent
-];
-
 @NgModule({
   declarations: [
     AmpComponent,
+    BluesDriverComponent,
     KnobComponent,
     LargeSwitchComponent,
     LedComponent,
@@ -66,9 +54,16 @@ const pedals = [
     SmallSwitchComponent,
     StageComponent,
     StompboxComponent,
-    ...pedals
+    CoolChorusComponent,
+    DsOneComponent,
+    LemonSqueezeComponent,
+    MassiveMuffPiComponent,
+    MetalAreaComponent,
+    OverdriveComponent,
+    ReverbComponent,
+    TremoloComponent,
+    TunerComponent
   ],
-  entryComponents: [PresetNameDialogComponent, ...pedals],
   imports: [
     A11yModule,
     AudioModule,

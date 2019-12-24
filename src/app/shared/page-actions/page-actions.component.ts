@@ -19,7 +19,7 @@ import { DomPortalOutlet, PortalOutlet, CdkPortal } from '@angular/cdk/portal';
 })
 export class PageActionsComponent implements AfterViewInit, OnDestroy {
   private portalHost: PortalOutlet;
-  @ViewChild(CdkPortal, { static: false }) portal: CdkPortal;
+  @ViewChild(CdkPortal) portal: CdkPortal;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
