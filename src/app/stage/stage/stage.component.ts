@@ -16,6 +16,7 @@ import {
   moveItemInArray
 } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -38,7 +39,6 @@ import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
 import { MassiveMuffPiComponent } from '../massive-muff-pi/massive-muff-pi.component';
 import { TremoloComponent } from '../tremolo/tremolo.component';
 import { TunerComponent } from '../tuner/tuner.component';
-import { MatSnackBar } from '@angular/material';
 
 const componentMapping = {
   'jtu-3': {

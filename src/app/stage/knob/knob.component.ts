@@ -16,7 +16,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
+import { Point } from '@angular/cdk/drag-drop/drag-ref';
 import { filter, switchMapTo, takeUntil, tap } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
 import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
