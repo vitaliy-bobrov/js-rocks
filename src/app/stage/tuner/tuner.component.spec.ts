@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TunerComponent } from './tuner.component';
+import { BitMaskPipe } from '@shared/pipes/bit-mask.pipe';
 
 xdescribe('TunerComponent', () => {
   let component: TunerComponent;
@@ -8,7 +9,7 @@ xdescribe('TunerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TunerComponent]
+      declarations: [TunerComponent, BitMaskPipe]
     }).compileComponents();
   }));
 

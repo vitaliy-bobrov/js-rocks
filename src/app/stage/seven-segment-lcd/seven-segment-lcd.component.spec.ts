@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SevenSegmentLcdComponent } from './seven-segment-lcd.component';
+import { BitMaskPipe } from '@shared/pipes/bit-mask.pipe';
 
 describe('SevenSegmentLcdComponent', () => {
   let component: SevenSegmentLcdComponent;
@@ -8,7 +9,7 @@ describe('SevenSegmentLcdComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SevenSegmentLcdComponent]
+      declarations: [SevenSegmentLcdComponent, BitMaskPipe]
     }).compileComponents();
   }));
 
