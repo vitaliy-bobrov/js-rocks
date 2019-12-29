@@ -108,6 +108,7 @@ export class PresetManagerService {
 
     this.setPresetsInfo(updated);
     localStorage.removeItem(id);
+    this.setCurrentPreset('');
     this.showToastNotification('Preset deleted successfully!');
 
     return updated;

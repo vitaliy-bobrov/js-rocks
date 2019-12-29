@@ -11,52 +11,52 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { StageRoutingModule } from './stage-routing.module';
-import { StageComponent } from './stage/stage.component';
 import { AudioModule } from '@audio/audio.module';
-import { StompboxComponent } from './stompbox/stompbox.component';
+import { StageRoutingModule } from './stage-routing.module';
+import { AmpComponent } from './amp/amp.component';
+import { BluesDriverComponent } from './blues-driver/blues-driver.component';
+import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
 import { DsOneComponent } from './ds-one/ds-one.component';
-import { LedComponent } from './led/led.component';
 import { KnobComponent } from './knob/knob.component';
 import { LargeSwitchComponent } from './large-switch/large-switch.component';
-import { BluesDriverComponent } from './blues-driver/blues-driver.component';
-import { AmpComponent } from './amp/amp.component';
+import { LedComponent } from './led/led.component';
+import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
+import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.component';
+import { MetalAreaComponent } from './metal-area/metal-area.component';
 import { OverdriveComponent } from './overdrive/overdrive.component';
 import { PedalBoardDirective } from './pedalboard/pedalboard.directive';
-import { SharedModule } from '@shared/shared.module';
 import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
 import { ReverbComponent } from './reverb/reverb.component';
+import { SevenSegmentLcdComponent } from './seven-segment-lcd/seven-segment-lcd.component';
+import { SharedModule } from '@shared/shared.module';
 import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
-import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
-import { MetalAreaComponent } from './metal-area/metal-area.component';
-import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
-import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.component';
 import { SmallSwitchComponent } from './small-switch/small-switch.component';
+import { StageComponent } from './stage/stage.component';
+import { StompboxComponent } from './stompbox/stompbox.component';
 import { TremoloComponent } from './tremolo/tremolo.component';
 import { TunerComponent } from './tuner/tuner.component';
-import { SevenSegmentLcdComponent } from './seven-segment-lcd/seven-segment-lcd.component';
 
 @NgModule({
   declarations: [
     AmpComponent,
     BluesDriverComponent,
+    CoolChorusComponent,
+    DsOneComponent,
     KnobComponent,
     LargeSwitchComponent,
     LedComponent,
+    LemonSqueezeComponent,
+    MassiveMuffPiComponent,
+    MetalAreaComponent,
+    OverdriveComponent,
     PedalBoardDirective,
     PresetNameDialogComponent,
+    ReverbComponent,
     SevenSegmentLcdComponent,
     SlideSwitchComponent,
     SmallSwitchComponent,
     StageComponent,
     StompboxComponent,
-    CoolChorusComponent,
-    DsOneComponent,
-    LemonSqueezeComponent,
-    MassiveMuffPiComponent,
-    MetalAreaComponent,
-    OverdriveComponent,
-    ReverbComponent,
     TremoloComponent,
     TunerComponent
   ],
