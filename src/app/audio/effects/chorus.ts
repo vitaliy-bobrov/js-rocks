@@ -52,25 +52,21 @@ export class Chorus extends Effect<ChorusSettings> {
   }
 
   set rate(value: number) {
-    const rate = clamp(0, 1, value);
+    const rate = clamp(0, 10, value);
     this.rateSub$.next(rate);
-
-    const frequency = mapToMinMax(rate, 0.1, 8);
-    this.lfo.rate = frequency;
+    this.lfo.rate = rate;
   }
 
   set depth(value: number) {
-    const depth = clamp(0, 1, value);
+    const depth = clamp(0, 100, value);
     this.depthSub$.next(depth);
-
-    const gain = depth * this.delay;
+    const gain = (depth / 100) * this.delay;
     this.lfo.depth = gain;
   }
 
   set feedback(value: number) {
     const feedback = clamp(0, 1, value);
     this.feedbackSub$.next(feedback);
-
     this.feedbackNode.gain.setTargetAtTime(feedback, this.currentTime, 0.01);
   }
 

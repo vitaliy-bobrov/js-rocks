@@ -28,25 +28,20 @@ export class Tremolo extends Effect<TremoloSettings> {
   wave$ = this.waveSub$.asObservable();
 
   set rate(value: number) {
-    const rate = clamp(0, 1, value);
+    const rate = clamp(0, 10, value);
     this.rateSub$.next(rate);
-
-    const frequency = mapToMinMax(rate, 0.5, 8);
-    this.lfo.rate = frequency;
+    this.lfo.rate = rate;
   }
 
   set depth(value: number) {
-    const depth = clamp(0, 1, value);
+    const depth = clamp(0, 100, value);
     this.depthSub$.next(depth);
-
-    const amount = mapToMinMax(depth, 0.25, 1);
-    this.lfo.depth = amount;
+    this.lfo.depth = depth / 100;
   }
 
   set wave(value: number) {
     const wave = clamp(0, 1, value);
     this.waveSub$.next(wave);
-
     const amount = mapToMinMax(wave, 0, 0.95);
     this.lfo.wave = amount;
   }

@@ -33,8 +33,8 @@ export class TremoloComponent
   effect: Tremolo;
 
   params: TremoloSettings = {
-    rate: 0.5,
-    depth: 0.5,
+    rate: 4.2,
+    depth: 50,
     wave: 0.5,
     active: false
   };

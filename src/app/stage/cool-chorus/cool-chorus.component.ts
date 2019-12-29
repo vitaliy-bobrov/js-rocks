@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
+  ViewChild
+} from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Chorus, ChorusSettings } from '@audio/effects/chorus';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -18,7 +19,8 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./cool-chorus.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<ChorusSettings> {
+export class CoolChorusComponent
+  implements OnInit, OnDestroy, PedalComponent<ChorusSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -33,8 +35,8 @@ export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<Ch
   params: ChorusSettings = {
     level: 1,
     eq: 0.5,
-    rate: 0.5,
-    depth: 0.5,
+    rate: 4,
+    depth: 60,
     feedback: 0.4,
     delay: 0.0045,
     active: false
@@ -52,4 +54,3 @@ export class CoolChorusComponent implements OnInit, OnDestroy, PedalComponent<Ch
     this.effect.dispose();
   }
 }
-
