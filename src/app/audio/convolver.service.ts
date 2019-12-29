@@ -10,7 +10,7 @@ export class ConvolverService {
 
   constructor(private http: HttpClient) {}
 
-  loadIR(context: AudioContext, irFile: string) {
+  loadIR(context: AudioContext, irFile: string): Observable<AudioBuffer> {
     const url = `${this.irPath}/${irFile}`;
 
     return this.http.get(url, { responseType: 'arraybuffer' }).pipe(

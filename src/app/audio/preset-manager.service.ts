@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import nanoid from 'nanoid';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
@@ -15,9 +16,7 @@ export interface PresetInfo {
   name: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PresetManagerService {
   static CURRENT_PRESET_KEY = 'jsr_current_preset';
   static PRESETS_KEY = 'jsr_presets';
@@ -36,6 +35,8 @@ export class PresetManagerService {
     },
     pedals: []
   };
+
+  constructor(private snackBar: MatSnackBar) {}
 
   generatePresetId() {
     return `jsr-preset-${nanoid(10)}`;
@@ -91,12 +92,14 @@ export class PresetManagerService {
 
     this.setPresetsInfo(presets);
     this.updatePreset(preset);
+    this.showToastNotification('New preset added successfully!');
 
     return { presets, id };
   }
 
   updatePreset(preset: Preset) {
     localStorage.setItem(preset.id, JSON.stringify(preset));
+    this.showToastNotification('Preset updated successfully!');
   }
 
   removePreset(id: string) {
@@ -105,7 +108,12 @@ export class PresetManagerService {
 
     this.setPresetsInfo(updated);
     localStorage.removeItem(id);
+    this.showToastNotification('Preset deleted successfully!');
 
     return updated;
+  }
+
+  private showToastNotification(notificationMessage: string) {
+    this.snackBar.open(notificationMessage);
   }
 }

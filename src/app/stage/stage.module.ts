@@ -9,10 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
-import {
-  MatSnackBarModule,
-  MAT_SNACK_BAR_DEFAULT_OPTIONS
-} from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { StageRoutingModule } from './stage-routing.module';
@@ -76,13 +72,9 @@ import { SevenSegmentLcdComponent } from './seven-segment-lcd/seven-segment-lcd.
     MatIconModule,
     MatInputModule,
     MatMenuModule,
-    MatSnackBarModule,
     MatTooltipModule,
     SharedModule,
     StageRoutingModule
-  ],
-  providers: [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
   ]
 })
 export class StageModule {}

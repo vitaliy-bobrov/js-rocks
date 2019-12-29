@@ -17,7 +17,6 @@ import {
   moveItemInArray
 } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs/operators';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -126,8 +125,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     public dialog: MatDialog,
     private manager: AudioContextManager,
     private presetsManager: PresetManagerService,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private snackBar: MatSnackBar
+    private componentFactoryResolver: ComponentFactoryResolver
   ) {
     this.savePreset = this.savePreset.bind(this);
   }
@@ -215,14 +213,12 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     if (this.selectedPresetId) {
       preset.id = this.selectedPresetId;
       this.presetsManager.updatePreset(preset);
-      this.showToastNotification('Preset updated successfully!');
     } else {
       const result = this.presetsManager.addPreset(preset, name);
       this.presets = result.presets;
       this.selectedPresetId = result.id;
       this.presetsManager.setCurrentPreset(result.id);
       this.updatePresetsKeyMap();
-      this.showToastNotification('New preset added successfully!');
     }
   }
 
@@ -231,7 +227,6 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.presetsManager.setCurrentPreset('');
     this.updatePresetsKeyMap();
     this.afterConfigChange();
-    this.showToastNotification('Preset deleted successfully!');
   }
 
   blankPreset() {
@@ -311,9 +306,5 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       },
       ['']
     );
-  }
-
-  private showToastNotification(notificationMessage: string) {
-    this.snackBar.open(notificationMessage);
   }
 }
