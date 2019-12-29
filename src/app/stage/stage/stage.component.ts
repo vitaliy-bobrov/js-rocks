@@ -7,7 +7,8 @@ import {
   OnInit,
   OnDestroy,
   ViewRef,
-  AfterContentChecked
+  AfterContentChecked,
+  ViewContainerRef
 } from '@angular/core';
 import {
   CdkDragDrop,
@@ -51,16 +52,6 @@ const componentMapping = {
     name: 'Lemon Squeeze',
     model: 'JCP-1'
   },
-  'jds-1': {
-    symbol: DsOneComponent,
-    name: 'Classic Distortion',
-    model: 'JDS-1'
-  },
-  'jmt-2': {
-    symbol: MetalAreaComponent,
-    name: 'Metal Area',
-    model: 'JMT-2'
-  },
   'jbd-2': {
     symbol: BluesDriverComponent,
     name: 'Blues Driver',
@@ -70,6 +61,16 @@ const componentMapping = {
     symbol: OverdriveComponent,
     name: 'OverDrive',
     model: 'JOD-3'
+  },
+  'jds-1': {
+    symbol: DsOneComponent,
+    name: 'Classic Distortion',
+    model: 'JDS-1'
+  },
+  'jmt-2': {
+    symbol: MetalAreaComponent,
+    name: 'Metal Area',
+    model: 'JMT-2'
   },
   'js-bmf': {
     symbol: MassiveMuffPiComponent,
@@ -115,8 +116,8 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   private dragRefs: CdkDrag[];
   private presetKeyMap: string[] = [''];
 
-  @ViewChild(PedalBoardDirective, { static: true })
-  pedalBoard: PedalBoardDirective;
+  @ViewChild(PedalBoardDirective, { static: true, read: ViewContainerRef })
+  pedalBoardRef: ViewContainerRef;
 
   @ViewChild(CdkDropList, { static: true })
   dropList: CdkDropList;
@@ -179,8 +180,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   loadPedals() {
-    const viewContainerRef = this.pedalBoard.viewContainerRef;
-    viewContainerRef.clear();
+    this.pedalBoardRef.clear();
     this.dragRefs = [];
 
     for (const pedal of this.pedals) {
@@ -259,20 +259,18 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   private removePedal(pedalViewRef: ViewRef) {
-    const viewContainerRef = this.pedalBoard.viewContainerRef;
-    const index = viewContainerRef.indexOf(pedalViewRef);
-    viewContainerRef.remove(index);
+    const index = this.pedalBoardRef.indexOf(pedalViewRef);
+    this.pedalBoardRef.remove(index);
     this.pedals.splice(index, 1);
     this.config.pedals.splice(index, 1);
     this.dragRefs.splice(index, 1);
   }
 
   private createPedal(pedal: Pedal) {
-    const viewContainerRef = this.pedalBoard.viewContainerRef;
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
       pedal.component
     );
-    const componentRef = viewContainerRef.createComponent(componentFactory);
+    const componentRef = this.pedalBoardRef.createComponent(componentFactory);
     const component = componentRef.instance as PedalComponent<any>;
 
     component.remove
