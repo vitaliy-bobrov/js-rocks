@@ -1,16 +1,23 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+  NgModule,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+
+import { Muff, MuffSettings } from '@audio/effects/muff';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
-import { Muff, MuffSettings } from '@audio/effects/muff';
+import { KnobModule } from '../knob/knob.component';
+import { SmallSwitchModule } from '../small-switch/small-switch.component';
+import { StompboxModule } from '../stompbox/stompbox.component';
 
 @Component({
   selector: 'jsr-massive-muff-pi',
@@ -42,18 +49,13 @@ export class MassiveMuffPiComponent
 
   ngOnInit() {
     // Config based on Big Muff Pi analysis https://www.electrosmash.com/big-muff-pi-analysis.
-    this.effect = new Muff(
-      this.manager.context,
-      'js-bmf',
-      this.params,
-      {
-        curveType: 'arch',
-        boost: 16.7,
-        preFilterRange: [3.84, 1215.3],
-        toneRange: [482.39, 1206.27],
-        postFilterRanges: [55, 1780, 94, 1170]
-      }
-    );
+    this.effect = new Muff(this.manager.context, 'js-bmf', this.params, {
+      curveType: 'arch',
+      boost: 16.7,
+      preFilterRange: [3.84, 1215.3],
+      toneRange: [482.39, 1206.27],
+      postFilterRanges: [55, 1780, 94, 1170]
+    });
     this.manager.addEffect(this.effect);
   }
 
@@ -62,3 +64,16 @@ export class MassiveMuffPiComponent
     this.effect.dispose();
   }
 }
+
+@NgModule({
+  declarations: [MassiveMuffPiComponent],
+  bootstrap: [MassiveMuffPiComponent],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    KnobModule,
+    SmallSwitchModule,
+    StompboxModule
+  ]
+})
+export class MassiveMuffPiModule {}

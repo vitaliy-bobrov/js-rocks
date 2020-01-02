@@ -111,16 +111,21 @@
   <mat-icon>&#xe145;</mat-icon> Add effect
 </button>
 
-<section
+<div
   #dropList
   cdkDropList
   cdkDropListOrientation="horizontal"
   (cdkDropListDropped)="dropPedal($event)"
 >
-  <ng-template jsrPedalBoard></ng-template>
-</section>
+  <ngx-loadable
+    *ngFor="let pedal of config?.pedals"
+    [module]="pedal.model"
+    [show]="true"
+    (init)="initPedal($event, pedal.params)"
+  ></ngx-loadable>
+</div>
 
-<p *ngIf="!pedals?.length" class="empty-board-message mat-subheading-2">
+<p *ngIf="!config?.pedals?.length" class="empty-board-message mat-subheading-2">
   No effects in you pedalboard :(<br />
   Use "Add effect" button to pick one.
 </p>

@@ -1,17 +1,24 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
+  NgModule,
+  OnDestroy,
+  OnInit,
+  Output,
   ViewChild
 } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+
 import { Chorus, ChorusSettings } from '@audio/effects/chorus';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
+import { KnobModule } from '../knob/knob.component';
+import { LargeSwitchModule } from '../large-switch/large-switch.component';
+import { LedModule } from '../led/led.component';
+import { StompboxModule } from '../stompbox/stompbox.component';
 
 @Component({
   selector: 'jsr-cool-chorus',
@@ -54,3 +61,17 @@ export class CoolChorusComponent
     this.effect.dispose();
   }
 }
+
+@NgModule({
+  declarations: [CoolChorusComponent],
+  bootstrap: [CoolChorusComponent],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    KnobModule,
+    LargeSwitchModule,
+    LedModule,
+    StompboxModule
+  ]
+})
+export class CoolChorusModule {}

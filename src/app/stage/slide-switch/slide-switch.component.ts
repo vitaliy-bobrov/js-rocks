@@ -1,15 +1,17 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
-  HostBinding,
-  Output,
-  EventEmitter,
-  ViewChildren,
+  Component,
   ElementRef,
+  EventEmitter,
+  HostBinding,
   HostListener,
-  QueryList
+  Input,
+  NgModule,
+  Output,
+  QueryList,
+  ViewChildren
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 export interface SwitchOption {
   label: string;
@@ -77,3 +79,10 @@ export class SlideSwitchComponent {
       : 0;
   }
 }
+
+@NgModule({
+  declarations: [SlideSwitchComponent],
+  imports: [CommonModule],
+  exports: [SlideSwitchComponent]
+})
+export class SlideSwitchModule {}

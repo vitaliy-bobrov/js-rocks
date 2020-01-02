@@ -14,58 +14,99 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AudioModule } from '@audio/audio.module';
 import { StageRoutingModule } from './stage-routing.module';
 import { AmpComponent } from './amp/amp.component';
-import { BluesDriverComponent } from './blues-driver/blues-driver.component';
-import { CoolChorusComponent } from './cool-chorus/cool-chorus.component';
-import { DsOneComponent } from './ds-one/ds-one.component';
-import { KnobComponent } from './knob/knob.component';
-import { LargeSwitchComponent } from './large-switch/large-switch.component';
-import { LedComponent } from './led/led.component';
-import { LemonSqueezeComponent } from './lemon-squeeze/lemon-squeeze.component';
-import { MassiveMuffPiComponent } from './massive-muff-pi/massive-muff-pi.component';
-import { MetalAreaComponent } from './metal-area/metal-area.component';
-import { OverdriveComponent } from './overdrive/overdrive.component';
-import { PedalBoardDirective } from './pedalboard/pedalboard.directive';
+import { KnobModule } from './knob/knob.component';
+import { LedModule } from './led/led.component';
 import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
-import { ReverbComponent } from './reverb/reverb.component';
-import { SevenSegmentLcdComponent } from './seven-segment-lcd/seven-segment-lcd.component';
 import { SharedModule } from '@shared/shared.module';
-import { SlideSwitchComponent } from './slide-switch/slide-switch.component';
-import { SmallSwitchComponent } from './small-switch/small-switch.component';
 import { StageComponent } from './stage/stage.component';
-import { StompboxComponent } from './stompbox/stompbox.component';
-import { TremoloComponent } from './tremolo/tremolo.component';
-import { TunerComponent } from './tuner/tuner.component';
+import { LoadableModule } from 'ngx-loadable';
 
 @NgModule({
-  declarations: [
-    AmpComponent,
-    BluesDriverComponent,
-    CoolChorusComponent,
-    DsOneComponent,
-    KnobComponent,
-    LargeSwitchComponent,
-    LedComponent,
-    LemonSqueezeComponent,
-    MassiveMuffPiComponent,
-    MetalAreaComponent,
-    OverdriveComponent,
-    PedalBoardDirective,
-    PresetNameDialogComponent,
-    ReverbComponent,
-    SevenSegmentLcdComponent,
-    SlideSwitchComponent,
-    SmallSwitchComponent,
-    StageComponent,
-    StompboxComponent,
-    TremoloComponent,
-    TunerComponent
-  ],
+  declarations: [AmpComponent, PresetNameDialogComponent, StageComponent],
   imports: [
     A11yModule,
     AudioModule,
     CommonModule,
     DragDropModule,
     FormsModule,
+    KnobModule,
+    LedModule,
+    LoadableModule.forRoot({
+      moduleConfigs: [
+        {
+          name: 'jbd-2',
+          load: () =>
+            import('./blues-driver/blues-driver.component').then(
+              m => m.BluesDriverModule
+            ),
+          preload: false
+        },
+        {
+          name: 'jch-1',
+          load: () =>
+            import('./cool-chorus/cool-chorus.component').then(
+              m => m.CoolChorusModule
+            ),
+          preload: false
+        },
+        {
+          name: 'jds-1',
+          load: () =>
+            import('./ds-one/ds-one.component').then(m => m.DsOneModule),
+          preload: false
+        },
+        {
+          name: 'jcp-1',
+          load: () =>
+            import('./lemon-squeeze/lemon-squeeze.component').then(
+              m => m.LemonSqueezeModule
+            ),
+          preload: false
+        },
+        {
+          name: 'js-bmf',
+          load: () =>
+            import('./massive-muff-pi/massive-muff-pi.component').then(
+              m => m.MassiveMuffPiModule
+            ),
+          preload: false
+        },
+        {
+          name: 'jmt-2',
+          load: () =>
+            import('./metal-area/metal-area.component').then(
+              m => m.MetalAreaModule
+            ),
+          preload: false
+        },
+        {
+          name: 'jod-3',
+          load: () =>
+            import('./overdrive/overdrive.component').then(
+              m => m.OverdriveModule
+            ),
+          preload: false
+        },
+        {
+          name: 'jrv-6',
+          load: () =>
+            import('./reverb/reverb.component').then(m => m.ReverbModule),
+          preload: false
+        },
+        {
+          name: 'jtr-2',
+          load: () =>
+            import('./tremolo/tremolo.component').then(m => m.TremoloModule),
+          preload: false
+        },
+        {
+          name: 'jtu-3',
+          load: () =>
+            import('./tuner/tuner.component').then(m => m.TunerModule),
+          preload: false
+        }
+      ]
+    }),
     MatBadgeModule,
     MatButtonModule,
     MatDialogModule,

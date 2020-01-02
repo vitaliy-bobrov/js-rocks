@@ -1,19 +1,29 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
+  NgModule,
+  OnDestroy,
+  OnInit,
+  Output,
   ViewChild
 } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent } from '../pedal.interface';
-import { ReverbSettings, Reverb } from '@audio/effects/reverb';
-import { SwitchOption } from '../slide-switch/slide-switch.component';
 import { ConvolverService } from '@audio/convolver.service';
+import { ReverbSettings, Reverb } from '@audio/effects/reverb';
+import { PedalComponent } from '../pedal.interface';
+import {
+  SwitchOption,
+  SlideSwitchModule
+} from '../slide-switch/slide-switch.component';
+import { KnobModule } from '../knob/knob.component';
+import { LargeSwitchModule } from '../large-switch/large-switch.component';
+import { LedModule } from '../led/led.component';
+import { StompboxModule } from '../stompbox/stompbox.component';
 
 interface ReverbConvolver extends SwitchOption {
   gain: number;
@@ -121,3 +131,18 @@ export class ReverbComponent
     return item || this.types[2];
   }
 }
+
+@NgModule({
+  declarations: [ReverbComponent],
+  bootstrap: [ReverbComponent],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    KnobModule,
+    LargeSwitchModule,
+    LedModule,
+    SlideSwitchModule,
+    StompboxModule
+  ]
+})
+export class ReverbModule {}

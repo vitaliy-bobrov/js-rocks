@@ -1,13 +1,17 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
-  Output,
+  Component,
+  ElementRef,
   EventEmitter,
-  HostListener,
   HostBinding,
-  ViewChild,
-  ElementRef } from '@angular/core';
+  HostListener,
+  Input,
+  NgModule,
+  Output,
+  ViewChild
+} from '@angular/core';
+
+import { LedModule } from '../led/led.component';
 
 @Component({
   selector: 'jsr-small-switch',
@@ -34,3 +38,9 @@ export class SmallSwitchComponent {
   }
 }
 
+@NgModule({
+  declarations: [SmallSwitchComponent],
+  imports: [LedModule],
+  exports: [SmallSwitchComponent]
+})
+export class SmallSwitchModule {}

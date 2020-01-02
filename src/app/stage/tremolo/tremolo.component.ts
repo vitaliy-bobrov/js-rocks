@@ -6,12 +6,19 @@ import {
   Output,
   EventEmitter,
   HostBinding,
-  ViewChild
+  ViewChild,
+  NgModule
 } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+
 import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent } from '../pedal.interface';
+import { KnobModule } from '../knob/knob.component';
+import { LargeSwitchModule } from '../large-switch/large-switch.component';
+import { LedModule } from '../led/led.component';
+import { StompboxModule } from '../stompbox/stompbox.component';
 
 @Component({
   selector: 'jsr-tremolo',
@@ -56,3 +63,17 @@ export class TremoloComponent
     this.effect.dispose();
   }
 }
+
+@NgModule({
+  declarations: [TremoloComponent],
+  bootstrap: [TremoloComponent],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    KnobModule,
+    LargeSwitchModule,
+    LedModule,
+    StompboxModule
+  ]
+})
+export class TremoloModule {}

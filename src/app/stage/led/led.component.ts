@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  HostBinding,
+  NgModule
+} from '@angular/core';
 
 @Component({
   selector: 'jsr-led',
@@ -11,3 +17,9 @@ export class LedComponent {
   @HostBinding('class.active')
   active = false;
 }
+
+@NgModule({
+  declarations: [LedComponent],
+  exports: [LedComponent]
+})
+export class LedModule {}

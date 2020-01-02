@@ -6,15 +6,23 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
+  NgModule
 } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { PedalComponent } from '../pedal.interface';
+
 import { Active } from '@audio/interfaces/active.interface';
 import { Tuner } from '@audio/effects/tuner/tuner';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
+import { PedalComponent } from '../pedal.interface';
+import { KnobModule } from '../knob/knob.component';
+import { LargeSwitchModule } from '../large-switch/large-switch.component';
+import { LedModule } from '../led/led.component';
+import { SevenSegmentLcdModule } from '../seven-segment-lcd/seven-segment-lcd.component';
+import { StompboxModule } from '../stompbox/stompbox.component';
 
 @Component({
   selector: 'jsr-tuner',
@@ -78,3 +86,18 @@ export class TunerComponent
     this.effect.dispose();
   }
 }
+
+@NgModule({
+  declarations: [TunerComponent],
+  bootstrap: [TunerComponent],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    KnobModule,
+    LargeSwitchModule,
+    LedModule,
+    SevenSegmentLcdModule,
+    StompboxModule
+  ]
+})
+export class TunerModule {}

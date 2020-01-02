@@ -1,16 +1,25 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
-  ViewChild } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+  NgModule,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
+
+import { KnobModule } from '../knob/knob.component';
+import { LargeSwitchModule } from '../large-switch/large-switch.component';
+import { LedModule } from '../led/led.component';
 import { PedalComponent } from '../pedal.interface';
+import { StompboxModule } from '../stompbox/stompbox.component';
 
 @Component({
   selector: 'jsr-blues-driver',
@@ -18,7 +27,8 @@ import { PedalComponent } from '../pedal.interface';
   styleUrls: ['./blues-driver.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
+export class BluesDriverComponent
+  implements OnInit, OnDestroy, PedalComponent<DistortionSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -40,14 +50,9 @@ export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<D
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(
-      this.manager.context,
-      'jbd-2',
-      this.params,
-      {
-        curveType: 'blues'
-      }
-    );
+    this.effect = new Distortion(this.manager.context, 'jbd-2', this.params, {
+      curveType: 'blues'
+    });
     this.manager.addEffect(this.effect);
   }
 
@@ -57,3 +62,16 @@ export class BluesDriverComponent implements OnInit, OnDestroy, PedalComponent<D
   }
 }
 
+@NgModule({
+  declarations: [BluesDriverComponent],
+  bootstrap: [BluesDriverComponent],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    KnobModule,
+    LargeSwitchModule,
+    LedModule,
+    StompboxModule
+  ]
+})
+export class BluesDriverModule {}

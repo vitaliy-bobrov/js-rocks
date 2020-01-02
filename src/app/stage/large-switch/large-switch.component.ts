@@ -1,14 +1,16 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
-  Output,
+  Component,
+  ElementRef,
   EventEmitter,
-  HostListener,
   HostBinding,
-  ViewChild,
-  ElementRef
+  HostListener,
+  Input,
+  NgModule,
+  Output,
+  ViewChild
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'jsr-large-switch',
@@ -40,3 +42,10 @@ export class LargeSwitchComponent {
     this.control.nativeElement.focus();
   }
 }
+
+@NgModule({
+  declarations: [LargeSwitchComponent],
+  imports: [MatIconModule],
+  exports: [LargeSwitchComponent]
+})
+export class LargeSwitchModule {}

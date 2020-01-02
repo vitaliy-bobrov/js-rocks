@@ -3,12 +3,13 @@ import {
   ChangeDetectionStrategy,
   HostListener,
   ViewChild,
-  ComponentFactoryResolver,
   OnInit,
   OnDestroy,
   ViewRef,
   AfterContentChecked,
-  ViewContainerRef
+  ViewContainerRef,
+  Type,
+  ComponentRef
 } from '@angular/core';
 import {
   CdkDragDrop,
@@ -26,68 +27,47 @@ import {
   PresetInfo
 } from '@audio/preset-manager.service';
 import { Effect } from '@audio/effects/effect';
-import { PedalBoardDirective } from '../pedalboard/pedalboard.directive';
-import { Pedal, PedalComponent, PedalDescriptor } from '../pedal.interface';
-import { BluesDriverComponent } from '../blues-driver/blues-driver.component';
-import { OverdriveComponent } from '../overdrive/overdrive.component';
-import { DsOneComponent } from '../ds-one/ds-one.component';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
-import { ReverbComponent } from '../reverb/reverb.component';
-import { LemonSqueezeComponent } from '../lemon-squeeze/lemon-squeeze.component';
-import { MetalAreaComponent } from '../metal-area/metal-area.component';
-import { CoolChorusComponent } from '../cool-chorus/cool-chorus.component';
-import { MassiveMuffPiComponent } from '../massive-muff-pi/massive-muff-pi.component';
-import { TremoloComponent } from '../tremolo/tremolo.component';
-import { TunerComponent } from '../tuner/tuner.component';
 
 const componentMapping = {
   'jtu-3': {
-    symbol: TunerComponent,
     name: 'Tuner',
     model: 'JTU-3'
   },
   'jcp-1': {
-    symbol: LemonSqueezeComponent,
     name: 'Lemon Squeeze',
     model: 'JCP-1'
   },
   'jbd-2': {
-    symbol: BluesDriverComponent,
     name: 'Blues Driver',
     model: 'JBD-2'
   },
   'jod-3': {
-    symbol: OverdriveComponent,
     name: 'OverDrive',
     model: 'JOD-3'
   },
   'jds-1': {
-    symbol: DsOneComponent,
     name: 'Classic Distortion',
     model: 'JDS-1'
   },
   'jmt-2': {
-    symbol: MetalAreaComponent,
     name: 'Metal Area',
     model: 'JMT-2'
   },
   'js-bmf': {
-    symbol: MassiveMuffPiComponent,
     name: 'Massive Muff π',
     model: 'JS-BMF'
   },
   'jch-1': {
-    symbol: CoolChorusComponent,
     name: 'Cool Chorus',
     model: 'JCH-1'
   },
   'jtr-2': {
-    symbol: TremoloComponent,
     name: 'Tremolo',
     model: 'JTR-2'
   },
   'jrv-6': {
-    symbol: ReverbComponent,
     name: 'Reverb',
     model: 'JRV-6'
   }
@@ -111,12 +91,8 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       model: componentMapping[key].model
     })
   );
-  pedals: Pedal[];
   private dragRefs: CdkDrag[];
   private presetKeyMap: string[] = [''];
-
-  @ViewChild(PedalBoardDirective, { static: true, read: ViewContainerRef })
-  pedalBoardRef: ViewContainerRef;
 
   @ViewChild(CdkDropList, { static: true })
   dropList: CdkDropList;
@@ -124,8 +100,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   constructor(
     public dialog: MatDialog,
     private manager: AudioContextManager,
-    private presetsManager: PresetManagerService,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private presetsManager: PresetManagerService
   ) {
     this.savePreset = this.savePreset.bind(this);
   }
@@ -169,21 +144,15 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     const currentState = this.manager.takeSnapshot().pedals;
 
     // Save current configurations.
-    for (let i = 0; i < this.pedals.length; i++) {
-      this.pedals[i].params = currentState[i].params;
+    for (let i = 0; i < this.config.pedals.length; i++) {
+      this.config.pedals[i].params = currentState[i].params;
     }
 
-    moveItemInArray(this.pedals, event.previousIndex, event.currentIndex);
-    this.loadPedals();
-  }
-
-  loadPedals() {
-    this.pedalBoardRef.clear();
-    this.dragRefs = [];
-
-    for (const pedal of this.pedals) {
-      this.createPedal(pedal);
-    }
+    moveItemInArray(
+      this.config.pedals,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
   openPresetNameDialog() {
@@ -245,49 +214,39 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       model: id,
       params: null as null
     };
-    const pedal = new Pedal(componentMapping[id].symbol, null);
 
-    this.pedals.push(pedal);
-    this.createPedal(pedal);
     this.config.pedals.push(pedalInfo);
   }
 
-  private removePedal(pedalViewRef: ViewRef) {
-    const index = this.pedalBoardRef.indexOf(pedalViewRef);
-    this.pedalBoardRef.remove(index);
-    this.pedals.splice(index, 1);
+  private removePedal(componentRef: ComponentRef<PedalComponent<unknown>>) {
+    const index = this.dragRefs.indexOf(componentRef.instance.drag);
     this.config.pedals.splice(index, 1);
     this.dragRefs.splice(index, 1);
+    componentRef.destroy();
   }
 
-  private createPedal(pedal: Pedal) {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      pedal.component
-    );
-    const componentRef = this.pedalBoardRef.createComponent(componentFactory);
-    const component = componentRef.instance as PedalComponent<any>;
+  initPedal(
+    componentRef: ComponentRef<PedalComponent<unknown>>,
+    params: unknown
+  ) {
+    const component = componentRef.instance;
 
     component.remove
       .pipe(take(1))
-      .subscribe(() => this.removePedal(componentRef.hostView));
+      .subscribe(() => this.removePedal(componentRef));
 
-    if (pedal.params) {
-      component.params = pedal.params;
+    if (params) {
+      component.params = params;
     }
 
     this.dragRefs.push(component.drag);
   }
 
   private afterConfigChange() {
+    this.dragRefs = [];
     this.config = this.presetsManager.getCurrentPreset();
     this.config.cabinet = { ...this.config.cabinet };
-
     this.selectedPresetId = this.config.id;
-    this.pedals = this.config.pedals.map(
-      item => new Pedal(componentMapping[item.model].symbol, item.params)
-    );
-
-    this.loadPedals();
   }
 
   private initPedalsDrag() {
