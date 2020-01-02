@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule
+} from '@angular/core';
+import { BitMaskPipe } from './bit-mask.pipe';
 
 @Component({
   selector: 'jsr-seven-segment-lcd',
@@ -33,3 +39,9 @@ export class SevenSegmentLcdComponent {
     this.normalizedSymbol = SevenSegmentLcdComponent.dictionary.get(lowerValue);
   }
 }
+
+@NgModule({
+  declarations: [BitMaskPipe, SevenSegmentLcdComponent],
+  exports: [SevenSegmentLcdComponent]
+})
+export class SevenSegmentLcdModule {}

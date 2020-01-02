@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SevenSegmentLcdComponent } from './seven-segment-lcd.component';
-import { BitMaskPipe } from '@shared/pipes/bit-mask.pipe';
+import { BitMaskPipe } from './bit-mask.pipe';
 
 describe('SevenSegmentLcdComponent', () => {
   let component: SevenSegmentLcdComponent;
