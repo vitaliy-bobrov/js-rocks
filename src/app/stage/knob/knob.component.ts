@@ -13,13 +13,17 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  NgModule
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Point } from '@angular/cdk/drag-drop/drag-ref';
 import { filter, switchMapTo, takeUntil, tap } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
+
 import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
+import { ValueLabelPipe } from './value-label.pipe';
 
 @Component({
   selector: 'jsr-knob',
@@ -268,3 +272,10 @@ export class KnobComponent
     this.valueChanged.emit(rounded);
   }
 }
+
+@NgModule({
+  declarations: [KnobComponent, ValueLabelPipe],
+  imports: [CommonModule, MatTooltipModule],
+  exports: [KnobComponent]
+})
+export class KnobModule {}
