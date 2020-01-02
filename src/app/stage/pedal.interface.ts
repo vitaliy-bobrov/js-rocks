@@ -12,7 +12,3 @@ export interface PedalDescriptor {
   name: string;
   model: string;
 }
-
-export class Pedal {
-  constructor(public component: Type<any>, public params?: any) {}
-}
