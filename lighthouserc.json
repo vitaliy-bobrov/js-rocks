@@ -1,0 +1,11 @@
+{
+  "ci": {
+    "assert": {
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "uses-long-cache-ttl": "off",
+        "uses-http2": "off"
+      }
+    }
+  }
+}
