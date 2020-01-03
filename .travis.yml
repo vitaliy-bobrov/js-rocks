@@ -21,7 +21,7 @@ before_script:
   - yarn
   
 before_install:
-  - yarn add -g @lhci/cli@0.3.x
+  - yarn global add @lhci/cli@0.3.x
   
 script:
   - yarn lint
