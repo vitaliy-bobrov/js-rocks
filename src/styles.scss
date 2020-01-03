@@ -6,14 +6,15 @@
   --stompbox-label: #000;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   background-color: #303030;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 button {
@@ -31,21 +32,23 @@ button {
 }
 
 jsr-stage .pedal,
-.cdk-drag-placeholder {
+.cdk-drag-placeholder,
+.pedal-loader {
   display: inline-block;
   margin: 0 24px 24px;
 }
 
-.cdk-drag-placeholder {
+.cdk-drag-placeholder,
+.pedal-loader {
   width: 200px;
   height: 326px;
-  background-color: rgba(#69f0ae, .5);
+  background-color: rgba(#69f0ae, 0.5);
   border: 1px solid #69f0ae;
-  border-radius: .5em;
+  border-radius: 0.5em;
 }
 
 .cdk-drag-animating {
-  transition: transform .25s cubic-bezier(0, 0, .2, 1);
+  transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .cdk-drag-dragging > * {
@@ -53,5 +56,5 @@ jsr-stage .pedal,
 }
 
 .cdk-drop-list-dragging .pedal:not(.cdk-drag-placeholder) {
-  transition: transform .25s cubic-bezier(0, 0, .2, 1);
+  transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);
 }

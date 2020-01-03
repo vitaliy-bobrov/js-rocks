@@ -122,7 +122,11 @@
     [module]="pedal.model"
     [show]="true"
     (init)="initPedal($event, pedal.params)"
-  ></ngx-loadable>
+  >
+    <ng-template #loading>
+      <div class="pedal-loader"></div>
+    </ng-template>
+  </ngx-loadable>
 </div>
 
 <p *ngIf="!config?.pedals?.length" class="empty-board-message mat-subheading-2">

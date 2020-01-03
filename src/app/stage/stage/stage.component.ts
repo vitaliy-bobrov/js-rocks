@@ -5,10 +5,7 @@ import {
   ViewChild,
   OnInit,
   OnDestroy,
-  ViewRef,
   AfterContentChecked,
-  ViewContainerRef,
-  Type,
   ComponentRef
 } from '@angular/core';
 import {
@@ -141,18 +138,13 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   dropPedal(event: CdkDragDrop<Effect<any>[]>) {
-    const currentState = this.manager.takeSnapshot().pedals;
-
-    // Save current configurations.
-    for (let i = 0; i < this.config.pedals.length; i++) {
-      this.config.pedals[i].params = currentState[i].params;
-    }
-
     moveItemInArray(
       this.config.pedals,
       event.previousIndex,
       event.currentIndex
     );
+    moveItemInArray(this.dragRefs, event.previousIndex, event.currentIndex);
+    this.manager.moveEffect(event.previousIndex, event.currentIndex);
   }
 
   openPresetNameDialog() {

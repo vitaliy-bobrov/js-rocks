@@ -38,72 +38,61 @@ import { LoadableModule } from 'ngx-loadable';
           load: () =>
             import('./blues-driver/blues-driver.component').then(
               m => m.BluesDriverModule
-            ),
-          preload: false
+            )
         },
         {
           name: 'jch-1',
           load: () =>
             import('./cool-chorus/cool-chorus.component').then(
               m => m.CoolChorusModule
-            ),
-          preload: false
+            )
         },
         {
           name: 'jds-1',
           load: () =>
-            import('./ds-one/ds-one.component').then(m => m.DsOneModule),
-          preload: false
+            import('./ds-one/ds-one.component').then(m => m.DsOneModule)
         },
         {
           name: 'jcp-1',
           load: () =>
             import('./lemon-squeeze/lemon-squeeze.component').then(
               m => m.LemonSqueezeModule
-            ),
-          preload: false
+            )
         },
         {
           name: 'js-bmf',
           load: () =>
             import('./massive-muff-pi/massive-muff-pi.component').then(
               m => m.MassiveMuffPiModule
-            ),
-          preload: false
+            )
         },
         {
           name: 'jmt-2',
           load: () =>
             import('./metal-area/metal-area.component').then(
               m => m.MetalAreaModule
-            ),
-          preload: false
+            )
         },
         {
           name: 'jod-3',
           load: () =>
             import('./overdrive/overdrive.component').then(
               m => m.OverdriveModule
-            ),
-          preload: false
+            )
         },
         {
           name: 'jrv-6',
           load: () =>
-            import('./reverb/reverb.component').then(m => m.ReverbModule),
-          preload: false
+            import('./reverb/reverb.component').then(m => m.ReverbModule)
         },
         {
           name: 'jtr-2',
           load: () =>
-            import('./tremolo/tremolo.component').then(m => m.TremoloModule),
-          preload: false
+            import('./tremolo/tremolo.component').then(m => m.TremoloModule)
         },
         {
           name: 'jtu-3',
-          load: () =>
-            import('./tuner/tuner.component').then(m => m.TunerModule),
-          preload: false
+          load: () => import('./tuner/tuner.component').then(m => m.TunerModule)
         }
       ]
     }),

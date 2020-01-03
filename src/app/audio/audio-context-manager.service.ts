@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { BehaviorSubject } from 'rxjs';
 import {
   AudioContext,
@@ -51,7 +52,7 @@ export class AudioContextManager {
           mediaStream
         });
 
-        this.connectInOrder();
+        this.connectAll();
       }
     } catch (err) {
       console.error(err);
@@ -77,16 +78,22 @@ export class AudioContextManager {
       this.effects.splice(-1, 0, effect);
     }
 
-    this.connectInOrder();
+    this.connectAll();
   }
 
   removeEffect(effect: Effect<any>) {
     this.disconnectAll();
     this.effects = this.effects.filter(eff => eff !== effect);
-    this.connectInOrder();
+    this.connectAll();
   }
 
-  connectInOrder() {
+  moveEffect(previousIndex: number, currentIndex: number) {
+    this.disconnectAll();
+    moveItemInArray(this.effects, previousIndex, currentIndex);
+    this.connectAll();
+  }
+
+  connectAll() {
     if (this.effects.length) {
       if (this.lineInSource) {
         this.lineInSource.connect(this.effects[0].input);
