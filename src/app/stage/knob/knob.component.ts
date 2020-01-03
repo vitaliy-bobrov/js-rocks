@@ -276,6 +276,6 @@ export class KnobComponent
 @NgModule({
   declarations: [KnobComponent, ValueLabelPipe],
   imports: [CommonModule, MatTooltipModule],
-  exports: [KnobComponent]
+  exports: [KnobComponent, ValueLabelPipe]
 })
 export class KnobModule {}

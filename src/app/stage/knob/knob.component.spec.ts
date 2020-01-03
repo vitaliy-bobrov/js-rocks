@@ -2,7 +2,7 @@ import * as axe from 'axe-core';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KnobComponent } from './knob.component';
+import { KnobComponent, KnobModule } from './knob.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '@shared/shared.module';
 
@@ -64,8 +64,7 @@ describe('KnobComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatTooltipModule, SharedModule],
-      declarations: [KnobComponent]
+      imports: [KnobModule]
     }).compileComponents();
   }));
 
