@@ -28,14 +28,14 @@ export class Chorus extends Effect<ChorusSettings> {
   private depthSub$ = new BehaviorSubject(0);
   private feedbackSub$ = new BehaviorSubject(0);
   private delaySub$ = new BehaviorSubject(0);
-  private splitNode: GainNode<AudioContext>;
+  private splitter: GainNode<AudioContext>;
   private eqNode: ToneControl;
   private lfo: LFO;
   private delayNode: DelayNode<AudioContext>;
   private feedbackNode: GainNode<AudioContext>;
   private wet: GainNode<AudioContext>;
   private dry: GainNode<AudioContext>;
-  private mergeNode: GainNode<AudioContext>;
+  private merger: GainNode<AudioContext>;
 
   level$ = this.levelSub$.asObservable();
   eq$ = this.eqSub$.asObservable();
@@ -79,7 +79,7 @@ export class Chorus extends Effect<ChorusSettings> {
   set depth(value: number) {
     const depth = clamp(0, 100, value);
     this.depthSub$.next(depth);
-    const gain = (depth / 100) * this.delay;
+    const gain = (depth / 100) * this.delaySub$.value;
     this.lfo.depth = gain;
   }
 
@@ -116,22 +116,22 @@ export class Chorus extends Effect<ChorusSettings> {
     super(context, model);
 
     // Nodes initialization.
-    this.splitNode = new GainNode(context);
+    this.splitter = new GainNode(context);
     this.eqNode = new StandardTone(context);
     this.lfo = new LFO(context, defaults.type);
     this.delayNode = new DelayNode(context);
     this.feedbackNode = new GainNode(context);
     this.wet = new GainNode(context);
     this.dry = new GainNode(context);
-    this.mergeNode = new GainNode(context);
+    this.merger = new GainNode(context);
 
     // "Wet" chain.
     this.processor = [
-      this.splitNode,
+      this.splitter,
       ...this.eqNode.nodes,
       this.delayNode,
       this.wet,
-      this.mergeNode
+      this.merger
     ];
     connectNodes(this.processor);
 
@@ -142,21 +142,17 @@ export class Chorus extends Effect<ChorusSettings> {
     this.lfo.connect(this.delayNode.delayTime);
 
     // "Dry" chain.
-    connectNodes([this.splitNode, this.dry, this.mergeNode]);
+    connectNodes([this.splitter, this.dry, this.merger]);
     this.applyDefaults();
   }
 
   dispose() {
     super.dispose();
 
-    this.splitNode.disconnect();
     this.eqNode.dispose();
     this.lfo.dispose();
-    this.delayNode.disconnect();
     this.feedbackNode.disconnect();
-    this.wet.disconnect();
     this.dry.disconnect();
-    this.mergeNode.disconnect();
     this.levelSub$.complete();
     this.eqSub$.complete();
     this.rateSub$.complete();
