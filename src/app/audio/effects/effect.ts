@@ -33,20 +33,6 @@ export abstract class Effect<D extends Active> implements Disposable {
    */
   active$ = this.activeSub$.asObservable();
 
-  // TODO: Move to context manager.
-  static connectInOrder(effects: Required<EffectNode>[]) {
-    for (let i = effects.length - 1; i > 0; --i) {
-      effects[i - 1].connect(effects[i]);
-    }
-  }
-
-  // TODO: Move to context manager.
-  static disconnectInOrder(effects: Required<EffectNode>[]) {
-    for (const effect of effects) {
-      effect.disconnect();
-    }
-  }
-
   /**
    * Whether an effect is active or bypassed.
    */

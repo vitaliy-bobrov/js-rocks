@@ -99,7 +99,9 @@ export class AudioContextManager {
         this.lineInSource.connect(this.effects[0].input);
       }
 
-      Effect.connectInOrder(this.effects);
+      for (let i = this.effects.length - 1; i > 0; --i) {
+        this.effects[i - 1].connect(this.effects[i]);
+      }
 
       this.effects[this.effects.length - 1].output.connect(this.masterGain);
     } else if (this.lineInSource) {
@@ -112,7 +114,9 @@ export class AudioContextManager {
       this.lineInSource.disconnect();
     }
 
-    Effect.disconnectInOrder(this.effects);
+    for (const effect of this.effects) {
+      effect.disconnect();
+    }
   }
 
   takeSnapshot() {
