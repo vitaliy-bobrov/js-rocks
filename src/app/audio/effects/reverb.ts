@@ -9,7 +9,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, toMs, equalCrossFade } from '@shared/utils';
+import { connectNodes, clamp, toSeconds, equalCrossFade } from '@shared/utils';
 import { ToneControl, StandardTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';
 
@@ -28,14 +28,14 @@ export class Reverb extends Effect<ReverbSettings> {
   private timeSub$ = new BehaviorSubject(0);
   private toneSub$ = new BehaviorSubject(0);
   private levelSub$ = new BehaviorSubject(0);
-  private splitter: ChannelSplitterNode<AudioContext>;
+  private splitter: GainNode<AudioContext>;
   private timeNode: DelayNode<AudioContext>;
   private toneNode: ToneControl;
   private convolver: ConvolverNode<AudioContext>;
   private makeUpGain: GainNode<AudioContext>;
   private wet: GainNode<AudioContext>;
   private dry: GainNode<AudioContext>;
-  private merger: ChannelMergerNode<AudioContext>;
+  private merger: GainNode<AudioContext>;
 
   type: string;
 
@@ -47,7 +47,7 @@ export class Reverb extends Effect<ReverbSettings> {
     const time = clamp(0, 15, value);
     this.timeSub$.next(time);
 
-    const delay = toMs(time);
+    const delay = toSeconds(time);
     this.timeNode.delayTime.setTargetAtTime(delay, this.currentTime, 0.01);
   }
 
@@ -75,27 +75,29 @@ export class Reverb extends Effect<ReverbSettings> {
   ) {
     super(context, model);
 
-    this.splitter = new ChannelSplitterNode(context);
+    this.splitter = new GainNode(context);
     this.timeNode = new DelayNode(context);
     this.toneNode = new StandardTone(context);
     this.convolver = new ConvolverNode(context);
     this.wet = new GainNode(context);
     this.dry = new GainNode(context);
-    this.merger = new ChannelMergerNode(context);
+    this.merger = new GainNode(context);
     this.makeUpGain = new GainNode(context);
 
+    // "Wet" chain.
     this.processor = [
       this.splitter,
       this.timeNode,
       ...this.toneNode.nodes,
       this.convolver,
+      this.makeUpGain,
       this.wet,
-      this.merger,
-      this.makeUpGain
+      this.merger
     ];
-
     connectNodes(this.processor);
-    this.splitter.connect(this.dry).connect(this.merger, 0, 1);
+
+    // "Dry" chain.
+    connectNodes([this.splitter, this.dry, this.merger]);
 
     this.applyDefaults();
     this.updateConvolver(buffer$, convolverMakeUp, this.type);
@@ -120,10 +122,7 @@ export class Reverb extends Effect<ReverbSettings> {
   dispose() {
     super.dispose();
 
-    this.splitter.disconnect();
     this.dry.disconnect();
-    this.merger.disconnect();
-
     this.toneNode.dispose();
     this.splitter = null;
     this.timeNode = null;
