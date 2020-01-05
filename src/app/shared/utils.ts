@@ -54,7 +54,7 @@ export function deepCopy<T>(obj: T): T {
 /**
  * Equal power cross-fade.
  */
-export function equalCrossFade(value: number) {
+export function equalCrossFade(value: number): Readonly<[number, number]> {
   const first = value === 1 ? 0 : Math.cos(value * 0.5 * Math.PI);
   const last = value === 0 ? 0 : Math.cos((1 - value) * 0.5 * Math.PI);
 

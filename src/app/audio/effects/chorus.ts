@@ -3,9 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
+import { clamp, connectNodes, equalCrossFade } from '@shared/utils';
 import { StandardTone, ToneControl } from './tone';
-import { LFO } from './lfo';
+import { LFO, LFOType } from './lfo';
 
 export interface ChorusSettings extends Active {
   level: number;
@@ -14,6 +14,7 @@ export interface ChorusSettings extends Active {
   depth: number;
   feedback: number;
   delay: number;
+  type?: LFOType;
 }
 
 export interface ChorusInfo extends EffectInfo {
@@ -27,36 +28,54 @@ export class Chorus extends Effect<ChorusSettings> {
   private depthSub$ = new BehaviorSubject(0);
   private feedbackSub$ = new BehaviorSubject(0);
   private delaySub$ = new BehaviorSubject(0);
+  private splitNode: GainNode<AudioContext>;
   private eqNode: ToneControl;
   private lfo: LFO;
   private delayNode: DelayNode<AudioContext>;
   private feedbackNode: GainNode<AudioContext>;
-  private levelNode: GainNode<AudioContext>;
+  private wet: GainNode<AudioContext>;
+  private dry: GainNode<AudioContext>;
+  private mergeNode: GainNode<AudioContext>;
 
   level$ = this.levelSub$.asObservable();
   eq$ = this.eqSub$.asObservable();
   rate$ = this.rateSub$.asObservable();
   depth$ = this.depthSub$.asObservable();
 
+  /**
+   * Controls the volume balance between "dry" and "wet" chains.
+   * Varies between [0 .. 1], where 0 means full "dry", 1 - full "wet".
+   */
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
+    const values = equalCrossFade(value);
 
-    this.levelNode.gain.setTargetAtTime(gain, this.currentTime, 0.01);
+    this.dry.gain.setTargetAtTime(values[0], this.currentTime, 0.01);
+    this.wet.gain.setTargetAtTime(values[1], this.currentTime, 0.01);
   }
 
+  /**
+   * Set a tone for "wet" channel with simple LP filter.
+   */
   set eq(value: number) {
     const tone = clamp(0, 1, value);
     this.eqSub$.next(tone);
     this.eqNode.tone = tone;
   }
 
+  /**
+   * Sets a rate in Hz for generating delay in "wet" chain.
+   */
   set rate(value: number) {
-    const rate = clamp(0, 10, value);
+    const rate = clamp(0, 20, value);
     this.rateSub$.next(rate);
     this.lfo.rate = rate;
   }
 
+  /**
+   * Sets the range for delay modulation.
+   */
   set depth(value: number) {
     const depth = clamp(0, 100, value);
     this.depthSub$.next(depth);
@@ -64,12 +83,20 @@ export class Chorus extends Effect<ChorusSettings> {
     this.lfo.depth = gain;
   }
 
+  /**
+   * Feedback of the delay loop, level of loop repeats.
+   * Could be [0 .. 0.99], where 0 means no repeats.
+   * Couldn't be 1 as it will create an infinite loop.
+   */
   set feedback(value: number) {
-    const feedback = clamp(0, 1, value);
+    const feedback = clamp(0, 0.99, value);
     this.feedbackSub$.next(feedback);
     this.feedbackNode.gain.setTargetAtTime(feedback, this.currentTime, 0.01);
   }
 
+  /**
+   * "Wet" chain base delay time to modulate in ms.
+   */
   set delay(value: number) {
     const clamped = clamp(0, 1, value);
     const delay = 0.0002 * (Math.pow(10, clamped) * 2);
@@ -81,47 +108,55 @@ export class Chorus extends Effect<ChorusSettings> {
     this.delayNode.delayTime.setTargetAtTime(delay, this.currentTime, 0.01);
   }
 
-  get delay() {
-    return this.delaySub$.value;
-  }
-
   constructor(
     context: AudioContext,
     model: string,
     protected defaults: ChorusSettings
   ) {
     super(context, model);
+
+    // Nodes initialization.
+    this.splitNode = new GainNode(context);
     this.eqNode = new StandardTone(context);
-    this.lfo = new LFO(context);
+    this.lfo = new LFO(context, defaults.type);
     this.delayNode = new DelayNode(context);
     this.feedbackNode = new GainNode(context);
-    this.levelNode = new GainNode(context);
+    this.wet = new GainNode(context);
+    this.dry = new GainNode(context);
+    this.mergeNode = new GainNode(context);
 
-    this.processor = [...this.eqNode.nodes, this.delayNode, this.levelNode];
-
+    // "Wet" chain.
+    this.processor = [
+      this.splitNode,
+      ...this.eqNode.nodes,
+      this.delayNode,
+      this.wet,
+      this.mergeNode
+    ];
     connectNodes(this.processor);
 
     // Feedback loop.
-    this.delayNode.connect(this.feedbackNode);
-    this.feedbackNode.connect(this.delayNode);
+    this.delayNode.connect(this.feedbackNode).connect(this.delayNode);
 
     // LFO setup.
     this.lfo.connect(this.delayNode.delayTime);
+
+    // "Dry" chain.
+    connectNodes([this.splitNode, this.dry, this.mergeNode]);
     this.applyDefaults();
   }
 
   dispose() {
     super.dispose();
 
-    this.lfo.dispose();
-    this.feedbackNode.disconnect();
-
+    this.splitNode.disconnect();
     this.eqNode.dispose();
-    this.eqNode = null;
-    this.lfo = null;
-    this.delayNode = null;
-    this.feedbackNode = null;
-    this.levelNode = null;
+    this.lfo.dispose();
+    this.delayNode.disconnect();
+    this.feedbackNode.disconnect();
+    this.wet.disconnect();
+    this.dry.disconnect();
+    this.mergeNode.disconnect();
     this.levelSub$.complete();
     this.eqSub$.complete();
     this.rateSub$.complete();
