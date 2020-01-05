@@ -43,18 +43,14 @@ export class TremoloComponent
     rate: 4.2,
     depth: 50,
     wave: 0.5,
-    active: false
+    active: false,
+    type: 'trapezoid'
   };
 
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Tremolo(
-      this.manager.context,
-      'jtr-2',
-      this.params,
-      'trapezoid'
-    );
+    this.effect = new Tremolo(this.manager.context, 'jtr-2', this.params);
     this.manager.addEffect(this.effect);
   }
 

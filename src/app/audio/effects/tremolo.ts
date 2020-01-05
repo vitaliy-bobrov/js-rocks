@@ -10,6 +10,7 @@ export interface TremoloSettings {
   depth: number;
   wave: number;
   active: boolean;
+  type?: LFOType;
 }
 
 export interface TremoloInfo extends EffectInfo {
@@ -49,12 +50,11 @@ export class Tremolo extends Effect<TremoloSettings> {
   constructor(
     context: AudioContext,
     model: string,
-    protected defaults: TremoloSettings,
-    type?: LFOType
+    protected defaults: TremoloSettings
   ) {
     super(context, model);
 
-    this.lfo = new LFO(context, type);
+    this.lfo = new LFO(context, defaults.type);
     this.gainNode = new GainNode(context, { gain: 0 });
 
     this.processor = [this.gainNode];
@@ -70,9 +70,7 @@ export class Tremolo extends Effect<TremoloSettings> {
   dispose() {
     super.dispose();
     this.lfo.dispose();
-
-    this.lfo = null;
-    this.gainNode = null;
+    this.gainNode.disconnect();
     this.rateSub$.complete();
     this.depthSub$.complete();
     this.waveSub$.complete();
