@@ -33,15 +33,22 @@ export function percentFromMinMax(value: number, min: number, max: number) {
 /**
  * Rescales value exponentially.
  */
-export function expScale(value: number) {
+export function expScale(value: number): number {
   return Math.pow(Math.abs(value), 2);
+}
+
+/**
+ * Converts milliseconds to seconds.
+ */
+export function toSeconds(value: number): number {
+  return value > 0 ? value / 1000 : 0;
 }
 
 /**
  * Converts seconds to milliseconds.
  */
-export function toMs(value: number) {
-  return value > 0 ? value / 1000 : 0;
+export function toMs(value: number): number {
+  return value * 1000;
 }
 
 /**
