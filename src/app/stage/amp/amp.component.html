@@ -33,7 +33,7 @@
       dots
       silver
       class="master"
-      label="VOLUME"
+      label="MASTER"
       [value]="masterVolume$ | async"
       (valueChanged)="updateMasterVolume($event)"
     >
@@ -43,7 +43,7 @@
       dots
       silver
       class="gain"
-      label="GAIN"
+      label="VOLUME"
       [min]="1"
       [max]="selectedModel.maxGain"
       [step]="0.5"
