@@ -5,6 +5,9 @@ import { Active } from '@audio/interfaces/active.interface';
 import { EffectNode } from '@audio/interfaces/node.interface';
 import { Disposable } from '@audio/interfaces/disposable.interface';
 
+/**
+ * Minimal effect information interface to extend.
+ */
 export interface EffectInfo {
   model: string;
   params: {
@@ -12,28 +15,41 @@ export interface EffectInfo {
   };
 }
 
+/**
+ * Base audio effect class.
+ */
 export abstract class Effect<D extends Active> implements Disposable {
   private activeSub$ = new BehaviorSubject(false);
   private context: AudioContext;
   protected defaults: D;
   protected isBypassEnabled: boolean;
   protected processor: IAudioNode<AudioContext>[] = [];
+
   input: GainNode<AudioContext>;
   output: GainNode<AudioContext>;
+
+  /**
+   * Active effect state stream.
+   */
   active$ = this.activeSub$.asObservable();
 
+  // TODO: Move to context manager.
   static connectInOrder(effects: Required<EffectNode>[]) {
     for (let i = effects.length - 1; i > 0; --i) {
       effects[i - 1].connect(effects[i]);
     }
   }
 
+  // TODO: Move to context manager.
   static disconnectInOrder(effects: Required<EffectNode>[]) {
     for (const effect of effects) {
       effect.disconnect();
     }
   }
 
+  /**
+   * Whether an effect is active or bypassed.
+   */
   set active(value: boolean) {
     if (value && typeof this.isBypassEnabled === 'undefined') {
       this.toggleBypass();
@@ -45,11 +61,17 @@ export abstract class Effect<D extends Active> implements Disposable {
     }
   }
 
-  get currentTime() {
+  /**
+   * Audio context time.
+   */
+  get currentTime(): number {
     return this.context.currentTime;
   }
 
-  get sampleRate() {
+  /**
+   * Audio context sample rate.
+   */
+  get sampleRate(): number {
     return this.context.sampleRate;
   }
 
@@ -60,12 +82,18 @@ export abstract class Effect<D extends Active> implements Disposable {
     this.activeSub$.next(false);
   }
 
+  /**
+   * Applies default parameters to effect properties.
+   */
   applyDefaults() {
     Object.keys(this.defaults).forEach(option => {
       this[option] = this.defaults[option];
     });
   }
 
+  /**
+   * Toggles effect bypass based on current state.
+   */
   toggleBypass() {
     this.isBypassEnabled = !this.isBypassEnabled;
 
@@ -85,14 +113,23 @@ export abstract class Effect<D extends Active> implements Disposable {
     this.activeSub$.next(!this.isBypassEnabled);
   }
 
+  /**
+   * Connects effect to another effect.
+   */
   connect(effect: Effect<any>) {
     this.output.connect(effect.input);
   }
 
+  /**
+   * Disconnects effect from another effect.
+   */
   disconnect() {
     this.output.disconnect();
   }
 
+  /**
+   * Cleanups all audio nodes and streams.
+   */
   dispose() {
     this.disconnect();
 
@@ -110,6 +147,9 @@ export abstract class Effect<D extends Active> implements Disposable {
     this.isBypassEnabled = true;
   }
 
+  /**
+   * Creates current effect configuration snapshot.
+   */
   takeSnapshot(): EffectInfo {
     return {
       model: this.model,
