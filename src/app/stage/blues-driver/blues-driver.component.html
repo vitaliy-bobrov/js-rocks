@@ -5,13 +5,12 @@
   (remove)="remove.emit()"
 >
   <div class="pedal-layout">
-    <div class="controls">
+    <jsr-three-knob-layout>
       <p class="led-label">check</p>
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
         gold
-        class="level"
         label="LEVEL"
         [value]="effect.level$ | async"
         (valueChanged)="effect.level = $event"
@@ -19,7 +18,6 @@
       <jsr-knob
         dots
         gold
-        class="dist"
         label="GAIN"
         [value]="effect.distortion$ | async"
         (valueChanged)="effect.distortion = $event"
@@ -27,13 +25,12 @@
       <jsr-knob
         small
         gold
-        class="tone"
         label="TONE"
         labelPosition="top"
         [value]="effect.tone$ | async"
         (valueChanged)="effect.tone = $event"
       ></jsr-knob>
-    </div>
+    </jsr-three-knob-layout>
 
     <jsr-large-switch
       center

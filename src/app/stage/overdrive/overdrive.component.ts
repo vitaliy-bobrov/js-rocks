@@ -19,6 +19,7 @@ import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
 import { StompboxModule } from '../stompbox/stompbox.component';
+import { ThreeKnobLayoutModule } from '../three-knob-layout/three-knob-layout.component';
 
 @Component({
   selector: 'jsr-overdrive',
@@ -71,7 +72,8 @@ export class OverdriveComponent
     KnobModule,
     LargeSwitchModule,
     LedModule,
-    StompboxModule
+    StompboxModule,
+    ThreeKnobLayoutModule
   ]
 })
 export class OverdriveModule {}

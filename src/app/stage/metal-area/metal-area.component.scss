@@ -1,6 +1,7 @@
 :host {
   --stompbox-label: #fff;
   --stompbox-bg: #4b5053;
+  --controls-plate-bg: #3c4145;
   display: block;
 
   .pedal-layout {
@@ -10,57 +11,12 @@
     height: 100%;
   }
 
-  .controls {
-    display: grid;
-    grid-template-areas:
-      '.    label   .'
-      'level led  dist'
-      'level .    dist'
-      'level tone dist';
-    text-align: center;
-    padding: 4px 6px 0;
-    position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      bottom: 4px;
-      left: 6px;
-      border-radius: 0.25em;
-      background-color: #3c4145;
-      z-index: 0;
-    }
-
-    > * {
-      z-index: 1;
-    }
-  }
-
   .led-label {
     grid-area: label;
     text-transform: uppercase;
     font-size: 9px;
     margin: 3px 0 0;
     color: var(--stompbox-label);
-  }
-
-  jsr-led {
-    grid-area: led;
-    justify-self: center;
-  }
-
-  .tone {
-    grid-area: tone;
-  }
-
-  .dist {
-    grid-area: dist;
-  }
-
-  .level {
-    grid-area: level;
   }
 
   .switch {

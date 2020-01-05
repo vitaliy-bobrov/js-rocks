@@ -40,7 +40,7 @@ export class CoolChorusComponent
   effect: Chorus;
 
   params: ChorusSettings = {
-    level: 1,
+    level: 0.5,
     eq: 0.5,
     rate: 4,
     depth: 60,

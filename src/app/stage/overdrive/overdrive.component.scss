@@ -9,39 +9,11 @@
     height: 100%;
   }
 
-  .controls {
-    display: grid;
-    grid-template-areas:
-      '.     label    .'
-      'level led   drive'
-      'level .     drive'
-      'level tone  drive';
-    text-align: center;
-    padding: 0 6px;
-  }
-
   .led-label {
     grid-area: label;
     text-transform: uppercase;
     font-size: 9px;
     margin: 3px 0 0;
-  }
-
-  jsr-led {
-    grid-area: led;
-    justify-self: center;
-  }
-
-  .tone {
-    grid-area: tone;
-  }
-
-  .dist {
-    grid-area: drive;
-  }
-
-  .level {
-    grid-area: level;
   }
 
   .switch {

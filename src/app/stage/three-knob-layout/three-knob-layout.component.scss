@@ -1,0 +1,56 @@
+:host {
+  display: grid;
+  grid-template-areas:
+    '.    label  .    '
+    'left led    right'
+    'left .      right'
+    'left center right';
+  text-align: center;
+  padding: 0 6px;
+
+  &[with-plate] {
+    padding: 4px 6px 0;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      bottom: 4px;
+      left: 6px;
+      border-radius: 0.25em;
+      background-color: var(--controls-plate-bg, #000);
+      z-index: 0;
+    }
+
+    > ::ng-deep * {
+      z-index: 1;
+    }
+  }
+
+  ::ng-deep {
+    jsr-led {
+      grid-area: led;
+      justify-self: center;
+    }
+
+    jsr-check-label {
+      grid-area: label;
+    }
+
+    jsr-knob {
+      &:nth-of-type(1) {
+        grid-area: left;
+      }
+
+      &:nth-of-type(2) {
+        grid-area: right;
+      }
+
+      &:nth-of-type(3) {
+        grid-area: center;
+      }
+    }
+  }
+}
