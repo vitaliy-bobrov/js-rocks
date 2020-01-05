@@ -48,6 +48,10 @@ import { LoadableModule } from 'ngx-loadable';
             )
         },
         {
+          name: 'jdm-2',
+          load: () => import('./delay/delay.component').then(m => m.DelayModule)
+        },
+        {
           name: 'jds-1',
           load: () =>
             import('./ds-one/ds-one.component').then(m => m.DsOneModule)

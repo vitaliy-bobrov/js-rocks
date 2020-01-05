@@ -1,0 +1,23 @@
+:host {
+  --stompbox-bg: #900031;
+  --stompbox-label: #000;
+  display: block;
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'switch';
+    grid-template-rows: 1fr 65%;
+    height: 100%;
+  }
+
+  .led-label {
+    grid-area: label;
+    text-transform: uppercase;
+    font-size: 9px;
+    margin: 3px 0 0;
+  }
+
+  .switch {
+    grid-area: switch;
+  }
+}

@@ -1,0 +1,53 @@
+<jsr-stompbox
+  #drag
+  cdkDrag
+  cdkDragRootElement=".pedal"
+  (remove)="remove.emit()"
+>
+  <div class="pedal-layout">
+    <jsr-three-knob-layout>
+      <p class="led-label">check</p>
+      <jsr-led [active]="effect.active$ | async"></jsr-led>
+      <jsr-knob
+        dots
+        silver
+        label="REPEAT RATE"
+        units="ms"
+        [min]="20"
+        [max]="300"
+        [step]="5"
+        [value]="effect.time$ | async"
+        (valueChanged)="effect.time = $event"
+      ></jsr-knob>
+      <jsr-knob
+        dots
+        silver
+        label="INTENSITY"
+        units="%"
+        [max]="90"
+        [step]="0.5"
+        [value]="effect.feedback$ | async"
+        (valueChanged)="effect.feedback = $event"
+      ></jsr-knob>
+      <jsr-knob
+        small
+        silver
+        label="ECHO"
+        labelPosition="top"
+        [value]="effect.level$ | async"
+        (valueChanged)="effect.level = $event"
+      ></jsr-knob>
+    </jsr-three-knob-layout>
+
+    <jsr-large-switch
+      center
+      xl-label
+      class="switch"
+      name="Delay"
+      [active]="effect.active$ | async"
+      [model]="effect.model"
+      (switch)="effect.toggleBypass()"
+    ></jsr-large-switch>
+  </div>
+  <div *cdkDragPlaceholder></div>
+</jsr-stompbox>

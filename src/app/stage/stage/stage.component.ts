@@ -64,6 +64,10 @@ const componentMapping = {
     name: 'Tremolo',
     model: 'JTR-2'
   },
+  'jdm-2': {
+    name: 'Delay',
+    model: 'JDM-2'
+  },
   'jrv-6': {
     name: 'Reverb',
     model: 'JRV-6'
