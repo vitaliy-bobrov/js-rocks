@@ -5,13 +5,12 @@
   (remove)="remove.emit()"
 >
   <div class="pedal-layout">
-    <div class="controls">
+    <jsr-three-knob-layout>
       <p class="led-label">check</p>
       <jsr-led [active]="effect.active$ | async"></jsr-led>
       <jsr-knob
         dots
         gold
-        class="rate"
         label="RATE"
         units="Hz"
         [min]="0.5"
@@ -23,7 +22,6 @@
       <jsr-knob
         dots
         gold
-        class="depth"
         label="DEPTH"
         units="%"
         [min]="5"
@@ -35,7 +33,6 @@
       <jsr-knob
         small
         gold
-        class="wave"
         label="WAVE"
         labelPosition="top"
         [startDegree]="-90"
@@ -43,7 +40,7 @@
         [value]="effect.wave$ | async"
         (valueChanged)="effect.wave = $event"
       ></jsr-knob>
-    </div>
+    </jsr-three-knob-layout>
 
     <jsr-large-switch
       center

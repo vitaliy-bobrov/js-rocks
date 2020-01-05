@@ -10,39 +10,11 @@
     height: 100%;
   }
 
-  .controls {
-    display: grid;
-    grid-template-areas:
-      '.    label     .'
-      'rate led   depth'
-      'rate .     depth'
-      'rate wave  depth';
-    text-align: center;
-    padding: 0 6px;
-  }
-
   .led-label {
     grid-area: label;
     text-transform: uppercase;
     font-size: 9px;
     margin: 3px 0 0;
-  }
-
-  jsr-led {
-    grid-area: led;
-    justify-self: center;
-  }
-
-  .wave {
-    grid-area: wave;
-  }
-
-  .depth {
-    grid-area: depth;
-  }
-
-  .rate {
-    grid-area: rate;
   }
 
   .switch {
