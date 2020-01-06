@@ -42,9 +42,9 @@ export class DelayComponent
 
   params: DelaySettings = {
     level: 0.5,
-    time: 140,
+    time: 160,
     feedback: 45,
-    // feedbackCutoff: 2000,
+    feedbackCutoff: 2200,
     active: false
   };
 

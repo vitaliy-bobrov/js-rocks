@@ -89,7 +89,7 @@ export class Delay extends Effect<DelaySettings> {
     this.splitNode = new GainNode(context);
     this.preDelayLP = new BiquadFilterNode(context, {
       type: 'lowpass',
-      Q: Math.SQRT1_2,
+      Q: Math.SQRT2,
       frequency: defaults.feedbackCutoff || 10000
     });
     this.delayNode = new DelayNode(context);
