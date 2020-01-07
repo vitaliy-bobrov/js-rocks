@@ -8,43 +8,47 @@ JS Rocks - Web Audio electric guitar effects and cabinets.
 
 ![](https://github.com/vitaliy-bobrov/js-rocks/blob/master/src/assets/og-image.jpg)
 
-## Available effects 🎸
+## Available stompboxes 🎸
 
-### Overdrive
+### Tuners
+
+- Tuner JTU-3
+
+### Compressors
+
+- Lemon Squeeze JCP-1
+
+### Overdrives
 
 - Blues Driver JBD-2
 - OverDrive JOD-3
 
-### Distortion
+### Distortions
 
 - Classic Distortion JDS-1
 - Metal Area JMT-2
 
-### Fuzz
+### Fuzzes
 
 - Massive Muff π
 
-### Reverb
-
-- Reverb JRV-6
-
-### Chorus
+### Choruses
 
 - Cool Chorus JCH-1
 
-### Tremolo
+### Tremolos
 
 - Tremolo JTR-2
 
-### Compressor
+### Delays
 
-- Lemon Squeeze JCP-1
+- Delay JDM-2
 
-### Tuner
+### Reverbs
 
-- Tuner JTU-3
+- Reverb JRV-6
 
-## Available cabinets 🔊
+## Available amplifiers / cabinets 🔊
 
 - Captain 1960
 - Friender Winner
