@@ -1,4 +1,9 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  inject
+} from '@angular/core/testing';
 import { PortalModule } from '@angular/cdk/portal';
 
 import { PageActionsComponent } from './page-actions.component';
@@ -11,10 +16,10 @@ xdescribe('PageActionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageActionsComponent ]
+      declarations: [PageActionsComponent]
     })
-    .configureTestingModule({imports: [PortalModule]})
-    .compileComponents();
+      .configureTestingModule({ imports: [PortalModule] })
+      .compileComponents();
   }));
 
   beforeEach(() => {

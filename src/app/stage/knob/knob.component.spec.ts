@@ -3,8 +3,6 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KnobComponent, KnobModule } from './knob.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { SharedModule } from '@shared/shared.module';
 
 declare global {
   namespace jest {

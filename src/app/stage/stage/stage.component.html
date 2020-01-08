@@ -1,9 +1,13 @@
 <jsr-page-actions>
   <mat-menu #appMenu="matMenu">
     <button type="button" mat-menu-item (click)="blankPreset()">
-      <mat-icon>
-        {{ selectedPresetId === '' ? '&#xe837;' : '&#xe836;' }}
-      </mat-icon>
+      <mat-icon
+        [svgIcon]="
+          selectedPresetId === ''
+            ? 'radio_button_checked'
+            : 'radio_button_unchecked'
+        "
+      ></mat-icon>
       <span>Default</span>
     </button>
     <button
@@ -12,9 +16,13 @@
       *ngFor="let preset of presets"
       (click)="activatePreset(preset.id)"
     >
-      <mat-icon>
-        {{ selectedPresetId === preset.id ? '&#xe837;' : '&#xe836;' }}
-      </mat-icon>
+      <mat-icon
+        [svgIcon]="
+          selectedPresetId === preset.id
+            ? 'radio_button_checked'
+            : 'radio_button_unchecked'
+        "
+      ></mat-icon>
       <span>{{ preset.name }}</span>
     </button>
   </mat-menu>
@@ -31,8 +39,8 @@
       matBadgeColor="accent"
       matBadgePosition="above before"
       [matBadgeHidden]="!presets.length"
-      >&#xe896;</mat-icon
-    >
+      svgIcon="list"
+    ></mat-icon>
   </button>
 
   <button
@@ -43,7 +51,7 @@
     matTooltip="New preset"
     (click)="blankPreset()"
   >
-    <mat-icon>&#xe24d;</mat-icon>
+    <mat-icon svgIcon="blank"></mat-icon>
   </button>
 
   <button
@@ -54,7 +62,7 @@
     matTooltip="Save preset"
     (click)="requestSavePreset()"
   >
-    <mat-icon>&#xe161;</mat-icon>
+    <mat-icon svgIcon="save"></mat-icon>
   </button>
 
   <!-- Additional wrapper to solve Ivy issue with portal and ngIf. -->
@@ -68,7 +76,7 @@
       matTooltip="Delete preset"
       (click)="deletePreset()"
     >
-      <mat-icon>&#xe872;</mat-icon>
+      <mat-icon svgIcon="delete"></mat-icon>
     </button>
   </span>
 </jsr-page-actions>
@@ -85,7 +93,7 @@
   [color]="isLinePlugged ? 'accent' : 'warn'"
   (click)="toggleLineConnection()"
 >
-  <mat-icon>&#xe8c3;</mat-icon>
+  <mat-icon svgIcon="settings_input_svideo"></mat-icon>
 </button>
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>
@@ -108,7 +116,7 @@
   color="accent"
   [matMenuTriggerFor]="pedalBoardMenu"
 >
-  <mat-icon>&#xe145;</mat-icon> Add effect
+  <mat-icon svgIcon="add"></mat-icon> Add effect
 </button>
 
 <div

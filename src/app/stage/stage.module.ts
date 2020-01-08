@@ -1,32 +1,36 @@
 import { NgModule } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PortalModule } from '@angular/cdk/portal';
 
 import { AudioModule } from '@audio/audio.module';
 import { StageRoutingModule } from './stage-routing.module';
 import { AmpComponent } from './amp/amp.component';
 import { KnobModule } from './knob/knob.component';
 import { LedModule } from './led/led.component';
+import { PageActionsComponent } from './page-actions/page-actions.component';
 import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
 import { SharedModule } from '@shared/shared.module';
 import { StageComponent } from './stage/stage.component';
 import { LoadableModule } from 'ngx-loadable';
 
 @NgModule({
-  declarations: [AmpComponent, PresetNameDialogComponent, StageComponent],
+  declarations: [
+    AmpComponent,
+    PageActionsComponent,
+    PresetNameDialogComponent,
+    StageComponent
+  ],
   imports: [
     A11yModule,
     AudioModule,
-    CommonModule,
     DragDropModule,
     FormsModule,
     KnobModule,
@@ -103,12 +107,12 @@ import { LoadableModule } from 'ngx-loadable';
     MatBadgeModule,
     MatButtonModule,
     MatDialogModule,
-    MatIconModule,
     MatInputModule,
     MatMenuModule,
     MatTooltipModule,
     SharedModule,
-    StageRoutingModule
+    StageRoutingModule,
+    PortalModule
   ]
 })
 export class StageModule {}

@@ -23,6 +23,7 @@
         "files": [
           "/assets/icon/**",
           "/assets/fonts/*.(eot|otf|ttf|woff|woff2)",
+          "/assets/svg/*.svg",
           "/*.(svg|cur|jpg|png|webp|gif)"
         ]
       }
@@ -31,9 +32,7 @@
       "name": "impulses",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/assets/impulses/**/*.wav"
-        ]
+        "files": ["/assets/impulses/**/*.wav"]
       }
     }
   ]

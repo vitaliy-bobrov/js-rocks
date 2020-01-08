@@ -9,7 +9,7 @@
       matTooltip="Select cabinet model"
       [matMenuTriggerFor]="menu"
     >
-      <mat-icon>&#xe5d4;</mat-icon>
+      <mat-icon svgIcon="more_vert"></mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
@@ -20,9 +20,13 @@
         *ngFor="let cabinet of cabinets"
         (click)="selectCabinet(cabinet)"
       >
-        <mat-icon>
-          {{ selectedModel === cabinet ? '&#xe837;' : '&#xe836;' }}
-        </mat-icon>
+        <mat-icon
+          [svgIcon]="
+            selectedModel === cabinet
+              ? 'radio_button_checked'
+              : 'radio_button_unchecked'
+          "
+        ></mat-icon>
         <span>{{ cabinet.model }}</span>
       </button>
     </mat-menu>

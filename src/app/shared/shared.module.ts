@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
-import { PortalModule } from '@angular/cdk/portal';
-import { PageActionsComponent } from './page-actions/page-actions.component';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [PageActionsComponent],
-  imports: [PortalModule],
-  exports: [PageActionsComponent, PortalModule]
+  imports: [MatIconModule],
+  exports: [CommonModule, MatIconModule]
 })
 export class SharedModule {}
