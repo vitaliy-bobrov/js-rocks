@@ -9,7 +9,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, toSeconds, equalCrossFade } from '@shared/utils';
+import { connectNodes, clamp, toSeconds, linearCrossFade } from '@shared/utils';
 import { ToneControl, StandardTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';
 
@@ -60,7 +60,7 @@ export class Reverb extends Effect<ReverbSettings> {
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
-    const values = equalCrossFade(value);
+    const values = linearCrossFade(value);
 
     this.dry.gain.setTargetAtTime(values[0], this.currentTime, 0.01);
     this.wet.gain.setTargetAtTime(values[1], this.currentTime, 0.01);

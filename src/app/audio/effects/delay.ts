@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, equalCrossFade, toSeconds } from '@shared/utils';
+import { clamp, connectNodes, linearCrossFade, toSeconds } from '@shared/utils';
 
 export interface DelaySettings extends Active {
   level: number;
@@ -44,7 +44,7 @@ export class Delay extends Effect<DelaySettings> {
   set level(value: number) {
     const gain = clamp(0, 1, value);
     this.levelSub$.next(gain);
-    const values = equalCrossFade(value);
+    const values = linearCrossFade(value);
 
     this.dry.gain.setTargetAtTime(values[0], this.currentTime, 0.01);
     this.wet.gain.setTargetAtTime(values[1], this.currentTime, 0.01);

@@ -69,6 +69,13 @@ export function equalCrossFade(value: number): Readonly<[number, number]> {
 }
 
 /**
+ * Linear cross-fade.
+ */
+export function linearCrossFade(value: number): Readonly<[number, number]> {
+  return [1 - value, value] as const;
+}
+
+/**
  * Calculates biquad filter center frequency for a given frequencies range.
  */
 export function calculateCenterFrequency(range: [number, number]) {
