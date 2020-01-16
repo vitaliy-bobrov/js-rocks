@@ -54,7 +54,7 @@ const componentMapping = {
   },
   'js-bmf': {
     name: 'Massive Muff π',
-    model: 'JS-BMF'
+    model: ''
   },
   'jch-1': {
     name: 'Cool Chorus',

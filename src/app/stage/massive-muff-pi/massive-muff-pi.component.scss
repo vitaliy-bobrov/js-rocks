@@ -50,11 +50,10 @@
 
   .name {
     grid-area: name;
-    margin: 16px 0;
+    margin: 16px 8px;
     color: var(--stompbox-bg);
-    font-size: 24px;
-    line-height: 24px;
-    font-family: 'Rationale', 'Roboto', sans-serif;
+    font-size: 22px;
+    line-height: 22px;
     text-align: center;
     text-shadow: 1px 1px var(--muff-color), -1px -1px var(--muff-color),
       -1px 1px var(--muff-color), 1px -1px var(--muff-color),
