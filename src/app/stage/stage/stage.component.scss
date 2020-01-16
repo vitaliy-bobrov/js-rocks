@@ -4,13 +4,14 @@
 
   .line-toggle {
     position: absolute;
-    top: -28px;
+    top: -60px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 1;
   }
 
   .add-button {
-    margin: 16px auto;
+    margin: 0 auto 16px;
   }
 
   .empty-board-message {

@@ -3,10 +3,10 @@
 :host {
   --stompbox-led: #2624ba;
   display: block;
-  margin: 32px 16px 0;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .2), inset 0 0 1px rgba(0, 0, 0, .1),
-    0 1px 2px rgba(0, 0, 0, .3), 0 3px 2px rgba(0, 0, 0, .1), 0 5px 4px rgba(0, 0, 0, .1),
-    inset 0 2px 1px rgba(255, 255, 255, .2);
+  margin: 16px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), inset 0 0 1px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.3), 0 3px 2px rgba(0, 0, 0, 0.1),
+    0 5px 4px rgba(0, 0, 0, 0.1), inset 0 2px 1px rgba(255, 255, 255, 0.2);
   border-radius: 3px;
   border: 1px solid #333;
   background-color: #222;
@@ -34,15 +34,15 @@
 
   .volume-controls,
   .eq {
-     padding: 0 8px;
-     margin-bottom: 8px;
-     border-radius: 6px;
-     border-bottom: 2px solid #000;
+    padding: 0 8px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border-bottom: 2px solid #000;
 
-     @media screen and (min-width: 768px) {
+    @media screen and (min-width: 768px) {
       padding: 0 16px;
-     }
-   }
+    }
+  }
 
   jsr-knob {
     margin: 20px 0 8px;
@@ -62,21 +62,24 @@
 
   .plate {
     display: grid;
-    grid-template-areas: 'inputs          inputs'
-                         'volume-controls switch'
-                         'eq              eq    ';
+    grid-template-areas:
+      'inputs          inputs'
+      'volume-controls switch'
+      'eq              eq    ';
 
     grid-template-columns: auto max-content;
     justify-content: stretch;
     border-radius: 3px;
     border: 1px solid #333;
     padding: 0 16px;
-    box-shadow: inset 1px 2px 5px rgba(0, 0, 0, .4), inset 0 -1px 3px rgba(0, 0, 0, .3);
+    box-shadow: inset 1px 2px 5px rgba(0, 0, 0, 0.4),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.3);
     @include metal-texture();
 
     @media screen and (min-width: 540px) {
-      grid-template-areas: 'inputs          switch'
-                           'volume-controls eq    ';
+      grid-template-areas:
+        'inputs          switch'
+        'volume-controls eq    ';
     }
 
     @media screen and (min-width: 840px) {
@@ -102,13 +105,19 @@
     &-button {
       width: 2.8em;
       height: 3.5em;
-      border-radius: .5em;
-      color: hsla(0,0%,20%,1);
+      border-radius: 0.5em;
+      color: hsla(0, 0%, 20%, 1);
       font-weight: 700;
       font-size: 20px;
       position: relative;
-      text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
-      box-shadow: inset hsla(0,0%,15%, 1) 0 0 0 2px, inset hsla(0,0%,15%, .8) 0 -1px 5px 2px, inset hsla(0,0%,0%, .25) 0 -1px 0 3px, inset hsla(0,0%,100%,.7) 0 2px 1px 3px,hsla(0,0%, 0%,.15) 0 -5px 6px 4px, hsla(0,0%,100%,.5) 0 5px 6px 4px;
+      text-shadow: hsla(0, 0%, 40%, 0.5) 0 -1px 0,
+        hsla(0, 0%, 100%, 0.6) 0 2px 1px;
+      box-shadow: inset hsla(0, 0%, 15%, 1) 0 0 0 2px,
+        inset hsla(0, 0%, 15%, 0.8) 0 -1px 5px 2px,
+        inset hsla(0, 0%, 0%, 0.25) 0 -1px 0 3px,
+        inset hsla(0, 0%, 100%, 0.7) 0 2px 1px 3px,
+        hsla(0, 0%, 0%, 0.15) 0 -5px 6px 4px,
+        hsla(0, 0%, 100%, 0.5) 0 5px 6px 4px;
       @include metal-texture-small();
 
       &:focus {
@@ -119,7 +128,7 @@
           left: 0;
           right: 0;
           bottom: 0;
-          border-radius: .5em;
+          border-radius: 0.5em;
           box-shadow: 0 0 6px #f44336;
         }
       }
