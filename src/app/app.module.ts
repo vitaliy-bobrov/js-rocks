@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
       enabled: environment.production
     })
   ],
+  providers: [{ provide: 'googleTagManagerId', useValue: 'UA-90372372-2' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

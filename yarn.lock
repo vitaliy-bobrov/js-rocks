@@ -2145,6 +2145,14 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
+angular-google-tag-manager@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/angular-google-tag-manager/-/angular-google-tag-manager-1.0.1.tgz#d6ccc94cef6bb05aa375ac4aa1d702a5c752bb9c"
+  integrity sha512-iv+TlWUyVo3EBVFO5QURZycoHO7XEB7lp77V7yW7Cdq2s4YEtfcRoudTuY51V4IhU4RkkTasiyEq9LyOtu/v1A==
+  dependencies:
+    browser-globals "0.0.2"
+    tslib "^1.9.0"
+
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"
@@ -2782,6 +2790,13 @@ brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
+
+browser-globals@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/browser-globals/-/browser-globals-0.0.2.tgz#6598699856ff76cbed2928ce32a05be9ba3e5824"
+  integrity sha512-avt9UvUGeWQk+MJC3PRR99ZyHOyU1QiiWQf9iR1/gRzR5ogIZcuLz/5liT8R1JEG4H38L1pfLkURirbWfk2O5w==
+  dependencies:
+    tslib "^1.9.0"
 
 browser-process-hrtime@^0.1.2:
   version "0.1.3"

@@ -1,16 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { tap } from 'rxjs/operators';
+
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'jsr-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     readonly iconRegistry: MatIconRegistry,
-    readonly sanitizer: DomSanitizer
+    readonly sanitizer: DomSanitizer,
+    private gtmService: GoogleTagManagerService,
+    private router: Router
   ) {
     iconRegistry.addSvgIcon(
       'arrow_forward',
@@ -58,5 +65,20 @@ export class AppComponent {
         'assets/svg/settings_input_svideo.svg'
       )
     );
+  }
+
+  ngOnInit() {
+    if (environment.production) {
+      this.router.events.pipe(
+        tap(event => {
+          if (event instanceof NavigationEnd) {
+            this.gtmService.pushTag({
+              event: 'page',
+              pageName: event.url
+            });
+          }
+        })
+      );
+    }
   }
 }
