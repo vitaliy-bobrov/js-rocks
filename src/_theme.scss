@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+// Define the theme.
+$js-rocks-primary: mat-palette($mat-purple, 700, 500, 800);
+$js-rocks-accent: mat-palette($mat-green, A200, A100, A400);
+$js-rocks-theme: mat-dark-theme($js-rocks-primary, $js-rocks-accent);
+
+// Include the theme styles for only specified components.
+@include mat-core-theme($js-rocks-theme);
+@include mat-badge-theme($js-rocks-theme);
+@include mat-button-theme($js-rocks-theme);
+@include mat-dialog-theme($js-rocks-theme);
+@include mat-icon-theme($js-rocks-theme);
+@include mat-input-theme($js-rocks-theme);
+@include mat-menu-theme($js-rocks-theme);
+@include mat-toolbar-theme($js-rocks-theme);
+@include mat-tooltip-theme($js-rocks-theme);
+@include mat-snack-bar-theme($js-rocks-theme);
