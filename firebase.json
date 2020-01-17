@@ -21,7 +21,7 @@
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "max-age=604800"
+              "value": "max-age=604800, stale-while-revalidate=1209600"
             }
           ]
         },
@@ -30,7 +30,16 @@
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "max-age=604800"
+              "value": "max-age=604800, stale-while-revalidate=1209600"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js|css|html)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=86400, stale-while-revalidate=604800"
             }
           ]
         }
