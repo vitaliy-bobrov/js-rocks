@@ -6,8 +6,7 @@ import {
   OnInit,
   OnDestroy,
   AfterContentChecked,
-  ComponentRef,
-  TemplateRef
+  ComponentRef
 } from '@angular/core';
 import {
   CdkDragDrop,
