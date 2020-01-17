@@ -21,7 +21,7 @@ script:
 after_success:
 - lhci autorun
 before_deploy:
-  - yarn build:prod
+- yarn build:prod
 deploy:
   provider: firebase
   token:
