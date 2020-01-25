@@ -12,41 +12,45 @@ JS Rocks - Web Audio electric guitar effects and cabinets.
 
 ### Tuners
 
-- Tuner JTU-3
+- JOSS Tuner JTU-3
 
 ### Compressors
 
-- Lemon Squeeze JCP-1
+- JOSS Lemon Squeeze JCP-1
 
 ### Overdrives
 
-- Blues Driver JBD-2
-- OverDrive JOD-3
+- JOSS Blues Driver JBD-2
+- JOSS OverDrive JOD-3
 
 ### Distortions
 
-- Classic Distortion JDS-1
-- Metal Area JMT-2
+- JOSS Classic Distortion JDS-1
+- JOSS Metal Area JMT-2
 
 ### Fuzzes
 
-- Massive Muff π
+- Ernesto-Saxophonist Massive Muff π
 
 ### Choruses
 
-- Cool Chorus JCH-1
+- JOSS Cool Chorus JCH-1
+
+### Phasers
+
+- TSX phase π/2
 
 ### Tremolos
 
-- Tremolo JTR-2
+- JOSS Tremolo JTR-2
 
 ### Delays
 
-- Delay JDM-2
+- JOSS Delay JDM-2
 
 ### Reverbs
 
-- Reverb JRV-6
+- JOSS Reverb JRV-6
 
 ## Available amplifiers / cabinets 🔊
 
@@ -78,5 +82,6 @@ Numeric keys shortcuts automatically created for first 9 presets.
 
 ## Planned effects
 
-- Freeverb
-- Phaser 90
+- Ernesto-Saxophonist Neon Clown (Chorus)
+- JOSS DS-1-4A
+- Tube Screamer
