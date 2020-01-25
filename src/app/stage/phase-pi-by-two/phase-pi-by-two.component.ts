@@ -50,6 +50,7 @@ export class PhasePiByTwoComponent
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
+    // Config based on Phase 90 analysis https://www.electrosmash.com/mxr-phase90.
     this.effect = new Phaser(this.manager.context, this.info.id, {
       ...this.params,
       stages: 4,
