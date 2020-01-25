@@ -14,7 +14,7 @@ import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 import { Delay, DelaySettings } from '@audio/effects/delay';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
@@ -44,14 +44,18 @@ export class DelayComponent
     level: 0.5,
     time: 160,
     feedback: 45,
-    feedbackCutoff: 2200,
     active: false
   };
+
+  info: PedalDescriptor;
 
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Delay(this.manager.context, 'jdm-2', this.params);
+    this.effect = new Delay(this.manager.context, this.info.id, {
+      ...this.params,
+      feedbackCutoff: 2200
+    });
     this.manager.addEffect(this.effect);
   }
 

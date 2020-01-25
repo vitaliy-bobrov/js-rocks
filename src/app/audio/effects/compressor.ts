@@ -65,10 +65,10 @@ export class Compressor extends Effect<CompressorSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     protected defaults: CompressorSettings
   ) {
-    super(context, model);
+    super(context, id);
 
     this.levelNode = new GainNode(context);
     this.compressor = new DynamicsCompressorNode(context, {
@@ -85,8 +85,6 @@ export class Compressor extends Effect<CompressorSettings> {
   dispose() {
     super.dispose();
 
-    this.levelNode = null;
-    this.compressor = null;
     this.levelSub$.complete();
     this.attackSub$.complete();
     this.ratioSub$.complete();

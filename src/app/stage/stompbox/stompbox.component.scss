@@ -4,6 +4,12 @@
   height: 326px;
   position: relative;
 
+  &[boss] {
+    .jack {
+      top: 44%;
+    }
+  }
+
   .wrap {
     position: absolute;
     top: 0;
@@ -18,19 +24,14 @@
       inset -1px -1px 1px var(--stompbox-bg), 6px 8px 10px rgba(0, 0, 0, 0.5);
   }
 
-  .input,
-  .output {
-    position: absolute;
-    top: 40%;
-  }
-
   .input {
     right: -9px;
+    transform: translateY(-50%);
   }
 
   .output {
     left: -9px;
-    transform: rotate(180deg) scale(1, -1);
+    transform: rotate(180deg) scale(1, -1) translateY(-50%);
   }
 
   .jack {
@@ -45,6 +46,8 @@
     );
     border-radius: 10%;
     box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 50%;
 
     &:before {
       transform: translate(-50%, -50%);

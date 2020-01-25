@@ -49,10 +49,10 @@ export class Tremolo extends Effect<TremoloSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     protected defaults: TremoloSettings
   ) {
-    super(context, model);
+    super(context, id);
 
     this.lfo = new LFO(context, defaults.type);
     this.gainNode = new GainNode(context, { gain: 0 });

@@ -74,12 +74,12 @@ export class Cabinet extends Effect<CabinetSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     buffer$: Observable<AudioBuffer>,
     gain: number,
     private maxGain: number
   ) {
-    super(context, model);
+    super(context, id);
 
     this.convolver = new ConvolverNode(context);
     this.makeUpGain = new GainNode(context, { gain });
@@ -124,9 +124,9 @@ export class Cabinet extends Effect<CabinetSettings> {
     buffer$: Observable<AudioBuffer>,
     gain: number,
     maxGain: number,
-    model: string
+    id: string
   ) {
-    this.model = model;
+    this.id = id;
     this.convolver.disconnect();
     this.convolver.buffer = null;
     this.maxGain = maxGain;
@@ -142,11 +142,6 @@ export class Cabinet extends Effect<CabinetSettings> {
     super.dispose();
 
     this.convolver.buffer = null;
-    this.convolver = null;
-    this.makeUpGain = null;
-    this.bassNode = null;
-    this.midNode = null;
-    this.trebleNode = null;
     this.bassSub$.complete();
     this.midSub$.complete();
     this.trebleSub$.complete();

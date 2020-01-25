@@ -18,7 +18,7 @@ import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { StompboxModule } from '../stompbox/stompbox.component';
 import { ThreeKnobLayoutModule } from '../three-knob-layout/three-knob-layout.component';
 
@@ -48,12 +48,19 @@ export class BluesDriverComponent
     active: false
   };
 
+  info: PedalDescriptor;
+
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, 'jbd-2', this.params, {
-      curveType: 'blues'
-    });
+    this.effect = new Distortion(
+      this.manager.context,
+      this.info.id,
+      this.params,
+      {
+        curveType: 'blues'
+      }
+    );
     this.manager.addEffect(this.effect);
   }
 

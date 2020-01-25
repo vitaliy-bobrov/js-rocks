@@ -1,16 +1,17 @@
 :host {
-  width: 12px;
-  height: 12px;
+  width: var(--led-size, 12px);
+  height: var(--led-size, 12px);
+  border: var(--led-border, 0) solid #000;
   border-radius: 50%;
   background-image: radial-gradient(
     ellipse at center,
     white 0%,
-    var(--stompbox-led) 39%,
-    var(--stompbox-led) 50%
+    var(--led-color) 39%,
+    var(--led-color) 50%
   );
   box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.4);
 
   &.active {
-    box-shadow: 0 0 25px white, 0 0 25px var(--stompbox-led);
+    box-shadow: 0 0 25px white, 0 0 25px var(--led-color);
   }
 }

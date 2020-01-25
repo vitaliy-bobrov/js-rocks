@@ -21,9 +21,13 @@ export class LFO implements Disposable {
     'triangle'
   ]);
   private offsetNode: ConstantSourceNode<AudioContext>;
-  private rangeNode: GainNode<AudioContext>;
+  private divider: GainNode<AudioContext>;
   private osc: OscillatorNode<AudioContext>;
   private depthNode: GainNode<AudioContext>;
+  private modOffset: GainNode<AudioContext>;
+  private minOffset: ConstantSourceNode<AudioContext>;
+  private output: GainNode<AudioContext>;
+  private started = false;
 
   private get currentTime() {
     return this.osc.context.currentTime;
@@ -52,41 +56,72 @@ export class LFO implements Disposable {
     return LFO.allowedTypes.has(type as TOscillatorType);
   }
 
-  constructor(context: AudioContext, private type: LFOType = 'sine') {
+  constructor(
+    context: AudioContext,
+    private type: LFOType = 'sine',
+    min = 0,
+    max = 1
+  ) {
+    // Generates values in range [-1, 1].
     this.osc = new OscillatorNode(context, {
       type: LFO.isAllowedType(type) ? (type as TOscillatorType) : undefined,
       frequency: 0.5
     });
 
-    // Add one to the output signals, making the range [0, 2].
-    this.offsetNode = new ConstantSourceNode(context, { offset: 1 });
-    this.offsetNode.start();
-    // Divide the result by 2, making the range [0, 1].
-    this.rangeNode = new GainNode(context, { gain: 0.5 });
+    this.divider = new GainNode(context, { gain: 0.5 });
+    this.offsetNode = new ConstantSourceNode(context);
     this.depthNode = new GainNode(context);
+    this.minOffset = new ConstantSourceNode(context, { offset: min });
+    this.modOffset = new GainNode(context, { gain: max - min });
+    this.output = new GainNode(context);
 
-    // Map the oscillator's output range from [-1, 1] to [0, 1].
-    this.osc.connect(this.offsetNode.offset as any);
-    this.offsetNode.connect(this.rangeNode).connect(this.depthNode);
+    // Divide the result by 2, making the range to [-0.5, 0.5].
+    this.osc.connect(this.divider);
+
+    // Add 1 to the output signals, making the range to [0, 1].
+    this.offsetNode.connect(this.divider);
+
+    // Multiplies output to depth (actually percentage)
+    // ex. depth = 0.3 means the range [0, 0.3]
+    this.divider.connect(this.depthNode);
+
+    // Varies max - min range, ex. min = 1, max = 5,
+    // depth = 1, will modulate range [0, 4].
+    this.depthNode.connect(this.modOffset);
+
+    // Adds modulated and minimal offset to range,
+    // ex. min = 1, max = 5, depth = 1,
+    // will modulate range [1, 5].
+    this.minOffset.connect(this.output);
+    this.modOffset.connect(this.output);
   }
 
   connect(node: IAudioNode<AudioContext> | IAudioParam) {
-    this.depthNode.connect(node as any);
-    this.osc.start();
+    this.output.connect(node as any);
+
+    if (!this.started) {
+      this.started = true;
+      this.osc.start();
+      this.offsetNode.start();
+      this.minOffset.start();
+    }
   }
 
   dispose() {
-    this.osc.stop();
-    this.osc.disconnect();
-    this.rangeNode.disconnect();
-    this.offsetNode.stop();
-    this.offsetNode.disconnect();
-    this.depthNode.disconnect();
+    if (this.started) {
+      this.started = false;
+      this.osc.stop();
+      this.offsetNode.stop();
+      this.minOffset.stop();
+    }
 
-    this.osc = null;
-    this.rangeNode = null;
-    this.offsetNode = null;
-    this.depthNode = null;
+    this.osc.disconnect();
+    this.offsetNode.disconnect();
+    this.divider.disconnect();
+    this.depthNode.disconnect();
+    this.modOffset.disconnect();
+    this.minOffset.disconnect();
+    this.output.disconnect();
   }
 
   private createTrapezoidWave(amount: number) {

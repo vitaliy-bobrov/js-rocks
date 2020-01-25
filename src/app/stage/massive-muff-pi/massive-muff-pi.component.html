@@ -28,7 +28,7 @@
         (valueChanged)="effect.sustain = $event"
       ></jsr-knob>
     </div>
-    <h3 class="name">Massive Muff π</h3>
+    <h3 class="name">{{ info.name }}</h3>
     <jsr-small-switch
       class="switch"
       [active]="effect.active$ | async"

@@ -52,6 +52,13 @@ import { LoadableModule } from 'ngx-loadable';
             )
         },
         {
+          name: 'js-phase-pi-by-2',
+          load: () =>
+            import('./phase-pi-by-two/phase-pi-by-two.component').then(
+              m => m.PhasePiByTwoModule
+            )
+        },
+        {
           name: 'jdm-2',
           load: () => import('./delay/delay.component').then(m => m.DelayModule)
         },

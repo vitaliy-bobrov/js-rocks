@@ -14,7 +14,7 @@ import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
@@ -47,13 +47,20 @@ export class OverdriveComponent
     active: false
   };
 
+  info: PedalDescriptor;
+
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Distortion(this.manager.context, 'jod-3', this.params, {
-      curveType: 'driver',
-      preFilterRange: [150, 2000]
-    });
+    this.effect = new Distortion(
+      this.manager.context,
+      this.info.id,
+      this.params,
+      {
+        curveType: 'driver',
+        preFilterRange: [150, 2000]
+      }
+    );
     this.manager.addEffect(this.effect);
   }
 
