@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhasePiByTwoComponent } from './phase-pi-by-two.component';
 
-describe('PhasePiByTwoComponent', () => {
+xdescribe('PhasePiByTwoComponent', () => {
   let component: PhasePiByTwoComponent;
   let fixture: ComponentFixture<PhasePiByTwoComponent>;
 
