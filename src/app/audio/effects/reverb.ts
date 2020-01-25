@@ -3,9 +3,7 @@ import {
   AudioContext,
   GainNode,
   ConvolverNode,
-  DelayNode,
-  ChannelSplitterNode,
-  ChannelMergerNode
+  DelayNode
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
@@ -68,12 +66,12 @@ export class Reverb extends Effect<ReverbSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     buffer$: Observable<AudioBuffer>,
     convolverMakeUp: number,
     protected defaults: ReverbSettings
   ) {
-    super(context, model);
+    super(context, id);
 
     this.splitter = new GainNode(context);
     this.timeNode = new DelayNode(context);

@@ -80,10 +80,10 @@ export class Delay extends Effect<DelaySettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     protected defaults: DelaySettings
   ) {
-    super(context, model);
+    super(context, id);
 
     // Nodes initialization.
     this.splitNode = new GainNode(context);

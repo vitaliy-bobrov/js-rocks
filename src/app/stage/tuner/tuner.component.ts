@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { Active } from '@audio/interfaces/active.interface';
 import { Tuner } from '@audio/effects/tuner/tuner';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
@@ -52,10 +52,12 @@ export class TunerComponent
     active: false
   };
 
+  info: PedalDescriptor;
+
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Tuner(this.manager.context, 'jtu-3', this.params);
+    this.effect = new Tuner(this.manager.context, this.info.id, this.params);
     this.manager.addEffect(this.effect);
 
     this.noteName$ = this.effect.note$.pipe(

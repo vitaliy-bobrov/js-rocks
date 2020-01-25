@@ -110,10 +110,10 @@ export class Chorus extends Effect<ChorusSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     protected defaults: ChorusSettings
   ) {
-    super(context, model);
+    super(context, id);
 
     // Nodes initialization.
     this.splitter = new GainNode(context);

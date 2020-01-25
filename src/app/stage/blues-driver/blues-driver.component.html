@@ -1,5 +1,6 @@
 <jsr-stompbox
   #drag
+  boss
   cdkDrag
   cdkDragRootElement=".pedal"
   (remove)="remove.emit()"
@@ -35,9 +36,9 @@
     <jsr-large-switch
       center
       class="switch"
-      name="Blues Driver"
+      [name]="info.name"
       [active]="effect.active$ | async"
-      [model]="effect.model"
+      [model]="info.model"
       (switch)="effect.toggleBypass()"
     ></jsr-large-switch>
   </div>

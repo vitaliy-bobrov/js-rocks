@@ -15,7 +15,7 @@ import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { ConvolverService } from '@audio/convolver.service';
 import { ReverbSettings, Reverb } from '@audio/effects/reverb';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import {
   SwitchOption,
   SlideSwitchModule
@@ -55,6 +55,8 @@ export class ReverbComponent
     active: false,
     type: 'Hall'
   };
+
+  info: PedalDescriptor;
 
   types: ReverbConvolver[] = [
     {
@@ -98,7 +100,7 @@ export class ReverbComponent
     );
     this.effect = new Reverb(
       this.manager.context,
-      'jrv-6',
+      this.info.id,
       buffer$,
       this.selectedType.gain,
       this.params

@@ -14,7 +14,7 @@ import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 import { Compressor, CompressorSettings } from '@audio/effects/compressor';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
@@ -47,10 +47,16 @@ export class LemonSqueezeComponent
     active: false
   };
 
+  info: PedalDescriptor;
+
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Compressor(this.manager.context, 'jcp-1', this.params);
+    this.effect = new Compressor(
+      this.manager.context,
+      this.info.id,
+      this.params
+    );
     this.manager.addEffect(this.effect);
   }
 

@@ -19,7 +19,13 @@ import {
 import { DOCUMENT, CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Point } from '@angular/cdk/drag-drop/drag-ref';
-import { filter, switchMapTo, takeUntil, tap } from 'rxjs/operators';
+import {
+  filter,
+  switchMapTo,
+  takeUntil,
+  tap,
+  debounceTime
+} from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
 
 import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
@@ -154,7 +160,11 @@ export class KnobComponent
         .pipe(
           tap(this.updateKnobPosition),
           switchMapTo(
-            touchmove$.pipe(tap(this.rotateHandler), takeUntil(touchend$))
+            touchmove$.pipe(
+              debounceTime(50),
+              tap(this.rotateHandler),
+              takeUntil(touchend$)
+            )
           ),
           takeUntil(this.destroy$)
         )
@@ -181,7 +191,7 @@ export class KnobComponent
   onMouseWheel(event: WheelEvent) {
     event.stopPropagation();
     event.preventDefault();
-
+    // TODO: Debounce with RxJS.
     const currentTime = performance.now();
     // Limit updates to 100ms.
     if (currentTime - this.lashUpdate < 100) {
@@ -213,14 +223,6 @@ export class KnobComponent
   rotateHandler(event: MouseEvent | TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
-
-    const currentTime = performance.now();
-    // Limit updates to 100ms.
-    if (currentTime - this.lashUpdate < 100) {
-      return;
-    }
-
-    this.lashUpdate = currentTime;
 
     const isTouch = event.type === 'touchmove';
     const pageX = isTouch

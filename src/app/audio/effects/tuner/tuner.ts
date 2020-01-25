@@ -18,12 +18,8 @@ export class Tuner extends Effect<Active> {
 
   note$ = this.noteSub$.asObservable();
 
-  constructor(
-    context: AudioContext,
-    model: string,
-    protected defaults: Active
-  ) {
-    super(context, model);
+  constructor(context: AudioContext, id: string, protected defaults: Active) {
+    super(context, id);
 
     this.preHPFilter = new BiquadFilterNode(context, {
       type: 'highpass',
@@ -70,10 +66,6 @@ export class Tuner extends Effect<Active> {
     super.dispose();
 
     this.worker.terminate();
-    this.preHPFilter.disconnect();
-    this.preHPFilter = null;
-    this.analyserNode.disconnect();
-    this.analyserNode = null;
     this.noteSub$.complete();
   }
 

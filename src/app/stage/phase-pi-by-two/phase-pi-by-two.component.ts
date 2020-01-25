@@ -12,7 +12,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
-import { Muff, MuffSettings } from '@audio/effects/muff';
+import { Phaser, PhaserSettings } from '@audio/effects/phaser';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { KnobModule } from '../knob/knob.component';
@@ -20,13 +20,13 @@ import { SmallSwitchModule } from '../small-switch/small-switch.component';
 import { StompboxModule } from '../stompbox/stompbox.component';
 
 @Component({
-  selector: 'jsr-massive-muff-pi',
-  templateUrl: './massive-muff-pi.component.html',
-  styleUrls: ['./massive-muff-pi.component.scss'],
+  selector: 'jsr-phase-pi-by-two',
+  templateUrl: './phase-pi-by-two.component.html',
+  styleUrls: ['./phase-pi-by-two.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MassiveMuffPiComponent
-  implements OnInit, OnDestroy, PedalComponent<MuffSettings> {
+export class PhasePiByTwoComponent
+  implements OnInit, OnDestroy, PedalComponent<PhaserSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
 
@@ -36,12 +36,12 @@ export class MassiveMuffPiComponent
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
-  effect: Muff;
+  effect: Phaser;
 
-  params: MuffSettings = {
+  params: PhaserSettings = {
     level: 0.5,
-    sustain: 0.5,
-    tone: 0.5,
+    depth: 1,
+    rate: 1.9,
     active: false
   };
 
@@ -50,13 +50,12 @@ export class MassiveMuffPiComponent
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    // Config based on Big Muff Pi analysis https://www.electrosmash.com/big-muff-pi-analysis.
-    this.effect = new Muff(this.manager.context, this.info.id, this.params, {
-      curveType: 'arch',
-      boost: 16.7,
-      preFilterRange: [3.84, 1215.3],
-      toneRange: [482.39, 1206.27],
-      postFilterRanges: [55, 1780, 94, 1170]
+    this.effect = new Phaser(this.manager.context, this.info.id, {
+      ...this.params,
+      stages: 4,
+      minFrequency: 340.8,
+      maxFrequency: 1160.2,
+      type: 'triangle'
     });
     this.manager.addEffect(this.effect);
   }
@@ -68,8 +67,8 @@ export class MassiveMuffPiComponent
 }
 
 @NgModule({
-  declarations: [MassiveMuffPiComponent],
-  bootstrap: [MassiveMuffPiComponent],
+  declarations: [PhasePiByTwoComponent],
+  bootstrap: [PhasePiByTwoComponent],
   imports: [
     CommonModule,
     DragDropModule,
@@ -78,4 +77,4 @@ export class MassiveMuffPiComponent
     StompboxModule
   ]
 })
-export class MassiveMuffPiModule {}
+export class PhasePiByTwoModule {}

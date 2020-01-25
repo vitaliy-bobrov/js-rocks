@@ -105,7 +105,7 @@
     *ngFor="let pedal of availablePedals"
     (click)="addPedal(pedal.id)"
   >
-    {{ pedal.name }} {{ pedal.model }}
+    {{ pedal.brand }} {{ pedal.name }} {{ pedal.model }}
   </button>
 </mat-menu>
 
@@ -129,7 +129,7 @@
     *ngFor="let pedal of config?.pedals"
     [module]="pedal.model"
     [show]="true"
-    (init)="initPedal($event, pedal.params)"
+    (init)="initPedal($event, pedal.params, pedal.model)"
   ></ngx-loadable>
 </div>
 

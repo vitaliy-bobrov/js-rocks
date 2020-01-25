@@ -1,8 +1,12 @@
-import { AudioContext, GainNode, IAudioNode } from 'standardized-audio-context';
+import {
+  AudioContext,
+  GainNode,
+  IAudioNode,
+  IAudioContext
+} from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
-import { EffectNode } from '@audio/interfaces/node.interface';
 import { Disposable } from '@audio/interfaces/disposable.interface';
 
 /**
@@ -61,7 +65,7 @@ export abstract class Effect<D extends Active> implements Disposable {
     return this.context.sampleRate;
   }
 
-  constructor(context: AudioContext, public model: string) {
+  constructor(context: AudioContext, protected id: string) {
     this.context = context;
     this.input = context.createGain();
     this.output = context.createGain();
@@ -118,10 +122,7 @@ export abstract class Effect<D extends Active> implements Disposable {
    */
   dispose() {
     this.disconnect();
-
-    for (const node of this.processor) {
-      node.disconnect();
-    }
+    this.disconnectNodes(this.processor);
 
     this.input.disconnect();
 
@@ -138,10 +139,23 @@ export abstract class Effect<D extends Active> implements Disposable {
    */
   takeSnapshot(): EffectInfo {
     return {
-      model: this.model,
+      model: this.id,
       params: {
         active: this.activeSub$.value
       }
     };
+  }
+
+  /**
+   * Disconnects and stops (if possible) audio nodes from the list.
+   */
+  disconnectNodes(nodes: Array<IAudioNode<IAudioContext>>) {
+    for (const node of nodes) {
+      node.disconnect();
+
+      if ((node as any).stop) {
+        (node as any).stop();
+      }
+    }
   }
 }

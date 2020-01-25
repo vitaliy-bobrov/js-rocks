@@ -14,7 +14,7 @@ import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent } from '../pedal.interface';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { KnobModule } from '../knob/knob.component';
 import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
@@ -48,10 +48,12 @@ export class TremoloComponent
     type: 'trapezoid'
   };
 
+  info: PedalDescriptor;
+
   constructor(private manager: AudioContextManager) {}
 
   ngOnInit() {
-    this.effect = new Tremolo(this.manager.context, 'jtr-2', this.params);
+    this.effect = new Tremolo(this.manager.context, this.info.id, this.params);
     this.manager.addEffect(this.effect);
   }
 

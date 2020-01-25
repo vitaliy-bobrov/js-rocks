@@ -1,5 +1,6 @@
 <jsr-stompbox
   #drag
+  boss
   cdkDrag
   cdkDragRootElement=".pedal"
   (remove)="remove.emit()"
@@ -60,9 +61,9 @@
 
     <jsr-large-switch
       class="switch"
-      name="Cool Chorus"
+      [name]="info.name"
       [active]="effect.active$ | async"
-      [model]="effect.model"
+      [model]="info.model"
       (switch)="effect.toggleBypass()"
     ></jsr-large-switch>
   </div>

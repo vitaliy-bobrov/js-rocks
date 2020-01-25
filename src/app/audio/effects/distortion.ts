@@ -77,11 +77,11 @@ export class Distortion extends Effect<DistortionSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     protected defaults: DistortionSettings,
     tunings: DistortionTuningOptions
   ) {
-    super(context, model);
+    super(context, id);
 
     this.tunings = { ...Distortion.defaultTunings, ...tunings };
 
@@ -132,14 +132,8 @@ export class Distortion extends Effect<DistortionSettings> {
   dispose() {
     super.dispose();
 
-    this.preFilter = null;
     this.waveSharper.curve = new Float32Array(2);
-    this.waveSharper = null;
-    this.postFilter = null;
-
     this.toneNode.dispose();
-    this.toneNode = null;
-    this.levelNode = null;
     this.levelSub$.complete();
     this.distortionSub$.complete();
     this.toneSub$.complete();

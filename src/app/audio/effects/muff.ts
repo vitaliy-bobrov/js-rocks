@@ -92,11 +92,11 @@ export class Muff extends Effect<MuffSettings> {
 
   constructor(
     context: AudioContext,
-    model: string,
+    id: string,
     protected defaults: MuffSettings,
     tunings: MuffTuningOptions
   ) {
-    super(context, model);
+    super(context, id);
 
     this.tunings = { ...Muff.defaultTunings, ...tunings };
 
@@ -167,21 +167,10 @@ export class Muff extends Effect<MuffSettings> {
   dispose() {
     super.dispose();
 
-    this.boostNode = null;
-    this.preHighpass = null;
-    this.preLowpass = null;
     this.waveSharper1Stage.curve = new Float32Array(2);
-    this.waveSharper1Stage = null;
     this.waveSharper2Stage.curve = new Float32Array(2);
-    this.waveSharper2Stage = null;
-    this.postLowpass1Stage = null;
-    this.postHighpass1Stage = null;
-    this.postLowpass2Stage = null;
-    this.postHighpass2Stage = null;
 
     this.toneNode.dispose();
-    this.toneNode = null;
-    this.levelNode = null;
     this.levelSub$.complete();
     this.sustainSub$.complete();
     this.toneSub$.complete();
