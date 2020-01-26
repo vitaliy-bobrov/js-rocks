@@ -43,6 +43,7 @@ JS Rocks - Web Audio electric guitar effects and cabinets.
 ### Tremolos
 
 - JOSS Tremolo JTR-2
+- Crazy Doctor Soft Yellow Tremolo
 
 ### Delays
 
