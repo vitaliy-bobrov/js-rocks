@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SoftYellowTremoloComponent } from './soft-yellow-tremolo.component';
 
-describe('SoftYellowTremoloComponent', () => {
+xdescribe('SoftYellowTremoloComponent', () => {
   let component: SoftYellowTremoloComponent;
   let fixture: ComponentFixture<SoftYellowTremoloComponent>;
 
