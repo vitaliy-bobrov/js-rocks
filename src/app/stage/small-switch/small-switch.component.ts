@@ -10,6 +10,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { LedModule } from '../led/led.component';
 
@@ -26,6 +27,9 @@ export class SmallSwitchComponent {
   @Input()
   active = false;
 
+  @Input()
+  showLed = true;
+
   @Output()
   switch = new EventEmitter<void>();
 
@@ -40,7 +44,7 @@ export class SmallSwitchComponent {
 
 @NgModule({
   declarations: [SmallSwitchComponent],
-  imports: [LedModule],
+  imports: [CommonModule, LedModule],
   exports: [SmallSwitchComponent]
 })
 export class SmallSwitchModule {}

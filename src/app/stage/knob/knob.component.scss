@@ -6,6 +6,27 @@
   text-align: center;
   touch-action: pan-x pan-y;
 
+  &[vintage] {
+    .knob {
+      &:after {
+        width: 40%;
+        height: 99%;
+        top: 0;
+        background-color: var(--knob-bg, #222);
+        border-radius: 6px;
+        box-shadow: 2px 2px 12px rgba(#000, 0.5);
+        left: 30%;
+        transform: rotate(var(--knob-angle, 0deg));
+        transition: transform 0.1s linear;
+        z-index: 1;
+      }
+
+      &:before {
+        z-index: 2;
+      }
+    }
+  }
+
   &[silver] {
     .knob:after {
       @include brushed-metal;
@@ -20,17 +41,14 @@
 
   &:not([silver]):not([gold]) {
     .knob:before {
+      background-color: transparent;
       background-image: linear-gradient(
         to top,
-        currentColor,
-        currentColor 40%,
-        rgba(#fff, 0.8) 45%
+        transparent,
+        transparent 40%,
+        var(--knob-tick-color, rgba(#fff, 0.8)) 45%
       );
     }
-  }
-
-  &[light] {
-    color: white;
   }
 
   &[small-label] {
@@ -43,6 +61,7 @@
   &[small] {
     label {
       font-size: 13px;
+      line-height: 22px;
     }
   }
 
@@ -61,7 +80,6 @@
       &:after {
         width: 24px;
         height: 24px;
-        left: 7px;
         top: 7px;
       }
     }
@@ -145,7 +163,7 @@
   }
 
   .knob {
-    color: #222;
+    color: var(--knob-bg, #222);
     position: relative;
     background: currentColor;
     height: 56px;
@@ -155,7 +173,7 @@
     margin: 0 auto 8px;
     transform: translateX(50%);
     border-radius: 50%;
-    box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 6px 8px rgba(#000, 0.5);
     cursor: pointer;
 
     &:before,
@@ -174,14 +192,15 @@
       left: 50%;
       border-radius: 3px;
       margin-left: -1.5px;
-      background-color: rgba(#fff, 0.8);
+      background-color: var(--knob-tick-color, rgba(#fff, 0.8));
     }
 
     &:after {
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      left: 10px;
+      transform: translateX(-50%);
+      left: 50%;
       top: 10px;
     }
   }

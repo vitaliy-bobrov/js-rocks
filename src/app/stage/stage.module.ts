@@ -108,6 +108,13 @@ import { LoadableModule } from 'ngx-loadable';
             import('./tremolo/tremolo.component').then(m => m.TremoloModule)
         },
         {
+          name: 'soft-yellow-tremolo',
+          load: () =>
+            import('./soft-yellow-tremolo/soft-yellow-tremolo.component').then(
+              m => m.SoftYellowTremoloModule
+            )
+        },
+        {
           name: 'jtu-3',
           load: () => import('./tuner/tuner.component').then(m => m.TunerModule)
         }

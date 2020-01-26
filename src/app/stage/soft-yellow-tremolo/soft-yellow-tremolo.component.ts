@@ -13,22 +13,22 @@ import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
-import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
-import { PedalComponent, PedalDescriptor } from '../pedal.interface';
+import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { KnobModule } from '../knob/knob.component';
-import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
+import { PedalComponent, PedalDescriptor } from '../pedal.interface';
+import { SmallSwitchModule } from '../small-switch/small-switch.component';
 import { StompboxModule } from '../stompbox/stompbox.component';
 import { ThreeKnobLayoutModule } from '../three-knob-layout/three-knob-layout.component';
 
 @Component({
-  selector: 'jsr-tremolo',
-  templateUrl: './tremolo.component.html',
-  styleUrls: ['./tremolo.component.scss'],
+  selector: 'jsr-soft-yellow-tremolo',
+  templateUrl: './soft-yellow-tremolo.component.html',
+  styleUrls: ['./soft-yellow-tremolo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TremoloComponent
+export class SoftYellowTremoloComponent
   implements OnInit, OnDestroy, PedalComponent<TremoloSettings> {
   @HostBinding('class.pedal')
   pedalClassName = true;
@@ -44,12 +44,11 @@ export class TremoloComponent
   effect: Tremolo;
 
   params: TremoloSettings = {
-    rate: 4.2,
-    depth: 50,
     level: 0.5,
-    wave: 0.5,
+    rate: 3,
+    depth: 50,
     active: false,
-    type: 'trapezoid'
+    type: 'sine'
   };
 
   info: PedalDescriptor;
@@ -70,16 +69,16 @@ export class TremoloComponent
 }
 
 @NgModule({
-  declarations: [TremoloComponent],
-  bootstrap: [TremoloComponent],
+  declarations: [SoftYellowTremoloComponent],
+  bootstrap: [SoftYellowTremoloComponent],
   imports: [
     CommonModule,
     DragDropModule,
     KnobModule,
-    LargeSwitchModule,
+    SmallSwitchModule,
     LedModule,
     StompboxModule,
     ThreeKnobLayoutModule
   ]
 })
-export class TremoloModule {}
+export class SoftYellowTremoloModule {}
