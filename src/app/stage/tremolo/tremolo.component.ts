@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -38,6 +39,8 @@ export class TremoloComponent
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
+  destroy$ = new Subject<void>();
+
   effect: Tremolo;
 
   params: TremoloSettings = {
@@ -58,6 +61,8 @@ export class TremoloComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }

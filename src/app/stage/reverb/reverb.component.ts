@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import { ConvolverService } from '@audio/convolver.service';
@@ -45,6 +46,8 @@ export class ReverbComponent
 
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
+
+  destroy$ = new Subject<void>();
 
   effect: Reverb;
 
@@ -109,6 +112,8 @@ export class ReverbComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }

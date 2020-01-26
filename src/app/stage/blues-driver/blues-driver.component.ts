@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -39,6 +40,8 @@ export class BluesDriverComponent
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
+  destroy$ = new Subject<void>();
+
   effect: Distortion;
 
   params: DistortionSettings = {
@@ -65,6 +68,8 @@ export class BluesDriverComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }

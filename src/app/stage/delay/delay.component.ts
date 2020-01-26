@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { Delay, DelaySettings } from '@audio/effects/delay';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -38,6 +39,8 @@ export class DelayComponent
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
+  destroy$ = new Subject<void>();
+
   effect: Delay;
 
   params: DelaySettings = {
@@ -60,6 +63,8 @@ export class DelayComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }

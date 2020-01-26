@@ -12,7 +12,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Tuner } from '@audio/effects/tuner/tuner';
@@ -40,6 +40,8 @@ export class TunerComponent
 
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
+
+  destroy$ = new Subject<void>();
 
   effect: Tuner;
   noteName$: Observable<string | null>;
@@ -84,6 +86,8 @@ export class TunerComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }

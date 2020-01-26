@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { Chorus, ChorusSettings } from '@audio/effects/chorus';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -37,6 +38,8 @@ export class CoolChorusComponent
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
+  destroy$ = new Subject<void>();
+
   effect: Chorus;
 
   params: ChorusSettings = {
@@ -62,6 +65,8 @@ export class CoolChorusComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }
