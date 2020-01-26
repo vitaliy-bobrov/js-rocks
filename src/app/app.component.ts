@@ -6,6 +6,7 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
 import { tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
+import { SwUpdateService } from './sw-update/sw-update.service';
 
 @Component({
   selector: 'jsr-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
     readonly iconRegistry: MatIconRegistry,
     readonly sanitizer: DomSanitizer,
     private gtmService: GoogleTagManagerService,
+    private swUpdateService: SwUpdateService,
     private router: Router
   ) {
     iconRegistry.addSvgIcon(
@@ -79,6 +81,8 @@ export class AppComponent implements OnInit {
           }
         })
       );
+
+      this.swUpdateService.subscribeForUpdates();
     }
   }
 }

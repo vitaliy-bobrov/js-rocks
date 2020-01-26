@@ -15,7 +15,7 @@ import {
   moveItemInArray
 } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import {
@@ -259,7 +259,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     const component = componentRef.instance;
 
     component.remove
-      .pipe(take(1))
+      .pipe(takeUntil(component.destroy$))
       .subscribe(() => this.removePedal(componentRef));
 
     component.info = this.availablePedals.find(

@@ -1,7 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 export interface PedalComponent<T> {
+  destroy$: Subject<void>;
   params: T;
   info: PedalDescriptor;
   remove: EventEmitter<void>;

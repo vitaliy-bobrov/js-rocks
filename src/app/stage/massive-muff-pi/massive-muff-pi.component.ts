@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { Muff, MuffSettings } from '@audio/effects/muff';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -35,6 +36,8 @@ export class MassiveMuffPiComponent
 
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
+
+  destroy$ = new Subject<void>();
 
   effect: Muff;
 
@@ -62,6 +65,8 @@ export class MassiveMuffPiComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }

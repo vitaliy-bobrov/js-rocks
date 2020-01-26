@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 import { Compressor, CompressorSettings } from '@audio/effects/compressor';
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -37,6 +38,8 @@ export class LemonSqueezeComponent
   @ViewChild(CdkDrag, { static: true })
   drag: CdkDrag;
 
+  destroy$ = new Subject<void>();
+
   effect: Compressor;
 
   params: CompressorSettings = {
@@ -61,6 +64,8 @@ export class LemonSqueezeComponent
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.manager.removeEffect(this.effect);
     this.effect.dispose();
   }
