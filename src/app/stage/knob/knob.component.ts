@@ -262,7 +262,7 @@ export class KnobComponent
     const deg = Math.round(
       (this.endDegree - this.startDegree) * percent + this.startDegree
     );
-
+    // TODO: Use angular [style.--css-var] template binding.
     this.element.nativeElement.style.setProperty('--knob-angle', `${deg}deg`);
   }
 

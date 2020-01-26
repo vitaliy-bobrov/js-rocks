@@ -1,0 +1,127 @@
+:host {
+  --stompbox-bg: #facd34;
+  --stompbox-label: #5c9529;
+  --knob-bg: #f6f6f6;
+  --knob-tick-color: rgba(0, 0, 0, 0.8);
+  --knob-tick-size: 10px;
+  --led-size: 14px;
+  --led-border: 4px;
+  display: block;
+  color: var(--stompbox-label);
+
+  .pedal-layout {
+    display: grid;
+    grid-template-areas: 'controls' 'name' 'switch' 'brand';
+    grid-template-rows: 1fr auto 25% auto;
+    height: 100%;
+  }
+
+  .brand {
+    display: inline-block;
+    grid-area: brand;
+    justify-self: center;
+    margin: 12px 0;
+    padding: 2px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    color: var(--stompbox-bg);
+    background-color: var(--stompbox-label);
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--stompbox-bg);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &:before {
+      left: 6px;
+    }
+
+    &:after {
+      right: 6px;
+    }
+  }
+
+  .name {
+    grid-area: name;
+    margin: 10px 8px 16px;
+    font-size: 22px;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  .switch {
+    grid-area: switch;
+    margin: 2px 6px 6px;
+    z-index: 2;
+    --stompbox-bg: transparent;
+  }
+
+  .doctor-logo {
+    grid-area: switch;
+    justify-self: center;
+    position: relative;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    border: 2px solid var(--stompbox-label);
+    z-index: 1;
+
+    &:after {
+      content: '';
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--stompbox-bg);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &__wing {
+      width: 164px;
+      height: 12px;
+      border-radius: 0 0 10px 10px;
+      border: 2px solid var(--stompbox-label);
+      background-color: var(--stompbox-bg);
+      position: absolute;
+      left: -52px;
+      top: 10px;
+
+      &:before,
+      &:after {
+        content: '';
+        border: 2px solid var(--stompbox-label);
+        background-color: var(--stompbox-bg);
+        position: absolute;
+      }
+
+      &:before {
+        width: 124px;
+        height: 8px;
+        border-radius: 0 0 6px 6px;
+        top: 18px;
+        left: 20px;
+      }
+
+      &:after {
+        width: 94px;
+        height: 6px;
+        border-radius: 0 0 6px 6px;
+        top: 34px;
+        left: 35px;
+      }
+    }
+  }
+}

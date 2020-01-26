@@ -8,4 +8,4 @@
   <div class="hexagon"></div>
 </button>
 
-<jsr-led [active]="active"></jsr-led>
+<jsr-led *ngIf="showLed" [active]="active"></jsr-led>

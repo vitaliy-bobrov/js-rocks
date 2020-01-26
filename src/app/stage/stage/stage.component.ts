@@ -120,6 +120,12 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       model: 'JTR-2'
     },
     {
+      id: 'soft-yellow-tremolo',
+      type: 'Tremolo',
+      brand: 'Crazy Doctor',
+      name: 'Soft Yellow Tremolo'
+    },
+    {
       id: 'jdm-2',
       type: 'Delay',
       brand: 'JOSS',
