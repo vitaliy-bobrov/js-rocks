@@ -149,7 +149,7 @@ export abstract class Effect<D extends Active> implements Disposable {
   /**
    * Disconnects and stops (if possible) audio nodes from the list.
    */
-  disconnectNodes(nodes: Array<IAudioNode<IAudioContext>>) {
+  disconnectNodes(nodes: IAudioNode<IAudioContext>[]) {
     for (const node of nodes) {
       node.disconnect();
 

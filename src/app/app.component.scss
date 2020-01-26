@@ -1,39 +1,4 @@
 :host {
-  mat-toolbar {
-    z-index: 1;
-
-    &:before,
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    &:before {
-      width: 74px;
-      height: 74px;
-      background: #303030;
-      top: -5px;
-      border-radius: 50%;
-    }
-
-    &:after {
-      width: 40px;
-      height: 14px;
-      background-image: linear-gradient(
-        to left,
-        transparent 0%,
-        #303030 10%,
-        #303030 90%,
-        transparent 100%
-      );
-      top: 64px;
-      z-index: 1;
-    }
-  }
-
   main {
     max-width: 1240px;
 

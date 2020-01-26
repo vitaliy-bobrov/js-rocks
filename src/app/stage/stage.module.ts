@@ -11,14 +11,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 
 import { AudioModule } from '@audio/audio.module';
+import { SharedModule } from '@shared/shared.module';
 import { StageRoutingModule } from './stage-routing.module';
 import { AmpComponent } from './amp/amp.component';
 import { KnobModule } from './knob/knob.component';
 import { LedModule } from './led/led.component';
 import { PageActionsComponent } from './page-actions/page-actions.component';
 import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dialog.component';
-import { SharedModule } from '@shared/shared.module';
 import { StageComponent } from './stage/stage.component';
+import { PickByPropPipe } from './stage/pick-by-prop.pipe';
 import { LoadableModule } from 'ngx-loadable';
 
 @NgModule({
@@ -26,7 +27,8 @@ import { LoadableModule } from 'ngx-loadable';
     AmpComponent,
     PageActionsComponent,
     PresetNameDialogComponent,
-    StageComponent
+    StageComponent,
+    PickByPropPipe
   ],
   imports: [
     A11yModule,

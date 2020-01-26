@@ -1,6 +1,11 @@
 <jsr-page-actions>
   <mat-menu #appMenu="matMenu">
-    <button type="button" mat-menu-item (click)="blankPreset()">
+    <button
+      type="button"
+      role="menuitemradio"
+      mat-menu-item
+      (click)="blankPreset()"
+    >
       <mat-icon
         [svgIcon]="
           selectedPresetId === ''
@@ -13,6 +18,7 @@
     <button
       type="button"
       mat-menu-item
+      role="menuitemradio"
       *ngFor="let preset of presets"
       (click)="activatePreset(preset.id)"
     >
@@ -65,59 +71,39 @@
     <mat-icon svgIcon="save"></mat-icon>
   </button>
 
-  <!-- Additional wrapper to solve Ivy issue with portal and ngIf. -->
-  <span>
-    <button
-      *ngIf="selectedPresetId"
-      type="button"
-      aria-label="Delete preset"
-      class="toolbar-btn"
-      mat-icon-button
-      matTooltip="Delete preset"
-      (click)="deletePreset()"
-    >
-      <mat-icon svgIcon="delete"></mat-icon>
-    </button>
-  </span>
+  <button
+    *ngIf="selectedPresetId"
+    type="button"
+    aria-label="Delete preset"
+    class="toolbar-btn"
+    mat-icon-button
+    matTooltip="Delete preset"
+    (click)="deletePreset()"
+  >
+    <mat-icon svgIcon="delete"></mat-icon>
+  </button>
 </jsr-page-actions>
 
-<button
-  type="button"
-  [attr.aria-label]="
-    isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
-  "
-  [attr.aria-pressed]="isLinePlugged"
-  class="line-toggle"
-  mat-fab
-  [matTooltip]="isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'"
-  [color]="isLinePlugged ? 'accent' : 'warn'"
-  (click)="toggleLineConnection()"
->
-  <mat-icon svgIcon="settings_input_svideo"></mat-icon>
-</button>
+<div class="connect-decorator">
+  <button
+    mat-fab
+    class="line-toggle"
+    type="button"
+    [attr.aria-label]="
+      isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+    "
+    [attr.aria-pressed]="isLinePlugged"
+    [matTooltip]="
+      isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+    "
+    [color]="isLinePlugged ? 'accent' : 'warn'"
+    (click)="toggleLineConnection()"
+  >
+    <mat-icon svgIcon="settings_input_svideo"></mat-icon>
+  </button>
+</div>
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>
-
-<mat-menu #pedalBoardMenu="matMenu">
-  <button
-    type="button"
-    mat-menu-item
-    *ngFor="let pedal of availablePedals"
-    (click)="addPedal(pedal.id)"
-  >
-    {{ pedal.brand }} {{ pedal.name }} {{ pedal.model }}
-  </button>
-</mat-menu>
-
-<button
-  type="button"
-  class="add-button"
-  mat-flat-button
-  color="accent"
-  [matMenuTriggerFor]="pedalBoardMenu"
->
-  <mat-icon svgIcon="add"></mat-icon> Add effect
-</button>
 
 <div
   #dropList
@@ -135,5 +121,42 @@
 
 <p *ngIf="!config?.pedals?.length" class="empty-board-message mat-subheading-2">
   No effects in you pedalboard :(<br />
-  Use "Add effect" button to pick one.
+  Use "Add new effect" button below to pick one.
 </p>
+
+<button
+  mat-fab
+  aria-label="Add new effect"
+  type="button"
+  class="add-button"
+  color="accent"
+  matTooltip="Add new effect"
+  [matMenuTriggerFor]="pedalBoardMenu"
+>
+  <mat-icon svgIcon="add"></mat-icon>
+</button>
+
+<mat-menu #pedalBoardMenu="matMenu">
+  <button
+    *ngFor="let type of effectTypes"
+    type="button"
+    mat-menu-item
+    [matMenuTriggerFor]="pedalsMenu"
+    [matMenuTriggerData]="{ type: type }"
+  >
+    {{ type }}
+  </button>
+</mat-menu>
+
+<mat-menu #pedalsMenu="matMenu">
+  <ng-template matMenuContent let-type="type">
+    <button
+      type="button"
+      mat-menu-item
+      *ngFor="let pedal of availablePedals | pickByProp: 'type':type"
+      (click)="addPedal(pedal.id)"
+    >
+      {{ pedal.brand }} {{ pedal.name }} {{ pedal.model }}
+    </button>
+  </ng-template>
+</mat-menu>

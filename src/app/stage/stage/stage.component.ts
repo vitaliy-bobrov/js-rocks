@@ -38,6 +38,18 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   config: Preset;
   selectedPresetId: string;
   presets: PresetInfo[] = [];
+  effectTypes = [
+    'Tuner',
+    'Compressor',
+    'Overdrive',
+    'Distortion',
+    'Fuzz',
+    'Chorus',
+    'Phaser',
+    'Tremolo',
+    'Delay',
+    'Reverb'
+  ];
   availablePedals: PedalDescriptor[] = [
     {
       id: 'jtu-3',
