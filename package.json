@@ -57,13 +57,13 @@
     "inquirer-autocomplete-prompt": "^1.0.1",
     "jest": "^24.9.0",
     "jest-preset-angular": "8.0.0",
-    "lint-staged": "10.0.2",
+    "lint-staged": "10.0.4",
     "prettier": "1.19.1",
     "protractor": "~5.4.0",
     "ts-node": "~8.6.0",
     "tslint": "~5.20.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.6.4"
+    "typescript": "3.7.5"
   },
   "jest": {
     "preset": "jest-preset-angular",
