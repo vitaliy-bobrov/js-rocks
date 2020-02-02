@@ -45,8 +45,8 @@ export class LemonSqueezeComponent
   params: CompressorSettings = {
     level: 0.6,
     attack: 0.15,
-    ratio: 12,
-    threshold: 0.5,
+    ratio: 4,
+    threshold: 0.6,
     active: false
   };
 
