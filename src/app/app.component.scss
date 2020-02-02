@@ -1,7 +1,14 @@
 :host {
+  display: grid;
+  grid-auto-rows: auto 1fr;
+  min-height: 100%;
+
+  mat-drawer {
+    min-width: 240px;
+  }
+
   main {
     max-width: 1240px;
-    position: relative;
 
     @media screen and (min-width: 1240px) {
       margin: 0 auto;

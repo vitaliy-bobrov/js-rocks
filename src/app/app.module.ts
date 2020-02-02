@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
@@ -23,8 +26,11 @@ import { environment } from '../environments/environment';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     HttpClientModule,
-    MatToolbarModule,
+    MatButtonModule,
+    MatListModule,
+    MatSidenavModule,
     MatSnackBarModule,
+    MatToolbarModule,
     RouterModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
