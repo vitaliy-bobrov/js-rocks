@@ -73,15 +73,6 @@ export abstract class Effect<D extends Active> implements Disposable {
   }
 
   /**
-   * Applies default parameters to effect properties.
-   */
-  applyDefaults() {
-    Object.keys(this.defaults).forEach(option => {
-      this[option] = this.defaults[option];
-    });
-  }
-
-  /**
    * Toggles effect bypass based on current state.
    */
   toggleBypass() {
@@ -147,9 +138,27 @@ export abstract class Effect<D extends Active> implements Disposable {
   }
 
   /**
+   * Applies default parameters to effect properties.
+   */
+  protected applyDefaults() {
+    Object.keys(this.defaults).forEach(option => {
+      this[option] = this.defaults[option];
+    });
+  }
+
+  /**
+   * Connects effect audio nodes in order.
+   */
+  protected connectNodes(nodes: IAudioNode<IAudioContext>[]) {
+    for (let i = nodes.length - 1; i > 0; --i) {
+      nodes[i - 1].connect(nodes[i]);
+    }
+  }
+
+  /**
    * Disconnects and stops (if possible) audio nodes from the list.
    */
-  disconnectNodes(nodes: IAudioNode<IAudioContext>[]) {
+  protected disconnectNodes(nodes: IAudioNode<IAudioContext>[]) {
     for (const node of nodes) {
       node.disconnect();
 

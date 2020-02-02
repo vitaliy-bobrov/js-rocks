@@ -7,7 +7,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, toSeconds, linearCrossFade } from '@audio/utils';
+import { clamp, toSeconds, linearCrossFade } from '@audio/utils';
 import { ToneControl, StandardTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';
 
@@ -92,10 +92,10 @@ export class Reverb extends Effect<ReverbSettings> {
       this.wet,
       this.merger
     ];
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
 
     // "Dry" chain.
-    connectNodes([this.splitter, this.dry, this.merger]);
+    this.connectNodes([this.splitter, this.dry, this.merger]);
 
     this.applyDefaults();
     this.updateConvolver(buffer$, convolverMakeUp, this.type);

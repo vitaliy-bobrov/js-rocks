@@ -1,0 +1,3 @@
+describe('clamp', () => {
+  it('should', () => {});
+});

@@ -7,7 +7,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, dBToGain } from '@audio/utils';
+import { clamp, dBToGain } from '@audio/utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { ToneControl, MixedTone } from './tone';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
@@ -160,7 +160,7 @@ export class Muff extends Effect<MuffSettings> {
       this.levelNode
     ];
 
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
     this.applyDefaults();
   }
 

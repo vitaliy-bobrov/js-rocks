@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, linearCrossFade, toSeconds } from '@audio/utils';
+import { clamp, linearCrossFade, toSeconds } from '@audio/utils';
 
 export interface DelaySettings extends Active {
   level: number;
@@ -106,13 +106,13 @@ export class Delay extends Effect<DelaySettings> {
       this.wet,
       this.mergeNode
     ];
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
 
     // Feedback loop.
     this.delayNode.connect(this.feedbackNode).connect(this.delayNode);
 
     // "Dry" chain.
-    connectNodes([this.splitNode, this.dry, this.mergeNode]);
+    this.connectNodes([this.splitNode, this.dry, this.mergeNode]);
     this.applyDefaults();
   }
 

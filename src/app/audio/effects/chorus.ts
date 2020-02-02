@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, linearCrossFade } from '@audio/utils';
+import { clamp, linearCrossFade } from '@audio/utils';
 import { StandardTone, ToneControl } from './tone';
 import { LFO, LFOType } from './lfo';
 
@@ -133,7 +133,7 @@ export class Chorus extends Effect<ChorusSettings> {
       this.wet,
       this.merger
     ];
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
 
     // Feedback loop.
     this.delayNode.connect(this.feedbackNode).connect(this.delayNode);
@@ -142,7 +142,7 @@ export class Chorus extends Effect<ChorusSettings> {
     this.lfo.connect(this.delayNode.delayTime);
 
     // "Dry" chain.
-    connectNodes([this.splitter, this.dry, this.merger]);
+    this.connectNodes([this.splitter, this.dry, this.merger]);
     this.applyDefaults();
   }
 

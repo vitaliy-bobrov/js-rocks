@@ -2,7 +2,7 @@ import { AudioContext, GainNode } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '@audio/utils';
+import { clamp, mapToMinMax } from '@audio/utils';
 import { LFO, LFOType } from './lfo';
 
 export interface TremoloSettings {
@@ -85,7 +85,7 @@ export class Tremolo extends Effect<TremoloSettings> {
 
     this.processor = [this.gainNode, this.levelNode];
 
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
 
     // LFO setup.
     this.lfo.connect(this.gainNode.gain);

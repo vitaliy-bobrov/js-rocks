@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, linearCrossFade } from '@audio/utils';
+import { clamp, linearCrossFade } from '@audio/utils';
 import { LFO, LFOType } from './lfo';
 
 export interface PhaserSettings extends Active {
@@ -104,10 +104,10 @@ export class Phaser extends Effect<PhaserSettings> {
 
     // "Wet" chain.
     this.processor = [this.splitter, ...this.filters, this.wet, this.merger];
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
 
     // "Dry" chain.
-    connectNodes([this.splitter, this.dry, this.merger]);
+    this.connectNodes([this.splitter, this.dry, this.merger]);
     this.applyDefaults();
   }
 

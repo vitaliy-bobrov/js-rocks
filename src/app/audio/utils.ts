@@ -3,17 +3,8 @@ import { EffectNode } from '@audio/interfaces/node.interface';
 /**
  * Clamps value to provided min and max - min <= value <= max.
  */
-export function clamp(min: number, max: number, value: number) {
+export function clamp(min: number, max: number, value: number): number {
   return Math.min(Math.max(value, min), max);
-}
-
-/**
- * Connects effect nodes in order.
- */
-export function connectNodes(nodes: EffectNode[]) {
-  for (let i = nodes.length - 1; i > 0; --i) {
-    nodes[i - 1].connect(nodes[i]);
-  }
 }
 
 /**
