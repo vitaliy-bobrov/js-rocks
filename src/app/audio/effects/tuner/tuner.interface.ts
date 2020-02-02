@@ -1,8 +1,8 @@
 export interface Note {
   symbol: string;
-  frequency: number;
-  octave: number;
-  cents: number;
+  frequency: number | null;
+  octave: number | null;
+  cents: number | null;
 }
 
 export interface TunerRequest {

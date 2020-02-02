@@ -3,16 +3,15 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  NgModule,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
-  NgModule
+  ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
-import { map } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Tuner } from '@audio/effects/tuner/tuner';
@@ -23,6 +22,8 @@ import { LargeSwitchModule } from '../large-switch/large-switch.component';
 import { LedModule } from '../led/led.component';
 import { SevenSegmentLcdModule } from '../seven-segment-lcd/seven-segment-lcd.component';
 import { StompboxModule } from '../stompbox/stompbox.component';
+import { CentsPositionPipe } from './cents-position.pipe';
+import { PitchClassNamePipe } from './pitch-class-name.pipe';
 
 @Component({
   selector: 'jsr-tuner',
@@ -44,11 +45,6 @@ export class TunerComponent
   destroy$ = new Subject<void>();
 
   effect: Tuner;
-  noteName$: Observable<string | null>;
-  isSharp$: Observable<boolean>;
-  isAccurate$: Observable<boolean>;
-  isInaccurate$: Observable<boolean>;
-  centsPosition$: Observable<string>;
 
   params: Active = {
     active: false
@@ -61,28 +57,6 @@ export class TunerComponent
   ngOnInit() {
     this.effect = new Tuner(this.manager.context, this.info.id, this.params);
     this.manager.addEffect(this.effect);
-
-    this.noteName$ = this.effect.note$.pipe(
-      map(note => (note === null ? null : note.symbol[0]))
-    );
-    this.isSharp$ = this.effect.note$.pipe(
-      map(note => (note === null ? false : note.symbol.length > 1))
-    );
-    this.isAccurate$ = this.effect.note$.pipe(
-      map(note => (note === null ? false : Math.abs(note.cents) - 5 < 0))
-    );
-    this.isInaccurate$ = this.effect.note$.pipe(
-      map(note => (note === null ? false : Math.abs(note.cents) - 5 >= 0))
-    );
-    this.centsPosition$ = this.effect.note$.pipe(
-      map(note => {
-        if (note === null || note.cents === 0 || Math.abs(note.cents) < 4) {
-          return '0';
-        }
-
-        return `${Math.round(note.cents / 5) * 8}px`;
-      })
-    );
   }
 
   ngOnDestroy() {
@@ -94,7 +68,7 @@ export class TunerComponent
 }
 
 @NgModule({
-  declarations: [TunerComponent],
+  declarations: [CentsPositionPipe, TunerComponent, PitchClassNamePipe],
   bootstrap: [TunerComponent],
   imports: [
     CommonModule,

@@ -11,10 +11,16 @@ import { connectNodes } from '@shared/utils';
 import { Note, TunerResponseMessage } from './tuner.interface';
 
 export class Tuner extends Effect<Active> {
+  private static readonly emptyNote: Note = {
+    symbol: '',
+    frequency: null,
+    octave: null,
+    cents: null
+  };
   private worker: Worker;
   private preHPFilter: BiquadFilterNode<AudioContext>;
   private analyserNode: AnalyserNode<AudioContext>;
-  private noteSub$ = new BehaviorSubject<Note>(null);
+  private noteSub$ = new BehaviorSubject<Note>(Tuner.emptyNote);
 
   note$ = this.noteSub$.asObservable();
 
@@ -41,7 +47,7 @@ export class Tuner extends Effect<Active> {
         return;
       }
 
-      this.noteSub$.next(data.note);
+      this.noteSub$.next(data.note ?? Tuner.emptyNote);
     };
 
     this.detectPitch = this.detectPitch.bind(this);
@@ -51,7 +57,7 @@ export class Tuner extends Effect<Active> {
     super.toggleBypass();
 
     if (this.isBypassEnabled) {
-      this.noteSub$.next(null);
+      this.noteSub$.next(Tuner.emptyNote);
     } else {
       interval(300)
         .pipe(
