@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatDrawer } from '@angular/material/sidenav';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
 import { tap } from 'rxjs/operators';
 
@@ -14,6 +15,9 @@ import { SwUpdateService } from './sw-update/sw-update.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @ViewChild(MatDrawer, { static: true })
+  drawer: MatDrawer;
+
   constructor(
     readonly iconRegistry: MatIconRegistry,
     readonly sanitizer: DomSanitizer,
@@ -24,6 +28,14 @@ export class AppComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'arrow_forward',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/arrow_forward.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'menu',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/menu.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'speaker',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/speaker.svg')
     );
     iconRegistry.addSvgIcon(
       'more_vert',

@@ -1,45 +1,6 @@
 :host {
   display: grid;
-  position: relative;
-
-  .connect-decorator {
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-
-    &:before,
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    &:before {
-      width: 74px;
-      height: 74px;
-      background: #303030;
-      top: -9px;
-      border-radius: 50%;
-    }
-
-    &:after {
-      width: 40px;
-      height: 14px;
-      background-image: linear-gradient(
-        to left,
-        transparent 0%,
-        #303030 10%,
-        #303030 90%,
-        transparent 100%
-      );
-      top: 60px;
-      z-index: -1;
-    }
-  }
+  color: #000;
 
   .add-button {
     position: fixed;

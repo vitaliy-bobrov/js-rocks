@@ -11,13 +11,15 @@ $js-rocks-accent: mat-palette($mat-green, A200, A100, A400);
 $js-rocks-theme: mat-dark-theme($js-rocks-primary, $js-rocks-accent);
 
 // Include the theme styles for only specified components.
-@include mat-core-theme($js-rocks-theme);
 @include mat-badge-theme($js-rocks-theme);
 @include mat-button-theme($js-rocks-theme);
+@include mat-core-theme($js-rocks-theme);
 @include mat-dialog-theme($js-rocks-theme);
 @include mat-icon-theme($js-rocks-theme);
 @include mat-input-theme($js-rocks-theme);
+@include mat-list-theme($js-rocks-theme);
 @include mat-menu-theme($js-rocks-theme);
+@include mat-sidenav-theme($js-rocks-theme);
+@include mat-snack-bar-theme($js-rocks-theme);
 @include mat-toolbar-theme($js-rocks-theme);
 @include mat-tooltip-theme($js-rocks-theme);
-@include mat-snack-bar-theme($js-rocks-theme);

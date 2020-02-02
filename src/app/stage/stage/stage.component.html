@@ -1,4 +1,23 @@
 <jsr-page-actions>
+  <div class="connect-decorator">
+    <button
+      mat-fab
+      class="line-toggle"
+      type="button"
+      [attr.aria-label]="
+        isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+      "
+      [attr.aria-pressed]="isLinePlugged"
+      [matTooltip]="
+        isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
+      "
+      [color]="isLinePlugged ? 'accent' : 'warn'"
+      (click)="toggleLineConnection()"
+    >
+      <mat-icon svgIcon="settings_input_svideo"></mat-icon>
+    </button>
+  </div>
+
   <mat-menu #appMenu="matMenu">
     <button
       type="button"
@@ -83,25 +102,6 @@
     <mat-icon svgIcon="delete"></mat-icon>
   </button>
 </jsr-page-actions>
-
-<div class="connect-decorator">
-  <button
-    mat-fab
-    class="line-toggle"
-    type="button"
-    [attr.aria-label]="
-      isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
-    "
-    [attr.aria-pressed]="isLinePlugged"
-    [matTooltip]="
-      isLinePlugged ? 'Disconnect instrument' : 'Connect instrument'
-    "
-    [color]="isLinePlugged ? 'accent' : 'warn'"
-    (click)="toggleLineConnection()"
-  >
-    <mat-icon svgIcon="settings_input_svideo"></mat-icon>
-  </button>
-</div>
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>
 

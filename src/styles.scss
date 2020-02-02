@@ -32,6 +32,27 @@ button {
   margin: -1px;
 }
 
+.connect-decorator {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 74px;
+    height: 74px;
+    background: #303030;
+    top: -9px;
+    border-radius: 50%;
+  }
+}
+
 jsr-stage .pedal,
 .cdk-drag-placeholder,
 .pedal-loader {

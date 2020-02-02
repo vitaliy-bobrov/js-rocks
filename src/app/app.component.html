@@ -1,6 +1,14 @@
 <header>
-  <mat-toolbar class="mat-elevation-z6" color="primary">
-    <span class="title">JS Rocks</span>
+  <mat-toolbar color="primary">
+    <button
+      type="button"
+      aria-label="Toggle menu"
+      mat-icon-button
+      (click)="drawer.toggle()"
+    >
+      <mat-icon svgIcon="menu"></mat-icon>
+    </button>
+    <h1 class="title">JS Rocks</h1>
     <span class="spacer"></span>
     <div id="page-actions-container">
       <!-- content will be placed dynamically via Cdk Portal -->
@@ -8,6 +16,15 @@
   </mat-toolbar>
 </header>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+<mat-drawer-container>
+  <mat-drawer>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/stage"
+        ><mat-icon mat-list-icon svgIcon="speaker"></mat-icon> Stage</a
+      >
+    </mat-nav-list>
+  </mat-drawer>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</mat-drawer-container>
