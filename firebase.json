@@ -2,7 +2,7 @@
   "hosting": [
     {
       "target": "js-rocks",
-      "public": "dist/js-rocks",
+      "public": "dist/js-rocks/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
