@@ -1,6 +1,7 @@
 :host {
   main {
     max-width: 1240px;
+    position: relative;
 
     @media screen and (min-width: 1240px) {
       margin: 0 auto;

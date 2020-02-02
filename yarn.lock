@@ -255,6 +255,14 @@
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-9.0.0-rc.13.tgz#1dd90787ec8ea49572ec400295312852ac876755"
   integrity sha512-xeWvq2C+OZEJVXV0WxOwtUVp2wLLjrw7QbOpx9M3i3hZh7nQ/yr96u90oATorR+lcdOx5SYl3xs7SQil553S0A==
 
+"@angular/platform-server@~9.0.0-rc.7":
+  version "9.0.0-rc.13"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-9.0.0-rc.13.tgz#7ae2dcd36da3f5f94e5590fcd4d1bcb6a81c535e"
+  integrity sha512-RvlIfhrdx2gsaT37cV5+NhxJrk4ing88KhUiMXkNysUTVK4qgJBApNlRp+OTfM1XxhvPWJz+VPA9pfBE6nz9IA==
+  dependencies:
+    domino "^2.1.2"
+    xhr2 "^0.1.4"
+
 "@angular/router@~9.0.0-rc.7":
   version "9.0.0-rc.13"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-9.0.0-rc.13.tgz#4cba316766c524724b60904f8de04d00cf2503a1"
@@ -4377,6 +4385,11 @@ domexception@^1.0.1:
   integrity sha512-raigMkn7CJNNo6Ihro1fzG7wr3fHuYVytzquZKX5n0yizGsTcYgzdIUwj1X9pK0VvjeihV+XiclP+DjwbsSKug==
   dependencies:
     webidl-conversions "^4.0.2"
+
+domino@^2.1.2:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/domino/-/domino-2.1.4.tgz#78922e7fab7c610f35792b6c745b7962d342e9c4"
+  integrity sha512-l70mlQ7IjPKC8kT7GljQXJZmt5OqFL+RE91ik5y5WWQtsd9wP8R7gpFnNu96fK5MqAAZRXfLLsnzKtkty5fWGQ==
 
 domutils@^1.7.0:
   version "1.7.0"
@@ -12474,6 +12487,11 @@ xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
   integrity sha1-SWsswQnsqNus/i3HK2A8F8WHCtQ=
+
+xhr2@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.1.4.tgz#7f87658847716db5026323812f818cadab387a5f"
+  integrity sha1-f4dliEdxbbUCYyOBL4GMras4el8=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

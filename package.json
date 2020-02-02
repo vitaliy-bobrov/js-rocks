@@ -26,6 +26,7 @@
     "@angular/material": "^9.0.0-rc.6",
     "@angular/platform-browser": "~9.0.0-rc.7",
     "@angular/platform-browser-dynamic": "~9.0.0-rc.7",
+    "@angular/platform-server": "~9.0.0-rc.7",
     "@angular/router": "~9.0.0-rc.7",
     "@angular/service-worker": "~9.0.0-rc.7",
     "angular-google-tag-manager": "^1.0.1",
