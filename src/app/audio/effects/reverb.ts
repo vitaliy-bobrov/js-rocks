@@ -7,7 +7,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp, toSeconds, linearCrossFade } from '@shared/utils';
+import { connectNodes, clamp, toSeconds, linearCrossFade } from '@audio/utils';
 import { ToneControl, StandardTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';
 

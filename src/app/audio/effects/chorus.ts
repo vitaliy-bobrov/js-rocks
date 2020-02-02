@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, linearCrossFade } from '@shared/utils';
+import { clamp, connectNodes, linearCrossFade } from '@audio/utils';
 import { StandardTone, ToneControl } from './tone';
 import { LFO, LFOType } from './lfo';
 

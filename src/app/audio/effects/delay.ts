@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Active } from '@audio/interfaces/active.interface';
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, linearCrossFade, toSeconds } from '@shared/utils';
+import { clamp, connectNodes, linearCrossFade, toSeconds } from '@audio/utils';
 
 export interface DelaySettings extends Active {
   level: number;

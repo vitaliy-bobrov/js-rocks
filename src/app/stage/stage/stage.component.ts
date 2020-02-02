@@ -172,7 +172,10 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
   handlePresetShortcut(event: KeyboardEvent) {
     const id = this.presetKeyMap[event.key];
 
-    if (typeof id === 'undefined') {
+    if (
+      typeof id === 'undefined' ||
+      (event.target as HTMLElement).nodeName.toLowerCase() === 'input'
+    ) {
       return;
     }
 

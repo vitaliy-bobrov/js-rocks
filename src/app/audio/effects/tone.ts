@@ -7,7 +7,7 @@ import {
   ChannelMergerNode
 } from 'standardized-audio-context';
 
-import { expScale, mapToMinMax } from '@shared/utils';
+import { expScale, mapToMinMax } from '@audio/utils';
 import { Disposable } from '@audio/interfaces/disposable.interface';
 import { onePoleLowpass, onePoleHighpass } from './one-pole-filters';
 

@@ -28,7 +28,7 @@ import {
 } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
 
-import { clamp, mapToMinMax, percentFromMinMax } from '@shared/utils';
+import { clamp, mapToMinMax, percentFromMinMax } from '@audio/utils';
 import { ValueLabelPipe } from './value-label.pipe';
 
 @Component({

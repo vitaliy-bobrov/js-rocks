@@ -7,7 +7,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, calculateBandpass } from '@shared/utils';
+import { clamp, connectNodes, calculateBandpass } from '@audio/utils';
 import { CurveType, makeDistortionCurve } from './distortion-curves';
 import { ToneControl, StandardTone, MixedTone } from './tone';
 import { Active } from '@audio/interfaces/active.interface';

@@ -7,7 +7,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp } from '@shared/utils';
+import { connectNodes, clamp } from '@audio/utils';
 import { Active } from '@audio/interfaces/active.interface';
 
 export interface CabinetSettings extends Active {

@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import nanoid from 'nanoid';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
-import { deepCopy } from '@shared/utils';
+import { deepCopy } from '@audio/utils';
 
 export interface Preset {
   id?: string;

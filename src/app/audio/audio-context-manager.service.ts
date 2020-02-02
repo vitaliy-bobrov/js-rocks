@@ -8,7 +8,7 @@ import {
 } from 'standardized-audio-context';
 
 import { Effect } from './effects/effect';
-import { clamp } from '@shared/utils';
+import { clamp } from '@audio/utils';
 import { Preset } from './preset-manager.service';
 import { CabinetInfo } from './effects/cabinet';
 

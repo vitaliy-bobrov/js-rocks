@@ -2,7 +2,7 @@ import { AudioContext, GainNode } from 'standardized-audio-context';
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
+import { clamp, connectNodes, mapToMinMax } from '@audio/utils';
 import { LFO, LFOType } from './lfo';
 
 export interface TremoloSettings {

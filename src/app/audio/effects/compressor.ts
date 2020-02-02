@@ -6,7 +6,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { clamp, connectNodes, mapToMinMax } from '@shared/utils';
+import { clamp, connectNodes, mapToMinMax } from '@audio/utils';
 import { Active } from '@audio/interfaces/active.interface';
 
 export interface CompressorSettings extends Active {
