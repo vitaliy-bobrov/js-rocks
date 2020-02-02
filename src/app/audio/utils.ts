@@ -8,14 +8,18 @@ export function clamp(min: number, max: number, value: number): number {
 /**
  * Maps value to min max range.
  */
-export function mapToMinMax(value: number, min: number, max: number) {
+export function mapToMinMax(value: number, min: number, max: number): number {
   return value * (max - min) + min;
 }
 
 /**
  * Gets value percentage from min max range.
  */
-export function percentFromMinMax(value: number, min: number, max: number) {
+export function percentFromMinMax(
+  value: number,
+  min: number,
+  max: number
+): number {
   return (value - min) / (max - min);
 }
 
@@ -67,14 +71,16 @@ export function linearCrossFade(value: number): Readonly<[number, number]> {
 /**
  * Calculates biquad filter center frequency for a given frequencies range.
  */
-export function calculateCenterFrequency(range: [number, number]) {
+export function calculateCenterFrequency(range: [number, number]): number {
   return Math.sqrt(range[0] * range[1]);
 }
 
 /**
  * Calculates center frequency and Q (quality) parameter for bandpass filter.
  */
-export function calculateBandpass(range: [number, number]) {
+export function calculateBandpass(
+  range: [number, number]
+): { fc: number; q: number } {
   const fc = calculateCenterFrequency(range);
   const q = fc / (range[1] - range[0]);
 
@@ -84,7 +90,7 @@ export function calculateBandpass(range: [number, number]) {
 /**
  * Computation fast Math.tanh approximation.
  */
-export function fastTanh(x: number) {
+export function fastTanh(x: number): number {
   // Limit out of range data.
   if (x < -3) {
     x = -1;
@@ -100,13 +106,13 @@ export function fastTanh(x: number) {
 /**
  * Converts gain value to dB.
  */
-export function gainToDB(value: number) {
+export function gainToDB(value: number): number {
   return 20 * Math.log10(value);
 }
 
 /**
  * Converts dB value to gain.
  */
-export function dBToGain(value: number) {
+export function dBToGain(value: number): number {
   return Math.pow(10, value / 20);
 }
