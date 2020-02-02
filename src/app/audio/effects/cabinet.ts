@@ -7,7 +7,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Effect, EffectInfo } from './effect';
-import { connectNodes, clamp } from '@audio/utils';
+import { clamp } from '@audio/utils';
 import { Active } from '@audio/interfaces/active.interface';
 
 export interface CabinetSettings extends Active {
@@ -116,7 +116,7 @@ export class Cabinet extends Effect<CabinetSettings> {
       this.trebleNode
     ];
 
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
     this.applyDefaults();
   }
 

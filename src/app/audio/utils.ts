@@ -1,5 +1,3 @@
-import { EffectNode } from '@audio/interfaces/node.interface';
-
 /**
  * Clamps value to provided min and max - min <= value <= max.
  */

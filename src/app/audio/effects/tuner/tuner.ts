@@ -7,7 +7,6 @@ import { BehaviorSubject, interval } from 'rxjs';
 import { takeWhile, tap } from 'rxjs/operators';
 import { Effect } from '../effect';
 import { Active } from '@audio/interfaces/active.interface';
-import { connectNodes } from '@audio/utils';
 import { Note, TunerResponseMessage } from './tuner.interface';
 
 export class Tuner extends Effect<Active> {
@@ -38,7 +37,7 @@ export class Tuner extends Effect<Active> {
     });
 
     this.processor = [this.preHPFilter, this.analyserNode];
-    connectNodes(this.processor);
+    this.connectNodes(this.processor);
     this.applyDefaults();
 
     this.worker = new Worker('./tuner.worker', { type: 'module' });
