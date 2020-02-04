@@ -35,7 +35,7 @@
     "nanoid": "^2.1.6",
     "ngx-loadable": "^3.0.0-next.12",
     "rxjs": "~6.5.3",
-    "standardized-audio-context": "^23.1.0",
+    "standardized-audio-context": "^24.0.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
