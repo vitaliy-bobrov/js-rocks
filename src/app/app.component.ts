@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+  PLATFORM_ID
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -8,6 +14,7 @@ import { tap } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 import { SwUpdateService } from './sw-update/sw-update.service';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'jsr-root',
@@ -18,67 +25,41 @@ export class AppComponent implements OnInit {
   @ViewChild(MatDrawer, { static: true })
   drawer: MatDrawer;
 
+  showIcons = true;
+
   constructor(
     readonly iconRegistry: MatIconRegistry,
     readonly sanitizer: DomSanitizer,
     private gtmService: GoogleTagManagerService,
     private swUpdateService: SwUpdateService,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: string
   ) {
-    iconRegistry.addSvgIcon(
+    if (isPlatformServer(platformId)) {
+      this.showIcons = false;
+    }
+
+    const icons = [
       'arrow_forward',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/arrow_forward.svg')
-    );
-    iconRegistry.addSvgIcon(
       'menu',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/menu.svg')
-    );
-    iconRegistry.addSvgIcon(
       'speaker',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/speaker.svg')
-    );
-    iconRegistry.addSvgIcon(
       'more_vert',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/more_vert.svg')
-    );
-    iconRegistry.addSvgIcon(
       'radio_button_checked',
-      sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/svg/radio_button_checked.svg'
-      )
-    );
-    iconRegistry.addSvgIcon(
       'radio_button_unchecked',
-      sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/svg/radio_button_unchecked.svg'
-      )
-    );
-    iconRegistry.addSvgIcon(
       'list',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/list.svg')
-    );
-    iconRegistry.addSvgIcon(
       'add',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/add.svg')
-    );
-    iconRegistry.addSvgIcon(
       'delete',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/delete.svg')
-    );
-    iconRegistry.addSvgIcon(
       'save',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/save.svg')
-    );
-    iconRegistry.addSvgIcon(
       'blank',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/blank.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'settings_input_svideo',
-      sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/svg/settings_input_svideo.svg'
-      )
-    );
+      'settings_input_svideo'
+    ];
+
+    for (const icon of icons) {
+      iconRegistry.addSvgIcon(
+        icon,
+        sanitizer.bypassSecurityTrustResourceUrl(`assets/svg/${icon}.svg`)
+      );
+    }
   }
 
   ngOnInit() {
