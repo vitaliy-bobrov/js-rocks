@@ -17,7 +17,7 @@ script:
 - yarn lint
 - yarn test
 before_deploy:
-- yarn build:prod
+- yarn build:ci
 deploy:
   provider: firebase
   skip_cleanup: true
