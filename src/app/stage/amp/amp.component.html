@@ -1,43 +1,45 @@
-<div class="plate">
-  <div class="inputs">
-    <h2 class="model">{{ selectedModel.model }}</h2>
+<div class="inputs" class="theme-{{ selectedModel.theme }}">
+  <button
+    type="button"
+    aria-label="Select cabinet model"
+    mat-icon-button
+    matTooltip="Select cabinet model"
+    [matMenuTriggerFor]="menu"
+  >
+    <mat-icon svgIcon="more_vert"></mat-icon>
+  </button>
 
+  <mat-menu #menu="matMenu">
     <button
       type="button"
-      aria-label="Select cabinet model"
-      mat-icon-button
-      matTooltip="Select cabinet model"
-      [matMenuTriggerFor]="menu"
+      aria-label="Select cabinet"
+      role="menuitemradio"
+      mat-menu-item
+      *ngFor="let cabinet of cabinets"
+      (click)="selectCabinet(cabinet)"
     >
-      <mat-icon svgIcon="more_vert"></mat-icon>
+      <mat-icon
+        [svgIcon]="
+          selectedModel === cabinet
+            ? 'radio_button_checked'
+            : 'radio_button_unchecked'
+        "
+      ></mat-icon>
+      <span>{{ cabinet.brand }}{{ cabinet.model }}</span>
     </button>
+  </mat-menu>
 
-    <mat-menu #menu="matMenu">
-      <button
-        type="button"
-        aria-label="Select cabinet"
-        role="menuitemradio"
-        mat-menu-item
-        *ngFor="let cabinet of cabinets"
-        (click)="selectCabinet(cabinet)"
-      >
-        <mat-icon
-          [svgIcon]="
-            selectedModel === cabinet
-              ? 'radio_button_checked'
-              : 'radio_button_unchecked'
-          "
-        ></mat-icon>
-        <span>{{ cabinet.model }}</span>
-      </button>
-    </mat-menu>
-  </div>
-
+  <h2 class="branding">
+    {{ selectedModel.brand }}
+    <span class="model">{{ selectedModel.model }}</span>
+  </h2>
+</div>
+<div class="plate" class="theme-{{ selectedModel.theme }}">
   <section class="volume-controls">
     <jsr-knob
       dots
       silver
-      class="master"
+      class="master theme-{{ selectedModel.theme }}"
       label="MASTER"
       [value]="masterVolume$ | async"
       (valueChanged)="updateMasterVolume($event)"
@@ -47,10 +49,10 @@
     <jsr-knob
       dots
       silver
-      class="gain"
+      class="gain theme-{{ selectedModel.theme }}"
       label="VOLUME"
       [min]="1"
-      [max]="selectedModel.maxGain"
+      [max]="selectedModel.maxVolume"
       [step]="0.5"
       [value]="effect.makeUpGain$ | async"
       (valueChanged)="effect.gain = $event"
@@ -62,7 +64,7 @@
     <jsr-knob
       dots
       silver
-      class="bass"
+      class="bass theme-{{ selectedModel.theme }}"
       label="BASS"
       units="dB"
       [min]="-12"
@@ -77,7 +79,7 @@
     <jsr-knob
       dots
       silver
-      class="mid"
+      class="mid theme-{{ selectedModel.theme }}"
       label="MID"
       units="dB"
       [min]="-12"
@@ -92,7 +94,7 @@
     <jsr-knob
       dots
       silver
-      class="treble"
+      class="treble theme-{{ selectedModel.theme }}"
       label="TREBLE"
       units="dB"
       [min]="-12"
@@ -112,6 +114,7 @@
       aria-label="Toggle cabinet"
       [attr.aria-pressed]="effect.active$ | async"
       class="switch-button"
+      [class.active]="effect.active$ | async"
       (click)="effect.toggleBypass()"
     >
       |

@@ -12,10 +12,12 @@ import { Cabinet, CabinetInfo } from '@audio/effects/cabinet';
 import { ConvolverService } from '@audio/convolver.service';
 
 interface CabinetModel {
+  brand: string;
   model: string;
   path: string;
-  gain: number;
-  maxGain: number;
+  volume: number;
+  maxVolume: number;
+  theme?: string;
 }
 
 @Component({
@@ -30,64 +32,68 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
 
   cabinets: CabinetModel[] = [
     {
-      model: 'Captain 1960', // Marshall 1960A
+      brand: 'Captain',
+      model: '1960A', // Marshall 1960A
       path: 'cabinet/captain_1960.wav',
-      gain: 3,
-      maxGain: 5
+      volume: 3,
+      maxVolume: 5,
+      theme: 'marshall'
     },
     {
-      model: 'Friender Winner', // Fender Champion
+      brand: 'Friender',
+      model: 'Winner', // Fender Champion
       path: 'cabinet/friender_winner.wav',
-      gain: 5,
-      maxGain: 9
+      volume: 5,
+      maxVolume: 9
     },
     {
-      model: 'Friender Bassman', // Fender Bassman
+      brand: 'Friender',
+      model: 'Bassman', // Fender Bassman
       path: 'cabinet/friender_bassman.wav',
-      gain: 16,
-      maxGain: 31
+      volume: 16,
+      maxVolume: 31
     },
     {
-      model: 'Enzo Celesticco', // Celestion
-      path: 'cabinet/enzo_celesticco.wav',
-      gain: 2,
-      maxGain: 3
-    },
-    {
-      model: 'Fox AC30', // Vox AC30
+      brand: 'FOX',
+      model: 'AC30', // Vox AC30
       path: 'cabinet/fox_ac30.wav',
-      gain: 9,
-      maxGain: 17
+      volume: 9,
+      maxVolume: 17
     },
     {
-      model: 'FranklinStein', // Framus
+      brand: 'Franklin',
+      model: 'Stein', // Framus
       path: 'cabinet/franklinstein.wav',
-      gain: 15,
-      maxGain: 29
+      volume: 15,
+      maxVolume: 29
     },
     {
-      model: 'MegaStorm', // Mesa Boogie
+      brand: 'Mega',
+      model: 'Woody', // Mesa Boogie
       path: 'cabinet/mega_storm.wav',
-      gain: 6,
-      maxGain: 11
+      volume: 6,
+      maxVolume: 11
     },
     {
-      model: 'Yellow Submarine', // Orange
+      brand: 'Yellow',
+      model: 'Submarine', // Orange
       path: 'cabinet/yellow.wav',
-      gain: 24,
-      maxGain: 47
+      volume: 24,
+      maxVolume: 47
     },
     {
-      model: 'Eagle Pro', // ENGL Pro
+      brand: 'Eagle',
+      model: 'Pro', // ENGL Pro
       path: 'cabinet/eagle_pro.wav',
-      gain: 6,
-      maxGain: 11
+      volume: 6,
+      maxVolume: 11
     },
     {
-      model: 'Sandman 2204',
+      brand: 'Sandman',
+      model: '2204',
       path: 'cabinet/sandman_2204.wav',
-      gain: 7,
-      maxGain: 13
+      volume: 7,
+      maxVolume: 13
     }
   ];
   defaultCabinet = this.cabinets[0];
@@ -110,8 +116,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       this.manager.context,
       this.selectedModel.model,
       buffer$,
-      this.selectedModel.gain,
-      this.selectedModel.maxGain
+      this.selectedModel.volume,
+      this.selectedModel.maxVolume
     );
     this.manager.addEffect(this.effect, true);
 
@@ -143,8 +149,8 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     );
     this.effect.updateConvolver(
       convolver,
-      this.selectedModel.gain,
-      this.selectedModel.maxGain,
+      this.selectedModel.volume,
+      this.selectedModel.maxVolume,
       this.selectedModel.model
     );
   }
@@ -157,7 +163,7 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
     this.effect.bass = this.config.params.bass;
     this.effect.mid = this.config.params.mid;
     this.effect.treble = this.config.params.treble;
-    this.effect.gain = this.config.params.gain || this.selectedModel.gain;
+    this.effect.gain = this.config.params.gain || this.selectedModel.volume;
 
     this.updateMasterVolume(this.config.params.volume);
 
