@@ -58,7 +58,6 @@ JS Rocks - Web Audio electric guitar effects and cabinets.
 - Captain 1960
 - Friender Winner
 - Friender Bassman
-- Enzo Celesticco
 - Fox AC30
 - FranklinStein
 - MegaStorm
