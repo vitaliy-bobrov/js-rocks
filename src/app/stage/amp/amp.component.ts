@@ -55,7 +55,10 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       model: 'Bassman', // Fender Bassman
       path: 'cabinet/friender_bassman.wav',
       volume: 16,
-      maxVolume: 31
+      maxVolume: 31,
+      theme: 'bassman',
+      logo: '/assets/svg/brands/friender.svg#logo',
+      logoViewBox: '0 0 377 91'
     },
     {
       brand: 'FOX',

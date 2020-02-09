@@ -47,6 +47,48 @@
         transform: translate(-50%, -50%);
       }
     }
+
+    &.theme-bassman {
+      border-radius: 8px;
+      border: 4px solid #686262;
+      box-shadow: inset 1px 2px 5px rgba(0, 0, 0, 0.4),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+      background-image: repeating-linear-gradient(
+          0deg,
+          transparent 0,
+          #b5b2a3 2px,
+          #b5b2a3 3px,
+          transparent 6px,
+          transparent 8px,
+          #b5b2a3 9px,
+          transparent 10px,
+          transparent 11px,
+          #b5b2a3 12px,
+          transparent 13px,
+          transparent 15px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          #757262 1px,
+          transparent 2px,
+          transparent 8px,
+          #506f82 9px,
+          transparent 10px,
+          transparent 16px
+        );
+
+      .logo {
+        width: 180px;
+        top: 32px;
+        left: 12px;
+        transform: rotate(-20deg);
+        filter: drop-shadow(1px 1px 0 #222) drop-shadow(-1px -1px 0 #222)
+          drop-shadow(-1px 1px 0 #222) drop-shadow(1px -1px 0 #222)
+          drop-shadow(2px 1px 0 #222) drop-shadow(-2px -1px 0 #222)
+          drop-shadow(-2px 1px 0 #222) drop-shadow(2px -1px 0 #222);
+      }
+    }
   }
 
   .branding {
@@ -145,8 +187,6 @@
         text-align: right;
         margin: 0;
         padding: 12px 24px;
-        line-height: 26px;
-        font-size: 26px;
         font-weight: 400;
       }
 
@@ -201,6 +241,41 @@
       }
     }
 
+    &.theme-bassman {
+      --led-color: #10368e;
+      --led-size: 16px;
+      --bassman-color: #3695b4;
+      border-radius: 6px;
+
+      .volume-controls,
+      .eq {
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 2px solid var(--bassman-color);
+      }
+
+      jsr-knob {
+        margin-top: 14px;
+        margin-bottom: 4px;
+      }
+
+      jsr-led {
+        border: 3px solid #6a6d6e;
+      }
+
+      .switch {
+        justify-content: start;
+      }
+
+      .model {
+        text-align: right;
+        text-transform: uppercase;
+        margin: 8px 0;
+        padding: 0 16px;
+        color: var(--bassman-color);
+      }
+    }
+
     @media screen and (min-width: 540px) {
       grid-template-areas:
         'inputs          model switch'
@@ -227,6 +302,8 @@
 
   .model {
     grid-area: model;
+    line-height: 26px;
+    font-size: 26px;
   }
 
   .switch {
