@@ -25,14 +25,22 @@
             : 'radio_button_unchecked'
         "
       ></mat-icon>
-      <span>{{ cabinet.brand }}{{ cabinet.model }}</span>
+      <span>{{ cabinet.brand }} {{ cabinet.model }}</span>
     </button>
   </mat-menu>
 
-  <h2 class="branding">
+  <h2 class="branding" *ngIf="!selectedModel.logo">
     {{ selectedModel.brand }}
     <span class="model">{{ selectedModel.model }}</span>
   </h2>
+
+  <svg:svg
+    *ngIf="selectedModel.logo"
+    class="logo"
+    [attr.viewBox]="selectedModel.logoViewBox"
+  >
+    <svg:use [attr.xlink:href]="selectedModel.logo"></svg:use>
+  </svg:svg>
 </div>
 <div class="plate" class="theme-{{ selectedModel.theme }}">
   <section class="volume-controls">
@@ -106,6 +114,8 @@
     >
     </jsr-knob>
   </section>
+
+  <h2 *ngIf="selectedModel.logo" class="model">{{ selectedModel.model }}</h2>
 
   <div class="switch">
     <jsr-led [active]="effect.active$ | async"></jsr-led>

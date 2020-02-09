@@ -11,12 +11,18 @@
   color: var(--stompbox-label);
   padding: 12px;
 
+  .logo {
+    fill: currentColor;
+    position: absolute;
+  }
+
   .inputs {
     box-sizing: border-box;
     grid-area: inputs;
-    height: 86px;
+    height: 121px;
     padding-bottom: 12px;
     color: rgba(#fff, 0.84);
+    position: relative;
 
     &.theme-marshall {
       border-radius: 4px 4px 2px 2px;
@@ -33,6 +39,13 @@
           transparent 2px,
           rgba(0, 0, 0, 0.5) 6px
         );
+
+      .logo {
+        width: 140px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
   }
 
@@ -85,9 +98,9 @@
     );
     display: grid;
     grid-template-areas:
-      'inputs          inputs'
-      'volume-controls switch'
-      'eq              eq    ';
+      'inputs          inputs inputs'
+      'volume-controls model  switch'
+      'eq              eq     eq    ';
 
     grid-template-columns: auto max-content;
     justify-content: stretch;
@@ -128,6 +141,15 @@
         display: none;
       }
 
+      .model {
+        text-align: right;
+        margin: 0;
+        padding: 12px 24px;
+        line-height: 26px;
+        font-size: 26px;
+        font-weight: 400;
+      }
+
       .switch-button {
         box-shadow: 2px 2px 12px rgba(#000, 0.5);
         background-image: linear-gradient(
@@ -146,6 +168,15 @@
         border: 8px solid #222;
         color: transparent;
 
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+
         &:focus:after {
           border-radius: 0;
         }
@@ -162,20 +193,25 @@
             #c90c0a 58%,
             #900002 100%
           );
+
+          &:before {
+            box-shadow: 0 0 8px rgba(#fff, 0.2), 0 0 25px #c90c0a;
+          }
         }
       }
     }
 
     @media screen and (min-width: 540px) {
       grid-template-areas:
-        'inputs          switch'
-        'volume-controls eq    ';
+        'inputs          model switch'
+        'volume-controls eq    eq    ';
     }
 
     @media screen and (min-width: 840px) {
       grid-template-areas:
-        'inputs inputs inputs'
-        'volume-controls eq switch';
+        'inputs          inputs inputs inputs'
+        'volume-controls eq     model  switch';
+      grid-template-columns: 2fr auto 1.5fr 0.5fr;
     }
   }
 
@@ -187,6 +223,10 @@
   jsr-led {
     display: block;
     margin: 8px auto;
+  }
+
+  .model {
+    grid-area: model;
   }
 
   .switch {

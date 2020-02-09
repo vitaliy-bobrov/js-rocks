@@ -55,7 +55,7 @@ JS Rocks - Web Audio electric guitar effects and cabinets.
 
 ## Available amplifiers / cabinets 🔊
 
-- Captain 1960
+- Captain JCM800
 - Friender Winner
 - Friender Bassman
 - Fox AC30

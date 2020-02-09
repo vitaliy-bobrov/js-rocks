@@ -18,6 +18,8 @@ interface CabinetModel {
   volume: number;
   maxVolume: number;
   theme?: string;
+  logo?: string;
+  logoViewBox?: string;
 }
 
 @Component({
@@ -33,11 +35,13 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
   cabinets: CabinetModel[] = [
     {
       brand: 'Captain',
-      model: '1960A', // Marshall 1960A
+      model: 'JCM800', // Marshall JCM800
       path: 'cabinet/captain_1960.wav',
       volume: 3,
       maxVolume: 5,
-      theme: 'marshall'
+      theme: 'marshall',
+      logo: '/assets/svg/brands/captain.svg#logo',
+      logoViewBox: '0 0 220 85'
     },
     {
       brand: 'Friender',
