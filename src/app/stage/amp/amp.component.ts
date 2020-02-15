@@ -48,7 +48,10 @@ export class AmpComponent implements OnInit, OnDestroy, OnChanges {
       model: 'Winner', // Fender Champion
       path: 'cabinet/friender_winner.wav',
       volume: 5,
-      maxVolume: 9
+      maxVolume: 9,
+      theme: 'champion',
+      logo: '/assets/svg/brands/friender.svg#logo',
+      logoViewBox: '0 0 377 91'
     },
     {
       brand: 'Friender',

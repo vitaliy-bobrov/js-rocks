@@ -77,7 +77,10 @@
           transparent 10px,
           transparent 16px
         );
+    }
 
+    &.theme-bassman,
+    &.theme-champion {
       .logo {
         width: 180px;
         top: 32px;
