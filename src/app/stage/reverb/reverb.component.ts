@@ -6,11 +6,9 @@ import {
   NgModule,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -43,9 +41,6 @@ export class ReverbComponent
 
   @Output()
   remove = new EventEmitter<void>();
-
-  @ViewChild(CdkDrag, { static: true })
-  drag: CdkDrag;
 
   destroy$ = new Subject<void>();
 
@@ -144,7 +139,6 @@ export class ReverbComponent
   bootstrap: [ReverbComponent],
   imports: [
     CommonModule,
-    DragDropModule,
     KnobModule,
     LargeSwitchModule,
     LedModule,

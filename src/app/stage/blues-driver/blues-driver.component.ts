@@ -6,11 +6,9 @@ import {
   NgModule,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 import { Distortion, DistortionSettings } from '@audio/effects/distortion';
@@ -36,9 +34,6 @@ export class BluesDriverComponent
 
   @Output()
   remove = new EventEmitter<void>();
-
-  @ViewChild(CdkDrag, { static: true })
-  drag: CdkDrag;
 
   destroy$ = new Subject<void>();
 
@@ -80,7 +75,6 @@ export class BluesDriverComponent
   bootstrap: [BluesDriverComponent],
   imports: [
     CommonModule,
-    DragDropModule,
     KnobModule,
     LargeSwitchModule,
     LedModule,

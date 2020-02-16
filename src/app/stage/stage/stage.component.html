@@ -105,17 +105,16 @@
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>
 
-<div
-  #dropList
-  cdkDropList
-  cdkDropListOrientation="horizontal"
-  (cdkDropListDropped)="dropPedal($event)"
->
+<div>
   <ngx-loadable
-    *ngFor="let pedal of config?.pedals"
+    *ngFor="let pedal of config?.pedals; let index = index"
+    ngSortgridItem
+    [ngSortGridItems]="config?.pedals"
+    [autoScroll]="true"
     [module]="pedal.model"
     [show]="true"
-    (init)="initPedal($event, pedal.params, pedal.model)"
+    (init)="initPedal($event, pedal, pedal.model)"
+    (sorted)="dropPedal($event, pedal, index)"
   ></ngx-loadable>
 </div>
 

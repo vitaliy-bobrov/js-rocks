@@ -53,30 +53,21 @@ button {
   }
 }
 
-jsr-stage .pedal,
-.cdk-drag-placeholder,
-.pedal-loader {
+jsr-stage .pedal {
   display: inline-block;
-  margin: 0 24px 24px;
+  margin: 12px 24px;
 }
 
-.cdk-drag-placeholder,
-.pedal-loader {
-  width: 200px;
-  height: 326px;
-  background-color: rgba(#69f0ae, 0.5);
-  border: 1px solid #69f0ae;
-  border-radius: 0.5em;
-}
-
-.cdk-drag-animating {
-  transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.cdk-drag-dragging > * {
+jsr-stage .ng-sg-placeholder ~ .pedal {
   pointer-events: none;
 }
 
-.cdk-drop-list-dragging .pedal:not(.cdk-drag-placeholder) {
-  transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);
+jsr-stage .ng-sg-placeholder .pedal .wrap {
+  background-color: rgba(#69f0ae, 0.5);
+  border: 1px solid #69f0ae;
+  box-shadow: none;
+
+  > * {
+    display: none;
+  }
 }
