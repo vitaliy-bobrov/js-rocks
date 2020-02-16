@@ -7,8 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
+import { NgsgModule } from 'ng-sortgrid';
 
 import { AudioModule } from '@audio/audio.module';
 import { SharedModule } from '@shared/shared.module';
@@ -33,7 +33,6 @@ import { LoadableModule } from 'ngx-loadable';
   imports: [
     A11yModule,
     AudioModule,
-    DragDropModule,
     FormsModule,
     KnobModule,
     LedModule,
@@ -126,9 +125,10 @@ import { LoadableModule } from 'ngx-loadable';
     MatInputModule,
     MatMenuModule,
     MatTooltipModule,
+    NgsgModule,
+    PortalModule,
     SharedModule,
-    StageRoutingModule,
-    PortalModule
+    StageRoutingModule
   ]
 })
 export class StageModule {}

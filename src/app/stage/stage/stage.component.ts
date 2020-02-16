@@ -2,18 +2,11 @@ import {
   Component,
   ChangeDetectionStrategy,
   HostListener,
-  ViewChild,
   OnInit,
   OnDestroy,
-  AfterContentChecked,
   ComponentRef
 } from '@angular/core';
-import {
-  CdkDragDrop,
-  CdkDropList,
-  CdkDrag,
-  moveItemInArray
-} from '@angular/cdk/drag-drop';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,7 +16,7 @@ import {
   Preset,
   PresetInfo
 } from '@audio/preset-manager.service';
-import { Effect } from '@audio/effects/effect';
+import { EffectInfo } from '@audio/effects/effect';
 import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
 
@@ -33,7 +26,7 @@ import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dia
   styleUrls: ['./stage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class StageComponent implements OnInit, OnDestroy {
   isLinePlugged = false;
   config: Preset;
   selectedPresetId: string;
@@ -140,11 +133,7 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
       model: 'JRV-6'
     }
   ];
-  private dragRefs: CdkDrag[];
   private presetKeyMap: string[] = [''];
-
-  @ViewChild(CdkDropList, { static: true })
-  dropList: CdkDropList;
 
   constructor(
     public dialog: MatDialog,
@@ -162,10 +151,6 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   ngOnDestroy() {
     this.presetsManager.setCurrentPreset(this.selectedPresetId);
-  }
-
-  ngAfterContentChecked() {
-    this.initPedalsDrag();
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -192,14 +177,10 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     }
   }
 
-  dropPedal(event: CdkDragDrop<Effect<any>[]>) {
-    moveItemInArray(
-      this.config.pedals,
-      event.previousIndex,
-      event.currentIndex
-    );
-    moveItemInArray(this.dragRefs, event.previousIndex, event.currentIndex);
-    this.manager.moveEffect(event.previousIndex, event.currentIndex);
+  dropPedal(sorted: EffectInfo[], pedal: EffectInfo, previousIndex: number) {
+    const currentIndex = sorted.indexOf(pedal);
+    moveItemInArray(this.config.pedals, previousIndex, currentIndex);
+    this.manager.moveEffect(previousIndex, currentIndex);
   }
 
   openPresetNameDialog() {
@@ -265,46 +246,38 @@ export class StageComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.config.pedals.push(pedalInfo);
   }
 
-  private removePedal(componentRef: ComponentRef<PedalComponent<unknown>>) {
-    const index = this.dragRefs.indexOf(componentRef.instance.drag);
-    this.config.pedals.splice(index, 1);
-    this.dragRefs.splice(index, 1);
-    componentRef.destroy();
-  }
-
   initPedal(
     componentRef: ComponentRef<PedalComponent<unknown>>,
-    params: unknown,
+    pedal: EffectInfo,
     id: string
   ) {
     const component = componentRef.instance;
 
     component.remove
       .pipe(takeUntil(component.destroy$))
-      .subscribe(() => this.removePedal(componentRef));
+      .subscribe(() => this.removePedal(componentRef, pedal));
 
     component.info = this.availablePedals.find(
       descriptor => descriptor.id === id
     );
 
-    if (params) {
-      component.params = params;
+    if (pedal.params) {
+      component.params = pedal.params;
     }
+  }
 
-    this.dragRefs.push(component.drag);
+  private removePedal(
+    componentRef: ComponentRef<PedalComponent<unknown>>,
+    pedal: EffectInfo
+  ) {
+    this.config.pedals = this.config.pedals.filter(config => config !== pedal);
+    componentRef.destroy();
   }
 
   private afterConfigChange() {
-    this.dragRefs = [];
     this.config = this.presetsManager.getCurrentPreset();
     this.config.cabinet = { ...this.config.cabinet };
     this.selectedPresetId = this.config.id;
-  }
-
-  private initPedalsDrag() {
-    this.dropList._dropListRef.withItems(
-      this.dragRefs.map(drag => drag._dragRef)
-    );
   }
 
   private updatePresetsKeyMap() {

@@ -1,5 +1,4 @@
 import { EventEmitter } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 export interface PedalComponent<T> {
@@ -7,7 +6,6 @@ export interface PedalComponent<T> {
   params: T;
   info: PedalDescriptor;
   remove: EventEmitter<void>;
-  drag: CdkDrag;
 }
 
 export type EffectType =

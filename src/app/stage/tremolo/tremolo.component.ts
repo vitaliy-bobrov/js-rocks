@@ -1,16 +1,14 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
-  ViewChild,
-  NgModule
+  NgModule,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 import { Tremolo, TremoloSettings } from '@audio/effects/tremolo';
@@ -35,9 +33,6 @@ export class TremoloComponent
 
   @Output()
   remove = new EventEmitter<void>();
-
-  @ViewChild(CdkDrag, { static: true })
-  drag: CdkDrag;
 
   destroy$ = new Subject<void>();
 
@@ -74,7 +69,6 @@ export class TremoloComponent
   bootstrap: [TremoloComponent],
   imports: [
     CommonModule,
-    DragDropModule,
     KnobModule,
     LargeSwitchModule,
     LedModule,

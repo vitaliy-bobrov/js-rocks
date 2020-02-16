@@ -6,11 +6,9 @@ import {
   NgModule,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 import { Delay, DelaySettings } from '@audio/effects/delay';
@@ -35,9 +33,6 @@ export class DelayComponent
 
   @Output()
   remove = new EventEmitter<void>();
-
-  @ViewChild(CdkDrag, { static: true })
-  drag: CdkDrag;
 
   destroy$ = new Subject<void>();
 
@@ -75,7 +70,6 @@ export class DelayComponent
   bootstrap: [DelayComponent],
   imports: [
     CommonModule,
-    DragDropModule,
     KnobModule,
     LargeSwitchModule,
     LedModule,

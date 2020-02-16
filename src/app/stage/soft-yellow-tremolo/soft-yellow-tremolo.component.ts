@@ -1,16 +1,14 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  OnDestroy,
-  Output,
+  Component,
   EventEmitter,
   HostBinding,
-  ViewChild,
-  NgModule
+  NgModule,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
@@ -35,9 +33,6 @@ export class SoftYellowTremoloComponent
 
   @Output()
   remove = new EventEmitter<void>();
-
-  @ViewChild(CdkDrag, { static: true })
-  drag: CdkDrag;
 
   destroy$ = new Subject<void>();
 
@@ -73,7 +68,6 @@ export class SoftYellowTremoloComponent
   bootstrap: [SoftYellowTremoloComponent],
   imports: [
     CommonModule,
-    DragDropModule,
     KnobModule,
     SmallSwitchModule,
     LedModule,

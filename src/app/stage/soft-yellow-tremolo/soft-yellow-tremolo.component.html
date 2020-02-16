@@ -1,9 +1,4 @@
-<jsr-stompbox
-  #drag
-  cdkDrag
-  cdkDragRootElement=".pedal"
-  (remove)="remove.emit()"
->
+<jsr-stompbox (remove)="remove.emit()">
   <div class="pedal-layout">
     <jsr-three-knob-layout>
       <jsr-led [active]="effect.active$ | async"></jsr-led>
@@ -49,5 +44,4 @@
     ></jsr-small-switch>
     <div class="doctor-logo"><div class="doctor-logo__wing"></div></div>
   </div>
-  <div *cdkDragPlaceholder></div>
 </jsr-stompbox>

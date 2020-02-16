@@ -6,11 +6,9 @@ import {
   NgModule,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 import { Subject } from 'rxjs';
 
 import { Phaser, PhaserSettings } from '@audio/effects/phaser';
@@ -33,9 +31,6 @@ export class PhasePiByTwoComponent
 
   @Output()
   remove = new EventEmitter<void>();
-
-  @ViewChild(CdkDrag, { static: true })
-  drag: CdkDrag;
 
   destroy$ = new Subject<void>();
 
@@ -75,12 +70,6 @@ export class PhasePiByTwoComponent
 @NgModule({
   declarations: [PhasePiByTwoComponent],
   bootstrap: [PhasePiByTwoComponent],
-  imports: [
-    CommonModule,
-    DragDropModule,
-    KnobModule,
-    SmallSwitchModule,
-    StompboxModule
-  ]
+  imports: [CommonModule, KnobModule, SmallSwitchModule, StompboxModule]
 })
 export class PhasePiByTwoModule {}

@@ -1,10 +1,4 @@
-<jsr-stompbox
-  #drag
-  boss
-  cdkDrag
-  cdkDragRootElement=".pedal"
-  (remove)="remove.emit()"
->
+<jsr-stompbox boss (remove)="remove.emit()">
   <div class="pedal-layout">
     <jsr-three-knob-layout>
       <p class="led-label">check</p>
@@ -42,5 +36,4 @@
       (switch)="effect.toggleBypass()"
     ></jsr-large-switch>
   </div>
-  <div *cdkDragPlaceholder></div>
 </jsr-stompbox>
