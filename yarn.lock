@@ -160,10 +160,10 @@
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-9.0.2.tgz#f20a5c93bd37a1e286722c58361bb8e9ac1af0f7"
   integrity sha512-vj4N8nSLytQI45TtGy2tJb0Yc7uqlyap+qhghc+jdyG41w18KQUnIneEWKOfHWnp8VJEfzgzaY7zr/1QPlxWgA==
 
-"@angular/cdk@~9.0.0-rc.6":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-9.0.0.tgz#5734817ae97044f90d304fa0f25c9c1a7fa0bf96"
-  integrity sha512-2kYpyYbewIB6fubSIDMvSprJLNplRZoL/AtXW3od4dLyRxtzX+7iWTAtzUG/dhq8CKev0lpd1HENh5lLR/Lhjw==
+"@angular/cdk@~9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-9.0.1.tgz#3580375ce0b4aa9ddbd6ea790ab241a8db73b156"
+  integrity sha512-slhYG9lOX7JoxcULdfIvXspkDRjYTBG8PH6B2Slxi8CpV42x0t+yQnBQxp/U3ud1m1BWVrlxwKZywaPFe1tSeA==
   optionalDependencies:
     parse5 "^5.0.0"
 
@@ -240,10 +240,10 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-9.0.2.tgz#5bc4b50e6cec95df660879f9f092774d5f2420c0"
   integrity sha512-b+1g1FYG5MkSQtRqqUAN50N7fcEqA355dEHa2Vl03uBDZSYC/XSrR59IvgJfKLFuS4dopirvY9Eddbhk2FcAmg==
 
-"@angular/material@^9.0.0-rc.6":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-9.0.0.tgz#655bfd4d4047337e84480b9f92be8e81af375b92"
-  integrity sha512-QxN2rmR5mvg2YE1NoIGWLpbnmcJq0iFidzy6odzvN17+XkoCJBZ65IdYsHrJgfwGpoIy6bywuixrDHHcSh9I5w==
+"@angular/material@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-9.0.1.tgz#752a9424c946ea8d2dc677810a98b3b2c6bfc448"
+  integrity sha512-Urc5TJwEWcItfoAG7uDVCXSbKBmIARfTjAC3n1wdaUYYkeii0AEOxOuOR9vNUqiC+gC3L64Y+QlNTWClJhmu1w==
 
 "@angular/platform-browser-dynamic@~9.0.2":
   version "9.0.2"
