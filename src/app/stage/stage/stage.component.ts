@@ -9,6 +9,7 @@ import {
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs/operators';
+import { NgsgOrderChange } from 'ng-sortgrid';
 
 import { AudioContextManager } from '@audio/audio-context-manager.service';
 import {
@@ -177,8 +178,9 @@ export class StageComponent implements OnInit, OnDestroy {
     }
   }
 
-  dropPedal(sorted: EffectInfo[], pedal: EffectInfo, previousIndex: number) {
-    const currentIndex = sorted.indexOf(pedal);
+  dropPedal(event: NgsgOrderChange<EffectInfo>, pedal: EffectInfo) {
+    const previousIndex = event.previousOrder.indexOf(pedal);
+    const currentIndex = event.currentOrder.indexOf(pedal);
     moveItemInArray(this.config.pedals, previousIndex, currentIndex);
     this.manager.moveEffect(previousIndex, currentIndex);
   }

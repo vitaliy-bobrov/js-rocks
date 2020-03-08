@@ -107,14 +107,14 @@
 
 <div>
   <ngx-loadable
-    *ngFor="let pedal of config?.pedals; let index = index"
+    *ngFor="let pedal of config?.pedals"
     ngSortgridItem
     [ngSortGridItems]="config?.pedals"
     [autoScroll]="true"
     [module]="pedal.model"
     [show]="true"
     (init)="initPedal($event, pedal, pedal.model)"
-    (sorted)="dropPedal($event, pedal, index)"
+    (sorted)="dropPedal($event, pedal)"
   ></ngx-loadable>
 </div>
 
