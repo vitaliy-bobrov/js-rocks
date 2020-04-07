@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
 import { deepCopy } from '@audio/utils';
