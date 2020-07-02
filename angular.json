@@ -30,7 +30,6 @@
             ],
             "styles": ["src/styles.scss"],
             "scripts": [],
-            "es5BrowserSupport": true,
             "aot": true,
             "webWorkerTsConfig": "tsconfig.worker.json"
           },
