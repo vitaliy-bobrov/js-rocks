@@ -2,8 +2,8 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app-server",
-    "module": "commonjs",
-    "types": ["node"]
+    "types": ["node"],
+    "target": "es2016"
   },
   "files": ["main.server.ts"],
   "angularCompilerOptions": {
