@@ -37,7 +37,7 @@ export class AudioContextManager {
     this.masterSub$.next(1);
   }
 
-  async plugLineIn() {
+  async plugLineIn(): Promise<void> {
     try {
       if (!this.lineInSource) {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -63,13 +63,13 @@ export class AudioContextManager {
     }
   }
 
-  async unplugLineIn() {
+  async unplugLineIn(): Promise<void> {
     if (this.context.state === 'running') {
       await this.context.suspend();
     }
   }
 
-  addEffect(effect: Effect<any>, post = false) {
+  addEffect(effect: Effect<any>, post = false): void {
     this.disconnectAll();
 
     if (post) {
@@ -81,19 +81,19 @@ export class AudioContextManager {
     this.connectAll();
   }
 
-  removeEffect(effect: Effect<any>) {
+  removeEffect(effect: Effect<any>): void {
     this.disconnectAll();
     this.effects = this.effects.filter(eff => eff !== effect);
     this.connectAll();
   }
 
-  moveEffect(previousIndex: number, currentIndex: number) {
+  moveEffect(previousIndex: number, currentIndex: number): void {
     this.disconnectAll();
     moveItemInArray(this.effects, previousIndex, currentIndex);
     this.connectAll();
   }
 
-  connectAll() {
+  connectAll(): void {
     if (this.effects.length) {
       if (this.lineInSource) {
         this.lineInSource.connect(this.effects[0].input);
@@ -109,7 +109,7 @@ export class AudioContextManager {
     }
   }
 
-  disconnectAll() {
+  disconnectAll(): void {
     if (this.lineInSource) {
       this.lineInSource.disconnect();
     }
@@ -119,7 +119,7 @@ export class AudioContextManager {
     }
   }
 
-  takeSnapshot() {
+  takeSnapshot(): Preset {
     if (!this.effects.length) {
       return;
     }

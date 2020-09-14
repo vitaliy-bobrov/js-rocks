@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { EffectInfo } from './effects/effect';
 import { CabinetInfo } from './effects/cabinet';
 import { deepCopy } from '@audio/utils';
+import { LocalStorageService } from '@shared/storage/local-storage.service';
 
 export interface Preset {
   id?: string;
@@ -36,27 +37,27 @@ export class PresetManagerService {
     pedals: []
   };
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private storage: LocalStorageService
+  ) {}
 
-  generatePresetId() {
+  generatePresetId(): string {
     return `jsr-preset-${nanoid(10)}`;
   }
 
   getPresetsInfo(): PresetInfo[] {
-    const presets = localStorage.getItem(PresetManagerService.PRESETS_KEY);
+    const presets = this.storage.getItem(PresetManagerService.PRESETS_KEY);
 
     return presets ? JSON.parse(presets) : [];
   }
 
   setPresetsInfo(presets: PresetInfo[]) {
-    localStorage.setItem(
-      PresetManagerService.PRESETS_KEY,
-      JSON.stringify(presets)
-    );
+    this.storage.setItem(PresetManagerService.PRESETS_KEY, presets);
   }
 
   getCurrentPreset(): Preset {
-    const currentPresetId = localStorage.getItem(
+    const currentPresetId = this.storage.getItem(
       PresetManagerService.CURRENT_PRESET_KEY
     );
 
@@ -64,7 +65,7 @@ export class PresetManagerService {
       return deepCopy(PresetManagerService.defaultPreset);
     }
 
-    const preset = localStorage.getItem(currentPresetId);
+    const preset = this.storage.getItem(currentPresetId);
 
     return preset
       ? JSON.parse(preset)
@@ -72,7 +73,7 @@ export class PresetManagerService {
   }
 
   setCurrentPreset(id: string) {
-    localStorage.setItem(PresetManagerService.CURRENT_PRESET_KEY, id);
+    this.storage.setItem(PresetManagerService.CURRENT_PRESET_KEY, id);
   }
 
   addPreset(preset: Preset, name: string) {
@@ -98,7 +99,7 @@ export class PresetManagerService {
   }
 
   updatePreset(preset: Preset) {
-    localStorage.setItem(preset.id, JSON.stringify(preset));
+    this.storage.setItem(preset.id, preset);
     this.showToastNotification('Preset updated successfully!');
   }
 
@@ -107,7 +108,7 @@ export class PresetManagerService {
     const updated = presets.filter(preset => preset.id !== id);
 
     this.setPresetsInfo(updated);
-    localStorage.removeItem(id);
+    this.storage.removeItem(id);
     this.setCurrentPreset('');
     this.showToastNotification('Preset deleted successfully!');
 
