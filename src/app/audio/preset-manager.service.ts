@@ -19,9 +19,9 @@ export interface PresetInfo {
 
 @Injectable()
 export class PresetManagerService {
-  static CURRENT_PRESET_KEY = 'jsr_current_preset';
-  static PRESETS_KEY = 'jsr_presets';
-  static defaultPreset: Preset = {
+  static readonly CURRENT_PRESET_KEY = 'jsr_current_preset';
+  static readonly PRESETS_KEY = 'jsr_presets';
+  static readonly defaultPreset: Preset = {
     id: '',
     cabinet: {
       model: 'Captain 1960',

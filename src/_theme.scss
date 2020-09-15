@@ -19,6 +19,7 @@ $js-rocks-theme: mat-dark-theme($js-rocks-primary, $js-rocks-accent);
 @include mat-input-theme($js-rocks-theme);
 @include mat-list-theme($js-rocks-theme);
 @include mat-menu-theme($js-rocks-theme);
+@include mat-select-theme($js-rocks-theme);
 @include mat-sidenav-theme($js-rocks-theme);
 @include mat-snack-bar-theme($js-rocks-theme);
 @include mat-toolbar-theme($js-rocks-theme);

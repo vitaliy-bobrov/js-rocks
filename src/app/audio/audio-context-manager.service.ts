@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -11,16 +11,28 @@ import { Effect } from './effects/effect';
 import { clamp } from '@audio/utils';
 import { Preset } from './preset-manager.service';
 import { CabinetInfo } from './effects/cabinet';
+import { LocalStorageService } from '@shared/storage/local-storage.service';
+import { AudioIO } from './interfaces/audio-io.interface';
 
 @Injectable()
-export class AudioContextManager {
+export class AudioContextManager implements OnDestroy {
+  static readonly CURRENT_INPUT_KEY = 'jsr_current_input';
+  static readonly CURRENT_OUTPUT_KEY = 'jsr_current_output';
+
   context: AudioContext;
   private effects: Effect<any>[] = [];
   private lineInSource: MediaStreamAudioSourceNode<AudioContext>;
   private masterGain: GainNode<AudioContext>;
   private masterSub$ = new BehaviorSubject(0);
+  private inputSub$ = new BehaviorSubject<string>(null);
+  private outputSub$ = new BehaviorSubject<string>(null);
+  private inputs: AudioIO[] = [];
+  private outputs: AudioIO[] = [];
+  private createNewStream = true;
 
-  master$ = this.masterSub$.asObservable();
+  readonly master$ = this.masterSub$.asObservable();
+  readonly input$ = this.inputSub$.asObservable();
+  readonly output$ = this.outputSub$.asObservable();
 
   set master(value: number) {
     const gain = clamp(0, 1, value);
@@ -28,7 +40,16 @@ export class AudioContextManager {
     this.masterGain.gain.setTargetAtTime(gain, this.context.currentTime, 0.01);
   }
 
-  constructor() {
+  get inputDevices(): AudioIO[] {
+    return this.inputs;
+  }
+
+  get outputDevices(): AudioIO[] {
+    return this.outputs;
+  }
+
+  constructor(private storage: LocalStorageService) {
+    this.getIODevices();
     this.context = new AudioContext({
       latencyHint: 'interactive'
     });
@@ -37,24 +58,38 @@ export class AudioContextManager {
     this.masterSub$.next(1);
   }
 
+  /**
+   * Starts a stream with audio data. Creates a new stream
+   * during the first execution or after input device update.
+   */
   async plugLineIn(): Promise<void> {
     try {
-      if (!this.lineInSource) {
+      if (this.createNewStream) {
+        this.disconnectAll();
         const mediaStream = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: false,
             autoGainControl: false,
             noiseSuppression: false,
-            latency: 0
+            latency: 0,
+            deviceId: this.inputSub$.value
           }
         });
+
+        // Updating the input device again as there is
+        // no guarantee the selected device will be used.
+        const track = mediaStream.getAudioTracks()[0];
+        this.saveInput(track.label);
+
         this.lineInSource = new MediaStreamAudioSourceNode(this.context, {
           mediaStream
         });
+        this.createNewStream = false;
 
         this.connectAll();
       }
     } catch (err) {
+      // TODO: Show errors to the user.
       console.error(err);
     }
 
@@ -140,5 +175,83 @@ export class AudioContextManager {
     }
 
     return snapshot;
+  }
+
+  ngOnDestroy(): void {
+    this.masterSub$.complete();
+    this.inputSub$.complete();
+    this.outputSub$.complete();
+  }
+
+  async changeInputDevice(id: string, active: boolean): Promise<void> {
+    if (this.inputSub$.value !== id) {
+      this.inputSub$.next(id);
+      this.createNewStream = active;
+
+      // If audio is enabled
+      if (active) {
+        await this.unplugLineIn();
+        await this.plugLineIn();
+      } else {
+        await this.plugLineIn();
+        await this.unplugLineIn();
+      }
+    }
+  }
+
+  private async getIODevices(): Promise<void> {
+    if ('enumerateDevices' in navigator.mediaDevices) {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      this.inputs = [];
+      this.outputs = [];
+
+      for (const device of devices) {
+        if (device.kind === 'audioinput' && device.label !== '') {
+          this.inputs.push({ id: device.deviceId, label: device.label });
+        }
+
+        if (device.kind === 'audiooutput' && device.label !== '') {
+          this.outputs.push({ id: device.deviceId, label: device.label });
+        }
+      }
+
+      const previousInput = this.storage.getItem(
+        AudioContextManager.CURRENT_INPUT_KEY
+      );
+      if (
+        previousInput &&
+        this.inputs.some(input => input.label === previousInput)
+      ) {
+        this.inputSub$.next(this.inputDeviceIdByLabel(previousInput));
+      }
+
+      const previousOutput = this.storage.getItem(
+        AudioContextManager.CURRENT_OUTPUT_KEY
+      );
+      if (
+        previousOutput &&
+        this.inputs.some(input => input.label === previousOutput)
+      ) {
+        this.outputSub$.next(this.outputDeviceIdByLabel(previousOutput));
+      }
+    }
+  }
+
+  private inputDeviceIdByLabel(label: string) {
+    return this.inputs.find(input => input.label === label)?.id;
+  }
+
+  private outputDeviceIdByLabel(label: string) {
+    return this.outputs.find(input => input.label === label)?.id;
+  }
+
+  private saveInput(label: string) {
+    this.inputSub$.next(this.inputDeviceIdByLabel(label));
+    this.storage.setItem(AudioContextManager.CURRENT_INPUT_KEY, label);
+  }
+
+  private saveOutput(label: string) {
+    this.outputSub$.next(this.inputDeviceIdByLabel(label));
+    this.storage.setItem(AudioContextManager.CURRENT_OUTPUT_KEY, label);
   }
 }
