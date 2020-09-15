@@ -115,6 +115,17 @@
       }}</mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Output device</mat-label>
+    <mat-select
+      [value]="activeOutputDevice$ | async"
+      (selectionChange)="handleOutputDeviceChange($event)"
+    >
+      <mat-option *ngFor="let output of outputDevices" [value]="output.id">{{
+        output.label
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 </jsr-nav-configurations>
 
 <jsr-amp [config]="config.cabinet"></jsr-amp>

@@ -4,7 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import {
   AudioContext,
   GainNode,
-  MediaStreamAudioSourceNode
+  MediaStreamAudioSourceNode,
+  MediaStreamAudioDestinationNode
 } from 'standardized-audio-context';
 
 import { Effect } from './effects/effect';
@@ -22,6 +23,8 @@ export class AudioContextManager implements OnDestroy {
   context: AudioContext;
   private effects: Effect<any>[] = [];
   private lineInSource: MediaStreamAudioSourceNode<AudioContext>;
+  private audioElement = new Audio();
+  private destination: MediaStreamAudioDestinationNode<AudioContext>;
   private masterGain: GainNode<AudioContext>;
   private masterSub$ = new BehaviorSubject(0);
   private inputSub$ = new BehaviorSubject<string>(null);
@@ -53,8 +56,9 @@ export class AudioContextManager implements OnDestroy {
     this.context = new AudioContext({
       latencyHint: 'interactive'
     });
+    this.destination = new MediaStreamAudioDestinationNode(this.context);
     this.masterGain = new GainNode(this.context);
-    this.masterGain.connect(this.context.destination);
+    this.masterGain.connect(this.destination);
     this.masterSub$.next(1);
   }
 
@@ -86,6 +90,10 @@ export class AudioContextManager implements OnDestroy {
         });
         this.createNewStream = false;
 
+        this.audioElement.srcObject = this.destination.stream;
+        this.saveOutput();
+        this.audioElement.play();
+
         this.connectAll();
       }
     } catch (err) {
@@ -102,6 +110,7 @@ export class AudioContextManager implements OnDestroy {
     if (this.context.state === 'running') {
       await this.context.suspend();
     }
+    this.audioElement.pause();
   }
 
   addEffect(effect: Effect<any>, post = false): void {
@@ -199,6 +208,15 @@ export class AudioContextManager implements OnDestroy {
     }
   }
 
+  async changeOutputDevice(id: string): Promise<void> {
+    if (this.outputSub$.value !== id) {
+      this.disconnectAll();
+      await (this.audioElement as any).setSinkId(id);
+      this.saveOutput();
+      this.connectAll();
+    }
+  }
+
   private async getIODevices(): Promise<void> {
     if ('enumerateDevices' in navigator.mediaDevices) {
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -230,9 +248,11 @@ export class AudioContextManager implements OnDestroy {
       );
       if (
         previousOutput &&
-        this.inputs.some(input => input.label === previousOutput)
+        this.outputs.some(output => output.label === previousOutput)
       ) {
-        this.outputSub$.next(this.outputDeviceIdByLabel(previousOutput));
+        const deviceId = this.outputDeviceIdByLabel(previousOutput);
+        this.outputSub$.next(deviceId);
+        (this.audioElement as any).setSinkId(deviceId);
       }
     }
   }
@@ -250,8 +270,10 @@ export class AudioContextManager implements OnDestroy {
     this.storage.setItem(AudioContextManager.CURRENT_INPUT_KEY, label);
   }
 
-  private saveOutput(label: string) {
-    this.outputSub$.next(this.inputDeviceIdByLabel(label));
+  private saveOutput() {
+    const id = (this.audioElement as any).sinkId;
+    const label = this.outputs.find(output => output.id === id)?.label;
+    this.outputSub$.next(id);
     this.storage.setItem(AudioContextManager.CURRENT_OUTPUT_KEY, label);
   }
 }

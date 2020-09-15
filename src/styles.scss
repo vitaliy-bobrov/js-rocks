@@ -24,6 +24,10 @@ button {
   }
 }
 
+.mat-drawer .mat-form-field {
+  display: block;
+}
+
 .visually-hidden {
   position: absolute;
   clip: rect(0 0 0 0);

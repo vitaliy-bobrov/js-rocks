@@ -197,6 +197,13 @@ export class StageComponent implements OnInit, OnDestroy {
     this.manager.changeInputDevice(event.value, this.isLinePlugged);
   }
 
+  /**
+   * Updates output audio device.
+   */
+  handleOutputDeviceChange(event: MatSelectChange): void {
+    this.manager.changeOutputDevice(event.value);
+  }
+
   @HostListener('window:keyup', ['$event'])
   handlePresetShortcut(event: KeyboardEvent): void {
     const id = this.presetKeyMap[event.key];

@@ -15,6 +15,7 @@ $js-rocks-theme: mat-dark-theme($js-rocks-primary, $js-rocks-accent);
 @include mat-button-theme($js-rocks-theme);
 @include mat-core-theme($js-rocks-theme);
 @include mat-dialog-theme($js-rocks-theme);
+@include mat-form-field-theme($js-rocks-theme);
 @include mat-icon-theme($js-rocks-theme);
 @include mat-input-theme($js-rocks-theme);
 @include mat-list-theme($js-rocks-theme);
