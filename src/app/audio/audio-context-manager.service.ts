@@ -37,6 +37,11 @@ export class AudioContextManager implements OnDestroy {
   readonly input$ = this.inputSub$.asObservable();
   readonly output$ = this.outputSub$.asObservable();
 
+  /**
+   * Whether the audio stream source is currently active.
+   */
+  private active = false;
+
   set master(value: number) {
     const gain = clamp(0, 1, value);
     this.masterSub$.next(gain);
@@ -52,7 +57,29 @@ export class AudioContextManager implements OnDestroy {
   }
 
   constructor(private storage: LocalStorageService) {
-    this.getIODevices();
+    if ('enumerateDevices' in navigator.mediaDevices) {
+      this.getIODevices();
+      navigator.mediaDevices.addEventListener('devicechange', async event => {
+        await this.getIODevices();
+
+        // Check if current input/output exist.
+        // If previous input/output is not available reset it.
+        if (
+          this.inputSub$.value &&
+          !this.inputs.find(input => input.label === this.inputSub$.value)
+        ) {
+          await this.changeInputDevice(null);
+        }
+
+        if (
+          this.outputSub$.value &&
+          !this.outputs.find(output => output.label === this.outputSub$.value)
+        ) {
+          await this.changeOutputDevice(this.outputs[0]?.id);
+        }
+      });
+    }
+
     this.context = new AudioContext({
       latencyHint: 'interactive'
     });
@@ -70,13 +97,16 @@ export class AudioContextManager implements OnDestroy {
     try {
       if (this.createNewStream) {
         this.disconnectAll();
+        const deviceInfo = this.inputSub$.value
+          ? { deviceId: this.inputSub$.value }
+          : {};
         const mediaStream = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: false,
             autoGainControl: false,
             noiseSuppression: false,
             latency: 0,
-            deviceId: this.inputSub$.value
+            ...deviceInfo
           }
         });
 
@@ -104,6 +134,8 @@ export class AudioContextManager implements OnDestroy {
     if (this.context.state === 'suspended') {
       await this.context.resume();
     }
+
+    this.active = true;
   }
 
   async unplugLineIn(): Promise<void> {
@@ -111,6 +143,7 @@ export class AudioContextManager implements OnDestroy {
       await this.context.suspend();
     }
     this.audioElement.pause();
+    this.active = false;
   }
 
   addEffect(effect: Effect<any>, post = false): void {
@@ -192,13 +225,13 @@ export class AudioContextManager implements OnDestroy {
     this.outputSub$.complete();
   }
 
-  async changeInputDevice(id: string, active: boolean): Promise<void> {
+  async changeInputDevice(id: string | null): Promise<void> {
     if (this.inputSub$.value !== id) {
       this.inputSub$.next(id);
-      this.createNewStream = active;
+      this.createNewStream = this.active;
 
       // If audio is enabled
-      if (active) {
+      if (this.active) {
         await this.unplugLineIn();
         await this.plugLineIn();
       } else {
@@ -211,49 +244,76 @@ export class AudioContextManager implements OnDestroy {
   async changeOutputDevice(id: string): Promise<void> {
     if (this.outputSub$.value !== id) {
       this.disconnectAll();
-      await (this.audioElement as any).setSinkId(id);
-      this.saveOutput();
+      try {
+        await (this.audioElement as any).setSinkId(id);
+        this.saveOutput();
+      } catch (err) {
+        // TODO: Show errors to the user.
+        console.error(err);
+      }
       this.connectAll();
     }
   }
 
   private async getIODevices(): Promise<void> {
-    if ('enumerateDevices' in navigator.mediaDevices) {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      this.inputs = [];
-      this.outputs = [];
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    this.inputs = [];
+    this.outputs = [];
+    let inputIndex = 0;
+    let outputIndex = 0;
 
-      for (const device of devices) {
-        if (device.kind === 'audioinput' && device.label !== '') {
-          this.inputs.push({ id: device.deviceId, label: device.label });
-        }
-
-        if (device.kind === 'audiooutput' && device.label !== '') {
-          this.outputs.push({ id: device.deviceId, label: device.label });
-        }
+    for (const device of devices) {
+      if (device.kind === 'audioinput') {
+        this.inputs.push({
+          id: device.deviceId,
+          label: device.label || `Microphone ${++inputIndex}`
+        });
       }
 
-      const previousInput = this.storage.getItem(
-        AudioContextManager.CURRENT_INPUT_KEY
-      );
-      if (
-        previousInput &&
-        this.inputs.some(input => input.label === previousInput)
-      ) {
-        this.inputSub$.next(this.inputDeviceIdByLabel(previousInput));
+      if (device.kind === 'audiooutput') {
+        this.outputs.push({
+          id: device.deviceId,
+          label: device.label || `Speakers ${++outputIndex}`
+        });
       }
+    }
 
-      const previousOutput = this.storage.getItem(
-        AudioContextManager.CURRENT_OUTPUT_KEY
-      );
-      if (
-        previousOutput &&
-        this.outputs.some(output => output.label === previousOutput)
-      ) {
-        const deviceId = this.outputDeviceIdByLabel(previousOutput);
-        this.outputSub$.next(deviceId);
-        (this.audioElement as any).setSinkId(deviceId);
-      }
+    const previousInput = this.storage.getItem(
+      AudioContextManager.CURRENT_INPUT_KEY
+    );
+
+    if (
+      previousInput &&
+      this.inputs.some(input => input.label === previousInput)
+    ) {
+      this.inputSub$.next(this.inputDeviceIdByLabel(previousInput));
+    }
+
+    const previousOutput = this.storage.getItem(
+      AudioContextManager.CURRENT_OUTPUT_KEY
+    );
+
+    let outputDeviceId: string;
+
+    if (
+      previousOutput &&
+      this.outputs.some(output => output.label === previousOutput)
+    ) {
+      outputDeviceId = this.outputDeviceIdByLabel(previousOutput);
+    } else if (this.outputs.length) {
+      outputDeviceId = this.outputs[0].id;
+    }
+
+    if (!outputDeviceId) {
+      return;
+    }
+
+    try {
+      this.outputSub$.next(outputDeviceId);
+      (this.audioElement as any).setSinkId(outputDeviceId);
+    } catch (err) {
+      // TODO: Show errors to the user.
+      console.error(err);
     }
   }
 
@@ -272,7 +332,7 @@ export class AudioContextManager implements OnDestroy {
 
   private saveOutput() {
     const id = (this.audioElement as any).sinkId;
-    const label = this.outputs.find(output => output.id === id)?.label;
+    const label = this.outputs.find(output => output.id === id)?.label ?? '';
     this.outputSub$.next(id);
     this.storage.setItem(AudioContextManager.CURRENT_OUTPUT_KEY, label);
   }

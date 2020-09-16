@@ -194,7 +194,7 @@ export class StageComponent implements OnInit, OnDestroy {
    * Updates input audio device.
    */
   handleInputDeviceChange(event: MatSelectChange): void {
-    this.manager.changeInputDevice(event.value, this.isLinePlugged);
+    this.manager.changeInputDevice(event.value);
   }
 
   /**
