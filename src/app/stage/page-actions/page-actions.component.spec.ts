@@ -1,8 +1,8 @@
 import {
-  async,
   ComponentFixture,
   TestBed,
-  inject
+  inject,
+  waitForAsync
 } from '@angular/core/testing';
 import { PortalModule } from '@angular/cdk/portal';
 
@@ -14,7 +14,7 @@ xdescribe('PageActionsComponent', () => {
   let fixture: ComponentFixture<PageActionsComponent>;
   let componentFactoryResolver: ComponentFactoryResolver;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PageActionsComponent]
     })

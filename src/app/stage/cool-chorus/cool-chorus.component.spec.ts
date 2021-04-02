@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CoolChorusComponent } from './cool-chorus.component';
 
@@ -6,7 +6,7 @@ xdescribe('CoolChorusComponent', () => {
   let component: CoolChorusComponent;
   let fixture: ComponentFixture<CoolChorusComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CoolChorusComponent ]
     })

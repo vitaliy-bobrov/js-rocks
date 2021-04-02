@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TunerComponent } from './tuner.component';
 import { SevenSegmentLcdModule } from '../seven-segment-lcd/seven-segment-lcd.component';
@@ -7,7 +7,7 @@ xdescribe('TunerComponent', () => {
   let component: TunerComponent;
   let fixture: ComponentFixture<TunerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TunerComponent, SevenSegmentLcdModule]
     }).compileComponents();

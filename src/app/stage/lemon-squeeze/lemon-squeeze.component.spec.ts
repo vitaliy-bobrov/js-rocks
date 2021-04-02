@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LemonSqueezeComponent } from './lemon-squeeze.component';
 
@@ -6,7 +6,7 @@ xdescribe('LemonSqueezeComponent', () => {
   let component: LemonSqueezeComponent;
   let fixture: ComponentFixture<LemonSqueezeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LemonSqueezeComponent ]
     })
