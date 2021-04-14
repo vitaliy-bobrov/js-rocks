@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MassiveMuffPiComponent } from './massive-muff-pi.component';
 
@@ -6,7 +6,7 @@ xdescribe('MassiveMuffPiComponent', () => {
   let component: MassiveMuffPiComponent;
   let fixture: ComponentFixture<MassiveMuffPiComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MassiveMuffPiComponent ]
     })

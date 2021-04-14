@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SmallSwitchComponent } from './small-switch.component';
 
@@ -6,7 +6,7 @@ xdescribe('SmallSwitchComponent', () => {
   let component: SmallSwitchComponent;
   let fixture: ComponentFixture<SmallSwitchComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SmallSwitchComponent ]
     })

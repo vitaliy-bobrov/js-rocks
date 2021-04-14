@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MetalAreaComponent } from './metal-area.component';
 
@@ -6,7 +6,7 @@ xdescribe('MetalAreaComponent', () => {
   let component: MetalAreaComponent;
   let fixture: ComponentFixture<MetalAreaComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MetalAreaComponent ]
     })

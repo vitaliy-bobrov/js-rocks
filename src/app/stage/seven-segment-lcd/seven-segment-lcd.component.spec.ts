@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SevenSegmentLcdComponent } from './seven-segment-lcd.component';
 import { BitMaskPipe } from './bit-mask.pipe';
@@ -7,7 +7,7 @@ describe('SevenSegmentLcdComponent', () => {
   let component: SevenSegmentLcdComponent;
   let fixture: ComponentFixture<SevenSegmentLcdComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SevenSegmentLcdComponent, BitMaskPipe]
     }).compileComponents();
