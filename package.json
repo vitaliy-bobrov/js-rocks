@@ -33,7 +33,7 @@
     "angular-google-tag-manager": "^1.1.4",
     "core-js": "3.6.5",
     "firebase": "^7.15.4",
-    "nanoid": "^3.1.10",
+    "nanoid": "^3.1.31",
     "ng-sortgrid": "^4.0.0",
     "ngx-loadable": "^3.0.0-next.12",
     "rxjs": "~6.6.0",
