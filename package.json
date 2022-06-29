@@ -37,7 +37,7 @@
     "ng-sortgrid": "^3.0.2",
     "ngx-loadable": "^3.0.0-next.12",
     "rxjs": "~6.6.0",
-    "standardized-audio-context": "^24.1.20",
+    "standardized-audio-context": "^25.3.28",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
