@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BluesDriverComponent } from './blues-driver.component';
 
@@ -6,12 +6,13 @@ xdescribe('BluesDriverComponent', () => {
   let component: BluesDriverComponent;
   let fixture: ComponentFixture<BluesDriverComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ BluesDriverComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [BluesDriverComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BluesDriverComponent);

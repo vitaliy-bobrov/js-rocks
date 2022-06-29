@@ -20,6 +20,8 @@ import {
 import { EffectInfo } from '@audio/effects/effect';
 import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
+import { MatSelectChange } from '@angular/material/select';
+import { AudioIO } from '@audio/interfaces/audio-io.interface';
 
 @Component({
   selector: 'jsr-stage',
@@ -28,11 +30,41 @@ import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dia
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StageComponent implements OnInit, OnDestroy {
+  /**
+   * Whether the audio stream source is currently active.
+   */
   isLinePlugged = false;
+
+  /**
+   * Current stage amp and pedals configurations.
+   */
   config: Preset;
+
+  /**
+   * Currently selected preset id, empty for default preset.
+   */
   selectedPresetId: string;
+
+  /**
+   * Previously saved user presets.
+   */
   presets: PresetInfo[] = [];
-  effectTypes = [
+
+  activeInputDevice$ = this.manager.input$;
+  activeOutputDevice$ = this.manager.output$;
+
+  get inputDevices(): AudioIO[] {
+    return this.manager.inputDevices;
+  }
+
+  get outputDevices(): AudioIO[] {
+    return this.manager.outputDevices;
+  }
+
+  /**
+   * Effect types used to group pedals.
+   */
+  readonly effectTypes = [
     'Tuner',
     'Compressor',
     'Overdrive',
@@ -44,7 +76,11 @@ export class StageComponent implements OnInit, OnDestroy {
     'Delay',
     'Reverb'
   ];
-  availablePedals: PedalDescriptor[] = [
+
+  /**
+   * All available pedals meta data.
+   */
+  readonly availablePedals: PedalDescriptor[] = [
     {
       id: 'jtu-3',
       type: 'Tuner',
@@ -144,18 +180,32 @@ export class StageComponent implements OnInit, OnDestroy {
     this.savePreset = this.savePreset.bind(this);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.presets = this.presetsManager.getPresetsInfo();
     this.afterConfigChange();
     this.updatePresetsKeyMap();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.presetsManager.setCurrentPreset(this.selectedPresetId);
   }
 
+  /**
+   * Updates input audio device.
+   */
+  handleInputDeviceChange(event: MatSelectChange): void {
+    this.manager.changeInputDevice(event.value);
+  }
+
+  /**
+   * Updates output audio device.
+   */
+  handleOutputDeviceChange(event: MatSelectChange): void {
+    this.manager.changeOutputDevice(event.value);
+  }
+
   @HostListener('window:keyup', ['$event'])
-  handlePresetShortcut(event: KeyboardEvent) {
+  handlePresetShortcut(event: KeyboardEvent): void {
     const id = this.presetKeyMap[event.key];
 
     if (
@@ -168,7 +218,10 @@ export class StageComponent implements OnInit, OnDestroy {
     this.activatePreset(id);
   }
 
-  toggleLineConnection() {
+  /**
+   * Updates connect button and audio stream states.
+   */
+  toggleLineConnection(): void {
     this.isLinePlugged = !this.isLinePlugged;
 
     if (this.isLinePlugged) {
@@ -178,14 +231,20 @@ export class StageComponent implements OnInit, OnDestroy {
     }
   }
 
-  dropPedal(event: NgsgOrderChange<EffectInfo>, pedal: EffectInfo) {
+  /**
+   * Reordering pedals on DnD interactions.
+   */
+  dropPedal(event: NgsgOrderChange<EffectInfo>, pedal: EffectInfo): void {
     const previousIndex = event.previousOrder.indexOf(pedal);
     const currentIndex = event.currentOrder.indexOf(pedal);
     moveItemInArray(this.config.pedals, previousIndex, currentIndex);
     this.manager.moveEffect(previousIndex, currentIndex);
   }
 
-  openPresetNameDialog() {
+  /**
+   * Opens a dialog to define a new preset name.
+   */
+  openPresetNameDialog(): void {
     const dialogRef = this.dialog.open(PresetNameDialogComponent, {
       width: '320px',
       data: { name: '' }
@@ -194,7 +253,7 @@ export class StageComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(this.savePreset);
   }
 
-  requestSavePreset() {
+  requestSavePreset(): void {
     if (this.selectedPresetId) {
       this.savePreset();
     } else {
@@ -202,7 +261,10 @@ export class StageComponent implements OnInit, OnDestroy {
     }
   }
 
-  savePreset(name?: string) {
+  /**
+   * Saves preset to the storage.
+   */
+  savePreset(name?: string): void {
     if (!name && !this.selectedPresetId) {
       return;
     }
@@ -221,25 +283,25 @@ export class StageComponent implements OnInit, OnDestroy {
     }
   }
 
-  deletePreset() {
+  deletePreset(): void {
     this.presets = this.presetsManager.removePreset(this.selectedPresetId);
     this.updatePresetsKeyMap();
     this.afterConfigChange();
   }
 
-  blankPreset() {
+  blankPreset(): void {
     this.selectedPresetId = '';
     this.presetsManager.setCurrentPreset('');
     this.afterConfigChange();
   }
 
-  activatePreset(id: string) {
+  activatePreset(id: string): void {
     this.selectedPresetId = id;
     this.presetsManager.setCurrentPreset(id);
     this.afterConfigChange();
   }
 
-  addPedal(id: string) {
+  addPedal(id: string): void {
     const pedalInfo = {
       model: id,
       params: null as null
@@ -252,7 +314,7 @@ export class StageComponent implements OnInit, OnDestroy {
     componentRef: ComponentRef<PedalComponent<unknown>>,
     pedal: EffectInfo,
     id: string
-  ) {
+  ): void {
     const component = componentRef.instance;
 
     component.remove
@@ -271,18 +333,18 @@ export class StageComponent implements OnInit, OnDestroy {
   private removePedal(
     componentRef: ComponentRef<PedalComponent<unknown>>,
     pedal: EffectInfo
-  ) {
+  ): void {
     this.config.pedals = this.config.pedals.filter(config => config !== pedal);
     componentRef.destroy();
   }
 
-  private afterConfigChange() {
+  private afterConfigChange(): void {
     this.config = this.presetsManager.getCurrentPreset();
     this.config.cabinet = { ...this.config.cabinet };
     this.selectedPresetId = this.config.id;
   }
 
-  private updatePresetsKeyMap() {
+  private updatePresetsKeyMap(): void {
     this.presetKeyMap = this.presets.reduce(
       (map, preset) => {
         map.push(preset.id);

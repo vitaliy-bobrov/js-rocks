@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LargeSwitchComponent } from './large-switch.component';
 
@@ -6,12 +6,13 @@ xdescribe('LargeSwitchComponent', () => {
   let component: LargeSwitchComponent;
   let fixture: ComponentFixture<LargeSwitchComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LargeSwitchComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [LargeSwitchComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LargeSwitchComponent);

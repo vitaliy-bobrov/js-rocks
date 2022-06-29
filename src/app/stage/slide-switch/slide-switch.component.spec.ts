@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SlideSwitchComponent } from './slide-switch.component';
 
@@ -6,12 +6,13 @@ xdescribe('SlideSwitchComponent', () => {
   let component: SlideSwitchComponent;
   let fixture: ComponentFixture<SlideSwitchComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SlideSwitchComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SlideSwitchComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SlideSwitchComponent);

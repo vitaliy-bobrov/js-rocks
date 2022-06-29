@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSelectModule } from '@angular/material/select';
 import { PortalModule } from '@angular/cdk/portal';
 import { NgsgModule } from 'ng-sortgrid';
 
@@ -21,6 +22,7 @@ import { PresetNameDialogComponent } from './preset-name-dialog/preset-name-dial
 import { StageComponent } from './stage/stage.component';
 import { PickByPropPipe } from './stage/pick-by-prop.pipe';
 import { LoadableModule } from 'ngx-loadable';
+import { NavConfigurationsComponent } from './nav-configurations/nav-configurations.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { LoadableModule } from 'ngx-loadable';
     PageActionsComponent,
     PresetNameDialogComponent,
     StageComponent,
-    PickByPropPipe
+    PickByPropPipe,
+    NavConfigurationsComponent
   ],
   imports: [
     A11yModule,
@@ -124,6 +127,7 @@ import { LoadableModule } from 'ngx-loadable';
     MatDialogModule,
     MatInputModule,
     MatMenuModule,
+    MatSelectModule,
     MatTooltipModule,
     NgsgModule,
     PortalModule,

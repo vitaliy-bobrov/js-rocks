@@ -103,6 +103,31 @@
   </button>
 </jsr-page-actions>
 
+<jsr-nav-configurations>
+  <mat-form-field appearance="fill">
+    <mat-label>Input device</mat-label>
+    <mat-select
+      [value]="activeInputDevice$ | async"
+      (selectionChange)="handleInputDeviceChange($event)"
+    >
+      <mat-option *ngFor="let input of inputDevices" [value]="input.id">{{
+        input.label
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Output device</mat-label>
+    <mat-select
+      [value]="activeOutputDevice$ | async"
+      (selectionChange)="handleOutputDeviceChange($event)"
+    >
+      <mat-option *ngFor="let output of outputDevices" [value]="output.id">{{
+        output.label
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</jsr-nav-configurations>
+
 <jsr-amp [config]="config.cabinet"></jsr-amp>
 
 <div>
