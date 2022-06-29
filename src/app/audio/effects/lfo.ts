@@ -99,6 +99,13 @@ export class LFO implements Disposable {
   connect(node: IAudioNode<AudioContext> | IAudioParam) {
     this.output.connect(node as any);
 
+    /* 
+    [NOTE]:
+    - Fixes https://stackoverflow.com/questions/55026293/google-chrome-javascript-issue-in-getting-user-audio-the-audiocontext-was-not
+    */
+    // @ts-ignore
+    this.osc.resume();
+
     if (!this.started) {
       this.started = true;
       this.osc.start();
