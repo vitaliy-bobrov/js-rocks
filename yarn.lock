@@ -171,10 +171,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/cdk@^16.2.12", "@angular/cdk@16.2.12":
-  version "16.2.12"
-  resolved "https://registry.npmjs.org/@angular/cdk/-/cdk-16.2.12.tgz"
-  integrity sha512-wT8/265zm2WKY0BDaRoYbrAT4kadrmejTRLjuimQIEUKnw4vBsJMWCwQkpFo3s6zr6eznGqYVAFb8KKPVLKGBg==
+"@angular/cdk@^17.0.2", "@angular/cdk@16.2.12":
+  version "17.0.2"
+  resolved "https://registry.npmjs.org/@angular/cdk/-/cdk-17.0.2.tgz"
+  integrity sha512-5d2LmlpvsrfLubfzWxzWa+pLW93m/GXVuFITETozPbwEeqOTDNZPbS4v89VF1SWUCxefb1tx5m4zaGpsTep7gQ==
   dependencies:
     tslib "^2.3.0"
   optionalDependencies:
@@ -204,7 +204,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^10.0.0", "@angular/common@^10.1.2", "@angular/common@^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "@angular/common@^16.0.0 || ^17.0.0", "@angular/common@^17.0.5", "@angular/common@>9.0.0", "@angular/common@17.0.5":
+"@angular/common@^10.0.0", "@angular/common@^10.1.2", "@angular/common@^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "@angular/common@^16.0.0 || ^17.0.0", "@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.0.5", "@angular/common@>9.0.0", "@angular/common@17.0.5":
   version "17.0.5"
   resolved "https://registry.npmjs.org/@angular/common/-/common-17.0.5.tgz"
   integrity sha512-1vFZ7nd8xyAYh/DwFtRuSieP8Dy/6QuOxl914/TOUr26F1a4e+7ywCyMLVjmYjx+WkZe7uu/Hgpr2raBaVTnQw==
@@ -237,7 +237,7 @@
   resolved "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   integrity sha512-ctjwuntPfZZT2mNj2NDIVu51t9cvbhl/16epc5xEwyzyDt76pX9UgwvY+MbXrf/C/FWwdtmNtfP698BKI+9leQ==
 
-"@angular/core@^10.0.0", "@angular/core@^10.1.2", "@angular/core@^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "@angular/core@^16.0.0 || ^17.0.0", "@angular/core@^17.0.5", "@angular/core@>=2.0.0", "@angular/core@>9.0.0", "@angular/core@17.0.5":
+"@angular/core@^10.0.0", "@angular/core@^10.1.2", "@angular/core@^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "@angular/core@^16.0.0 || ^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.0.5", "@angular/core@>=2.0.0", "@angular/core@>9.0.0", "@angular/core@17.0.5":
   version "17.0.5"
   resolved "https://registry.npmjs.org/@angular/core/-/core-17.0.5.tgz"
   integrity sha512-siWUrdBWgTAqMnRF+qxGZznj5AdR/x3+8l0/bj4CkSZzwZGL/CHy40ec71bbgiPkYob1v4v40voXu2aSSeCLPg==
@@ -283,7 +283,7 @@
   resolved "https://registry.npmjs.org/@angular/language-service/-/language-service-17.0.5.tgz"
   integrity sha512-tVXYamdjkAYYv4YCiMKxCYqLgvI/g2y2Ny6fUUVPti9xFqiF88q8V7j3N8FeLdSNvgok1LSdfFjJAgQonJ4Sxw==
 
-"@angular/material@^16.2.12":
+"@angular/material@^16.2.0":
   version "16.2.12"
   resolved "https://registry.npmjs.org/@angular/material/-/material-16.2.12.tgz"
   integrity sha512-k1DGRfP1mMmhg/nLJjZBOPzX3SyAjgbRBY2KauKOV8OFCXJGoMn/oLgMBh+qB1WugzIna/31dBV8ruHD3Uvp2w==
