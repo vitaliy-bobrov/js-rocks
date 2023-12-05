@@ -72,18 +72,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "js-rocks:build"
+            "buildTarget": "js-rocks:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "js-rocks:build:production"
+              "buildTarget": "js-rocks:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "js-rocks:build"
+            "buildTarget": "js-rocks:build"
           }
         },
         "deploy": {
