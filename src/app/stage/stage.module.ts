@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { PortalModule } from '@angular/cdk/portal';
 import { NgsgModule } from 'ng-sortgrid';
 
@@ -33,7 +33,7 @@ import { WapUrlDialogComponent } from './wap-url-dialog/wap-url-dialog.component
     StageComponent,
     PickByPropPipe,
     NavConfigurationsComponent,
-    WapUrlDialogComponent,
+    WapUrlDialogComponent
   ],
   imports: [
     A11yModule,
@@ -124,7 +124,10 @@ import { WapUrlDialogComponent } from './wap-url-dialog/wap-url-dialog.component
         },
         {
           name: 'wap',
-          load: () => import('./dynamic-pedal/dynamic-pedal.component').then(m => m.DynamicPedalModule)
+          load: () =>
+            import('./dynamic-pedal/dynamic-pedal.component').then(
+              m => m.DynamicPedalModule
+            )
         }
       ]
     }),

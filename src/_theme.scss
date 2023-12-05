@@ -3,7 +3,16 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // **Be sure that you only ever include this mixin once!**
-@include mat.core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
 
 // Define the theme.
 $js-rocks-primary: mat.define-palette(mat.$purple-palette, 700, 500, 800);
@@ -12,16 +21,16 @@ $js-rocks-theme: mat.define-dark-theme($js-rocks-primary, $js-rocks-accent);
 
 // Include the theme styles for only specified components.
 @include mat.badge-theme($js-rocks-theme);
-@include mat.button-theme($js-rocks-theme);
-@include mat.core-theme($js-rocks-theme);
-@include mat.dialog-theme($js-rocks-theme);
-@include mat.form-field-theme($js-rocks-theme);
+@include mat.legacy-button-theme($js-rocks-theme);
+@include mat.legacy-core-theme($js-rocks-theme);
+@include mat.legacy-dialog-theme($js-rocks-theme);
+@include mat.legacy-form-field-theme($js-rocks-theme);
 @include mat.icon-theme($js-rocks-theme);
-@include mat.input-theme($js-rocks-theme);
-@include mat.list-theme($js-rocks-theme);
-@include mat.menu-theme($js-rocks-theme);
-@include mat.select-theme($js-rocks-theme);
+@include mat.legacy-input-theme($js-rocks-theme);
+@include mat.legacy-list-theme($js-rocks-theme);
+@include mat.legacy-menu-theme($js-rocks-theme);
+@include mat.legacy-select-theme($js-rocks-theme);
 @include mat.sidenav-theme($js-rocks-theme);
-@include mat.snack-bar-theme($js-rocks-theme);
+@include mat.legacy-snack-bar-theme($js-rocks-theme);
 @include mat.toolbar-theme($js-rocks-theme);
-@include mat.tooltip-theme($js-rocks-theme);
+@include mat.legacy-tooltip-theme($js-rocks-theme);

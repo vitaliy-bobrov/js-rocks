@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 
 export interface WapData {
   url: string;
@@ -15,7 +18,8 @@ export interface WapData {
 export class WapUrlDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<WapUrlDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: WapData) {}
+    @Inject(MAT_DIALOG_DATA) public data: WapData
+  ) {}
 
   onCancel() {
     this.dialogRef.close();

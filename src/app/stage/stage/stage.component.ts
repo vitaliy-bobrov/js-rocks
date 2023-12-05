@@ -8,7 +8,7 @@ import {
   ComponentRef
 } from '@angular/core';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { takeUntil } from 'rxjs/operators';
 import { NgsgOrderChange } from 'ng-sortgrid';
 
@@ -21,9 +21,12 @@ import {
 import { EffectInfo } from '@audio/effects/effect';
 import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
-import { MatSelectChange } from '@angular/material/select';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 import { AudioIO } from '@audio/interfaces/audio-io.interface';
-import { WapData, WapUrlDialogComponent } from '../wap-url-dialog/wap-url-dialog.component';
+import {
+  WapData,
+  WapUrlDialogComponent
+} from '../wap-url-dialog/wap-url-dialog.component';
 
 @Component({
   selector: 'jsr-stage',
@@ -332,7 +335,7 @@ export class StageComponent implements OnInit, OnDestroy {
       model: 'wap',
       params: null as null,
       url: data.url,
-      symbol: data.symbol,
+      symbol: data.symbol
     };
 
     this.config.pedals.push(pedalInfo);
@@ -356,7 +359,7 @@ export class StageComponent implements OnInit, OnDestroy {
       // TODO: handle unique id.
       id: pedal.model,
       url: pedal.url,
-      symbol: pedal.symbol,
+      symbol: pedal.symbol
     };
 
     if (pedal.params) {
