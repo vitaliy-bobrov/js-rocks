@@ -19,6 +19,7 @@ import { AudioIO } from './interfaces/audio-io.interface';
 export class AudioContextManager implements OnDestroy {
   static readonly CURRENT_INPUT_KEY = 'jsr_current_input';
   static readonly CURRENT_OUTPUT_KEY = 'jsr_current_output';
+  private static readonly WAP_SDK_URL = 'https://wasabi.i3s.unice.fr/WebAudioPluginBank/sdk/WebAudioSDK.js';
 
   context: AudioContext;
   private effects: Effect<any>[] = [];
@@ -32,6 +33,7 @@ export class AudioContextManager implements OnDestroy {
   private inputs: AudioIO[] = [];
   private outputs: AudioIO[] = [];
   private createNewStream = true;
+  private isWapSdkLoaded = false;
 
   readonly master$ = this.masterSub$.asObservable();
   readonly input$ = this.inputSub$.asObservable();
@@ -156,6 +158,40 @@ export class AudioContextManager implements OnDestroy {
     }
 
     this.connectAll();
+  }
+
+  async addWapEffect(url: string, symbol: string): Promise<any> {
+    if (!this.isWapSdkLoaded) {
+
+      await this.addScript(AudioContextManager.WAP_SDK_URL);
+      this.isWapSdkLoaded = true;
+    }
+
+    const pluginUrl = `${url}/main.js`;
+    await this.addScript(pluginUrl);
+    const plugin = new window[symbol](this.context, url);
+    const pluginUI = await plugin.loadGui();
+    console.log(pluginUI);
+    const node = await plugin.load();
+    console.log(node);
+    this.addEffect(node as Effect<any>);
+
+    return {
+      node,
+      pluginUI,
+    }
+  }
+
+  private async addScript(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const scriptTag = document.createElement('script');
+        scriptTag.async = true;
+        scriptTag.onload = () => resolve();
+        scriptTag.onerror = reject;
+        scriptTag.src = url;
+        document.head.insertBefore(scriptTag, document.head.firstChild);
+    })
+
   }
 
   removeEffect(effect: Effect<any>): void {

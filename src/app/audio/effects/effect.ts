@@ -17,6 +17,16 @@ export interface EffectInfo {
   params: {
     active: boolean;
   };
+
+  /**
+   * URL to JS module of WAP.
+   */
+  url?: string;
+
+  /**
+   * Audio Node symbol for WAP.
+   */
+  symbol?: string;
 }
 
 /**

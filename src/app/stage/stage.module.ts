@@ -23,6 +23,7 @@ import { StageComponent } from './stage/stage.component';
 import { PickByPropPipe } from './stage/pick-by-prop.pipe';
 import { LoadableModule } from 'ngx-loadable';
 import { NavConfigurationsComponent } from './nav-configurations/nav-configurations.component';
+import { WapUrlDialogComponent } from './wap-url-dialog/wap-url-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { NavConfigurationsComponent } from './nav-configurations/nav-configurati
     PresetNameDialogComponent,
     StageComponent,
     PickByPropPipe,
-    NavConfigurationsComponent
+    NavConfigurationsComponent,
+    WapUrlDialogComponent,
   ],
   imports: [
     A11yModule,
@@ -119,6 +121,10 @@ import { NavConfigurationsComponent } from './nav-configurations/nav-configurati
         {
           name: 'jtu-3',
           load: () => import('./tuner/tuner.component').then(m => m.TunerModule)
+        },
+        {
+          name: 'wap',
+          load: () => import('./dynamic-pedal/dynamic-pedal.component').then(m => m.DynamicPedalModule)
         }
       ]
     }),

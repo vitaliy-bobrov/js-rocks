@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Web Audio Plugin Info</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>URL</mat-label>
+    <input
+      matInput
+      cdkFocusInitial
+      autocomplete="off"
+      required
+      [(ngModel)]="data.url"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>Node Name</mat-label>
+    <input
+      matInput
+      autocomplete="off"
+      required
+      [(ngModel)]="data.symbol"
+    />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button type="reset" mat-raised-button color="warn" (click)="onCancel()">
+    Cancel
+  </button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="data">
+    Load
+  </button>
+</div>

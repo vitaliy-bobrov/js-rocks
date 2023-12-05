@@ -22,8 +22,10 @@ export type EffectType =
 
 export interface PedalDescriptor {
   id: string;
-  brand: string;
-  name: string;
-  type: EffectType;
+  brand?: string;
+  name?: string;
+  type?: EffectType;
   model?: string;
+  url?: string;
+  symbol?:string;
 }

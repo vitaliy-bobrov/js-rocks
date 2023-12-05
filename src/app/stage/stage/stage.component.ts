@@ -1,6 +1,7 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   HostListener,
   OnInit,
   OnDestroy,
@@ -22,6 +23,7 @@ import { PedalComponent, PedalDescriptor } from '../pedal.interface';
 import { PresetNameDialogComponent } from '../preset-name-dialog/preset-name-dialog.component';
 import { MatSelectChange } from '@angular/material/select';
 import { AudioIO } from '@audio/interfaces/audio-io.interface';
+import { WapData, WapUrlDialogComponent } from '../wap-url-dialog/wap-url-dialog.component';
 
 @Component({
   selector: 'jsr-stage',
@@ -174,10 +176,12 @@ export class StageComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
     private manager: AudioContextManager,
     private presetsManager: PresetManagerService
   ) {
     this.savePreset = this.savePreset.bind(this);
+    this.addWapPedal = this.addWapPedal.bind(this);
   }
 
   ngOnInit(): void {
@@ -302,7 +306,7 @@ export class StageComponent implements OnInit, OnDestroy {
   }
 
   addPedal(id: string): void {
-    const pedalInfo = {
+    const pedalInfo: EffectInfo = {
       model: id,
       params: null as null
     };
@@ -310,10 +314,34 @@ export class StageComponent implements OnInit, OnDestroy {
     this.config.pedals.push(pedalInfo);
   }
 
+  requestWAP(): void {
+    const dialogRef = this.dialog.open(WapUrlDialogComponent, {
+      width: '320px',
+      data: { url: '' }
+    });
+
+    dialogRef.afterClosed().subscribe(this.addWapPedal);
+  }
+
+  private addWapPedal(data: WapData): void {
+    if (!data?.url || !data?.symbol) {
+      return;
+    }
+
+    const pedalInfo: EffectInfo = {
+      model: 'wap',
+      params: null as null,
+      url: data.url,
+      symbol: data.symbol,
+    };
+
+    this.config.pedals.push(pedalInfo);
+    this.cdRef.markForCheck();
+  }
+
   initPedal(
     componentRef: ComponentRef<PedalComponent<unknown>>,
-    pedal: EffectInfo,
-    id: string
+    pedal: EffectInfo
   ): void {
     const component = componentRef.instance;
 
@@ -321,9 +349,15 @@ export class StageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(component.destroy$))
       .subscribe(() => this.removePedal(componentRef, pedal));
 
+    // If pedal with id doesn't exist this means we're adding WAP.
     component.info = this.availablePedals.find(
-      descriptor => descriptor.id === id
-    );
+      descriptor => descriptor.id === pedal.model
+    ) ?? {
+      // TODO: handle unique id.
+      id: pedal.model,
+      url: pedal.url,
+      symbol: pedal.symbol,
+    };
 
     if (pedal.params) {
       component.params = pedal.params;

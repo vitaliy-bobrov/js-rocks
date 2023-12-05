@@ -75,6 +75,8 @@ export class AppComponent implements OnInit {
         })
       );
 
+      this.gtmService.addGtmToDom();
+
       this.swUpdateService.subscribeForUpdates();
     }
   }

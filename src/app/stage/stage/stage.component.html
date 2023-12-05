@@ -138,7 +138,7 @@
     [autoScroll]="true"
     [module]="pedal.model"
     [show]="true"
-    (init)="initPedal($event, pedal, pedal.model)"
+    (init)="initPedal($event, pedal)"
     (sorted)="dropPedal($event, pedal)"
   ></ngx-loadable>
 </div>
@@ -169,6 +169,12 @@
     [matMenuTriggerData]="{ type: type }"
   >
     {{ type }}
+  </button>
+  <button
+      type="button"
+      mat-menu-item
+      (click)="requestWAP()">
+    WAP (Web Audio Plugin)
   </button>
 </mat-menu>
 
