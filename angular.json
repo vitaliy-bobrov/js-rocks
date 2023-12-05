@@ -152,7 +152,6 @@
       }
     }
   },
-  "defaultProject": "js-rocks",
   "cli": {
     "analytics": "e45a4c42-f20a-4bc2-9043-93763a98e8ac"
   }
