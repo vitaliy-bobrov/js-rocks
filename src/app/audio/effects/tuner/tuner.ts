@@ -40,7 +40,9 @@ export class Tuner extends Effect<Active> {
     this.connectNodes(this.processor);
     this.applyDefaults();
 
-    this.worker = new Worker('./tuner.worker', { type: 'module' });
+    this.worker = new Worker(new URL('./tuner.worker', import.meta.url), {
+      type: 'module'
+    });
     this.worker.onmessage = ({ data }: TunerResponseMessage) => {
       if (this.isBypassEnabled) {
         return;
